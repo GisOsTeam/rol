@@ -55,7 +55,7 @@ export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderS
         break;
       case '.kmz':
         this.setState({ file });
-        promise =  loadKMZ(file, this.context.olMap);
+        promise = loadKMZ(file, this.context.olMap);
         break;
       case '.zip':
         this.setState({ file });
@@ -71,7 +71,7 @@ export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderS
           name: source.getSourceOptions().name,
           type: 'OVERLAY',
           source
-        })
+        });
       });
     }
     this.setState({ file: null, type: null });

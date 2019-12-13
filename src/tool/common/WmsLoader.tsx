@@ -85,7 +85,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
         name: title,
         type: 'OVERLAY',
         source
-      })
+      });
     });
   };
 

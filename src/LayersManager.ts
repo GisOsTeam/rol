@@ -2,22 +2,10 @@ import * as React from 'react';
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
 import OlBaseLayer from 'ol/layer/Base';
-import { BaseLayer, IBaseLayerProps, Vector, Tile, Image } from './layer';
-import { jsonEqual, walk } from '@gisosteam/aol/utils';
+import { BaseLayer, IBaseLayerProps, Vector, Tile, Image, VectorTile, Heatmap } from './layer';
+import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import {
-  IExtended,
-  ExternalVector,
-  ImageStatic,
-  ImageWms,
-  LocalVector,
-  QueryArcGISRest,
-  TileArcGISRest,
-  TileWms,
-  Wfs,
-  Xyz,
-  ImageArcGISRest
-} from '@gisosteam/aol/source';
+import { IExtended } from '@gisosteam/aol/source';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
@@ -147,7 +135,7 @@ export class LayersManager {
     );
     // Layers
     snapshot.layers.forEach(layer => {
-      this.createAndAddLayerFromSource(layer.sourceTypeName, layer.sourceOptions, layer.props);
+      this.createAndAddLayerFromSourceDefinition(layer.sourceTypeName, layer.sourceOptions, layer.props);
     });
     // Refresh
     this.refresh();
@@ -281,7 +269,7 @@ export class LayersManager {
   /**
    * Create and add layer props
    */
-  public createAndAddLayerFromSource(sourceTypeName: string, sourceOptions: any, props: IBaseLayerProps): IExtended {
+  public createAndAddLayerFromSourceDefinition(sourceTypeName: string, sourceOptions: any, props: IBaseLayerProps): IExtended {
     const layerElement = this.getLayerElements(layerElement => layerElement.uid == props.uid).pop();
     if (layerElement != null) {
       if (layerElement.olLayer != null) {
@@ -298,47 +286,23 @@ export class LayersManager {
         return found != null && 'getSource' in found ? (found as any).getSource() : null;
       }
     }
-    let source: IExtended;
-    switch (sourceTypeName) {
-      case 'ExternalVector':
-        source = new ExternalVector(sourceOptions);
-        this.createAndAddLayer(Vector, { ...props, source });
-        break;
-      case 'ImageArcGISRest':
-        source = new ImageArcGISRest(sourceOptions);
+    let source = createSource(sourceTypeName, sourceOptions);
+    /*this.createAndAddLayer(Vector, { ...props, source });*/
+    switch (source.getLayerTypeName()) {
+      case 'Image':
         this.createAndAddLayer(Image, { ...props, source });
         break;
-      case 'ImageStatic':
-        source = new ImageStatic(sourceOptions);
-        this.createAndAddLayer(Image, { ...props, source });
-        break;
-      case 'ImageWms':
-        source = new ImageWms(sourceOptions);
-        this.createAndAddLayer(Image, { ...props, source });
-        break;
-      case 'LocalVector':
-        source = new LocalVector(sourceOptions);
-        this.createAndAddLayer(Vector, { ...props, source });
-        break;
-      case 'QueryArcGISRest':
-        source = new QueryArcGISRest(sourceOptions);
-        this.createAndAddLayer(Vector, { ...props, source });
-        break;
-      case 'TileArcGISRest':
-        source = new TileArcGISRest(sourceOptions);
+      case 'Tile':
         this.createAndAddLayer(Tile, { ...props, source });
         break;
-      case 'TileWms':
-        source = new TileWms(sourceOptions);
-        this.createAndAddLayer(Tile, { ...props, source });
-        break;
-      case 'Wfs':
-        source = new Wfs(sourceOptions);
+      case 'Vector':
         this.createAndAddLayer(Vector, { ...props, source });
         break;
-      case 'Xyz':
-        source = new Xyz(sourceOptions);
-        this.createAndAddLayer(Tile, { ...props, source });
+      case 'VectorTile':
+        this.createAndAddLayer(VectorTile, { ...props, source });
+        break;
+      case 'Heatmap':
+        this.createAndAddLayer(VectorTile, { ...props, source });
         break;
     }
     return source;

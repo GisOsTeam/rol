@@ -1,0 +1,78 @@
+{
+  "name": "@gisosteam/rol",
+  "version": "0.0.1",
+  "description": "OpenLayers with React",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "module": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 3000 --config webpack.dev.config.js --content-base src --hot --inline",
+    "prettier": "prettier --single-quote --print-width 120 --write --parser typescript '{src, test}/**/*.ts'; prettier --single-quote --print-width 120 --write --parser typescript '{src,test}/**/*.tsx'",
+    "lint": "npm run prettier && tslint '{src, test}/**/.{ts,tsx}'",
+    "build": "rimraf lib && npm run lint && tsc -p tsconfig.json && cp ./package.json lib",
+    "prepublishOnly": "[[ \"$PWD\" =~ /lib ]]",
+    "pub": "pushd ./ && npm run build && cd lib && npm publish && popd"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GisOsTeam/rol.git"
+  },
+  "keywords": [
+    "Web mapping",
+    "React",
+    "OpenLayers"
+  ],
+  "author": "Mathieu MAST",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "@types/jszip": "^3.1.6",
+    "@types/ol": "^5.3.6",
+    "@types/react": "^16.9.15",
+    "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^4.4.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.1.0",
+    "ol": "6.1.1",
+    "prettier": "^1.19.1",
+    "proj4": "2.6.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "rimraf": "^3.0.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^1.0.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.1.0",
+    "typescript": "3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "@gisosteam/aol": "^0.0.2",
+    "bhreq": "^0.0.12",
+    "react-draggable": "^4.1.0",
+    "styled-components": "^4.4.1"
+  },
+  "peerDependencies": {
+    "ol": "6.1.1",
+    "proj4": "2.6.0",
+    "react": "^16.12.0"
+  },
+  "engines": {
+    "node": ">= 10.10.0",
+    "npm": ">= 6.4.1"
+  }
+}

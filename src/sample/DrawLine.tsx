@@ -4,6 +4,6 @@ import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
-  const drawInteraction = useDrawInteraction({ activated: props.activated, type: GeometryType.LINE_STRING });
+  const drawInteraction = useDrawInteraction({ activated: props.activated, type: GeometryType.LINE_STRING, snapshotable: true });
   return <span>Draw line</span>;
 });

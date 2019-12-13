@@ -77,15 +77,9 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>
-            <Control>
-              <Toc uid="Toc" />
-            </Control>
-            <Control>
-              <PanZoom uid="PanZoom" />
-            </Control>
-            <Control>
-              <ScaleLine uid="ScaleLine" />
-            </Control>
+            <Toc uid="Toc" />
+            <PanZoom uid="PanZoom" />
+            <ScaleLine uid="ScaleLine" />
             <Zone style={{ position: 'absolute', top: 'calc(100% - 70px)' }}>
               <CounterButton uid="CounterButton" />
               <CounterButtonFunction uid="CounterButtonFunction" />

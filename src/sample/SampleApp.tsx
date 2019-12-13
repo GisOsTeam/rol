@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Rol, IAfterData } from '../Rol';
-import OlMap from 'ol/Map';
 import OlView from 'ol/View';
 import { CounterButton } from './CounterButton';
+import { CounterButtonFunction } from './CounterButtonFunction';
 import { CounterWindow } from './CounterWindow';
+import { CounterWindowFunction } from './CounterWindowFunction';
 import { QueryWindow } from './QueryWindow';
 import { HideToolsButton } from './HideToolsButton';
 import { TileArcGISRest, ImageStatic, TileWms, Xyz } from '@gisosteam/aol/source';
@@ -86,10 +87,10 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <ScaleLine uid="ScaleLine" />
             </Control>
             <Zone style={{ position: 'absolute', top: 'calc(100% - 70px)' }}>
-              <CounterButton uid="CounterButton1" />
-              <CounterButton uid="CounterButton2" />
-              <CounterButton uid="CounterButton3" />
+              <CounterButton uid="CounterButton" />
+              <CounterButtonFunction uid="CounterButtonFunction" />
               <CounterWindow uid="CounterWindow" />
+              <CounterWindowFunction uid="CounterWindowFunction" />
               <QueryWindow uid="QueryWindow" />
               <LayerLoader uid="LayerLoader" gisProxyUrl="http://localhost:8181" />
               <ShowSnapshot uid="ShowSnapshot" />

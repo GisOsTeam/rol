@@ -46,9 +46,9 @@ let topZIndex = 5000;
 
 export interface IBaseWindowToolProps extends IBaseButtonToolProps {
   /**
-   * Dialog header content.
+   * Window header content.
    */
-  dialogHeader?: React.ReactNode;
+  WindowHeader?: React.ReactNode;
   /**
    * Default opened.
    */
@@ -97,14 +97,14 @@ export interface IBaseWindowToolState {
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-> extends BaseButtonTool<P, S> {
+  > extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
     hideCloseButton: false
   };
 
-  private windowElement: HTMLSpanElement;
+  public windowElement: HTMLSpanElement;
 
   constructor(props: P) {
     super(props);
@@ -125,16 +125,16 @@ export class BaseWindowTool<
       this.setState({
         bounds: {
           top: -boundingRect.top,
-          bottom: window.innerHeight - boundingRect.top - boundingRect.height,
+          bottom: Window.innerHeight - boundingRect.top - boundingRect.height,
           left: -boundingRect.left,
-          right: window.innerWidth - boundingRect.right
+          right: Window.innerWidth - boundingRect.right
         }
       });
     }
   }
 
   /**
-   * Open window.
+   * Open Window.
    */
   public open(): boolean {
     if (this.state.open) {
@@ -156,7 +156,7 @@ export class BaseWindowTool<
   }
 
   /**
-   * Close window
+   * Close Window
    */
   public close(): boolean {
     if (!this.state.open) {
@@ -275,5 +275,23 @@ export class BaseWindowTool<
         </Drag>
       </React.Fragment>
     );
+  }
+}
+
+export function withBaseWindowTool(
+  component: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+  headerContent: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+  openButtonContent: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>
+) {
+  return class extends BaseWindowTool<IBaseWindowToolProps, IBaseWindowToolState> {
+    public renderHeaderContent(): React.ReactNode {
+      return React.createElement(headerContent, this.props);
+    }
+    public renderOpenButtonContent(): React.ReactNode {
+      return React.createElement(openButtonContent, this.props);
+    }
+    public renderTool(): React.ReactNode {
+      return React.createElement(component, this.props);
+    }
   }
 }

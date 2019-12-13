@@ -108,10 +108,12 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
   }
 }
 
-export function withBaseTool(component: string | React.FunctionComponent<IBaseToolProps> | React.ComponentClass<IBaseToolProps, {}>) {
+export function withBaseTool(
+  component: string | React.FunctionComponent<IBaseToolProps> | React.ComponentClass<IBaseToolProps, {}>
+) {
   return class extends BaseTool<IBaseToolProps, {}> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }
-  }
+  };
 }

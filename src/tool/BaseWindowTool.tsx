@@ -97,7 +97,7 @@ export interface IBaseWindowToolState {
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-  > extends BaseButtonTool<P, S> {
+> extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -279,9 +279,18 @@ export class BaseWindowTool<
 }
 
 export function withBaseWindowTool(
-  component: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
-  headerContent: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
-  openButtonContent: string | React.FunctionComponent<IBaseWindowToolProps> | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>
+  component:
+    | string
+    | React.FunctionComponent<IBaseWindowToolProps>
+    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+  headerContent:
+    | string
+    | React.FunctionComponent<IBaseWindowToolProps>
+    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+  openButtonContent:
+    | string
+    | React.FunctionComponent<IBaseWindowToolProps>
+    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>
 ) {
   return class extends BaseWindowTool<IBaseWindowToolProps, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {
@@ -293,5 +302,5 @@ export function withBaseWindowTool(
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }
-  }
+  };
 }

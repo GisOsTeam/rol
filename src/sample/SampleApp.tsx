@@ -8,7 +8,7 @@ import { CounterWindowFunction } from './CounterWindowFunction';
 import { QueryWindow } from './QueryWindow';
 import { HideToolsButton } from './HideToolsButton';
 import { TileArcGISRest, ImageStatic, TileWms, Xyz } from '@gisosteam/aol/source';
-import { Toc, ScaleLine, PanZoom, LayerLoader } from '../tool';
+import { Toc, ScaleLine, PanZoom, LayerLoader, Identify } from '../tool';
 import { Image, Tile } from '../layer';
 import { Projection } from '../Projection';
 import { Control, Zone } from '../container';
@@ -75,6 +75,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Tile uid="World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile uid="Topp States" source={toppStateSource} name="Topp States" />
         <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
+        <Identify uid="IdentifyTool" activated={true} />
         {this.state.hideTools === false && (
           <Zone>
             <Toc uid="Toc" />

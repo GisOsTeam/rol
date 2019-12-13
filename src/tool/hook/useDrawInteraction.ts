@@ -53,10 +53,12 @@ export function useDrawInteraction(props: IDrawInteractionProps): Draw {
         sourceOptions,
         layerProps
       ) as LocalVector;
-      setDraw(new Draw({
-        source: localVectorSource,
-        type: props.type
-      }));
+      setDraw(
+        new Draw({
+          source: localVectorSource,
+          type: props.type
+        })
+      );
     };
     buildDrawInteractionAndLayer();
     return () => {

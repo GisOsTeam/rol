@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Feature, MapBrowserEvent } from 'ol';
 import OlBaseLayer from 'ol/layer/Base';
 import { Pixel } from 'ol/pixel';
-import { rolContext } from '../RolContext';
+import { rolContext } from '../../RolContext';
 import {
   IQueryResponse,
   constructQueryRequestFromPixel,

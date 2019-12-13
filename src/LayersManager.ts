@@ -269,7 +269,11 @@ export class LayersManager {
   /**
    * Create and add layer props
    */
-  public createAndAddLayerFromSourceDefinition(sourceTypeName: string, sourceOptions: any, props: IBaseLayerProps): IExtended {
+  public createAndAddLayerFromSourceDefinition(
+    sourceTypeName: string,
+    sourceOptions: any,
+    props: IBaseLayerProps
+  ): IExtended {
     const layerElement = this.getLayerElements(layerElement => layerElement.uid == props.uid).pop();
     if (layerElement != null) {
       if (layerElement.olLayer != null) {

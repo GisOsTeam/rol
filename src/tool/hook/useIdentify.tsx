@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Feature, MapBrowserEvent } from 'ol';
 import OlBaseLayer from 'ol/layer/Base';
 import { Pixel } from 'ol/pixel';
@@ -9,6 +10,7 @@ import {
   IExtended,
   IQueryFeatureTypeResponse
 } from '@gisosteam/aol/source';
+import { identify } from '@gisosteam/aol/source/query/identify';
 
 export interface IIdentifyResponse {
   features: { [key: string]: Feature[] };
@@ -25,37 +27,20 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
-      identify(clickEvent.pixel);
-    };
-
-    const identify = (pixel: Pixel) => {
-      if (olMap && pixel) {
-        const promises: Array<Promise<IQueryResponse>> = [];
-        const queryRequest = constructQueryRequestFromPixel(pixel, 2, olMap);
-        queryRequest.limit = 10;
-        olMap.forEachLayerAtPixel(pixel, (layer: OlBaseLayer) => {
-          if (layer.getVisible() && 'getSource' in layer) {
-            const source = (layer as any).getSource();
-            if (source && 'query' in source) {
-              promises.push((source as IExtended).query(queryRequest));
+      identify(clickEvent.pixel, olMap).then((queryResponses: IQueryResponse[]) => {
+        const features: any = {};
+        queryResponses.forEach((queryResponse: IQueryResponse) => {
+          const ftResps = queryResponse.featureTypeResponses;
+          ftResps.forEach((ftResp: IQueryFeatureTypeResponse) => {
+            const type = ftResp.type ? ftResp.type.id : 'unknown';
+            if (!features[type]) {
+              features[type] = [];
             }
-          }
-        });
-        return Promise.all(promises).then((queryResponses: IQueryResponse[]) => {
-          const features: any = {};
-          queryResponses.forEach((queryResponse: IQueryResponse) => {
-            const ftResps = queryResponse.featureTypeResponses;
-            ftResps.forEach((ftResp: IQueryFeatureTypeResponse) => {
-              const type = ftResp.type ? ftResp.type.id : 'unknown';
-              if (!features[type]) {
-                features[type] = [];
-              }
-              features[type].push(...ftResp.features);
-            });
+            features[type].push(...ftResp.features);
           });
-          props.callBack({ features });
         });
-      }
+        props.callBack({ features });
+      });;
     };
 
     if (props.activated) {

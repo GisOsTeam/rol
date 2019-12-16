@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from './hook/useIdentify';
 import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
-import { windowFeaturesByLayers } from './windowFeaturesByLayers';
+import { WindowFeaturesByLayers } from './windowFeaturesByLayers';
 
 let position: [number, number];
 export const Identify = withBaseWindowTool((props: IBaseWindowToolProps): React.ReactElement => {
@@ -14,19 +14,7 @@ export const Identify = withBaseWindowTool((props: IBaseWindowToolProps): React.
       }
     });
 
-    const renderTabs = () => {
-      const tabs: React.ReactElement[] = [];
-      Object.keys(features).forEach((layerName, layerIndex) => {
-        const htmlElem = (<div className="tab-layer-row" key={`layerTab-${layerIndex}`}>
-          <p>{layerName}</p>
-          <p>{features[layerName].length}</p>
-          </div>)
-        tabs.push(htmlElem);
-      });
-      return tabs;
-    };
-
-    return windowFeaturesByLayers({ features, position });
+    return <WindowFeaturesByLayers features={features} position={position} />
   }, (props: IBaseWindowToolProps) => {
     return <span>Identify</span>;
   },

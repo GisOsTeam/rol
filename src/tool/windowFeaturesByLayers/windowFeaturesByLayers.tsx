@@ -6,7 +6,7 @@ import { Feature } from 'ol';
 // import '../../assets/css/windowFeaturesByLayers.css';
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
-export const windowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features, position } : IIdentifyResponse) => {
+export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features, position } : IIdentifyResponse) => {
     const [displayedObjects, setDisplayedObjects]: [Feature[], SetterType] = React.useState([])
     
     React.useEffect(() => {
@@ -36,14 +36,26 @@ export const windowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features,
     };
 
     const featureToHtml = (feature: Feature, index: number) => {
-        const elems: React.ReactElement[] = Object.keys(feature.getProperties())
-                .filter((prop) => typeof feature.get(prop) !== 'object')
+        const featureProps = feature.getProperties();
+        const customFeatureId = 'feature_id';
+        featureProps[customFeatureId] = feature.getId();
+        const elems: React.ReactElement[] = Object.keys(featureProps)
+                .filter((prop) => typeof featureProps[prop] !== 'object')
+                .sort((a: string, b: string) => {
+                    if(a === customFeatureId) {
+                        return -1;
+                    } else if (b === customFeatureId) {
+                        return 1;
+                    } else {
+                        return a > b ? 1 : -1;
+                    }
+                })
                 .map((prop: string, propIndex) => {
                     return (<tr 
                     className={`popup-table-row ${propIndex%2 ? 'even': 'odd'}`} 
                     key={`${prop}-${propIndex}-${index}`}>
                                 <td className="label-cell">{prop}:</td>
-                                <td className="value-cell"> {feature.get(prop)}</td>
+                                <td className="value-cell"> {featureProps[prop]}</td>
                             </tr>);
                 }); 
         return elems;

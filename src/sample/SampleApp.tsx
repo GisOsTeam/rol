@@ -75,7 +75,6 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Tile uid="World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile uid="Topp States" source={toppStateSource} name="Topp States" />
         <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
-        <Identify uid="IdentifyTool" activated={true} />
         {this.state.hideTools === false && (
           <Zone>
             <Toc uid="Toc" />
@@ -90,6 +89,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <LayerLoader uid="LayerLoader" gisProxyUrl="http://localhost:8181" />
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />
+              <Identify uid="IdentifyTool" />
             </Zone>
           </Zone>
         )}

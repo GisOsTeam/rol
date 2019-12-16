@@ -1,19 +1,17 @@
 import * as React from 'react';
 
 import { Feature, MapBrowserEvent } from 'ol';
-import OlBaseLayer from 'ol/layer/Base';
-import { Pixel } from 'ol/pixel';
 import { rolContext } from '../../RolContext';
 import {
   IQueryResponse,
-  constructQueryRequestFromPixel,
-  IExtended,
   IQueryFeatureTypeResponse
 } from '@gisosteam/aol/source';
 import { identify } from '@gisosteam/aol/source/query/identify';
 
+export interface IIdentifyResponseFeatures { [key: string]: Feature[] };
 export interface IIdentifyResponse {
-  features: { [key: string]: Feature[] };
+  features: IIdentifyResponseFeatures;
+  position: number[];
 }
 
 export interface IUseIdentifyProps {
@@ -32,14 +30,16 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
         queryResponses.forEach((queryResponse: IQueryResponse) => {
           const ftResps = queryResponse.featureTypeResponses;
           ftResps.forEach((ftResp: IQueryFeatureTypeResponse) => {
-            const type = ftResp.type ? ftResp.type.id : 'unknown';
-            if (!features[type]) {
-              features[type] = [];
+            if (ftResp.features.length > 0) {
+              const type = ftResp.type ? ftResp.type.id : 'unknown';
+              if (!features[type]) {
+                features[type] = [];
+              }
+              features[type].push(...ftResp.features);
             }
-            features[type].push(...ftResp.features);
           });
         });
-        props.callBack({ features });
+        props.callBack({ features, position: clickEvent.pixel });
       });;
     };
 

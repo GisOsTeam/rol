@@ -85,12 +85,7 @@ export class LayersManager {
     this.getLayerElements().map(layerElement => {
       const props = { ...layerElement.reactElement.props };
       const source = props['source'];
-      if (
-        source != null &&
-        'getSourceType' in source &&
-        'getSourceOptions' in source &&
-        'isSnapshotable' in source
-      ) {
+      if (source != null && 'getSourceType' in source && 'getSourceOptions' in source && 'isSnapshotable' in source) {
         if ((source as IExtended).isSnapshotable()) {
           props['source'] = undefined;
           props['children'] = undefined;

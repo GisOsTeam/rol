@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool';
 import { useDrawSource } from '../tool/hook/useDrawSource';
-import { useDrawInteraction  } from '../tool/hook/useDrawInteraction';
+import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {

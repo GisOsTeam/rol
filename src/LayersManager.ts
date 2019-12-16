@@ -248,6 +248,16 @@ export class LayersManager {
   }
 
   /**
+   * Remove layer
+   */
+  public removeLayer(uid: string) {
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
+    if (layerElement != null) {
+      layerElement.status = 'del';
+    }
+  }
+
+  /**
    * Create and add layer props
    */
   public createAndAddLayer(

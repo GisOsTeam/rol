@@ -3,7 +3,7 @@ import { IIdentifyResponse } from '../hook/useIdentify';
 import { Feature } from 'ol';
 
 // CSS
-// import '../../assets/css/windowFeaturesByLayers.css';
+import '../../assets/css/windowFeaturesByLayers.css';
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
 export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features, position } : IIdentifyResponse) => {

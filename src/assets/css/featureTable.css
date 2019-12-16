@@ -12,13 +12,12 @@
   
   .feature-table {
     border: blue dotted;
-    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    width: 350px;
   }
   
-  .feature-row {
-    width: 350px;
+  .feature-body {
     overflow-y: auto;
     overflow-x: auto;
   }

@@ -3,14 +3,16 @@ import { IIdentifyResponse } from '../hook/useIdentify';
 import { Feature } from 'ol';
 
 // CSS
-import '../../assets/css/windowFeaturesByLayers.css';
+import '../../assets/css/featureTable.css';
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
-export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features, position } : IIdentifyResponse) => {
+export type IFeatureTableProps = Pick<IIdentifyResponse, 'features'>;
+export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeatureTableProps) => {
     const [displayedObjects, setDisplayedObjects]: [Feature[], SetterType] = React.useState([])
     
+    const featureKeys = Object.keys(features);
     React.useEffect(() => {
-        const firstKey: string = Object.keys(features)[0];
+        const firstKey: string = featureKeys[0];
         const firstFeatures: Feature[] = features[firstKey] ? [features[firstKey][0]] : [];
         setDisplayedObjects(firstFeatures);
         return () => {
@@ -20,7 +22,7 @@ export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features,
     
     const renderTabs = () => {
         const tabs: React.ReactElement[] = [];
-        Object.keys(features).forEach((layerName: string, layerIndex) => {
+        featureKeys.forEach((layerName: string, layerIndex) => {
             features[layerName].forEach((feature: Feature) => {
                 const htmlElem = (<tr className={`tab-layer-row ${(tabs.length+1)%2 ? 'odd' : 'even'}`} key={`layerTab-${layerIndex}-${feature.getId()}`} onClick={() => setDisplayedObjects([feature])}>
                     <td className="label-cell">{layerName}</td>
@@ -63,16 +65,16 @@ export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features,
 
     const renderContent = () => {
         const htmlEntities: React.ReactElement[] = displayedObjects.map((feature: Feature, featureIndex: number) => {
-            return <table className="feature-row" key={`feature-row-${featureIndex}`}>
-                <tbody>
-                    { featureToHtml(feature, featureIndex) }
+            return (<table className="feature-table" key={`feature-body-${featureIndex}`}>
+                    <tbody className="feature-body">
+                        { featureToHtml(feature, featureIndex) }
                 </tbody>
-            </table>
+            </table>)
         });
         return htmlEntities;
     };
 
-    const isEmpty = Object.keys(features).length > 0 ? false : true;
+    const isEmpty = featureKeys.length > 0 ? false : true;
     if (isEmpty) {
         return  (<div className="features-by-layers-wrapper">
             No data to display
@@ -82,8 +84,6 @@ export const WindowFeaturesByLayers : React.FC<IIdentifyResponse> = ({ features,
         <table className="layerTabs-wrapper">
             {renderTabs()}
         </table>
-        <div className="feature-table">
-            {renderContent()}
-        </div>
+        {renderContent()}
     </div>);
 }

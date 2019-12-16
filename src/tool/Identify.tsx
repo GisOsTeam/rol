@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from './hook/useIdentify';
 import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
-import { WindowFeaturesByLayers } from './windowFeaturesByLayers';
+import { FeatureTable } from './featureTable';
 
 let position: [number, number];
 export const Identify = withBaseWindowTool((props: IBaseWindowToolProps): React.ReactElement => {
@@ -14,7 +14,7 @@ export const Identify = withBaseWindowTool((props: IBaseWindowToolProps): React.
       }
     });
 
-    return <WindowFeaturesByLayers features={features} position={position} />
+    return <FeatureTable features={features} />
   }, (props: IBaseWindowToolProps) => {
     return <span>Identify</span>;
   },

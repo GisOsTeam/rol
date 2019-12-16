@@ -5,69 +5,46 @@ import GeometryType from 'ol/geom/GeometryType';
 import { getDefaultLayerStyles, uid } from '@gisosteam/aol/utils';
 import { LocalVector } from '@gisosteam/aol/source';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
+import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 
-export interface IDrawInteractionProps {
+export interface IUseDrawInteractionProps {
   /**
-   * Activated.
+   * Draw source.
    */
-  activated?: boolean;
-  /**
-   * Styles.
-   */
-  styles?: LayerStyles;
-  /**
-   * Name.
-   */
-  name?: string;
+  source: LocalVector;
   /**
    * Type.
    */
   type: GeometryType;
   /**
-   * Snapshotable.
+   * Activated.
    */
-  snapshotable?: boolean;
-  /**
-   * Listable.
-   */
-  listable?: boolean;
+  activated?: boolean;
 }
 
-export function useDrawInteraction(props: IDrawInteractionProps): Draw {
+export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   const context = React.useContext(rolContext);
   const [draw, setDraw] = React.useState<Draw>(null);
-  const layerUid = 'drawinteraction_hook_layer';
+  // Effect for build interaction
   React.useEffect(() => {
-    const buildDrawInteractionAndLayer = () => {
-      const sourceOptions = {
-        snapshotable: props.snapshotable === true,
-        listable: props.listable === true
-      };
-      const layerProps = {
-        uid: layerUid,
-        name: props.name != null ? props.name : 'Draw',
-        layerStyles: props.styles != null ? props.styles : getDefaultLayerStyles()
-      };
-      const localVectorSource = context.layersManager.createAndAddLayerFromSourceDefinition(
-        'LocalVector',
-        sourceOptions,
-        layerProps
-      ) as LocalVector;
+    const buildDrawInteraction = () => {
       setDraw(
         new Draw({
-          source: localVectorSource,
+          source: props.source,
           type: props.type
         })
       );
     };
-    buildDrawInteractionAndLayer();
+    buildDrawInteraction();
+    // Cleanup function
     return () => {
       if (draw != null) {
         context.olMap.removeInteraction(draw);
+        setDraw(null);
       }
-      context.layersManager.removeLayer(layerUid);
     };
-  }, [props.type, props.styles]);
+  }, [props.source, props.type]);
+  // Effect for manage activate/deactivate
   React.useEffect(() => {
     if (props.activated === true) {
       if (draw != null) {

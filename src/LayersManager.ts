@@ -7,6 +7,8 @@ import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
 import { IExtended } from '@gisosteam/aol/source';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
+import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
+import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -85,7 +87,7 @@ export class LayersManager {
       const source = props['source'];
       if (
         source != null &&
-        'getSourceTypeName' in source &&
+        'getSourceType' in source &&
         'getSourceOptions' in source &&
         'isSnapshotable' in source
       ) {
@@ -93,7 +95,7 @@ export class LayersManager {
           props['source'] = undefined;
           props['children'] = undefined;
           layers.push({
-            sourceTypeName: (source as IExtended).getSourceTypeName(),
+            sourceType: (source as IExtended).getSourceType(),
             sourceOptions: (source as IExtended).getSourceOptions(),
             props
           });
@@ -135,7 +137,7 @@ export class LayersManager {
     );
     // Layers
     snapshot.layers.forEach(layer => {
-      this.createAndAddLayerFromSourceDefinition(layer.sourceTypeName, layer.sourceOptions, layer.props);
+      this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.props);
     });
     // Refresh
     this.refresh();
@@ -280,7 +282,7 @@ export class LayersManager {
    * Create and add layer props
    */
   public createAndAddLayerFromSourceDefinition(
-    sourceTypeName: string,
+    sourceType: SourceTypeEnum,
     sourceOptions: any,
     props: IBaseLayerProps
   ): IExtended {
@@ -297,27 +299,34 @@ export class LayersManager {
           }
           return true;
         });
-        return found != null && 'getSource' in found ? (found as any).getSource() : null;
+        let source = null;
+        if ('getSource' in found) {
+          const source = (found as any).getSource();
+          // Update source
+          source.setSourceOptions(sourceOptions);
+          return source;
+        } else {
+          return null;
+        }
       }
     }
-    let source = createSource(sourceTypeName, sourceOptions);
-    /*this.createAndAddLayer(Vector, { ...props, source });*/
-    switch (source.getLayerTypeName()) {
-      case 'Image':
+    let source = createSource(sourceType, sourceOptions);
+    switch (source.getLayerType()) {
+      case LayerTypeEnum.Image:
         this.createAndAddLayer(Image, { ...props, source });
         break;
-      case 'Tile':
+      case LayerTypeEnum.Tile:
         this.createAndAddLayer(Tile, { ...props, source });
         break;
-      case 'Vector':
+      case LayerTypeEnum.Vector:
         this.createAndAddLayer(Vector, { ...props, source });
         break;
-      case 'VectorTile':
+      case LayerTypeEnum.VectorTile:
         this.createAndAddLayer(VectorTile, { ...props, source });
         break;
-      case 'Heatmap':
+      /*case LayerTypeEnum.Heatmap:
         this.createAndAddLayer(VectorTile, { ...props, source });
-        break;
+        break;*/
     }
     return source;
   }

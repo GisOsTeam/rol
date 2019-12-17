@@ -16,7 +16,7 @@ export interface IIdentifyResponse {
 
 export interface IUseIdentifyProps {
   activated: boolean;
-  callBack: (identifyResp: IIdentifyResponse) => unknown;
+  onIdentifyResponse: (identifyResp: IIdentifyResponse) => unknown;
 }
 
 export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse> {
@@ -39,7 +39,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
             }
           });
         });
-        props.callBack({ features, position: clickEvent.pixel });
+        props.onIdentifyResponse({ features, position: clickEvent.pixel });
       });;
     };
 
@@ -51,7 +51,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
     return () => {
       olMap.un('click', onClick);
     };
-  }, [props.activated, props.callBack]);
+  }, [props.activated, props.onIdentifyResponse]);
 
   return null;
 }

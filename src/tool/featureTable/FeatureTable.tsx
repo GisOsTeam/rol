@@ -11,10 +11,10 @@ export type IFeatureTableProps = Pick<IIdentifyResponse, 'features'>;
 export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeatureTableProps) => {
     const [displayedObjects, setDisplayedObjects]: [Feature[], SetterType] = React.useState([])
     
-    const featuresKeys = Object.keys(features);
+    const layerNames = Object.keys(features);
     
     React.useEffect(() => {
-        const firstKey: string = featuresKeys[0];
+        const firstKey: string = layerNames[0];
         const firstFeatures: Feature[] = features[firstKey] ? [features[firstKey][0]] : [];
         setDisplayedObjects(firstFeatures);
         return () => {
@@ -38,7 +38,7 @@ export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeat
         return htmlEntities;
     };
 
-    const isEmpty = featuresKeys.length > 0 ? false : true;
+    const isEmpty = layerNames.length > 0 ? false : true;
     if (isEmpty) {
         return  (<div className="features-by-layers-wrapper">
             No data to display
@@ -46,22 +46,26 @@ export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeat
     }
 
     const featureSummary : ITableFeature = {};
-    featuresKeys.forEach((key) => {
-        if (!featureSummary[key]) {
-            featureSummary[key] = []
+    const highlightedKeys : number[] = [];
+    layerNames.forEach((layerName) => {
+        if (!featureSummary[layerName]) {
+            featureSummary[layerName] = []
         }
-        features[key].forEach((feature) => {
+        features[layerName].forEach((feature) => {
             const id = (feature.getId && feature.getId()) ? feature.getId() : getUid(feature);
-            featureSummary[key].push(id.toString());
+            featureSummary[layerName].push(id.toString());
+            if (displayedObjects.lastIndexOf(feature) > -1) {
+                highlightedKeys.push(featureSummary[layerName].length - 1);
+            }
         });
     });
 
-    const onClickTab = (key: string, value: string) => {
+    const onClickTab = (key: string, value: string, index: number) => {
         setDisplayedObjects(features[key].filter((feat) => feat.getId() === value || getUid(feat) === value));
     };
 
     return (<div className="features-by-layers-wrapper">
-        <Table feature={featureSummary} onClickRow={onClickTab} className="layerTabs-wrapper"/>
+        <Table feature={featureSummary} onClickRow={onClickTab} highlightedKeys={highlightedKeys} className="layerTabs-wrapper"/>
         {renderContent()}
     </div>);
 }

@@ -4,7 +4,8 @@ export interface ITableFeature { [key: string]: string[] }
 export interface ITableProps {
     feature: ITableFeature;
 
-    onClickRow?: (key: string, value: string, event?: React.MouseEvent) => void;
+    highlightedKeys ?: number[];
+    onClickRow?: (key: string, value: string, index?: number, event?: React.MouseEvent) => void;
 }
 
 export function objectToITableFeature(inObject: {[key: string]: any}): ITableFeature {
@@ -27,13 +28,13 @@ export function objectToITableFeature(inObject: {[key: string]: any}): ITableFea
         });
     return featureSummary;
 }
-export const Table: React.FC<any> = ({ feature, onClickRow }: ITableProps) => {
+export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: ITableProps) => {
     let rows: React.ReactElement[] = [];
     let nbRows = 0;
 
     const renderVal = (key: string, value: string) => {
         ++nbRows;
-        return (<tr className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'}`} key={`layerTab-${value}`} onClick={(e) => onClickRow(key, value, e)}>
+        return (<tr className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''}`} key={`layerTab-${value}`} onClick={(e) => onClickRow ? onClickRow(key, value, nbRows - 1, e): null}>
             <td className="label-cell">{key}</td>
             <td className="value-cell">{value}</td>
         </tr>)

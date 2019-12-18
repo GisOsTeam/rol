@@ -47,6 +47,7 @@ export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeat
 
     const featureSummary : ITableFeature = {};
     const highlightedKeys : number[] = [];
+    let featureSummaryLength = 0;
     layerNames.forEach((layerName) => {
         if (!featureSummary[layerName]) {
             featureSummary[layerName] = []
@@ -55,8 +56,9 @@ export const FeatureTable : React.FC<IFeatureTableProps> = ({ features } : IFeat
             const id = (feature.getId && feature.getId()) ? feature.getId() : getUid(feature);
             featureSummary[layerName].push(id.toString());
             if (displayedObjects.lastIndexOf(feature) > -1) {
-                highlightedKeys.push(featureSummary[layerName].length - 1);
+                highlightedKeys.push(featureSummaryLength);
             }
+            ++featureSummaryLength;
         });
     });
 

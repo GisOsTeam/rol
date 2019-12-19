@@ -7,15 +7,22 @@ import '../../assets/css/featureTable.css';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
-export type IFeatureTableProps = Pick<IIdentifyResponse, 'features'>;
-export const FeatureTable: React.FC<IFeatureTableProps> = ({ features }: IFeatureTableProps) => {
-  const [displayedObjects, setDisplayedObjects]: [Feature[], SetterType] = React.useState([]);
+export type DisplayedFeaturesType = Feature[];
+export interface IFeatureTableProps extends Pick<IIdentifyResponse, 'features'> {
+  onChangeDisplayedFeature ?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
+};
+export const FeatureTable: React.FC<IFeatureTableProps> = ({ features, onChangeDisplayedFeature }: IFeatureTableProps) => {
+  const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
 
   const layerNames = Object.keys(features);
 
   React.useEffect(() => {
     const firstKey: string = layerNames[0];
     const firstFeatures: Feature[] = features[firstKey] ? [features[firstKey][0]] : [];
+    if (onChangeDisplayedFeature && firstFeatures.length > 0) {
+      console.log("pwet", firstFeatures);
+      onChangeDisplayedFeature(firstFeatures);
+    }
     setDisplayedObjects(firstFeatures);
     return () => {
       setDisplayedObjects([]);
@@ -61,7 +68,11 @@ export const FeatureTable: React.FC<IFeatureTableProps> = ({ features }: IFeatur
   });
 
   const onClickTab = (key: string, value: string, index: number) => {
-    setDisplayedObjects(features[key].filter(feat => feat.getId() === value || getUid(feat) === value));
+    const newFeatures = features[key].filter(feat => feat.getId() === value || getUid(feat) === value);
+    if (onChangeDisplayedFeature) {
+      onChangeDisplayedFeature(newFeatures);
+    }
+    setDisplayedObjects(newFeatures);
   };
 
   return (

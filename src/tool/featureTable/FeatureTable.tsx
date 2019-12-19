@@ -20,7 +20,6 @@ export const FeatureTable: React.FC<IFeatureTableProps> = ({ features, onChangeD
     const firstKey: string = layerNames[0];
     const firstFeatures: Feature[] = features[firstKey] ? [features[firstKey][0]] : [];
     if (onChangeDisplayedFeature && firstFeatures.length > 0) {
-      console.log("pwet", firstFeatures);
       onChangeDisplayedFeature(firstFeatures);
     }
     setDisplayedObjects(firstFeatures);

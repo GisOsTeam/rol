@@ -7,10 +7,11 @@ import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 
-// Move to AOL
+// Move to AOL ?
 export const defaultHighlightStyle = new Style({
-  fill: new Fill({color: 'rgba(0, 255, 0, 0.25)'}),
-  stroke: new Stroke({color: 'rgba(0, 255, 0, 0.9)'})
+  fill: new Fill({color: 'rgba(0, 255, 255, 0.25)'}),
+  stroke: new Stroke({color: 'rgba(0, 255, 255, 0.9)', width: 3}),
+  zIndex: 100
 });
 
 export function IdentifyContent(props: IFunctionBaseWindowToolProps) {

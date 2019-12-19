@@ -5,7 +5,7 @@ export * from './PanZoom';
 export * from './ScaleLine';
 export * from './Toc';
 export * from './LayerLoader';
-export * from './identify';
+export * from './identify/Identify';
 
 import * as _common from './common';
 export const common = _common;

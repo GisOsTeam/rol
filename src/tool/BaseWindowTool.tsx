@@ -281,7 +281,7 @@ export class BaseWindowTool<
 export function withBaseWindowTool(
   component:
     | string
-    | React.FunctionComponent<IBaseWindowToolProps>
+    | React.FunctionComponent<IBaseWindowToolProps & Partial<IBaseWindowToolState>>
     | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
   headerContent:
     | string
@@ -300,7 +300,7 @@ export function withBaseWindowTool(
       return React.createElement(openButtonContent, this.props);
     }
     public renderTool(): React.ReactNode {
-      return React.createElement(component, this.props);
+      return React.createElement(component, {...this.state, ...this.props});
     }
   };
 }

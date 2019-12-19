@@ -5,7 +5,7 @@ import { FeatureTable } from '../featureTable';
 
 type Props = IBaseWindowToolProps & Pick<IBaseWindowToolState, 'open'>;
 
-export function Content (props: Props) {
+export function IdentifyContent (props: Props) {
   const [features, setFeatures] = React.useState({} as IIdentifyResponseFeatures);
 
   React.useEffect(() => {

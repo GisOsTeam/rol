@@ -1,6 +1,6 @@
-import { Button } from './Button';
-import { Content } from './Content';
-import { Header } from './Header';
+import { IdentifyButton } from './IdentifyButton';
+import { IdentifyContent } from './IdentifyContent';
+import { IdentifyHeader } from './IdentifyHeader';
 import { withBaseWindowTool } from '../BaseWindowTool';
 
-export const Identify = withBaseWindowTool(Content, Header, Button);
+export const Identify = withBaseWindowTool(IdentifyContent, IdentifyHeader, IdentifyButton);

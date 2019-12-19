@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IBaseWindowToolProps } from '../BaseWindowTool';
 
-export function Button(props: IBaseWindowToolProps) {
+export function IdentifyHeader(props: IBaseWindowToolProps) {
     return <span>Identify</span>;
 }

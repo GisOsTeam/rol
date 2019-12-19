@@ -2,13 +2,12 @@ import * as React from 'react';
 
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
-import {
-  IQueryResponse,
-  IQueryFeatureTypeResponse
-} from '@gisosteam/aol/source';
+import { IQueryResponse, IQueryFeatureTypeResponse } from '@gisosteam/aol/source';
 import { identify } from '@gisosteam/aol/source/query/identify';
 
-export interface IIdentifyResponseFeatures { [key: string]: Feature[] };
+export interface IIdentifyResponseFeatures {
+  [key: string]: Feature[];
+}
 export interface IIdentifyResponse {
   features: IIdentifyResponseFeatures;
   position: number[];
@@ -40,7 +39,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
           });
         });
         props.onIdentifyResponse({ features, position: clickEvent.pixel });
-      });;
+      });
     };
 
     if (props.activated) {

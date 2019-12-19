@@ -3,7 +3,7 @@ import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from '../ho
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { FeatureTable } from '../featureTable';
 
-export function IdentifyContent (props: IFunctionBaseWindowToolProps) {
+export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
   const [features, setFeatures] = React.useState<IIdentifyResponseFeatures>({});
 
   React.useEffect(() => {
@@ -20,5 +20,4 @@ export function IdentifyContent (props: IFunctionBaseWindowToolProps) {
   });
 
   return <FeatureTable features={features} />;
-
 }

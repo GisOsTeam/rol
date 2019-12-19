@@ -117,6 +117,6 @@ export function withBaseTool(
       return React.createElement(component, this.props);
     }
   };
-  tool.defaultProps = {...tool.defaultProps, ...defaultProps};
+  tool.defaultProps = { ...tool.defaultProps, ...defaultProps };
   return tool;
 }

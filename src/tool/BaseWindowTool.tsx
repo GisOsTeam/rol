@@ -97,7 +97,7 @@ export interface IBaseWindowToolState {
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-  > extends BaseButtonTool<P, S> {
+> extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -278,8 +278,7 @@ export class BaseWindowTool<
   }
 }
 
-
-export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState { }
+export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState {}
 
 export function withBaseWindowTool(
   component:
@@ -307,6 +306,6 @@ export function withBaseWindowTool(
       return React.createElement(component, { ...this.state, ...this.props, ...defaultProps });
     }
   };
-  tool.defaultProps = {...tool.defaultProps, ...defaultProps};
+  tool.defaultProps = { ...tool.defaultProps, ...defaultProps };
   return tool;
 }

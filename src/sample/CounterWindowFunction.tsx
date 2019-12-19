@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { IBaseWindowToolProps, withBaseWindowTool } from '../tool';
+import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool';
 
 export const CounterWindowFunction = withBaseWindowTool(
   // Content
-  (props: IBaseWindowToolProps) => {
+  (props: IFunctionBaseWindowToolProps) => {
     const [count, setCount] = React.useState<number>(0);
     React.useEffect(() => {
       if (props.activated === true) {
@@ -13,11 +13,12 @@ export const CounterWindowFunction = withBaseWindowTool(
     return <span>count: {String(count)}</span>;
   },
   // Header Content
-  (props: IBaseWindowToolProps) => {
+  (props: IFunctionBaseWindowToolProps) => {
     return <span>Counter</span>;
   },
   // Open Button Content
-  (props: IBaseWindowToolProps) => {
+  (props: IFunctionBaseWindowToolProps) => {
     return <span>Counter</span>;
-  }
+  },
+  { className: 'counter-window' }
 );

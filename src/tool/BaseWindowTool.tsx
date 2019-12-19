@@ -97,7 +97,7 @@ export interface IBaseWindowToolState {
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-> extends BaseButtonTool<P, S> {
+  > extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -278,29 +278,35 @@ export class BaseWindowTool<
   }
 }
 
+
+export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState { }
+
 export function withBaseWindowTool(
   component:
     | string
-    | React.FunctionComponent<IBaseWindowToolProps & Partial<IBaseWindowToolState>>
-    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+    | React.FunctionComponent<IFunctionBaseWindowToolProps>
+    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
   headerContent:
     | string
-    | React.FunctionComponent<IBaseWindowToolProps>
-    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>,
+    | React.FunctionComponent<IFunctionBaseWindowToolProps>
+    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
   openButtonContent:
     | string
-    | React.FunctionComponent<IBaseWindowToolProps>
-    | React.ComponentClass<IBaseWindowToolProps, IBaseWindowToolState>
+    | React.FunctionComponent<IFunctionBaseWindowToolProps>
+    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
+  defaultProps?: Partial<IBaseWindowToolProps>
 ) {
-  return class extends BaseWindowTool<IBaseWindowToolProps, IBaseWindowToolState> {
+  const tool = class extends BaseWindowTool<IBaseWindowToolProps, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {
-      return React.createElement(headerContent, this.props);
+      return React.createElement(headerContent, { ...this.state, ...this.props, ...defaultProps });
     }
     public renderOpenButtonContent(): React.ReactNode {
-      return React.createElement(openButtonContent, this.props);
+      return React.createElement(openButtonContent, { ...this.state, ...this.props, ...defaultProps });
     }
     public renderTool(): React.ReactNode {
-      return React.createElement(component, {...this.state, ...this.props});
+      return React.createElement(component, { ...this.state, ...this.props, ...defaultProps });
     }
   };
+  tool.defaultProps = {...tool.defaultProps, ...defaultProps};
+  return tool;
 }

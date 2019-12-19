@@ -2,6 +2,11 @@ import * as React from 'react';
 import { IBaseButtonToolProps, BaseButtonTool } from '../tool';
 
 export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
+  public static defaultProps = {
+    ...BaseButtonTool.defaultProps,
+    className: 'counter-button'
+  };
+
   public constructor(props: IBaseButtonToolProps) {
     super(props);
     this.state = { count: 0 };

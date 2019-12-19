@@ -5,7 +5,6 @@ import { CounterButton } from './CounterButton';
 import { CounterButtonFunction } from './CounterButtonFunction';
 import { CounterWindow } from './CounterWindow';
 import { CounterWindowFunction } from './CounterWindowFunction';
-import { QueryWindow } from './QueryWindow';
 import { HideToolsButton } from './HideToolsButton';
 import { TileArcGISRest, ImageStatic, TileWms, Xyz } from '@gisosteam/aol/source';
 import { Toc, ScaleLine, PanZoom, LayerLoader, Identify } from '../tool';
@@ -85,7 +84,6 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <CounterButtonFunction uid="CounterButtonFunction" />
               <CounterWindow uid="CounterWindow" />
               <CounterWindowFunction uid="CounterWindowFunction" />
-              <QueryWindow uid="QueryWindow" />
               <LayerLoader uid="LayerLoader" gisProxyUrl="http://localhost:8181" />
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />

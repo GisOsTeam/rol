@@ -2,6 +2,11 @@ import * as React from 'react';
 import { IBaseWindowToolProps, BaseWindowTool } from '../tool';
 
 export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
+  public static defaultProps = {
+    ...BaseWindowTool.defaultProps,
+    className: 'counter-window'
+  };
+
   public constructor(props: IBaseWindowToolProps) {
     super(props);
     this.state = { count: 0 };

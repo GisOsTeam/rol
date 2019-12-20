@@ -2,10 +2,7 @@ import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import Draw from 'ol/interaction/Draw';
 import GeometryType from 'ol/geom/GeometryType';
-import { getDefaultLayerStyles, uid } from '@gisosteam/aol/utils';
-import { LocalVector } from '@gisosteam/aol/source';
-import { LayerStyles } from '@gisosteam/aol/LayerStyles';
-import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
+import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 
 export interface IUseDrawInteractionProps {
   /**

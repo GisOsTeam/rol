@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { rolContext } from '../../RolContext';
 import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { send, IResponse } from 'bhreq';
-import { loadWMS, uid } from '@gisosteam/aol/utils';
 import { LayersManager } from '../../LayersManager';
-import { IFeatureType, ImageWms } from '@gisosteam/aol/source';
+import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { Image } from '../../layer';
+import { loadWMS } from '@gisosteam/aol/load/wms';
+import { uid } from '@gisosteam/aol/utils';
+import { IFeatureType } from '@gisosteam/aol/source/IExtended';
 
 const Container = styled.div`
   display: flex;

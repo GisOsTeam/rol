@@ -6,11 +6,15 @@ import { CounterButtonFunction } from './CounterButtonFunction';
 import { CounterWindow } from './CounterWindow';
 import { CounterWindowFunction } from './CounterWindowFunction';
 import { HideToolsButton } from './HideToolsButton';
-import { TileArcGISRest, ImageStatic, TileWms, Xyz } from '@gisosteam/aol/source';
+import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
+import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
+import { TileWms } from '@gisosteam/aol/source/TileWms';
+import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
+import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { Toc, ScaleLine, PanZoom, LayerLoader, Identify } from '../tool';
 import { Image, Tile } from '../layer';
 import { Projection } from '../Projection';
-import { Control, Zone } from '../container';
+import { Zone } from '../container';
 import { ShowSnapshot } from './ShowSnapshot';
 import { DrawLine } from './DrawLine';
 
@@ -28,7 +32,7 @@ const world2D = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
   projection: 'EPSG:3857'
-});
+} as any);
 
 const britishNationalGrid = new ImageStatic({
   url:
@@ -40,7 +44,12 @@ const britishNationalGrid = new ImageStatic({
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
   types: [{ id: 'topp:states' }]
-});
+} as any);
+
+const cities = new ImageArcGISRest({
+  url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
+  types: [{ id: 1 }]
+} as any);
 
 export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
   constructor(props: {}) {
@@ -73,6 +82,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Tile uid="OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile uid="Topp States" source={toppStateSource} name="Topp States" />
+        <Image uid="Cities" source={cities} name="Cities" />
         <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>

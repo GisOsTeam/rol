@@ -5,7 +5,7 @@ import OlBaseLayer from 'ol/layer/Base';
 import { BaseLayer, IBaseLayerProps, Vector, Tile, Image, VectorTile, Heatmap } from './layer';
 import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import { IExtended } from '@gisosteam/aol/source';
+import { IExtended } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';

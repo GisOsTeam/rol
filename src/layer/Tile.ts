@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlTileLayer from 'ol/layer/Tile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { ITileImage } from '@gisosteam/aol/source';
+import { ITileImage } from '@gisosteam/aol/source/ITileImage';
 
 export interface ITileProps extends IBaseLayerProps {
   /**

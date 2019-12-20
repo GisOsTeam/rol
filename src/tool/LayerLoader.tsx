@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import { IBaseWindowToolProps, BaseWindowTool, IBaseWindowToolState } from './BaseWindowTool';
 import { Selector } from './common/Selector';
 import { WmsLoader } from './common/WmsLoader';
-import { loadKML, loadKMZ, loadZippedShapefile, uid } from '@gisosteam/aol/utils';
-import { LocalVector } from '@gisosteam/aol/source';
+import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { Vector } from '../layer';
+import { loadKML } from '@gisosteam/aol/load/kml';
+import { loadKMZ } from '@gisosteam/aol/load/kmz';
+import { loadZippedShapefile } from '@gisosteam/aol/load/shpz';
+import { uid } from '@gisosteam/aol/utils';
 
 const Container = styled.div`
   margin: 2px;
@@ -68,7 +71,7 @@ export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderS
       promise.then((source: LocalVector) => {
         this.context.layersManager.createAndAddLayer(Vector, {
           uid: uid(),
-          name: source.getSourceOptions().name,
+          name: (source.getSourceOptions() as any).name,
           type: 'OVERLAY',
           source
         });

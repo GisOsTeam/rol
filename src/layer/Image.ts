@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlImageLayer from 'ol/layer/Image';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IImage } from '@gisosteam/aol/source';
+import { IImage } from '@gisosteam/aol/source/IImage';
 
 export interface IImageProps extends IBaseLayerProps {
   /**

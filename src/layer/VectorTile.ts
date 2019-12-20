@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlVectorTileLayer from 'ol/layer/VectorTile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IVectorTile } from '@gisosteam/aol/source';
+import { IVectorTile } from '@gisosteam/aol/source/IVectorTile';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 

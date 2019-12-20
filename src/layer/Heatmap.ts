@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlHeatmapLayer from 'ol/layer/Heatmap';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IVector } from '@gisosteam/aol/source';
+import { IVector } from '@gisosteam/aol/source/IVector';
 
 export interface IHeatmapProps extends IBaseLayerProps {
   /**

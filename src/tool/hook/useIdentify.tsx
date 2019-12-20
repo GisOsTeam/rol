@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
-import { IQueryResponse, IQueryFeatureTypeResponse } from '@gisosteam/aol/source';
 import { identify } from '@gisosteam/aol/source/query/identify';
+import { IQueryResponse, IQueryFeatureTypeResponse } from '@gisosteam/aol/source/IExtended';
 
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext, IRolContext } from '../RolContext';
 import { BaseTool, IBaseToolProps } from './BaseTool';
-import { IExtended } from '@gisosteam/aol/source';
+import { IExtended } from '@gisosteam/aol/source/IExtended';
 
 const Container = styled.div`
   top: 15px;

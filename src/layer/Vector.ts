@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlVectorLayer from 'ol/layer/Vector';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IVector } from '@gisosteam/aol/source';
+import { IVector } from '@gisosteam/aol/source/IVector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 

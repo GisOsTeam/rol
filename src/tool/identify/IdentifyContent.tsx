@@ -6,6 +6,7 @@ import { useDrawSource } from '../hook/useDrawSource';
 import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
+import { Feature } from 'ol';
 
 // Move to AOL ?
 export const defaultHighlightStyle = new Style({
@@ -25,6 +26,11 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
   React.useEffect(() => {
     if (!props.activated && !props.open) {
       if(source) {
+        Object.values(features).forEach((featArray) => {
+          featArray.forEach((feat) => {
+            feat.setStyle(undefined);
+          });
+        });
         source.clear();
       }
       setFeatures({});
@@ -55,7 +61,7 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
           } else {
             feat.setStyle(undefined);
           }
-        })
+        });
       });
     }
   };

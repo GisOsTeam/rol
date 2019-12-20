@@ -5,6 +5,8 @@ import { rolContext } from '../../RolContext';
 import { IQueryResponse, IQueryFeatureTypeResponse } from '@gisosteam/aol/source';
 import { identify } from '@gisosteam/aol/source/query/identify';
 
+
+
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];
 }

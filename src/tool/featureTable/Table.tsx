@@ -34,14 +34,14 @@ export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: I
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
 
-  const renderVal = (key: string, value: string) => {
+  const renderVal = (key: string, value: string, index: number) => {
     ++nbRows;
     return (
       <tr
         className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${
           highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
         }`}
-        key={`layerTab-${value}`}
+        key={`layerTab-${key}-${value}-${index}`}
         onClick={e => (onClickRow ? onClickRow(key, value, nbRows - 1, e) : null)}
       >
         <td className="label-cell">{key}</td>
@@ -52,7 +52,7 @@ export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: I
 
   Object.keys(feature).forEach((key: string, propIndex) => {
     const value = feature[key];
-    const htmlElems = value.map(val => renderVal(key, val));
+    const htmlElems = value.map((val, index) => renderVal(key, val, index));
     rows = [...rows, ...htmlElems];
   });
 

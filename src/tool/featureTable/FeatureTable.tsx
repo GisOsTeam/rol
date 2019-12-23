@@ -74,7 +74,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   });
 
   const onClickTab = (key: string, value: string, index: number) => {
-    const newFeatures =props. features[key].filter(feat => feat.getId() === value || getUid(feat) === value);
+    const newFeatures = props.features[key].filter(feat => feat.getId() === value || getUid(feat) === value);
     if (props.onChangeDisplayedFeature) {
       props.onChangeDisplayedFeature(newFeatures);
     }

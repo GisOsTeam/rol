@@ -46,7 +46,7 @@ const toppStateSource = new TileWms({
   types: [{ id: 'topp:states' }]
 } as any);
 
-const cities = new ImageArcGISRest({
+const highways  = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
   types: [{ id: 1 }]
 } as any);
@@ -82,7 +82,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Tile uid="OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile uid="Topp States" source={toppStateSource} name="Topp States" />
-        <Image uid="Cities" source={cities} name="Cities" />
+        <Image uid="Highways" source={highways } name="Highways " />
         <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>

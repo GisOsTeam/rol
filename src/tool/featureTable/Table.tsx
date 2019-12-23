@@ -1,11 +1,39 @@
 import * as React from 'react';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  border: blue solid 1px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 350px;
+
+  table {
+    border-collapse: collapse;
+  }
+
+  tr {
+    width: 100%;
+  }
+
+  td {
+    width: 100%;
+  }
+
+  tr.odd {
+    background-color: lavender;
+  }
+
+  tr.selected {
+    background-color: rgba(115, 227, 241, 0.575);
+  }
+`;
 
 export interface ITableFeature {
   [key: string]: string[];
 }
+
 export interface ITableProps {
   feature: ITableFeature;
-
   highlightedKeys?: number[];
   onClickRow?: (key: string, value: string, index?: number, event?: React.MouseEvent) => void;
 }
@@ -30,6 +58,7 @@ export function objectToITableFeature(inObject: { [key: string]: any }): ITableF
     });
   return featureSummary;
 }
+
 export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: ITableProps) => {
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
@@ -57,8 +86,8 @@ export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: I
   });
 
   return (
-    <table className="feature-table">
+    <Container>
       <tbody>{rows}</tbody>
-    </table>
+    </Container>
   );
 };

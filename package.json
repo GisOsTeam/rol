@@ -12,7 +12,7 @@
     "lint": "npm run prettier && tslint '{src, test}/**/.{ts,tsx}'",
     "build": "rimraf lib && npm run lint && tsc -p tsconfig.json && cp ./package.json lib",
     "prepublishOnly": "[[ \"$PWD\" =~ /lib ]]",
-    "pub": "pushd ./ && npm run build && cd lib && npm publish && popd"
+    "pub": "pushd ./ && npm run build && cd lib && npm publish --access public && popd"
   },
   "husky": {
     "hooks": {

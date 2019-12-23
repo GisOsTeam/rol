@@ -6,12 +6,12 @@ import { useDrawSource } from '../hook/useDrawSource';
 import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
-import { Feature } from 'ol';
+import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 
 // Move to AOL ?
 export const defaultHighlightStyle = new Style({
-  fill: new Fill({color: 'rgba(0, 255, 255, 0.25)'}),
-  stroke: new Stroke({color: 'rgba(0, 255, 255, 0.9)', width: 3}),
+  fill: new Fill({ color: 'rgba(0, 255, 255, 0.25)' }),
+  stroke: new Stroke({ color: 'rgba(0, 255, 255, 0.9)', width: 3 }),
   zIndex: 100
 });
 
@@ -22,12 +22,12 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     persist: false,
     listable: false
   });
-  
+
   React.useEffect(() => {
     if (!props.activated && !props.open) {
-      if(source) {
-        Object.values(features).forEach((featArray) => {
-          featArray.forEach((feat) => {
+      if (source) {
+        Object.values(features).forEach(featArray => {
+          featArray.forEach(feat => {
             feat.setStyle(undefined);
           });
         });
@@ -37,26 +37,30 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     }
   }, [props.activated, props.open]);
 
+  const filterListableSource: IdentifyFilterType = extended => {
+    return extended !== source;
+  };
+
   useIdentify({
     activated: props.activated ? props.activated : false,
+    filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       setFeatures(identifyResp.features);
     }
   });
 
-
   if (Object.keys(features).length > 0) {
     let identified: any = [];
-    Object.values(features).forEach((featArray) => identified = identified.concat(...featArray));
+    Object.values(features).forEach(featArray => (identified = identified.concat(...featArray)));
     source.clear();
-    source.addFeatures(identified);  
+    source.addFeatures(identified);
   }
-  
+
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {
     if (source) {
-      Object.values(features).forEach((featArray) => {
-        featArray.forEach((feat) => {
-          if(selectedFeatures.indexOf(feat) > -1) {
+      Object.values(features).forEach(featArray => {
+        featArray.forEach(feat => {
+          if (selectedFeatures.indexOf(feat) > -1) {
             feat.setStyle(defaultHighlightStyle);
           } else {
             feat.setStyle(undefined);

@@ -9,9 +9,12 @@ import { Table, ITableFeature, objectToITableFeature } from './Table';
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
 export type DisplayedFeaturesType = Feature[];
 export interface IFeatureTableProps extends Pick<IIdentifyResponse, 'features'> {
-  onChangeDisplayedFeature ?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
-};
-export const FeatureTable: React.FC<IFeatureTableProps> = ({ features, onChangeDisplayedFeature }: IFeatureTableProps) => {
+  onChangeDisplayedFeature?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
+}
+export const FeatureTable: React.FC<IFeatureTableProps> = ({
+  features,
+  onChangeDisplayedFeature
+}: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
 
   const layerNames = Object.keys(features);

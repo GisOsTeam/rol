@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IIdentifyResponseFeatures } from '../hook/useIdentify';
 import { Feature, getUid } from 'ol';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
+import { rolContext } from '../../RolContext';
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ export interface IFeatureTableProps {
 
 export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
+  const { layersManager } = React.useContext(rolContext);
 
   const layerNames = Object.keys(props.features);
 
@@ -60,10 +62,13 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
   layerNames.forEach(layerName => {
+    // console.log(layersManager);
+    // console.log(layersManager.getOlLayer(layerName));
     if (!featureSummary[layerName]) {
       featureSummary[layerName] = [];
     }
     props.features[layerName].forEach(feature => {
+      console.log(feature);
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
       featureSummary[layerName].push(id.toString());
       if (displayedObjects.lastIndexOf(feature) > -1) {

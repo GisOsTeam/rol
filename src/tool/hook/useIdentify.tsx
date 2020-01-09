@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
-import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
-import { IQueryResponse, IQueryFeatureTypeResponse, IExtended } from '@gisosteam/aol/source/IExtended';
+import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
+import { ILayerElement } from '../../LayersManager';
+import { identify, IdentifyFilterType, IIdentifyQueryResponse } from '@gisosteam/aol/source/query/identify';
 
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];
@@ -21,16 +22,21 @@ export interface IUseIdentifyProps {
 
 export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse> {
   const context = React.useContext(rolContext);
-  const { olMap } = context;
+  const { olMap, layersManager } = context;
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
       identify(clickEvent.pixel, olMap, undefined, props.filterSources).then((queryResponses: IQueryResponse[]) => {
         const features: any = {};
-        queryResponses.forEach((queryResponse: IQueryResponse) => {
-          const ftResps = queryResponse.featureTypeResponses;
-          ftResps.forEach((ftResp: IQueryFeatureTypeResponse) => {
+        queryResponses.forEach((queryResponse: IIdentifyQueryResponse) => {
+        const { featureTypeResponses , olLayer } = queryResponse;
+          featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
             if (ftResp.features.length > 0) {
+              console.log("ollayer", olLayer)
+              const filtered = layersManager.getLayerElements((layerElement: ILayerElement) => {
+                return layerElement.olLayer === olLayer
+              })
+              console.log("filtered", filtered);
               const type = ftResp.type ? ftResp.type.id : 'unknown';
               if (!features[type]) {
                 features[type] = [];

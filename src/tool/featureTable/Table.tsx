@@ -4,11 +4,16 @@ import styled from 'styled-components';
 const Container = styled.div`
   border: blue solid 1px;
   width: 350px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   
+  div.scrollable-table {
+    max-height: 450px;
+    overflow-y: auto;
+  }
+
   table {
     border-collapse: collapse;
+    width: 100%;
   }
   
   thead {
@@ -17,14 +22,6 @@ const Container = styled.div`
     border-bottom-style: solid;
     border-width: 1px;
   }
-  
-  tr {
-    width: 100%;
-  }
-
-  td {
-    width: 100%;
-  }
 
   tr.odd {
     background-color: lavender;
@@ -32,6 +29,10 @@ const Container = styled.div`
 
   tr.selected {
     background-color: rgba(115, 227, 241, 0.575);
+  }
+
+  td.value-cell {
+    text-align: end
   }
 `;
 
@@ -111,8 +112,12 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
     <Container>
       <table>
         {renderHeader()}
-        <tbody>{rows}</tbody>
       </table>
+      <div className="scrollable-table">
+        <table>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
     </Container>
   );
 };

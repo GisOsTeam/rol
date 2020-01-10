@@ -7,7 +7,6 @@ import { rolContext } from '../../RolContext';
 
 const Container = styled.div`
   display: flex;
-  max-height: 500px;
 `;
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;

@@ -32,16 +32,12 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
         const { featureTypeResponses , olLayer } = queryResponse;
           featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
             if (ftResp.features.length > 0) {
-              console.log("ollayer", olLayer)
-              const filtered = layersManager.getLayerElements((layerElement: ILayerElement) => {
-                return layerElement.olLayer === olLayer
-              })
-              console.log("filtered", filtered);
-              const type = ftResp.type ? ftResp.type.id : 'unknown';
-              if (!features[type]) {
-                features[type] = [];
+              const filtered = layersManager.getLayerElementFromOlLayer(olLayer);
+              const layerUid = filtered ? filtered.uid : 'unknown';
+              if (!features[layerUid]) {
+                features[layerUid] = [];
               }
-              features[type].push(...ftResp.features);
+              features[layerUid].push(...ftResp.features);
             }
           });
         });

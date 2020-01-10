@@ -9,6 +9,7 @@ import { IExtended } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
+import Layer from 'ol/layer/Layer';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -152,46 +153,21 @@ export class LayersManager {
     const arr = Array.from(layerMap.values()).filter(layerElement => layerElement.status !== 'del');
     return filterFn == null ? arr : arr.filter(filterFn, thisFilterArg);
   }
+  
+  public getLayerElementFromOlLayer(olLayer: Layer): ILayerElement {
+    const results = this.getLayerElements((layerElement: ILayerElement) => {
+      return layerElement.olLayer === olLayer
+    });
+    if (results.length === 1) {
+      return results[0]
+    }
 
-  /**
-   * Set layerElement
-   */
-  private setLayerElement(layerElement: ILayerElement, refreshIfChanging = true) {
-    const layerMap = layerMaps.get(this.uid);
-    if (layerMap == null) {
-      return false;
-    }
-    const found = layerMap.get(layerElement.uid);
-    let changed = false;
-    if (!found) {
-      if (layerElement.status !== 'del') {
-        layerMap.set(layerElement.uid, {
-          ...layerElement
-        });
-        changed = true;
-      }
-    } else {
-      if (layerElement.status === 'del') {
-        if (found.status === 'react') {
-          layerMap.set(layerElement.uid, {
-            ...layerElement,
-            status: 'del'
-          });
-          changed = true;
-        } else if (found.status === 'ext') {
-          layerMap.delete(layerElement.uid);
-          changed = true;
-        }
-      } else {
-        layerMap.set(layerElement.uid, {
-          ...layerElement
-        });
-        changed = !jsonEqual(found.reactElement.props, layerElement.reactElement.props, ['source', 'children']);
-      }
-    }
-    if (refreshIfChanging && changed) {
-      this.refresh();
-    }
+    console.warn(`No ILayerElement found for olLayer ${olLayer}`);
+    return null;
+  }
+
+  public getLayerElementByUID(uid: string): ILayerElement {
+    return this.getLayerElements(le => le.uid === uid).pop();
   }
 
   /**
@@ -379,5 +355,46 @@ export class LayersManager {
         layerElement.status = 'del';
       }
     });
+  }
+
+  /**
+   * Set layerElement
+   */
+  private setLayerElement(layerElement: ILayerElement, refreshIfChanging = true) {
+    const layerMap = layerMaps.get(this.uid);
+    if (layerMap == null) {
+      return false;
+    }
+    const found = layerMap.get(layerElement.uid);
+    let changed = false;
+    if (!found) {
+      if (layerElement.status !== 'del') {
+        layerMap.set(layerElement.uid, {
+          ...layerElement
+        });
+        changed = true;
+      }
+    } else {
+      if (layerElement.status === 'del') {
+        if (found.status === 'react') {
+          layerMap.set(layerElement.uid, {
+            ...layerElement,
+            status: 'del'
+          });
+          changed = true;
+        } else if (found.status === 'ext') {
+          layerMap.delete(layerElement.uid);
+          changed = true;
+        }
+      } else {
+        layerMap.set(layerElement.uid, {
+          ...layerElement
+        });
+        changed = !jsonEqual(found.reactElement.props, layerElement.reactElement.props, ['source', 'children']);
+      }
+    }
+    if (refreshIfChanging && changed) {
+      this.refresh();
+    }
   }
 }

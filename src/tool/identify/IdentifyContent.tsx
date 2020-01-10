@@ -6,7 +6,8 @@ import { useDrawSource } from '../hook/useDrawSource';
 import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
-import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
+import { IdentifyFilterType, identify } from '@gisosteam/aol/source/query/identify';
+import { rolContext } from '../../RolContext';
 
 // Move to AOL ?
 export const defaultHighlightStyle = new Style({
@@ -17,6 +18,8 @@ export const defaultHighlightStyle = new Style({
 
 export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
   const [features, setFeatures] = React.useState<IIdentifyResponseFeatures>({});
+  const { layersManager } = React.useContext(rolContext);
+  
   const source = useDrawSource({
     layerUid: 'identify-highlight',
     persist: false,
@@ -45,7 +48,13 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     activated: props.activated ? props.activated : false,
     filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
-      setFeatures(identifyResp.features);
+      const newFeatures: IIdentifyResponseFeatures =  {};
+      Object.keys(identifyResp.features).forEach((layerUid) => {
+        const layerElement = layersManager.getLayerElementByUID(layerUid);
+        const name = layerElement ? layerElement.reactElement.props.name : layerUid;
+        newFeatures[name] = identifyResp.features[layerUid];
+      });
+      setFeatures(newFeatures);
     }
   });
 

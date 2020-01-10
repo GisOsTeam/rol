@@ -79,11 +79,11 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
       >
         <Projection code="EPSG:2154" name="RGF93 / Lambert-93" wkt={wkt2154} />
         <Projection code="EPSG:27700" name="OSGB 1936 / British National Grid " wkt={wkt27700} />
-        <Tile uid="OSM" source={osm} name="OSM" type="BASE" visible={true} />
-        <Tile uid="World 2D" source={world2D} name="World 2D" type="BASE" />
-        <Tile uid="Topp States" source={toppStateSource} name="Topp States" />
-        <Image uid="Highways" source={highways} name="Highways " />
-        <Image uid="British National Grid" source={britishNationalGrid} name="British National Grid" />
+        <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
+        <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
+        <Tile uid="UID -- Topp States" source={toppStateSource} name="Topp States" />
+        <Image uid="UID -- Highways" source={highways} name="Highways " />
+        <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>
             <Toc uid="Toc" />

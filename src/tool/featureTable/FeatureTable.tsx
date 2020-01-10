@@ -21,12 +21,11 @@ export interface IFeatureTableProps {
 
 export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
-  const { layersManager } = React.useContext(rolContext);
 
-  const layerNames = Object.keys(props.features);
+  const layerUIDs = Object.keys(props.features);
 
   React.useEffect(() => {
-    const firstKey: string = layerNames[0];
+    const firstKey: string = layerUIDs[0];
     const firstFeatures: Feature[] = props.features[firstKey] ? [props.features[firstKey][0]] : [];
     if (props.onChangeDisplayedFeature && firstFeatures.length > 0) {
       props.onChangeDisplayedFeature(firstFeatures);
@@ -53,7 +52,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
     return htmlEntities;
   };
 
-  const isEmpty = layerNames.length > 0 ? false : true;
+  const isEmpty = layerUIDs.length > 0 ? false : true;
   if (isEmpty) {
     return <Container>No data to display</Container>;
   }
@@ -61,14 +60,11 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const featureSummary: ITableFeature = {};
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
-  layerNames.forEach(layerName => {
-    // console.log(layersManager);
-    // console.log(layersManager.getOlLayer(layerName));
+  layerUIDs.forEach(layerName => {
     if (!featureSummary[layerName]) {
       featureSummary[layerName] = [];
     }
     props.features[layerName].forEach(feature => {
-      console.log(feature);
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
       featureSummary[layerName].push(id.toString());
       if (displayedObjects.lastIndexOf(feature) > -1) {

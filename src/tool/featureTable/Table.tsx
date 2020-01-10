@@ -96,23 +96,25 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
 
   const renderHeader = () => {
     if (header && header.length > 2) {
-      console.error("Table component doesn't support more than 2 header columns")
+      console.error("Table component doesn't support more than 2 header columns");
       return;
     }
     if (header) {
       const headContent: JSX.Element[] = [];
       header.forEach((columnLabel, id) => {
-        headContent.push(<th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>{columnLabel}</th>);
+        headContent.push(
+          <th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>
+            {columnLabel}
+          </th>
+        );
       });
-      return (<thead>{headContent}</thead>);
+      return <thead>{headContent}</thead>;
     }
   };
 
   return (
     <Container>
-      <table>
-        {renderHeader()}
-      </table>
+      <table>{renderHeader()}</table>
       <div className="scrollable-table">
         <table>
           <tbody>{rows}</tbody>

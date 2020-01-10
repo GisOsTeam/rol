@@ -1,10 +1,8 @@
 import * as React from 'react';
-
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
 import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
-import { ILayerElement } from '../../LayersManager';
-import { identify, IdentifyFilterType, IIdentifyQueryResponse } from '@gisosteam/aol/source/query/identify';
+import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];
@@ -28,11 +26,11 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
     const onClick = (clickEvent: MapBrowserEvent) => {
       identify(clickEvent.pixel, olMap, undefined, props.filterSources).then((queryResponses: IQueryResponse[]) => {
         const features: any = {};
-        queryResponses.forEach((queryResponse: IIdentifyQueryResponse) => {
-        const { featureTypeResponses , olLayer } = queryResponse;
+        queryResponses.forEach((queryResponse: IQueryResponse) => {
+          const { featureTypeResponses } = queryResponse;
           featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
             if (ftResp.features.length > 0) {
-              const filtered = layersManager.getLayerElementFromOlLayer(olLayer);
+              const filtered = layersManager.getLayerElementFromSource(ftResp.source);
               const layerUid = filtered ? filtered.uid : 'unknown';
               if (!features[layerUid]) {
                 features[layerUid] = [];

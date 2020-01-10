@@ -84,7 +84,12 @@ export const FeatureTable = (props: IFeatureTableProps) => {
 
   return (
     <Container>
-      <Table feature={featureSummary} header={['Layer', 'Feature ID']} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
+      <Table
+        feature={featureSummary}
+        header={['Layer', 'Feature ID']}
+        onClickRow={onClickTab}
+        highlightedKeys={highlightedKeys}
+      />
       {renderContent()}
     </Container>
   );

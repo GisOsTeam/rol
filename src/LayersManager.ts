@@ -153,17 +153,17 @@ export class LayersManager {
     const arr = Array.from(layerMap.values()).filter(layerElement => layerElement.status !== 'del');
     return filterFn == null ? arr : arr.filter(filterFn, thisFilterArg);
   }
-  
-  public getLayerElementFromOlLayer(olLayer: Layer): ILayerElement {
-    const results = this.getLayerElements((layerElement: ILayerElement) => {
-      return layerElement.olLayer === olLayer
-    });
-    if (results.length === 1) {
-      return results[0]
-    }
 
-    console.warn(`No ILayerElement found for olLayer ${olLayer}`);
-    return null;
+  public getLayerElementFromSource(source: IExtended): ILayerElement {
+    const layerElement = this.getLayerElements((layerElement: ILayerElement) => {
+      return layerElement.olLayer != null && (layerElement.olLayer as Layer).getSource() === source;
+    }).pop();
+    if (layerElement != null) {
+      return layerElement;
+    } else {
+      console.error(`Element not found for source ${source}`);
+      return null;
+    }
   }
 
   public getLayerElementByUID(uid: string): ILayerElement {

@@ -19,7 +19,7 @@ export const defaultHighlightStyle = new Style({
 export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
   const [features, setFeatures] = React.useState<IIdentifyResponseFeatures>({});
   const { layersManager } = React.useContext(rolContext);
-  
+
   const source = useDrawSource({
     layerUid: 'identify-highlight',
     persist: false,
@@ -48,8 +48,8 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     activated: props.activated ? props.activated : false,
     filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
-      const newFeatures: IIdentifyResponseFeatures =  {};
-      Object.keys(identifyResp.features).forEach((layerElementUid) => {
+      const newFeatures: IIdentifyResponseFeatures = {};
+      Object.keys(identifyResp.features).forEach(layerElementUid => {
         const layerElement = layersManager.getLayerElementByUID(layerElementUid);
         const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
         const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { ProjectionInfo, addProjection } from '@gisosteam/aol/ProjectionInfo';
+import { Extent } from 'ol/extent';
 
 export interface IProjectionProps {
   code: string;
   wkt?: string;
-  lonLatValidity?: number[];
+  lonLatValidity?: Extent;
   name?: string;
   remarks?: string;
 }

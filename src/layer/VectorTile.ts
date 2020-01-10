@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlVectorTileLayer from 'ol/layer/VectorTile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IVectorTile } from '@gisosteam/aol/source/IVectorTile';
+import { VectorTile as VectorTileSource } from '@gisosteam/aol/source/VectorTile';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 
@@ -9,14 +9,14 @@ export interface IVectorTileProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: IVectorTile;
+  source: VectorTileSource;
   /**
    * Layer styles.
    */
   layerStyles: LayerStyles;
 }
 
-export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLayer, IVectorTile> {
+export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLayer, VectorTileSource> {
   public createOlLayer(): OlVectorTileLayer {
     return new OlVectorTileLayer();
   }
@@ -31,7 +31,7 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
     }
   }
 
-  public setSource(source: IVectorTile) {
+  public setSource(source: VectorTileSource) {
     if (source == null) {
       source = undefined;
     }

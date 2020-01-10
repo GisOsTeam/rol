@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBaseButtonToolProps, withBaseButtonTool } from '../tool';
+import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
 
 export const CounterButtonFunction = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {

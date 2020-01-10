@@ -280,7 +280,7 @@ export class BaseWindowTool<
 
 export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState {}
 
-export function withBaseWindowTool(
+export function withBaseWindowTool<P extends IBaseWindowToolProps>(
   component:
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
@@ -295,7 +295,7 @@ export function withBaseWindowTool(
     | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
   defaultProps?: Partial<IBaseWindowToolProps>
 ) {
-  const tool = class extends BaseWindowTool<IBaseWindowToolProps, IBaseWindowToolState> {
+  const tool = class extends BaseWindowTool<P, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {
       return React.createElement(headerContent, { ...this.state, ...this.props, ...defaultProps });
     }

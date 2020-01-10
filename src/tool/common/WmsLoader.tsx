@@ -5,10 +5,11 @@ import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { send, IResponse } from 'bhreq';
 import { LayersManager } from '../../LayersManager';
 import { ImageWms } from '@gisosteam/aol/source/ImageWms';
-import { Image } from '../../layer';
+import { Image } from '../../layer/Image';
 import { loadWMS } from '@gisosteam/aol/load/wms';
 import { uid } from '@gisosteam/aol/utils';
 import { IFeatureType } from '@gisosteam/aol/source/IExtended';
+import { useTranslate } from '../hook/useTranslate';
 
 const Container = styled.div`
   display: flex;
@@ -40,6 +41,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
   const [serverUrl, setServerUrl] = React.useState<string>('');
   const [gisProxyUrl, setGisProxyUrl] = React.useState<string>(props.gisProxyUrl ? props.gisProxyUrl : '');
   const [selected, setSelected] = React.useState<string[]>([]);
+  const translate = useTranslate();
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value);
@@ -98,7 +100,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
           {capabilities == null && (
             <React.Fragment>
               <label htmlFor="serverUrl">
-                {context.getLocalizedText(
+                {translate(
                   'wmsLoader.serverUr',
                   'Enter WMS Server URL* (example: http://172.20.0.3:8080/geoserver/wms)'
                 )}
@@ -107,27 +109,24 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
               {(props.gisProxyUrl == null || props.gisProxyUrl === '') && (
                 <React.Fragment>
                   <label htmlFor="gisProxyUrl">
-                    {context.getLocalizedText(
-                      'wmsLoader.gisProxyUrl',
-                      'Enter Gis Proxy URL (example: http://localhost:8181)'
-                    )}
+                    {translate('wmsLoader.gisProxyUrl', 'Enter Gis Proxy URL (example: http://localhost:8181)')}
                   </label>
                   <input id="gisProxyUrl" type="text" value={gisProxyUrl} onChange={handleGisProxyUrlChange}></input>
                 </React.Fragment>
               )}
               <button onClick={handleButtonClick} disabled={serverUrl === ''}>
-                {context.getLocalizedText('wmsLoader.load', 'Load capabilities')}
+                {translate('wmsLoader.load', 'Load capabilities')}
               </button>
             </React.Fragment>
           )}
           {capabilities != null && (
             <React.Fragment>
               <label htmlFor="title">
-                {context.getLocalizedText('wmsLoader.title', 'Enter title* (required, example: WMS service)')}
+                {translate('wmsLoader.title', 'Enter title* (required, example: WMS service)')}
               </label>
               <input id="title" type="text" value={title} onChange={handleTitleChange}></input>
               <LayerContainer>
-                <label>{context.getLocalizedText('wmsLoader.selection', 'Select layers*')}</label>
+                <label>{translate('wmsLoader.selection', 'Select layers*')}</label>
                 {capabilities.Capability.Layer.Layer.map((layer: any) => {
                   return (
                     <li>
@@ -147,7 +146,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                 onClick={handleAddButtonClick(context.layersManager)}
                 disabled={title === '' || selected.length === 0}
               >
-                {context.getLocalizedText('wmsLoader.add', 'Add selected')}
+                {translate('wmsLoader.add', 'Add selected')}
               </button>
             </React.Fragment>
           )}

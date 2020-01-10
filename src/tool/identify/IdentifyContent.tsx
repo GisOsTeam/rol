@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from '../hook/useIdentify';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
-import { DisplayedFeaturesType, FeatureTable } from '../featureTable';
+import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTable';
 import { useDrawSource } from '../hook/useDrawSource';
 import Style from 'ol/style/Style';
 import Fill from 'ol/style/Fill';

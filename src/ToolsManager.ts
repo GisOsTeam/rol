@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { BaseTool, IBaseToolProps } from './tool';
+import { BaseTool, IBaseToolProps } from './tool/BaseTool';
 import { jsonEqual } from '@gisosteam/aol/utils';
-import { BaseContainer } from './container';
+import { BaseContainer } from './container/BaseContainer';
 
 export type toolElementStatus = null | 'react' | 'ext' | 'del';
 

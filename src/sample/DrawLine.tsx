@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBaseButtonToolProps, withBaseButtonTool } from '../tool';
+import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
 import { useDrawSource } from '../tool/hook/useDrawSource';
 import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';

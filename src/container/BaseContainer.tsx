@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IRolContext, rolContext } from '../RolContext';
-import { BaseTool } from '../tool';
+import { BaseTool } from '../tool/BaseTool';
 
 export interface IBaseContainerProps {
   /**

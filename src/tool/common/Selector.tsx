@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext } from '../../RolContext';
+import { useTranslate } from '../hook/useTranslate';
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ export const Selector = (props: IFileSelectorProps) => {
   });
 
   const [selectorType, setSelectorType] = React.useState<ISelectorType | null>(null);
+  const translate = useTranslate();
 
   const className = `${props.className ? props.className : 'file-selector'}`;
 
@@ -64,7 +66,7 @@ export const Selector = (props: IFileSelectorProps) => {
               props.onTypeSelected(e);
             }}
           >
-            <option value="">{context.getLocalizedText('selector.type', 'Select type')}</option>
+            <option value="">{translate('selector.type', 'Select type')}</option>
             {props.selectorTypes.map(selectorType => {
               return (
                 <option key={selectorType.type} value={selectorType.type}>
@@ -83,9 +85,7 @@ export const Selector = (props: IFileSelectorProps) => {
                 accept={selectorType.type}
               />
               <DropZone>
-                <DropZoneText>
-                  {context.getLocalizedText('selector.dropzone', 'Drop file here or click to upload.')}
-                </DropZoneText>
+                <DropZoneText>{translate('selector.dropzone', 'Drop file here or click to upload.')}</DropZoneText>
               </DropZone>
             </div>
           )}

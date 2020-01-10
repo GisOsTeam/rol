@@ -11,10 +11,15 @@ import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
-import { Toc, ScaleLine, PanZoom, LayerLoader, Identify } from '../tool';
-import { Image, Tile } from '../layer';
+import { Toc } from '../tool/Toc';
+import { ScaleLine } from '../tool/ScaleLine';
+import { PanZoom } from '../tool/PanZoom';
+import { LayerLoader } from '../tool/LayerLoader';
+import { Identify } from '../tool/Identify';
+import { Image } from '../layer/Image';
+import { Tile } from '../layer/Tile';
 import { Projection } from '../Projection';
-import { Zone } from '../container';
+import { Zone } from '../container/Zone';
 import { ShowSnapshot } from './ShowSnapshot';
 import { DrawLine } from './DrawLine';
 

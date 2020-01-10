@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IBaseWindowToolProps, BaseWindowTool } from '../tool';
+import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
 import { IRolContext, rolContext } from '../RolContext';
 
 const Container = styled.div`

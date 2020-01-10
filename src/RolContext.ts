@@ -3,6 +3,7 @@ import OlMap from 'ol/Map';
 import OlGroupLayer from 'ol/layer/Group';
 import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
+import { Translate } from './Translate';
 
 // Rol context interface
 export interface IRolContext {
@@ -23,9 +24,9 @@ export interface IRolContext {
    */
   toolsManager: ToolsManager;
   /**
-   * Get localized text
+   * Translate
    */
-  getLocalizedText: (code: string, defaultText: string, data?: { [key: string]: string }) => string;
+  translate: Translate;
 }
 
 // Rol context
@@ -34,7 +35,7 @@ export const rolContext = React.createContext<IRolContext>({
   olGroup: null,
   layersManager: null,
   toolsManager: null,
-  getLocalizedText: (code: string, defaultText: string, data?: { [key: string]: string }) => {
+  translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;
   }
 });

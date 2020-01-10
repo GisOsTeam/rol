@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool';
+import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool/BaseWindowTool';
 
 export const CounterWindowFunction = withBaseWindowTool(
   // Content

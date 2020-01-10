@@ -230,7 +230,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
             olGroup: this.olMap.getLayerGroup(),
             layersManager: this.layersManager,
             toolsManager: this.toolsManager,
-            getLocalizedText: (code: string, defaultText: string, data?: { [key: string]: string }) => {
+            translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
               return defaultText;
             }
           }}

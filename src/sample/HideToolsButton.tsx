@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBaseButtonToolProps, BaseButtonTool } from '../tool';
+import { IBaseButtonToolProps, BaseButtonTool } from '../tool/BaseButtonTool';
 
 export interface IHideToolsButtonProps extends IBaseButtonToolProps {
   hideTools: boolean;

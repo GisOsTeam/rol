@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBaseWindowToolProps, BaseWindowTool } from '../tool';
+import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
 
 export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
   public static defaultProps = {

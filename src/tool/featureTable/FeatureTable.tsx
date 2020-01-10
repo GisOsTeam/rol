@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { IIdentifyResponseFeatures } from '../hook/useIdentify';
 import { Feature, getUid } from 'ol';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
-import { rolContext } from '../../RolContext';
 
 const Container = styled.div`
   display: flex;

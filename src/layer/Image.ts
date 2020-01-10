@@ -1,16 +1,16 @@
 import * as React from 'react';
 import OlImageLayer from 'ol/layer/Image';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
-import { IImage } from '@gisosteam/aol/source/IImage';
+import { Image as ImageSource } from '@gisosteam/aol/source/Image';
 
 export interface IImageProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: IImage;
+  source: ImageSource;
 }
 
-export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, IImage> {
+export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, ImageSource> {
   public createOlLayer(): OlImageLayer {
     return new OlImageLayer();
   }
@@ -22,7 +22,7 @@ export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, IImage> {
     }
   }
 
-  public setSource(source: IImage) {
+  public setSource(source: ImageSource) {
     if (source == null) {
       source = undefined;
     }

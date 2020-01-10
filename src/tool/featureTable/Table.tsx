@@ -3,20 +3,24 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border: blue solid 1px;
-  overflow-y: auto;
-  overflow-x: hidden;
   width: 350px;
+  overflow: hidden;
+  
+  div.scrollable-table {
+    max-height: 450px;
+    overflow-y: auto;
+  }
 
   table {
     border-collapse: collapse;
-  }
-
-  tr {
     width: 100%;
   }
-
-  td {
-    width: 100%;
+  
+  thead {
+    text-align: center
+    border-color: darkblue;
+    border-bottom-style: solid;
+    border-width: 1px;
   }
 
   tr.odd {
@@ -26,6 +30,10 @@ const Container = styled.div`
   tr.selected {
     background-color: rgba(115, 227, 241, 0.575);
   }
+
+  td.value-cell {
+    text-align: end
+  }
 `;
 
 export interface ITableFeature {
@@ -34,6 +42,7 @@ export interface ITableFeature {
 
 export interface ITableProps {
   feature: ITableFeature;
+  header?: string[];
   highlightedKeys?: number[];
   onClickRow?: (key: string, value: string, index?: number, event?: React.MouseEvent) => void;
 }
@@ -59,7 +68,7 @@ export function objectToITableFeature(inObject: { [key: string]: any }): ITableF
   return featureSummary;
 }
 
-export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: ITableProps) => {
+export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedKeys }: ITableProps) => {
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
 
@@ -85,9 +94,32 @@ export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: I
     rows = [...rows, ...htmlElems];
   });
 
+  const renderHeader = () => {
+    if (header && header.length > 2) {
+      console.error("Table component doesn't support more than 2 header columns");
+      return;
+    }
+    if (header) {
+      const headContent: JSX.Element[] = [];
+      header.forEach((columnLabel, id) => {
+        headContent.push(
+          <th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>
+            {columnLabel}
+          </th>
+        );
+      });
+      return <thead>{headContent}</thead>;
+    }
+  };
+
   return (
     <Container>
-      <tbody>{rows}</tbody>
+      <table>{renderHeader()}</table>
+      <div className="scrollable-table">
+        <table>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
     </Container>
   );
 };

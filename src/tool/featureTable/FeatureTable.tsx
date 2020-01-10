@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { IIdentifyResponseFeatures } from '../hook/useIdentify';
 import { Feature, getUid } from 'ol';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
+import { rolContext } from '../../RolContext';
 
 const Container = styled.div`
   display: flex;
-  max-height: 500px;
 `;
 
 type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
@@ -21,10 +21,10 @@ export interface IFeatureTableProps {
 export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
 
-  const layerNames = Object.keys(props.features);
+  const layerUIDs = Object.keys(props.features);
 
   React.useEffect(() => {
-    const firstKey: string = layerNames[0];
+    const firstKey: string = layerUIDs[0];
     const firstFeatures: Feature[] = props.features[firstKey] ? [props.features[firstKey][0]] : [];
     if (props.onChangeDisplayedFeature && firstFeatures.length > 0) {
       props.onChangeDisplayedFeature(firstFeatures);
@@ -46,12 +46,13 @@ export const FeatureTable = (props: IFeatureTableProps) => {
         ...feature.getProperties()
       };
       const displayedFeat = objectToITableFeature(customFeat);
-      return <Table feature={displayedFeat} key={`${featureIndex}-${feature.getId()}`} />;
+
+      return <Table feature={displayedFeat} header={['Details']} key={`${featureIndex}-${feature.getId()}`} />;
     });
     return htmlEntities;
   };
 
-  const isEmpty = layerNames.length > 0 ? false : true;
+  const isEmpty = layerUIDs.length > 0 ? false : true;
   if (isEmpty) {
     return <Container>No data to display</Container>;
   }
@@ -59,7 +60,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const featureSummary: ITableFeature = {};
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
-  layerNames.forEach(layerName => {
+  layerUIDs.forEach(layerName => {
     if (!featureSummary[layerName]) {
       featureSummary[layerName] = [];
     }
@@ -83,7 +84,12 @@ export const FeatureTable = (props: IFeatureTableProps) => {
 
   return (
     <Container>
-      <Table feature={featureSummary} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
+      <Table
+        feature={featureSummary}
+        header={['Layer', 'Feature ID']}
+        onClickRow={onClickTab}
+        highlightedKeys={highlightedKeys}
+      />
       {renderContent()}
     </Container>
   );

@@ -47,7 +47,8 @@ export const FeatureTable = (props: IFeatureTableProps) => {
         ...feature.getProperties()
       };
       const displayedFeat = objectToITableFeature(customFeat);
-      return <Table feature={displayedFeat} key={`${featureIndex}-${feature.getId()}`} />;
+
+      return <Table feature={displayedFeat} header={['Details']} key={`${featureIndex}-${feature.getId()}`} />;
     });
     return htmlEntities;
   };
@@ -84,7 +85,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
 
   return (
     <Container>
-      <Table feature={featureSummary} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
+      <Table feature={featureSummary} header={['Layer', 'Feature ID']} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
       {renderContent()}
     </Container>
   );

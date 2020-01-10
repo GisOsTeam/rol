@@ -49,10 +49,11 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IIdentifyResponseFeatures =  {};
-      Object.keys(identifyResp.features).forEach((layerUid) => {
-        const layerElement = layersManager.getLayerElementByUID(layerUid);
-        const name = layerElement ? layerElement.reactElement.props.name : layerUid;
-        newFeatures[name] = identifyResp.features[layerUid];
+      Object.keys(identifyResp.features).forEach((layerElementUid) => {
+        const layerElement = layersManager.getLayerElementByUID(layerElementUid);
+        const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
+        const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
+        newFeatures[name] = identifyResp.features[layerElementUid];
       });
       setFeatures(newFeatures);
     }

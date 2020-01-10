@@ -82,7 +82,8 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile uid="UID -- Topp States" source={toppStateSource} name="Topp States" />
-        <Image uid="UID -- Highways" source={highways} name="Highways " />
+        <Image uid="UID -- Highways" source={highways} name="Highways"/>
+        {/* <Image uid="UID -- Highways" source={highways} /> */}
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>

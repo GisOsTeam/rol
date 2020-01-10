@@ -3,14 +3,21 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border: blue solid 1px;
+  width: 350px;
   overflow-y: auto;
   overflow-x: hidden;
-  width: 350px;
-
+  
   table {
     border-collapse: collapse;
   }
-
+  
+  thead {
+    text-align: center
+    border-color: darkblue;
+    border-bottom-style: solid;
+    border-width: 1px;
+  }
+  
   tr {
     width: 100%;
   }
@@ -34,6 +41,7 @@ export interface ITableFeature {
 
 export interface ITableProps {
   feature: ITableFeature;
+  header?: string[];
   highlightedKeys?: number[];
   onClickRow?: (key: string, value: string, index?: number, event?: React.MouseEvent) => void;
 }
@@ -59,7 +67,7 @@ export function objectToITableFeature(inObject: { [key: string]: any }): ITableF
   return featureSummary;
 }
 
-export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: ITableProps) => {
+export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedKeys }: ITableProps) => {
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
 
@@ -85,9 +93,26 @@ export const Table: React.FC<any> = ({ feature, onClickRow, highlightedKeys }: I
     rows = [...rows, ...htmlElems];
   });
 
+  const renderHeader = () => {
+    if (header && header.length > 2) {
+      console.error("Table component doesn't support more than 2 header columns")
+      return;
+    }
+    if (header) {
+      const headContent: JSX.Element[] = [];
+      header.forEach((columnLabel, id) => {
+        headContent.push(<th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>{columnLabel}</th>);
+      });
+      return (<thead>{headContent}</thead>);
+    }
+  };
+
   return (
     <Container>
-      <tbody>{rows}</tbody>
+      <table>
+        {renderHeader()}
+        <tbody>{rows}</tbody>
+      </table>
     </Container>
   );
 };

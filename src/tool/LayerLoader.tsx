@@ -11,6 +11,11 @@ export interface ILayerLoaderProps extends IBaseWindowToolProps {
   gisProxyUrl?: string;
 }
 
-export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(LayerLoaderContent, LayerLoaderHeader, LayerLoaderButton, {
-  className: 'layerLoader'
-});
+export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(
+  LayerLoaderContent,
+  LayerLoaderHeader,
+  LayerLoaderButton,
+  {
+    className: 'layerLoader'
+  }
+);

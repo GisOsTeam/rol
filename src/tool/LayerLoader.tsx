@@ -14,8 +14,6 @@ const Container = styled.div`
   margin: 2px;
 `;
 
-export interface ILayerLoaderProps extends Omit<IBaseLayerLoaderProps, 'selectors'> {}
-
 export interface IBaseLayerLoaderProps extends IBaseWindowToolProps {
   /**
    * Class name.
@@ -27,7 +25,7 @@ export interface IBaseLayerLoaderProps extends IBaseWindowToolProps {
   gisProxyUrl?: string;
 }
 
-export interface ILayerLoaderState extends IBaseWindowToolState {
+export interface IBaseLayerLoaderState extends IBaseWindowToolState {
   /**
    * Type.
    */
@@ -38,7 +36,7 @@ export interface ILayerLoaderState extends IBaseWindowToolState {
   file: File;
 }
 
-export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderProps, ILayerLoaderState> {
+export abstract class BaseLayerLoader<P extends IBaseLayerLoaderProps, S extends IBaseLayerLoaderState> extends BaseWindowTool<P, S> {
   public static DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
     {
       type: '.kml',
@@ -57,9 +55,9 @@ export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderPro
     }
   ];
   public abstract selectors: ISelectorType[];
-  constructor(props: IBaseLayerLoaderProps) {
+  constructor(props: P) {
     super(props);
-    this.state = {} as Readonly<ILayerLoaderState>;
+    this.state = {} as Readonly<S>;
   }
 
   public handleTypeSelectorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,7 +114,7 @@ export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderPro
   }
 }
 
-export class LayerLoader extends BaseLayerLoader {
+export class LayerLoader extends BaseLayerLoader<IBaseLayerLoaderProps, IBaseLayerLoaderState> {
   public selectors: ISelectorType[] = [
     ...BaseLayerLoader.DEFAULT_LAYER_LOADER_SELECTORS,
     {

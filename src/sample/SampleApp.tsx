@@ -77,7 +77,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
             new OlView({
               center: [490000, 6800000],
               zoom: 5,
-              projection: 'EPSG:2154'
+              projection: 'EPSG:3857'
             })
           );
         }}

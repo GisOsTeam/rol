@@ -37,10 +37,13 @@ export interface ISelectorType {
 
 export interface IFileSelectorProps {
   selectorTypes: ISelectorType[];
+  
+  /**
+   * Props Transferred to content
+   */
   selectorsProps?: any;
   className?: string;
   onTypeSelected: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
-  onFileSelected: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Selector = (props: IFileSelectorProps) => {
@@ -54,11 +57,7 @@ export const Selector = (props: IFileSelectorProps) => {
 
   const className = `${props.className ? props.className : 'file-selector'}`;
 
-  const inputFileRef = React.createRef<HTMLInputElement>();
-
   return (
-    <rolContext.Consumer>
-      {context => (
         <Container className={className}>
           <select
             className="form-control"
@@ -77,23 +76,7 @@ export const Selector = (props: IFileSelectorProps) => {
               );
             })}
           </select>
-          {currentSelectorType && currentSelectorType.showFileDropZone === true && (
-            <div onClick={() => inputFileRef.current.click()}>
-              <input
-                ref={inputFileRef}
-                type="file"
-                style={{ display: 'none' }}
-                onChange={props.onFileSelected}
-                accept={currentSelectorType.type}
-              />
-              <DropZone>
-                <DropZoneText>{translate('selector.dropzone', 'Drop file here or click to upload.')}</DropZoneText>
-              </DropZone>
-            </div>
-          )}
           {currentSelectorType && currentSelectorType.content({ ...props.selectorsProps })}
         </Container>
-      )}
-    </rolContext.Consumer>
   );
 };

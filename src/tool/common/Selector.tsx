@@ -49,7 +49,7 @@ export const Selector = (props: IFileSelectorProps) => {
     selectorTypeMap[selectorType.type] = selectorType;
   });
 
-  const [selectorType, setSelectorType] = React.useState<ISelectorType | null>(null);
+  const [currentSelectorType, setCurrentSelectorType] = React.useState<ISelectorType | null>(null);
   const translate = useTranslate();
 
   const className = `${props.className ? props.className : 'file-selector'}`;
@@ -62,9 +62,9 @@ export const Selector = (props: IFileSelectorProps) => {
         <Container className={className}>
           <select
             className="form-control"
-            value={selectorType ? selectorType.type : ''}
+            value={currentSelectorType ? currentSelectorType.type : ''}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setSelectorType(selectorTypeMap[e.currentTarget.value]);
+              setCurrentSelectorType(selectorTypeMap[e.currentTarget.value]);
               props.onTypeSelected(e);
             }}
           >
@@ -77,21 +77,21 @@ export const Selector = (props: IFileSelectorProps) => {
               );
             })}
           </select>
-          {selectorType && selectorType.showFileDropZone == true && (
+          {currentSelectorType && currentSelectorType.showFileDropZone === true && (
             <div onClick={() => inputFileRef.current.click()}>
               <input
                 ref={inputFileRef}
                 type="file"
                 style={{ display: 'none' }}
                 onChange={props.onFileSelected}
-                accept={selectorType.type}
+                accept={currentSelectorType.type}
               />
               <DropZone>
                 <DropZoneText>{translate('selector.dropzone', 'Drop file here or click to upload.')}</DropZoneText>
               </DropZone>
             </div>
           )}
-          {selectorType && selectorType.content({ ...props.selectorsProps })}
+          {currentSelectorType && currentSelectorType.content({ ...props.selectorsProps })}
         </Container>
       )}
     </rolContext.Consumer>

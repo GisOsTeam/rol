@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext } from '../../RolContext';
 import { useTranslate } from '../hook/useTranslate';
+import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 
 const Container = styled.div`
   display: flex;
@@ -30,20 +31,19 @@ const DropZoneText = styled.span`
 export interface ISelectorType {
   type: string;
   description: string;
-  // TODO: Del & move fileDropZone to content
-  showFileDropZone?: boolean;
   content?: (props?: unknown) => React.ReactNode;
 }
 
-export interface IFileSelectorProps {
+export interface IFileSelectorProps extends IFunctionBaseWindowToolProps {
   selectorTypes: ISelectorType[];
 
   /**
    * Props Transferred to content
    */
   selectorsProps?: any;
+
   className?: string;
-  onTypeSelected: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
+  onTypeSelected?: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const Selector = (props: IFileSelectorProps) => {
@@ -64,7 +64,9 @@ export const Selector = (props: IFileSelectorProps) => {
         value={currentSelectorType ? currentSelectorType.type : ''}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           setCurrentSelectorType(selectorTypeMap[e.currentTarget.value]);
-          props.onTypeSelected(e);
+          if (props.onTypeSelected) {
+            props.onTypeSelected(e);
+          }
         }}
       >
         <option value="">{translate('selector.type', 'Select type')}</option>

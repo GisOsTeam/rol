@@ -4,7 +4,7 @@ import { LayerLoaderContent, ILayerLoaderContentProps } from './layerLoader/Laye
 import { LayerLoaderHeader } from './layerLoader/LayerLoaderHeader';
 import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 import { WmsLoader } from './common/WmsLoader';
-import { ISelectorType } from './common/Selector';
+import { ISelectorType, Selector, IFileSelectorProps } from './common/Selector';
 import { KMZFileLoader, KMLFileLoader, ZipFileLoader } from './common/loaders/GenericLayerFileLoader';
 
 export type ILayerLoaderProps = IBaseWindowToolProps & Partial<ILayerLoaderContentProps>;
@@ -28,15 +28,16 @@ export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   {
     type: 'WMS',
     description: 'Web Map Service',
-    content: props => <WmsLoader {...props} />
+    content: (props) => <WmsLoader {...props} />
   }
 ];
+
 export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(
   LayerLoaderContent,
   LayerLoaderHeader,
   LayerLoaderButton,
   {
     className: 'layerLoader',
-    selectors: DEFAULT_LAYER_LOADER_SELECTORS
+    selectorTypes: DEFAULT_LAYER_LOADER_SELECTORS
   }
 );

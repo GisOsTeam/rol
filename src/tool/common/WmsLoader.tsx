@@ -93,8 +93,6 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
     });
   };
 
-  console.log(props);
-
   return (
     <rolContext.Consumer>
       {context => (

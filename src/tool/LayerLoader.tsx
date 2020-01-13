@@ -36,7 +36,10 @@ export interface IBaseLayerLoaderState extends IBaseWindowToolState {
   file: File;
 }
 
-export abstract class BaseLayerLoader<P extends IBaseLayerLoaderProps, S extends IBaseLayerLoaderState> extends BaseWindowTool<P, S> {
+export abstract class BaseLayerLoader<
+  P extends IBaseLayerLoaderProps,
+  S extends IBaseLayerLoaderState
+> extends BaseWindowTool<P, S> {
   public static DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
     {
       type: '.kml',

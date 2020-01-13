@@ -354,7 +354,7 @@ export function withBaseWindowTool<P extends IBaseWindowToolProps>(
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
     | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
-  defaultProps?: Partial<IBaseWindowToolProps>
+  defaultProps?: Partial<P>
 ) {
   const tool = class extends BaseWindowTool<P, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {

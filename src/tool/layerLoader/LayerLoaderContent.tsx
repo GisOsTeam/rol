@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
-import { Selector } from '../common/Selector';
+import { Selector, ISelectorType } from '../common/Selector';
 import { WmsLoader } from '../common/WmsLoader';
 import { loadKML } from '@gisosteam/aol/load/kml';
 import { loadKMZ } from '@gisosteam/aol/load/kmz';
@@ -22,6 +22,10 @@ export interface ILayerLoaderContentProps extends IFunctionBaseWindowToolProps {
    * Fixed GIS proxy url
    */
   gisProxyUrl?: string;
+  /**
+   * 
+   */
+  selectors: ISelectorType[];
 }
 
 export function LayerLoaderContent(props: ILayerLoaderContentProps) {
@@ -72,16 +76,7 @@ export function LayerLoaderContent(props: ILayerLoaderContentProps) {
     <Container className={`${props.className}`}>
       {!file && (
         <Selector
-          selectorTypes={[
-            { type: '.kml', description: 'KML (.kml)', showFileDropZone: true },
-            { type: '.kmz', description: 'KMZ (.kmz)', showFileDropZone: true },
-            { type: '.zip', description: 'Zipped Shapefile (.zip)', showFileDropZone: true },
-            {
-              type: 'WMS',
-              description: 'Web Map Service',
-              content: <WmsLoader gisProxyUrl={props.gisProxyUrl} />
-            }
-          ]}
+          selectorTypes={props.selectors}
           onFileSelected={handleFileSelectorChange}
           onTypeSelected={handleTypeSelectorChange}
         />

@@ -30,6 +30,7 @@ const DropZoneText = styled.span`
 export interface ISelectorType {
   type: string;
   description: string;
+  // TODO: Del & move fileDropZone to content
   showFileDropZone?: boolean;
   content?: React.ReactNode;
 }

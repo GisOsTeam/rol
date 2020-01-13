@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { rolContext } from '../../RolContext';
 import { useTranslate } from '../hook/useTranslate';
 
 const Container = styled.div`
@@ -8,90 +7,53 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const DropZone = styled.div`
-  width: 300px;
-  height: 150px;
-  line-height: 150px;
-  border: 2px dashed #0087f7;
-  border-radius: 5px;
-  background: white;
-  cursor: pointer;
-  color: #646c7f;
-  text-align: center;
-  vertical-align: middle;
-`;
-
-const DropZoneText = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-`;
-
 export interface ISelectorType {
   type: string;
   description: string;
-  showFileDropZone?: boolean;
-  content?: React.ReactNode;
+  options?: any;
+  content: string | React.FunctionComponent<any> | React.ComponentClass<any, any>;
 }
 
-export interface IFileSelectorProps {
+export interface ISelectorProps {
   selectorTypes: ISelectorType[];
+
   className?: string;
-  onTypeSelected: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
-  onFileSelected: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  onTypeSelected?: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const Selector = (props: IFileSelectorProps) => {
+export const Selector = (props: ISelectorProps) => {
   const selectorTypeMap: { [type: string]: ISelectorType } = {};
-  props.selectorTypes.forEach(selectorType => {
+  props.selectorTypes.forEach((selectorType: ISelectorType) => {
     selectorTypeMap[selectorType.type] = selectorType;
   });
 
-  const [selectorType, setSelectorType] = React.useState<ISelectorType | null>(null);
+  const [currentSelectorType, setCurrentSelectorType] = React.useState<ISelectorType | null>(null);
   const translate = useTranslate();
 
   const className = `${props.className ? props.className : 'file-selector'}`;
 
-  const inputFileRef = React.createRef<HTMLInputElement>();
-
   return (
-    <rolContext.Consumer>
-      {context => (
-        <Container className={className}>
-          <select
-            className="form-control"
-            value={selectorType ? selectorType.type : ''}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setSelectorType(selectorTypeMap[e.currentTarget.value]);
-              props.onTypeSelected(e);
-            }}
-          >
-            <option value="">{translate('selector.type', 'Select type')}</option>
-            {props.selectorTypes.map(selectorType => {
-              return (
-                <option key={selectorType.type} value={selectorType.type}>
-                  {selectorType.description}
-                </option>
-              );
-            })}
-          </select>
-          {selectorType && selectorType.showFileDropZone == true && (
-            <div onClick={() => inputFileRef.current.click()}>
-              <input
-                ref={inputFileRef}
-                type="file"
-                style={{ display: 'none' }}
-                onChange={props.onFileSelected}
-                accept={selectorType.type}
-              />
-              <DropZone>
-                <DropZoneText>{translate('selector.dropzone', 'Drop file here or click to upload.')}</DropZoneText>
-              </DropZone>
-            </div>
-          )}
-          {selectorType && selectorType.content}
-        </Container>
-      )}
-    </rolContext.Consumer>
+    <Container className={className}>
+      <select
+        className="form-control"
+        value={currentSelectorType ? currentSelectorType.type : ''}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          setCurrentSelectorType(selectorTypeMap[e.currentTarget.value]);
+          if (props.onTypeSelected) {
+            props.onTypeSelected(e);
+          }
+        }}
+      >
+        <option value="">{translate('selector.type', 'Select type')}</option>
+        {props.selectorTypes.map((selectorType: ISelectorType) => {
+          return (
+            <option key={selectorType.type} value={selectorType.type}>
+              {selectorType.description}
+            </option>
+          );
+        })}
+      </select>
+      {currentSelectorType && React.createElement(currentSelectorType.content, currentSelectorType.options)}
+    </Container>
   );
 };

@@ -77,7 +77,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
             new OlView({
               center: [490000, 6800000],
               zoom: 5,
-              projection: 'EPSG:2154'
+              projection: 'EPSG:3857'
             })
           );
         }}
@@ -100,7 +100,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <CounterButtonFunction uid="CounterButtonFunction" />
               <CounterWindow uid="CounterWindow" />
               <CounterWindowFunction uid="CounterWindowFunction" />
-              <LayerLoader uid="LayerLoader" gisProxyUrl="http://localhost:8181" />
+              <LayerLoader uid="LayerLoader" />
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />
               <Identify uid="IdentifyTool" />

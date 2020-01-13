@@ -77,7 +77,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
 
   const handleAddButtonClick = (layersManager: LayersManager) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const types: IFeatureType<string>[] = [];
+    const types: Array<IFeatureType<string>> = [];
     selected.forEach((service: string) => {
       types.push({ id: service });
     });
@@ -103,7 +103,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                   'Enter WMS Server URL* (example: http://172.20.0.3:8080/geoserver/wms)'
                 )}
               </label>
-              <input id="url" type="text" value={serverUrl} onChange={handleUrlChange}></input>
+              <input id="url" type="text" value={serverUrl} onChange={handleUrlChange} />
               {(props.gisProxyUrl == null || props.gisProxyUrl === '') && (
                 <React.Fragment>
                   <label htmlFor="gisProxyUrl">
@@ -112,7 +112,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                       'Enter Gis Proxy URL (example: http://localhost:8181)'
                     )}
                   </label>
-                  <input id="gisProxyUrl" type="text" value={gisProxyUrl} onChange={handleGisProxyUrlChange}></input>
+                  <input id="gisProxyUrl" type="text" value={gisProxyUrl} onChange={handleGisProxyUrlChange} />
                 </React.Fragment>
               )}
               <button onClick={handleButtonClick} disabled={serverUrl === ''}>
@@ -125,12 +125,12 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
               <label htmlFor="title">
                 {context.getLocalizedText('wmsLoader.title', 'Enter title* (required, example: WMS service)')}
               </label>
-              <input id="title" type="text" value={title} onChange={handleTitleChange}></input>
+              <input id="title" type="text" value={title} onChange={handleTitleChange} />
               <LayerContainer>
                 <label>{context.getLocalizedText('wmsLoader.selection', 'Select layers*')}</label>
                 {capabilities.Capability.Layer.Layer.map((layer: any) => {
                   return (
-                    <li>
+                    <li key={layer.Name}>
                       <input
                         key={layer.Name}
                         id={layer.Name}

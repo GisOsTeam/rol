@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseWindowToolProps, BaseWindowTool, IBaseWindowToolState } from './BaseWindowTool';
-import { Selector } from './common/Selector';
+import { Selector, ISelectorType } from './common/Selector';
 import { WmsLoader } from './common/WmsLoader';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { Vector } from '../layer';
@@ -14,7 +14,9 @@ const Container = styled.div`
   margin: 2px;
 `;
 
-export interface ILayerLoaderProps extends IBaseWindowToolProps {
+export interface ILayerLoaderProps extends Omit<IBaseLayerLoaderProps, 'selectors'> {}
+
+export interface IBaseLayerLoaderProps extends IBaseWindowToolProps {
   /**
    * Class name.
    */
@@ -36,8 +38,26 @@ export interface ILayerLoaderState extends IBaseWindowToolState {
   file: File;
 }
 
-export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderState> {
-  constructor(props: ILayerLoaderProps) {
+export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderProps, ILayerLoaderState> {
+  public static DEFAULT_LAYER_LOADER_SELECTORS :  ISelectorType[] = [
+    {
+        type: '.kml',
+        description: 'KML (.kml)',
+        showFileDropZone: true
+    },
+    {
+        type: '.kmz',
+        description: 'KMZ (.kmz)',
+        showFileDropZone: true
+    },
+    {
+        type: '.zip',
+        description: 'Zipped Shapefile (.zip)',
+        showFileDropZone: true
+    }
+  ];
+  public abstract selectors: ISelectorType[];
+  constructor(props: IBaseLayerLoaderProps) {
     super(props);
     this.state = {} as Readonly<ILayerLoaderState>;
   }
@@ -80,6 +100,33 @@ export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderS
     this.setState({ file: null, type: null });
   };
 
+
+  public renderTool(): any {
+    return (
+      <Container className={`${this.props.className}`}>
+        {!this.state.file && (
+          <Selector
+            selectorTypes={this.selectors}
+            onFileSelected={this.handleFileSelectorChange}
+            onTypeSelected={this.handleTypeSelectorChange}
+          />
+        )}
+        {this.state.file && <span>{this.context.getLocalizedText('layerloader.loading', 'Loading...')}</span>}
+      </Container>
+    );
+  }
+}
+
+export class LayerLoader extends BaseLayerLoader {
+  public selectors: ISelectorType[]= [
+    ...BaseLayerLoader.DEFAULT_LAYER_LOADER_SELECTORS,
+    {
+        type: 'WMS',
+        description: 'Web Map Service',
+        content: (< WmsLoader gisProxyUrl = {this.props.gisProxyUrl}/>)
+    }
+  ];
+
   public renderHeaderContent(): React.ReactNode {
     const header = this.context.getLocalizedText('layerloader.title', 'Layer loader');
     return <span>{header}</span>;
@@ -88,29 +135,5 @@ export class LayerLoader extends BaseWindowTool<ILayerLoaderProps, ILayerLoaderS
   public renderOpenButtonContent(): React.ReactNode {
     const button = this.context.getLocalizedText('layerloader.title', 'Layer loader');
     return <span>{button}</span>;
-  }
-
-  public renderTool(): any {
-    return (
-      <Container className={`${this.props.className}`}>
-        {!this.state.file && (
-          <Selector
-            selectorTypes={[
-              { type: '.kml', description: 'KML (.kml)', showFileDropZone: true },
-              { type: '.kmz', description: 'KMZ (.kmz)', showFileDropZone: true },
-              { type: '.zip', description: 'Zipped Shapefile (.zip)', showFileDropZone: true },
-              {
-                type: 'WMS',
-                description: 'Web Map Service',
-                content: <WmsLoader gisProxyUrl={this.props.gisProxyUrl} />
-              }
-            ]}
-            onFileSelected={this.handleFileSelectorChange}
-            onTypeSelected={this.handleTypeSelectorChange}
-          />
-        )}
-        {this.state.file && <span>{this.context.getLocalizedText('layerloader.loading', 'Loading...')}</span>}
-      </Container>
-    );
   }
 }

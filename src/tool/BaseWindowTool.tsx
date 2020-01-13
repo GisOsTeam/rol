@@ -94,7 +94,7 @@ export interface IBaseWindowToolState {
   position: any;
 }
 
-export class BaseWindowTool<
+export abstract class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
 > extends BaseButtonTool<P, S> {
@@ -204,13 +204,9 @@ export class BaseWindowTool<
     this.close();
   };
 
-  public renderHeaderContent(): React.ReactNode {
-    return null;
-  }
+  public abstract renderHeaderContent(): React.ReactNode;
 
-  public renderOpenButtonContent(): React.ReactNode {
-    return null;
-  }
+  public abstract renderOpenButtonContent(): React.ReactNode;
 
   public render(): React.ReactNode {
     let style;

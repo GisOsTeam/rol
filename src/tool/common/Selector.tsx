@@ -1,8 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { rolContext } from '../../RolContext';
 import { useTranslate } from '../hook/useTranslate';
-import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 
 const Container = styled.div`
   display: flex;
@@ -13,9 +11,7 @@ export interface ISelectorType {
   type: string;
   description: string;
   options?: any;
-  content: string
-  | React.FunctionComponent<any>
-  | React.ComponentClass<any, any>;
+  content: string | React.FunctionComponent<any> | React.ComponentClass<any, any>;
 }
 
 export interface ISelectorProps {

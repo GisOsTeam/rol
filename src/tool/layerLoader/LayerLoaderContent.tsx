@@ -7,11 +7,6 @@ const Container = styled.div`
 `;
 
 export interface ILayerLoaderContentProps extends IFunctionBaseWindowToolProps {
-  /**
-   * Fixed GIS proxy url
-   */
-  gisProxyUrl?: string;
-
   selectorTypes: ISelectorType[];
 }
 

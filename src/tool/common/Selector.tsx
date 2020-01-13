@@ -37,7 +37,7 @@ export interface ISelectorType {
 
 export interface IFileSelectorProps {
   selectorTypes: ISelectorType[];
-  
+
   /**
    * Props Transferred to content
    */
@@ -58,25 +58,25 @@ export const Selector = (props: IFileSelectorProps) => {
   const className = `${props.className ? props.className : 'file-selector'}`;
 
   return (
-        <Container className={className}>
-          <select
-            className="form-control"
-            value={currentSelectorType ? currentSelectorType.type : ''}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setCurrentSelectorType(selectorTypeMap[e.currentTarget.value]);
-              props.onTypeSelected(e);
-            }}
-          >
-            <option value="">{translate('selector.type', 'Select type')}</option>
-            {props.selectorTypes.map((selectorType: ISelectorType) => {
-              return (
-                <option key={selectorType.type} value={selectorType.type}>
-                  {selectorType.description}
-                </option>
-              );
-            })}
-          </select>
-          {currentSelectorType && currentSelectorType.content({ ...props.selectorsProps })}
-        </Container>
+    <Container className={className}>
+      <select
+        className="form-control"
+        value={currentSelectorType ? currentSelectorType.type : ''}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          setCurrentSelectorType(selectorTypeMap[e.currentTarget.value]);
+          props.onTypeSelected(e);
+        }}
+      >
+        <option value="">{translate('selector.type', 'Select type')}</option>
+        {props.selectorTypes.map((selectorType: ISelectorType) => {
+          return (
+            <option key={selectorType.type} value={selectorType.type}>
+              {selectorType.description}
+            </option>
+          );
+        })}
+      </select>
+      {currentSelectorType && currentSelectorType.content({ ...props.selectorsProps })}
+    </Container>
   );
 };

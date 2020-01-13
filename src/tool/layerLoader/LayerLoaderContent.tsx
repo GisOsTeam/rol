@@ -11,16 +11,12 @@ export interface ILayerLoaderContentProps extends IFileSelectorProps {
    * Fixed GIS proxy url
    */
   gisProxyUrl?: string;
-
 }
 
 export function LayerLoaderContent(props: ILayerLoaderContentProps) {
   return (
     <Container className={`${props.className}`}>
-      <Selector
-        selectorsProps={{ gisProxyUrl: props.gisProxyUrl }}
-        {...props}
-      />
+      <Selector selectorsProps={{ gisProxyUrl: props.gisProxyUrl }} {...props} />
     </Container>
   );
 }

@@ -23,7 +23,7 @@ export interface ILayerLoaderContentProps extends IFunctionBaseWindowToolProps {
    */
   gisProxyUrl?: string;
   /**
-   * 
+   *
    */
   selectors: ISelectorType[];
 }

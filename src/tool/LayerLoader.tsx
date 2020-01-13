@@ -6,7 +6,7 @@ import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 import { WmsLoader } from './common/WmsLoader';
 import { ISelectorType } from './common/Selector';
 
-export type ILayerLoaderProps = IBaseWindowToolProps & Partial<ILayerLoaderContentProps>
+export type ILayerLoaderProps = IBaseWindowToolProps & Partial<ILayerLoaderContentProps>;
 
 export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   { type: '.kml', description: 'KML (.kml)', showFileDropZone: true },

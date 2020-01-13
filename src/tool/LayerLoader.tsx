@@ -15,7 +15,7 @@ export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   {
     type: 'WMS',
     description: 'Web Map Service',
-    content: <WmsLoader gisProxyUrl="http://localhost:8181" />
+    content: (props) => <WmsLoader {...props} />
   }
 ];
 export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(

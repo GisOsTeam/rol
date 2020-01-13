@@ -100,7 +100,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <CounterButtonFunction uid="CounterButtonFunction" />
               <CounterWindow uid="CounterWindow" />
               <CounterWindowFunction uid="CounterWindowFunction" />
-              <LayerLoader uid="LayerLoader" />
+              <LayerLoader uid="LayerLoader" gisProxyUrl="http://localhost:8181"/>
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />
               <Identify uid="IdentifyTool" />

@@ -32,19 +32,20 @@ export interface ISelectorType {
   description: string;
   // TODO: Del & move fileDropZone to content
   showFileDropZone?: boolean;
-  content?: React.ReactNode;
+  content?: (props?: unknown) => React.ReactNode;
 }
 
 export interface IFileSelectorProps {
   selectorTypes: ISelectorType[];
+  selectorsProps?: any;
   className?: string;
   onTypeSelected: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onFileSelected: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Selector = (props: IFileSelectorProps) => {
+export const Selector = (props: IFileSelectorProps ) => {
   const selectorTypeMap: { [type: string]: ISelectorType } = {};
-  props.selectorTypes.forEach(selectorType => {
+  props.selectorTypes.forEach((selectorType: ISelectorType) => {
     selectorTypeMap[selectorType.type] = selectorType;
   });
 
@@ -68,7 +69,7 @@ export const Selector = (props: IFileSelectorProps) => {
             }}
           >
             <option value="">{translate('selector.type', 'Select type')}</option>
-            {props.selectorTypes.map(selectorType => {
+            {props.selectorTypes.map((selectorType: ISelectorType) => {
               return (
                 <option key={selectorType.type} value={selectorType.type}>
                   {selectorType.description}
@@ -90,7 +91,7 @@ export const Selector = (props: IFileSelectorProps) => {
               </DropZone>
             </div>
           )}
-          {selectorType && selectorType.content}
+          {selectorType && selectorType.content({ ...props.selectorsProps })}
         </Container>
       )}
     </rolContext.Consumer>

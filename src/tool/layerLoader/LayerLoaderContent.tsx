@@ -77,6 +77,7 @@ export function LayerLoaderContent(props: ILayerLoaderContentProps) {
       {!file && (
         <Selector
           selectorTypes={props.selectors}
+          selectorsProps={{gisProxyUrl: props.gisProxyUrl}}
           onFileSelected={handleFileSelectorChange}
           onTypeSelected={handleTypeSelectorChange}
         />

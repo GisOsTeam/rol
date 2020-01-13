@@ -29,6 +29,23 @@ const TitleBar = styled.div`
   user-select: none;
 `;
 
+const Button = styled.button`
+  margin: 0px;
+  padding: 0px;
+  border-radius:6px;
+	border:1px solid #dcdcdc;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+  background-color:#ffffff;
+  color:#444;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+  &:hover {
+    background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+    background-color:#f6f6f6;
+  }
+`;
+
 const CloseButton = styled.span`
   position: absolute;
   right: 14px;
@@ -97,7 +114,7 @@ export interface IBaseWindowToolState {
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-> extends BaseButtonTool<P, S> {
+  > extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -227,18 +244,30 @@ export class BaseWindowTool<
     const className = `${this.props.className}
       ${this.state.open ? `${this.props.className}-open` : `${this.props.className}-closed`}
       ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
-      ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-activated`}`;
+      ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
+    const openButtonClassName = `${this.props.className.split(/\s+/g)[0]}-open-button
+      ${this.state.open ? `${this.props.className.split(/\s+/g)[0]}-open-button-open` : `${this.props.className.split(/\s+/g)[0]}-open-button-closed`}
+      ${this.props.activated ? `${this.props.className.split(/\s+/g)[0]}-open-button-activated` : `${this.props.className.split(/\s+/g)[0]}-open-button-unactivated`}
+      ${this.props.disabled ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled` : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`}`;
+    const titleClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar
+      ${this.state.open ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open` : `${this.props.className.split(/\s+/g)[0]}-titlebar-closed`}
+      ${this.props.activated ? `${this.props.className.split(/\s+/g)[0]}-titlebar-activated` : `${this.props.className.split(/\s+/g)[0]}-titlebar-unactivated`}
+      ${this.props.disabled ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled` : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`}`;
+    const contentClassName = `${this.props.className.split(/\s+/g)[0]}-content
+      ${this.state.open ? `${this.props.className.split(/\s+/g)[0]}-content-open` : `${this.props.className.split(/\s+/g)[0]}-content-closed`}
+      ${this.props.activated ? `${this.props.className.split(/\s+/g)[0]}-content-activated` : `${this.props.className.split(/\s+/g)[0]}-content-unactivated`}
+      ${this.props.disabled ? `${this.props.className.split(/\s+/g)[0]}-content-disabled` : `${this.props.className.split(/\s+/g)[0]}-content-enabled`}`;
     const Drag: React.ComponentClass<any> = Draggable as any;
     let openButton = null;
     if (!this.props.hideOpenButton) {
       openButton = (
-        <button
-          className={`${this.props.className.split(/\s+/g)[0]}-open-button`}
+        <Button
+          className={openButtonClassName}
           title={this.props.buttonTitle}
           onClick={this.handleButtonClick}
         >
           {this.renderOpenButtonContent()}
-        </button>
+        </Button>
       );
     }
     let closeButton = null;
@@ -254,7 +283,7 @@ export class BaseWindowTool<
       <React.Fragment>
         {openButton}
         <Drag
-          handle={`.${this.props.className}-titlebar`}
+          handle={`.${this.props.className.split(/\s+/g)[0]}-titlebar`}
           onStart={this.start.bind(this)}
           bounds={this.state.bounds}
           defaultPosition={{ x: 0, y: 0 }}
@@ -266,11 +295,11 @@ export class BaseWindowTool<
             style={style}
             ref={ref => (this.windowElement = ref)}
           >
-            <TitleBar className={`${this.props.className}-titlebar`}>
+            <TitleBar className={titleClassName}>
               {this.renderHeaderContent()}
               {closeButton}
             </TitleBar>
-            <Content className={`${this.props.className}-content`}>{this.renderTool()}</Content>
+            <Content className={contentClassName}>{this.renderTool()}</Content>
           </Window>
         </Drag>
       </React.Fragment>
@@ -278,7 +307,7 @@ export class BaseWindowTool<
   }
 }
 
-export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState {}
+export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState { }
 
 export function withBaseWindowTool<P extends IBaseWindowToolProps>(
   component:

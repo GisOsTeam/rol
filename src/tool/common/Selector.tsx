@@ -43,7 +43,7 @@ export interface IFileSelectorProps {
   onFileSelected: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Selector = (props: IFileSelectorProps ) => {
+export const Selector = (props: IFileSelectorProps) => {
   const selectorTypeMap: { [type: string]: ISelectorType } = {};
   props.selectorTypes.forEach((selectorType: ISelectorType) => {
     selectorTypeMap[selectorType.type] = selectorType;

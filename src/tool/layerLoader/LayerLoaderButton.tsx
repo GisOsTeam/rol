@@ -15,5 +15,5 @@ const Container = styled.div`
 
 export function LayerLoaderButton(props: IFunctionBaseWindowToolProps) {
   const translate = useTranslate();
-  return <Container  title={translate('layerLoader.header', 'Layer loader')} />;
+  return <Container title={translate('layerLoader.header', 'Layer loader')} />;
 }

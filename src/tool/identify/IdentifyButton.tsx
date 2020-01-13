@@ -15,5 +15,5 @@ const Container = styled.div`
 
 export function IdentifyButton(props: IFunctionBaseWindowToolProps) {
   const translate = useTranslate();
-  return <Container  title={translate('identify.header', 'Identify')} />;
+  return <Container title={translate('identify.header', 'Identify')} />;
 }

@@ -39,21 +39,21 @@ export interface ILayerLoaderState extends IBaseWindowToolState {
 }
 
 export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderProps, ILayerLoaderState> {
-  public static DEFAULT_LAYER_LOADER_SELECTORS :  ISelectorType[] = [
+  public static DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
     {
-        type: '.kml',
-        description: 'KML (.kml)',
-        showFileDropZone: true
+      type: '.kml',
+      description: 'KML (.kml)',
+      showFileDropZone: true
     },
     {
-        type: '.kmz',
-        description: 'KMZ (.kmz)',
-        showFileDropZone: true
+      type: '.kmz',
+      description: 'KMZ (.kmz)',
+      showFileDropZone: true
     },
     {
-        type: '.zip',
-        description: 'Zipped Shapefile (.zip)',
-        showFileDropZone: true
+      type: '.zip',
+      description: 'Zipped Shapefile (.zip)',
+      showFileDropZone: true
     }
   ];
   public abstract selectors: ISelectorType[];
@@ -100,7 +100,6 @@ export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderPro
     this.setState({ file: null, type: null });
   };
 
-
   public renderTool(): any {
     return (
       <Container className={`${this.props.className}`}>
@@ -118,12 +117,12 @@ export abstract class BaseLayerLoader extends BaseWindowTool<IBaseLayerLoaderPro
 }
 
 export class LayerLoader extends BaseLayerLoader {
-  public selectors: ISelectorType[]= [
+  public selectors: ISelectorType[] = [
     ...BaseLayerLoader.DEFAULT_LAYER_LOADER_SELECTORS,
     {
-        type: 'WMS',
-        description: 'Web Map Service',
-        content: (< WmsLoader gisProxyUrl = {this.props.gisProxyUrl}/>)
+      type: 'WMS',
+      description: 'Web Map Service',
+      content: <WmsLoader gisProxyUrl={this.props.gisProxyUrl} />
     }
   ];
 

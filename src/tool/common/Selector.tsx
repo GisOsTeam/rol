@@ -9,44 +9,23 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const DropZone = styled.div`
-  width: 300px;
-  height: 150px;
-  line-height: 150px;
-  border: 2px dashed #0087f7;
-  border-radius: 5px;
-  background: white;
-  cursor: pointer;
-  color: #646c7f;
-  text-align: center;
-  vertical-align: middle;
-`;
-
-const DropZoneText = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-`;
-
 export interface ISelectorType {
   type: string;
   description: string;
-  content?: (props?: unknown) => React.ReactNode;
+  options?: any;
+  content: string
+  | React.FunctionComponent<any>
+  | React.ComponentClass<any, any>;
 }
 
-export interface IFileSelectorProps extends IFunctionBaseWindowToolProps {
+export interface ISelectorProps {
   selectorTypes: ISelectorType[];
-
-  /**
-   * Props Transferred to content
-   */
-  selectorsProps?: any;
 
   className?: string;
   onTypeSelected?: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const Selector = (props: IFileSelectorProps) => {
+export const Selector = (props: ISelectorProps) => {
   const selectorTypeMap: { [type: string]: ISelectorType } = {};
   props.selectorTypes.forEach((selectorType: ISelectorType) => {
     selectorTypeMap[selectorType.type] = selectorType;
@@ -78,7 +57,7 @@ export const Selector = (props: IFileSelectorProps) => {
           );
         })}
       </select>
-      {currentSelectorType && currentSelectorType.content({ ...props.selectorsProps })}
+      {currentSelectorType && React.createElement(currentSelectorType.content, currentSelectorType.options)}
     </Container>
   );
 };

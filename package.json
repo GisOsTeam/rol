@@ -1,10 +1,7 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "OpenLayers with React",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "module": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --host 0.0.0.0 --port 3000 --config webpack.dev.config.js --content-base src --hot --inline",
@@ -31,9 +28,9 @@
   "author": "Mathieu MAST",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
     "@types/jszip": "^3.1.7",
     "@types/ol": "^6.1.0",
     "@types/react": "^16.9.17",
@@ -41,9 +38,9 @@
     "@types/styled-components": "^4.4.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.1",
+    "css-loader": "^3.4.2",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^4.0.6",
+    "husky": "^4.0.7",
     "ol": "6.1.1",
     "prettier": "^1.19.1",
     "proj4": "2.6.0",
@@ -61,10 +58,10 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.11",
+    "@gisosteam/aol": "^0.0.12",
     "bhreq": "^0.0.12",
     "react-draggable": "^4.2.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.0.0"
   },
   "peerDependencies": {
     "ol": "6.1.1",

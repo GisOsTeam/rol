@@ -37,15 +37,10 @@ export interface IWmsLoaderProps {
 
 export const WmsLoader = (props: IWmsLoaderProps) => {
   const [capabilities, setCapabilities] = React.useState<any>(null);
-  const [title, setTitle] = React.useState<string>('');
   const [serverUrl, setServerUrl] = React.useState<string>('');
   const [gisProxyUrl, setGisProxyUrl] = React.useState<string>(props.gisProxyUrl ? props.gisProxyUrl : '');
-  const [selected, setSelected] = React.useState<string[]>([]);
+  const [selected, setSelected] = React.useState<[string, string][]>([]);
   const translate = useTranslate();
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.currentTarget.value);
-  };
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setServerUrl(event.currentTarget.value);
@@ -69,26 +64,27 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
     });
   };
 
-  const handleCheckboxChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (cbNname: string, cbDescription: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.checked === true) {
-      setSelected(selected.concat([name]));
+      setSelected(selected.concat([[cbNname, cbDescription]]));
     } else {
-      setSelected(selected.filter((elem: string) => elem !== name));
+      setSelected(selected.filter((elem: [string, string]) => elem[0] !== cbNname));
     }
   };
 
   const handleAddButtonClick = (layersManager: LayersManager) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const types: IFeatureType<string>[] = [];
-    selected.forEach((service: string) => {
-      types.push({ id: service });
-    });
-    loadWMS(serverUrl, types, gisProxyUrl).then((source: ImageWms) => {
-      layersManager.createAndAddLayer(Image, {
-        uid: uid(),
-        name: title,
-        type: 'OVERLAY',
-        source
+    selected.forEach((elem: [string, string]) => {
+      const types: IFeatureType<string>[] = [];
+      types.push({ id: elem[0] });
+      loadWMS(serverUrl, types, gisProxyUrl).then((source: ImageWms) => {
+        layersManager.createAndAddLayer(Image, {
+          uid: uid(),
+          name: elem[0],
+          description: elem[1],
+          type: 'OVERLAY',
+          source
+        });
       });
     });
   };
@@ -101,7 +97,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
             <React.Fragment>
               <label htmlFor="serverUrl">
                 {translate(
-                  'wmsLoader.serverUr',
+                  'wmsLoader.serverUrl',
                   'Enter WMS Server URL* (example: http://172.20.0.3:8080/geoserver/wms)'
                 )}
               </label>
@@ -121,10 +117,9 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
           )}
           {capabilities != null && (
             <React.Fragment>
-              <label htmlFor="title">
-                {translate('wmsLoader.title', 'Enter title* (required, example: WMS service)')}
+              <label htmlFor="name">
+                {translate('wmsLoader.name', 'Enter name* (required, example: WMS service)')}
               </label>
-              <input id="title" type="text" value={title} onChange={handleTitleChange}></input>
               <LayerContainer>
                 <label>{translate('wmsLoader.selection', 'Select layers*')}</label>
                 {capabilities.Capability.Layer.Layer.map((layer: any) => {
@@ -134,8 +129,8 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                         key={layer.Name}
                         id={layer.Name}
                         type="checkbox"
-                        onChange={handleCheckboxChange(layer.Name)}
-                        checked={selected.indexOf(layer.Name) >= 0}
+                        onChange={handleCheckboxChange(layer.Name, layer.Abstract)}
+                        checked={selected.filter((elem: [string, string]) => elem[0] === layer.Name).length > 0}
                       />
                       <label htmlFor={layer.Name}>{layer.Name}</label>
                     </li>
@@ -144,7 +139,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
               </LayerContainer>
               <button
                 onClick={handleAddButtonClick(context.layersManager)}
-                disabled={title === '' || selected.length === 0}
+                disabled={selected.length === 0}
               >
                 {translate('wmsLoader.add', 'Add selected')}
               </button>

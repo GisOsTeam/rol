@@ -86,7 +86,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Projection code="EPSG:27700" name="OSGB 1936 / British National Grid " wkt={wkt27700} />
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
-        <Tile uid="UID -- Topp States" source={toppStateSource} name="Topp States" />
+        <Tile uid="UID -- Topp States" source={toppStateSource} name="Topp States" description="Topp States WMS Layer"/>
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         {/* <Image uid="UID -- Highways" source={highways} /> */}
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />

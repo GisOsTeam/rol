@@ -18,6 +18,10 @@ export interface IBaseLayerProps {
    */
   name?: string;
   /**
+   * Description.
+   */
+  description?: string;
+  /**
    * type: BASE or OVERLAY.
    */
   type?: string;
@@ -100,6 +104,9 @@ export class BaseLayer<
   public updateProps(prevProps: P, nextProps: P) {
     if (prevProps == null || prevProps.name !== nextProps.name) {
       this.olLayer.set('name', nextProps.name);
+    }
+    if (prevProps == null || prevProps.description !== nextProps.description) {
+      this.olLayer.set('description', nextProps.description);
     }
     if (prevProps == null || prevProps.type !== nextProps.type) {
       let type = nextProps.type;

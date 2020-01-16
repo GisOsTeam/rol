@@ -81,6 +81,19 @@ export class Toc extends BaseTool<ITocProps, {}> {
             if (truncName.length > 15) {
               truncName = truncName.substring(0, 14) + '…';
             }
+            let title = '';
+            if (truncName !== name) {
+              title = name;
+            }
+            if (layerElement.reactElement.props.description != null && layerElement.reactElement.props.description != '') {
+              if (title.length > 0) {
+                title += '\n';
+              }
+              title += layerElement.reactElement.props.description;
+            }
+            if (title === '') {
+              title = name;
+            }
             bases.push(
               <DivInline key={layerElement.uid}>
                 <input
@@ -89,7 +102,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
                   checked={layerElement.reactElement.props.visible !== false ? true : false}
                   onChange={this.handleRadioChange(layerElement.uid)}
                 />
-                <label title={name}>{truncName}</label>
+                <label title={title} style={{ whiteSpace: 'pre-wrap' }}>{truncName}</label>
               </DivInline>
             );
           }
@@ -111,6 +124,19 @@ export class Toc extends BaseTool<ITocProps, {}> {
             if (truncName.length > 15) {
               truncName = truncName.substring(0, 14) + '…';
             }
+            let title = '';
+            if (truncName !== name) {
+              title = name;
+            }
+            if (layerElement.reactElement.props.description != null && layerElement.reactElement.props.description != '') {
+              if (title.length > 0) {
+                title += '\n';
+              }
+              title += layerElement.reactElement.props.description;
+            }
+            if (title === '') {
+              title = name;
+            }
             const input = (
               <input
                 type="checkbox"
@@ -118,7 +144,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
                 onChange={this.handleCheckboxChange(layerElement.uid)}
               />
             );
-            const label = <label title={name}>{truncName}</label>;
+            const label = <label title={title}>{truncName}</label>;
             overlayTree.push(
               <DivInline key={layerElement.uid}>
                 {input}

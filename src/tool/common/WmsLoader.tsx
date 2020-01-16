@@ -64,7 +64,9 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
     });
   };
 
-  const handleCheckboxChange = (cbNname: string, cbDescription: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (cbNname: string, cbDescription: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.currentTarget.checked === true) {
       setSelected(selected.concat([[cbNname, cbDescription]]));
     } else {
@@ -137,10 +139,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                   );
                 })}
               </LayerContainer>
-              <button
-                onClick={handleAddButtonClick(context.layersManager)}
-                disabled={selected.length === 0}
-              >
+              <button onClick={handleAddButtonClick(context.layersManager)} disabled={selected.length === 0}>
                 {translate('wmsLoader.add', 'Add selected')}
               </button>
             </React.Fragment>

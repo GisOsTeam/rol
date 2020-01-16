@@ -85,7 +85,10 @@ export class Toc extends BaseTool<ITocProps, {}> {
             if (truncName !== name) {
               title = name;
             }
-            if (layerElement.reactElement.props.description != null && layerElement.reactElement.props.description != '') {
+            if (
+              layerElement.reactElement.props.description != null &&
+              layerElement.reactElement.props.description != ''
+            ) {
               if (title.length > 0) {
                 title += '\n';
               }
@@ -102,7 +105,9 @@ export class Toc extends BaseTool<ITocProps, {}> {
                   checked={layerElement.reactElement.props.visible !== false ? true : false}
                   onChange={this.handleRadioChange(layerElement.uid)}
                 />
-                <label title={title} style={{ whiteSpace: 'pre-wrap' }}>{truncName}</label>
+                <label title={title} style={{ whiteSpace: 'pre-wrap' }}>
+                  {truncName}
+                </label>
               </DivInline>
             );
           }
@@ -128,7 +133,10 @@ export class Toc extends BaseTool<ITocProps, {}> {
             if (truncName !== name) {
               title = name;
             }
-            if (layerElement.reactElement.props.description != null && layerElement.reactElement.props.description != '') {
+            if (
+              layerElement.reactElement.props.description != null &&
+              layerElement.reactElement.props.description != ''
+            ) {
               if (title.length > 0) {
                 title += '\n';
               }

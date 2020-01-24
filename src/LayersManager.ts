@@ -7,14 +7,19 @@ import { Vector } from './layer/Vector';
 import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
-import { Heatmap } from './layer/Heatmap';
-import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
+import { IWMSService } from './layer/IWMSService';
+import { ServiceTypeEnum } from './layer/ServiceTypeEnum';
+import { jsonEqual, walk, createSource, uid as genUid } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import { IExtended } from '@gisosteam/aol/source/IExtended';
+import { IExtended, IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 import Layer from 'ol/layer/Layer';
+import { loadWMS } from '@gisosteam/aol/load/wms';
+import { loadZippedShapefile } from '@gisosteam/aol/load/shpz';
+import { loadKML } from '@gisosteam/aol/load/kml';
+import { loadKMZ } from '@gisosteam/aol/load/kmz';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -44,6 +49,18 @@ export interface ILayerElement {
 const layerMaps = new Map<string, Map<string, ILayerElement>>();
 
 export class LayersManager {
+  //   private loaders: {[key: string]: <T>(params: T) => Promise<IExtended>} = {
+  //     ZIP <T>(file: T extends File ? File: unknown) {
+  //       return loadZippedShapefile(file, this.olMap);
+  //     },
+  //     KML (file: File) {
+  //       return loadKML(file, this.olMap);
+  //     },
+  //     KMZ (file: File) {
+  //       return loadKMZ(file, this.olMap);
+  //     }
+  //   };
+
   private uid: string;
 
   private olMap: OlMap;
@@ -76,7 +93,7 @@ export class LayersManager {
       projectionCode: olView.getProjection().getCode()
     };
     // Projections
-    const projections: Array<ISnapshotProjection> = [];
+    const projections: ISnapshotProjection[] = [];
     getProjectionInfos().map(projectionInfo => {
       projections.push({
         code: projectionInfo.code,
@@ -87,14 +104,14 @@ export class LayersManager {
       });
     });
     // Layers
-    const layers: Array<ISnapshotLayer> = [];
+    const layers: ISnapshotLayer[] = [];
     this.getLayerElements().map(layerElement => {
       const props = { ...layerElement.reactElement.props };
-      const source = props['source'];
+      const source = props.source;
       if (source != null && 'getSourceType' in source && 'getSourceOptions' in source && 'isSnapshotable' in source) {
         if ((source as IExtended).isSnapshotable()) {
-          props['source'] = undefined;
-          props['children'] = undefined;
+          props.source = undefined;
+          props.children = undefined;
           layers.push({
             sourceType: (source as IExtended).getSourceType(),
             sourceOptions: (source as IExtended).getSourceOptions(),
@@ -109,6 +126,64 @@ export class LayersManager {
       layers
     };
   };
+
+  /**
+   * Load & Add a WMS Service
+   * @param service
+   * @param proxy
+   * @returns New Layer's uid
+   */
+  public addWMS({ id, serverURL, name, description }: IWMSService, proxy: string): Promise<string> {
+    const types: Array<IFeatureType<string>> = [];
+    types.push({ id });
+    return loadWMS(serverURL + '/wms', types, proxy).then(extended =>
+      this.addServiceFromSource(extended, name, description)
+    );
+  }
+
+  /**
+   * Load and add a service from a File
+   * @param file
+   * @param type ServiceTypeEnum.KML | KMZ | ZIP
+   * @returns New Layer's uid
+   */
+  public addServiceFromFile(file: File, type: ServiceTypeEnum): Promise<string> {
+    let promise: Promise<IExtended>;
+    switch (type) {
+      case ServiceTypeEnum.ZIP:
+        promise = loadZippedShapefile(file, this.olMap);
+        break;
+      case ServiceTypeEnum.KML:
+        promise = loadKML(file, this.olMap);
+        break;
+      case ServiceTypeEnum.KMZ:
+        promise = loadKMZ(file, this.olMap);
+        break;
+      default:
+        console.warn(`ROL LayerManager addServiceFromFile -- ServiceType ${type} can't be loaded from a file`);
+        return null;
+    }
+    return promise.then(extended => this.addServiceFromSource(extended));
+  }
+
+  /**
+   * Add a service from a source
+   * @param source
+   * @param name
+   * @param description
+   * @returns uid of the Layer
+   */
+  public addServiceFromSource(source: IExtended, name?: string, description?: string): string {
+    const uid = genUid();
+    this.createAndAddLayer(Image, {
+      uid,
+      name,
+      description,
+      type: 'OVERLAY',
+      source
+    });
+    return uid;
+  }
 
   /**
    * Reload from snapshot.
@@ -286,7 +361,7 @@ export class LayersManager {
         }
       }
     }
-    let source = createSource(sourceType, sourceOptions);
+    const source = createSource(sourceType, sourceOptions);
     switch (source.getLayerType()) {
       case LayerTypeEnum.Image:
         this.createAndAddLayer(Image, { ...props, source });

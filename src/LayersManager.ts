@@ -8,7 +8,7 @@ import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
 import { IWMSService } from './layer/IWMSService';
-import { ServiceTypeEnum } from './layer/ServiceTypeEnum';
+import { FileTypeEnum } from './layer/FileTypeEnum';
 import { jsonEqual, walk, createSource, uid as genUid } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
 import { IExtended, IFeatureType } from '@gisosteam/aol/source/IExtended';
@@ -49,18 +49,6 @@ export interface ILayerElement {
 const layerMaps = new Map<string, Map<string, ILayerElement>>();
 
 export class LayersManager {
-  //   private loaders: {[key: string]: <T>(params: T) => Promise<IExtended>} = {
-  //     ZIP <T>(file: T extends File ? File: unknown) {
-  //       return loadZippedShapefile(file, this.olMap);
-  //     },
-  //     KML (file: File) {
-  //       return loadKML(file, this.olMap);
-  //     },
-  //     KMZ (file: File) {
-  //       return loadKMZ(file, this.olMap);
-  //     }
-  //   };
-
   private uid: string;
 
   private olMap: OlMap;
@@ -133,30 +121,29 @@ export class LayersManager {
    * @param proxy
    * @returns New Layer's uid
    */
-  public addWMS({ id, serverURL, name, description }: IWMSService, proxy: string): Promise<string> {
+  public async addWMS({ id, serverURL, name, description }: IWMSService, proxy?: string): Promise<string> {
     const types: Array<IFeatureType<string>> = [];
     types.push({ id });
-    return loadWMS(serverURL + '/wms', types, proxy).then(extended =>
-      this.addServiceFromSource(extended, name, description)
-    );
+    const extended = await loadWMS(serverURL + '/wms', types, proxy);
+    return this.addServiceFromSource(extended, name, description);
   }
 
   /**
-   * Load and add a service from a File
+   * Load file and add service
    * @param file
-   * @param type ServiceTypeEnum.KML | KMZ | ZIP
+   * @param type FileTypeEnum.KML | KMZ | ZIP
    * @returns New Layer's uid
    */
-  public addServiceFromFile(file: File, type: ServiceTypeEnum): Promise<string> {
+  public addServiceFromFile(file: File, type: FileTypeEnum): Promise<string> {
     let promise: Promise<IExtended>;
     switch (type) {
-      case ServiceTypeEnum.ZIP:
+      case FileTypeEnum.ZIP:
         promise = loadZippedShapefile(file, this.olMap);
         break;
-      case ServiceTypeEnum.KML:
+      case FileTypeEnum.KML:
         promise = loadKML(file, this.olMap);
         break;
-      case ServiceTypeEnum.KMZ:
+      case FileTypeEnum.KMZ:
         promise = loadKMZ(file, this.olMap);
         break;
       default:

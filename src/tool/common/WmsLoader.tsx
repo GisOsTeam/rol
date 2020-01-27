@@ -10,6 +10,7 @@ import { loadWMS } from '@gisosteam/aol/load/wms';
 import { uid } from '@gisosteam/aol/utils';
 import { IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { useTranslate } from '../hook/useTranslate';
+import { IWMSService } from '../../layer/IWMSService';
 
 const Container = styled.div`
   display: flex;
@@ -77,17 +78,13 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
   const handleAddButtonClick = (layersManager: LayersManager) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     selected.forEach((elem: [string, string]) => {
-      const types: IFeatureType<string>[] = [];
-      types.push({ id: elem[0] });
-      loadWMS(serverUrl, types, gisProxyUrl).then((source: ImageWms) => {
-        layersManager.createAndAddLayer(Image, {
-          uid: uid(),
-          name: elem[0],
-          description: elem[1],
-          type: 'OVERLAY',
-          source
-        });
-      });
+      const wmsService: IWMSService = {
+        id: elem[0],
+        serverURL: serverUrl,
+        description: elem[1],
+        name: elem[0]
+      };
+      layersManager.addWMS(wmsService, gisProxyUrl);
     });
   };
 

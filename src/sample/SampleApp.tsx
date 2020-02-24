@@ -93,7 +93,6 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
           description="Topp States WMS Layer"
         />
         <Image uid="UID -- Highways" source={highways} name="Highways" />
-        {/* <Image uid="UID -- Highways" source={highways} /> */}
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         {this.state.hideTools === false && (
           <Zone>

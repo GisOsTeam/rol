@@ -23,6 +23,10 @@ const GlobalStyle = createGlobalStyle`
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+.ol-layers {
+  position: relative !important;
+}
+
 .ol-selectable {
   -webkit-touch-callout: default;
   -webkit-user-select: text;

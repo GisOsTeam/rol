@@ -7,7 +7,7 @@ import { rolContext, IRolContext } from '../RolContext';
 import { BaseTool, IBaseToolProps } from './BaseTool';
 
 const Container = styled.div`
-  top: 50px;
+  top: 86px;
   left: 15px;
   width: 96px;
 `;

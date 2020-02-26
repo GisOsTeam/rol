@@ -11,6 +11,9 @@ import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
+import { Control } from '../container/Control';
+import { Zone } from '../container/Zone';
+import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
 import { PanZoom } from '../tool/PanZoom';
@@ -19,7 +22,6 @@ import { Identify } from '../tool/Identify';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
 import { Projection } from '../Projection';
-import { Zone } from '../container/Zone';
 import { ShowSnapshot } from './ShowSnapshot';
 import { DrawLine } from './DrawLine';
 
@@ -71,7 +73,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
       <Rol
         uid="map"
         keyboardEventTarget={document}
-        olMapStyle={{ position: 'absolute', width: 'calc(100% - 15px)', height: 'calc(100% - 15px)' }}
+        olMapStyle={{ width: '100%', height: '600px' }}
         afterMount={(afterData: IAfterData) => {
           afterData.olMap.setView(
             new OlView({
@@ -94,26 +96,29 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         />
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
-        {this.state.hideTools === false && (
-          <Zone>
-            <Toc uid="Toc" />
-            <PanZoom uid="PanZoom" />
-            <ScaleLine uid="ScaleLine" />
-            <Zone style={{ position: 'absolute', top: 'calc(100% - 70px)' }}>
-              <CounterButton uid="CounterButton" />
-              <CounterButtonFunction uid="CounterButtonFunction" />
-              <CounterWindow uid="CounterWindow" />
-              <CounterWindowFunction uid="CounterWindowFunction" />
-              <LayerLoader uid="LayerLoader" />
-              <ShowSnapshot uid="ShowSnapshot" />
-              <DrawLine uid="DrawLine" />
-              <Identify uid="IdentifyTool" />
+        <Control>
+          {this.state.hideTools === false && (
+            <Zone>
+              <Toc uid="Toc" />
+              <Fullscreen uid="Fullscreen" />
+              <PanZoom uid="PanZoom" />
+              <ScaleLine uid="ScaleLine" />
+              <Zone style={{ position: 'absolute', top: 'calc(100% - 70px)' }}>
+                <CounterButton uid="CounterButton" />
+                <CounterButtonFunction uid="CounterButtonFunction" />
+                <CounterWindow uid="CounterWindow" />
+                <CounterWindowFunction uid="CounterWindowFunction" />
+                <LayerLoader uid="LayerLoader" />
+                <ShowSnapshot uid="ShowSnapshot" />
+                <DrawLine uid="DrawLine" />
+                <Identify uid="IdentifyTool" />
+              </Zone>
             </Zone>
+          )}
+          <Zone style={{ position: 'absolute', top: 'calc(100% - 40px)' }}>
+            <HideToolsButton uid="HideToolsButton" hideTools={this.state.hideTools} setHideTools={this.setHideTools} />
           </Zone>
-        )}
-        <Zone style={{ position: 'absolute', top: 'calc(100% - 40px)' }}>
-          <HideToolsButton uid="HideToolsButton" hideTools={this.state.hideTools} setHideTools={this.setHideTools} />
-        </Zone>
+        </Control>
       </Rol>
     );
   }

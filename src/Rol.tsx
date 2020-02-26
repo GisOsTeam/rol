@@ -23,8 +23,12 @@ const GlobalStyle = createGlobalStyle`
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-.ol-layers {
-  position: relative !important;
+.ol-overlaycontainer, .ol-overlaycontainer-stopevent {
+  pointer-events: none;
+}
+
+.ol-overlaycontainer > *, .ol-overlaycontainer-stopevent > * {
+  pointer-events: auto;
 }
 
 .ol-selectable {
@@ -35,6 +39,19 @@ const GlobalStyle = createGlobalStyle`
   user-select: text;
 }
 
+.ol-grabbing {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+.ol-grab {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
 .ol-control {
   position: absolute;
 }
@@ -42,7 +59,7 @@ const GlobalStyle = createGlobalStyle`
 .ol-hidden {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s linear 0s, visibility 0s linear 0.25s;
+  transition: opacity .25s linear, visibility 0s linear .25s;
 }
 `;
 

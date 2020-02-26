@@ -28,7 +28,7 @@ export class Fullscreen extends BaseTool<IBaseToolProps, any> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public static defaultProps = {
-    ...BaseTool.defaultProps,
+    ...BaseTool.defaultProps
   };
 
   public context: IRolContext;

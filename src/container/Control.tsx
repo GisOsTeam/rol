@@ -61,9 +61,7 @@ export class Control extends BaseContainer<IControlProps, IControlState> {
             this.controlDiv = controlDiv;
           }}
         >
-          <div>
-            {this.state.control != null && this.renderChildren()}
-          </div>
+          <div>{this.state.control != null && this.renderChildren()}</div>
         </div>
       </div>
     );

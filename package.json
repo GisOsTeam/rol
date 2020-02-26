@@ -1,6 +1,6 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "OpenLayers with React",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -58,7 +58,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.14",
+    "@gisosteam/aol": "^0.0.15",
     "bhreq": "^0.0.12",
     "react-draggable": "^4.2.0",
     "styled-components": "^5.0.1"

@@ -1,8 +1,13 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
 import { useDrawSource } from '../tool/hook/useDrawSource';
 import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';
+
+const ContainerBtn = styled.div`
+  height: 28px;
+`;
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
   const drawSource = useDrawSource({
@@ -11,10 +16,10 @@ export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
     listable: true,
     snapshotable: true
   });
-  const drawInteraction = useDrawInteraction({
+  useDrawInteraction({
     activated: props.activated,
     type: GeometryType.LINE_STRING,
     source: drawSource
   });
-  return <span>Draw line</span>;
+  return <ContainerBtn>Draw line</ContainerBtn>;
 });

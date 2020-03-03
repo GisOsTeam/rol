@@ -1,5 +1,10 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
+
+const ContainerBtn = styled.div`
+  height: 28px;
+`;
 
 export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
   public static defaultProps = {
@@ -23,7 +28,7 @@ export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
   }
 
   public renderOpenButtonContent(): React.ReactNode {
-    return <span>Counter</span>;
+    return <ContainerBtn>Counter</ContainerBtn>;
   }
 
   public renderTool(): React.ReactNode {

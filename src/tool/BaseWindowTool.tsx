@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { ThemedStyledFunction } from 'styled-components';
 import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 
@@ -13,9 +13,9 @@ const Window = styled.div`
   padding: 3px;
 `;
 
-const TitleBar = styled.div`
+const TitleBar = styled.div<Pick<{activated?: boolean}, 'activated'>>`
   height: 20px;
-  background: #ddd;
+  background: ${(props) => props.activated ? '#88f': '#ddd'};
   border: 1px solid #999;
   border-radius: 2px;
   display: block;
@@ -29,20 +29,21 @@ const TitleBar = styled.div`
   user-select: none;
 `;
 
-const Button = styled.button`
+const Button = styled.button<Pick<{activated?: boolean}, 'activated'>>`
+  height: 32px;
   margin: 0px;
   padding: 0px;
   border-radius: 6px;
-  border: 1px solid #dcdcdc;
-  box-shadow: inset 0px 1px 0px 0px #ffffff;
-  background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-  background-color: #ffffff;
+  border: 1px solid  ${(props) => props.activated ? '#ccc': '#ddd'};
+  box-shadow: inset 0px 1px 0px 0px ${(props) => props.activated ? '#ddf': '#fff'};
+  background: linear-gradient(to bottom, ${(props) => props.activated ? '#ddf': '#fff'} 5%, ${(props) => props.activated ? '#aac': '#ddd'} 100%);
   color: #444;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #ffffff;
+  text-shadow: 0px 1px 0px #fff;
   &:hover {
-    background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-    background-color: #f6f6f6;
+    border: 1px solid  ${(props) => props.activated ? '#999': '#aaa'};
+    box-shadow: inset 0px 1px 0px 0px ${(props) => props.activated ? '#aac': '#ccc'};
+    background: linear-gradient(to bottom, ${(props) => props.activated ? '#aac': '#ccc'} 5%, ${(props) => props.activated ? '#779': '#aaa'} 100%);
   }
 `;
 
@@ -297,7 +298,7 @@ export class BaseWindowTool<
     let openButton = null;
     if (!this.props.hideOpenButton) {
       openButton = (
-        <Button className={openButtonClassName} title={this.props.buttonTitle} onClick={this.handleButtonClick}>
+        <Button className={openButtonClassName} title={this.props.buttonTitle} onClick={this.handleButtonClick} activated={this.props.activated}>
           {this.renderOpenButtonContent()}
         </Button>
       );
@@ -327,7 +328,7 @@ export class BaseWindowTool<
             style={style}
             ref={ref => (this.windowElement = ref)}
           >
-            <TitleBar className={titleClassName}>
+            <TitleBar className={titleClassName} activated={this.props.activated}>
               {this.renderHeaderContent()}
               {closeButton}
             </TitleBar>

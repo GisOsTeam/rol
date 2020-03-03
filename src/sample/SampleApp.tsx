@@ -5,7 +5,6 @@ import { CounterButton } from './CounterButton';
 import { CounterButtonFunction } from './CounterButtonFunction';
 import { CounterWindow } from './CounterWindow';
 import { CounterWindowFunction } from './CounterWindowFunction';
-import { HideToolsButton } from './HideToolsButton';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
@@ -19,6 +18,7 @@ import { ScaleLine } from '../tool/ScaleLine';
 import { PanZoom } from '../tool/PanZoom';
 import { LayerLoader } from '../tool/LayerLoader';
 import { Identify } from '../tool/Identify';
+import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
 import { Projection } from '../Projection';
@@ -84,8 +84,8 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
           );
         }}
       >
-        <Projection code="EPSG:2154" name="RGF93 / Lambert-93" wkt={wkt2154} />
-        <Projection code="EPSG:27700" name="OSGB 1936 / British National Grid " wkt={wkt27700} />
+        <Projection code="EPSG:2154" name="RGF93 / Lambert-93" wkt={wkt2154} lonLatValidity={[-9.86, 41.15, 10.38, 51.56]} />
+        <Projection code="EPSG:27700" name="OSGB 1936 / British National Grid" wkt={wkt27700} lonLatValidity={[-8.82, 49.79, 1.92, 60.94]} />
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile
@@ -103,7 +103,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <Fullscreen uid="Fullscreen" />
               <PanZoom uid="PanZoom" />
               <ScaleLine uid="ScaleLine" />
-              <Zone style={{ position: 'absolute', top: 'calc(100% - 70px)' }}>
+              <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
                 <CounterButton uid="CounterButton" />
                 <CounterButtonFunction uid="CounterButtonFunction" />
                 <CounterWindow uid="CounterWindow" />
@@ -112,12 +112,10 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
                 <ShowSnapshot uid="ShowSnapshot" />
                 <DrawLine uid="DrawLine" />
                 <Identify uid="IdentifyTool" />
+                <Reproj uid="ReprojTool" />
               </Zone>
             </Zone>
           )}
-          <Zone style={{ position: 'absolute', top: 'calc(100% - 40px)' }}>
-            <HideToolsButton uid="HideToolsButton" hideTools={this.state.hideTools} setHideTools={this.setHideTools} />
-          </Zone>
         </Control>
       </Rol>
     );

@@ -4,11 +4,6 @@ import { rolContext } from '../../RolContext';
 import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { send, IResponse } from 'bhreq';
 import { LayersManager } from '../../LayersManager';
-import { ImageWms } from '@gisosteam/aol/source/ImageWms';
-import { Image } from '../../layer/Image';
-import { loadWMS } from '@gisosteam/aol/load/wms';
-import { uid } from '@gisosteam/aol/utils';
-import { IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { useTranslate } from '../hook/useTranslate';
 import { IWMSService } from '../../layer/IWMSService';
 

@@ -4,7 +4,7 @@ import { LayerLoaderContent, ILayerLoaderContentProps } from './layerLoader/Laye
 import { LayerLoaderHeader } from './layerLoader/LayerLoaderHeader';
 import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 import { WmsLoader } from './common/WmsLoader';
-import { ISelectorType, Selector, ISelectorProps } from './common/Selector';
+import { ISelectorType } from './common/Selector';
 import { KMZFileLoader, KMLFileLoader, ZipFileLoader } from './common/loaders/GenericLayerFileLoader';
 
 export type ILayerLoaderProps = IBaseWindowToolProps & Partial<ILayerLoaderContentProps>;

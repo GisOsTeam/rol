@@ -1,5 +1,10 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
+
+const ContainerBtn = styled.div`
+  height: 28px;
+`;
 
 export const CounterButtonFunction = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {
@@ -9,7 +14,7 @@ export const CounterButtonFunction = withBaseButtonTool(
         setCount(count + 1);
       }
     }, [props.activated]);
-    return <span>count: {String(count)}</span>;
+    return <ContainerBtn>count: {String(count)}</ContainerBtn>;
   },
   { className: 'counter-button' }
 );

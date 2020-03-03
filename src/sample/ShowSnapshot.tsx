@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
 import { IRolContext, rolContext } from '../RolContext';
 
+const ContainerBtn = styled.div`
+  height: 28px;
+`;
+
 const Container = styled.div`
   margin: 2px;
   display: flex;
@@ -51,7 +55,7 @@ export class ShowSnapshot extends BaseWindowTool<IBaseWindowToolProps, any> {
   }
 
   public renderOpenButtonContent(): React.ReactNode {
-    return <span>Show snapshot</span>;
+    return <ContainerBtn>Show snapshot</ContainerBtn>;
   }
 
   public renderTool(): React.ReactNode {

@@ -1,5 +1,10 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { IBaseButtonToolProps, BaseButtonTool } from '../tool/BaseButtonTool';
+
+const ContainerBtn = styled.div`
+  height: 28px;
+`;
 
 export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
   public static defaultProps = {
@@ -19,6 +24,6 @@ export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
   }
 
   public renderTool(): React.ReactNode {
-    return <span>count: {String(this.state.count)}</span>;
+    return <ContainerBtn>count: {String(this.state.count)}</ContainerBtn>;
   }
 }

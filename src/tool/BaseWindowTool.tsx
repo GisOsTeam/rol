@@ -13,9 +13,9 @@ const Window = styled.div`
   padding: 3px;
 `;
 
-const TitleBar = styled.div<Pick<{activated?: boolean}, 'activated'>>`
+const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
   height: 20px;
-  background: ${(props) => props.activated ? '#88f': '#ddd'};
+  background: ${props => (props.activated ? '#88f' : '#ddd')};
   border: 1px solid #999;
   border-radius: 2px;
   display: block;
@@ -29,21 +29,29 @@ const TitleBar = styled.div<Pick<{activated?: boolean}, 'activated'>>`
   user-select: none;
 `;
 
-const Button = styled.button<Pick<{activated?: boolean}, 'activated'>>`
+const Button = styled.button<Pick<{ activated?: boolean }, 'activated'>>`
   height: 32px;
   margin: 0px;
   padding: 0px;
   border-radius: 6px;
-  border: 1px solid  ${(props) => props.activated ? '#ccc': '#ddd'};
-  box-shadow: inset 0px 1px 0px 0px ${(props) => props.activated ? '#ddf': '#fff'};
-  background: linear-gradient(to bottom, ${(props) => props.activated ? '#ddf': '#fff'} 5%, ${(props) => props.activated ? '#aac': '#ddd'} 100%);
+  border: 1px solid ${props => (props.activated ? '#ccc' : '#ddd')};
+  box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#ddf' : '#fff')};
+  background: linear-gradient(
+    to bottom,
+    ${props => (props.activated ? '#ddf' : '#fff')} 5%,
+    ${props => (props.activated ? '#aac' : '#ddd')} 100%
+  );
   color: #444;
   text-decoration: none;
   text-shadow: 0px 1px 0px #fff;
   &:hover {
-    border: 1px solid  ${(props) => props.activated ? '#999': '#aaa'};
-    box-shadow: inset 0px 1px 0px 0px ${(props) => props.activated ? '#aac': '#ccc'};
-    background: linear-gradient(to bottom, ${(props) => props.activated ? '#aac': '#ccc'} 5%, ${(props) => props.activated ? '#779': '#aaa'} 100%);
+    border: 1px solid ${props => (props.activated ? '#999' : '#aaa')};
+    box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#aac' : '#ccc')};
+    background: linear-gradient(
+      to bottom,
+      ${props => (props.activated ? '#aac' : '#ccc')} 5%,
+      ${props => (props.activated ? '#779' : '#aaa')} 100%
+    );
   }
 `;
 
@@ -298,7 +306,12 @@ export class BaseWindowTool<
     let openButton = null;
     if (!this.props.hideOpenButton) {
       openButton = (
-        <Button className={openButtonClassName} title={this.props.buttonTitle} onClick={this.handleButtonClick} activated={this.props.activated}>
+        <Button
+          className={openButtonClassName}
+          title={this.props.buttonTitle}
+          onClick={this.handleButtonClick}
+          activated={this.props.activated}
+        >
           {this.renderOpenButtonContent()}
         </Button>
       );

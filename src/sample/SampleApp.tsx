@@ -84,8 +84,18 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
           );
         }}
       >
-        <Projection code="EPSG:2154" name="RGF93 / Lambert-93" wkt={wkt2154} lonLatValidity={[-9.86, 41.15, 10.38, 51.56]} />
-        <Projection code="EPSG:27700" name="OSGB 1936 / British National Grid" wkt={wkt27700} lonLatValidity={[-8.82, 49.79, 1.92, 60.94]} />
+        <Projection
+          code="EPSG:2154"
+          name="RGF93 / Lambert-93"
+          wkt={wkt2154}
+          lonLatValidity={[-9.86, 41.15, 10.38, 51.56]}
+        />
+        <Projection
+          code="EPSG:27700"
+          name="OSGB 1936 / British National Grid"
+          wkt={wkt27700}
+          lonLatValidity={[-8.82, 49.79, 1.92, 60.94]}
+        />
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
         <Tile

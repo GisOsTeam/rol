@@ -37,5 +37,5 @@ export const rolContext = React.createContext<IRolContext>({
   toolsManager: null,
   translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;
-  }
+  },
 });

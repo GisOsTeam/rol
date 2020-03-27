@@ -9,7 +9,7 @@ const ContainerBtn = styled.div`
 export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
   public static defaultProps = {
     ...BaseWindowTool.defaultProps,
-    className: 'counter-window'
+    className: 'counter-window',
   };
 
   public constructor(props: IBaseWindowToolProps) {
@@ -19,7 +19,7 @@ export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
 
   public toolDidActivate(): void {
     this.setState({
-      count: this.state.count + 1
+      count: this.state.count + 1,
     });
   }
 

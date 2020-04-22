@@ -64,6 +64,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
           this.activate();
         }
       } else {
+        console.log("Activate");
         this.activate();
       }
     }

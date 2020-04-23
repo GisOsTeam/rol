@@ -16,10 +16,12 @@ export class ViewManager {
   constructor(uid: string, olMap: OlMap, refresh: () => void) {
     this.uid = uid;
     this.olMap = olMap;
-    this.refresh = refresh;
-    this.currentExtent = olMap.getView().calculateExtent();
+		this.refresh = refresh;
+		// L'init de l'application fait un premier fit,
+		// donc la valeur par défaut de currentView se fera à ce moment là
     this.olMap.on('moveend', this.updateExtends.bind(this));
-  }
+	}
+	
   public unregister() {
     this.olMap.un('moveend', this.updateExtends.bind(this));
   }
@@ -45,39 +47,38 @@ export class ViewManager {
     }
   };
 
-  private updateExtends(evt: MapEvent) {
+	private updateExtends(evt: MapEvent) {
     if (this.shouldUpdate) {
-      const { frameState } = evt;
-      const { pastExtends, currentExtent, futureExtends } = this;
-      this.pastExtends = [...pastExtends, currentExtent];
+			const { frameState } = evt;
+			// Premier moveend 
+			if (this.currentExtent) {
+				this.pastExtends = [...this.pastExtends, this.currentExtent];
+			}
       this.currentExtent = frameState.extent;
       this.futureExtends = [];
 
-      console.log('New Extent', { pastExtends, currentExtent, futureExtends });
-    }
+      console.log('New Extent', { pastExtends: this.pastExtends, currentExtent: this.currentExtent, futureExtends: this.futureExtends });
+		}
+		this.shouldUpdate = true;
   }
 
   private onPastFitEnd() {
-    const { pastExtends, currentExtent, futureExtends } = this;
-    const newPastExtends = [...pastExtends];
+    const newPastExtends = [...this.pastExtends];
     const newExtent = newPastExtends.pop();
-    const newFutureExtends = [currentExtent, ...futureExtends];
+    const newFutureExtends = [this.currentExtent, ...this.futureExtends];
 
     this.currentExtent = newExtent;
     this.pastExtends = newPastExtends;
     this.futureExtends = newFutureExtends;
-    this.shouldUpdate = true;
   }
 
   private onFutureFitEnd() {
-    const { pastExtends, currentExtent, futureExtends } = this;
-    const newPastExtends = [...pastExtends];
-    const newExtent = newPastExtends.pop();
-    const newFutureExtends = [currentExtent, ...futureExtends];
+    const newPastExtends = [...this.pastExtends, this.currentExtent];
+    const newFutureExtends = [...this.futureExtends];
+    const newExtent = newFutureExtends.shift();
 
     this.currentExtent = newExtent;
     this.pastExtends = newPastExtends;
     this.futureExtends = newFutureExtends;
-    this.shouldUpdate = true;
   }
 }

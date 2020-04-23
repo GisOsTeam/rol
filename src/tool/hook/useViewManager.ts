@@ -6,7 +6,7 @@ import { Extent, equals } from 'ol/extent';
 import { rolContext } from '../../RolContext';
 
 export function useViewManager() {
-    const context = React.useContext(rolContext);
-	const {fitToPrevious, fitToNext} = context.viewManager;
-    return {fitToPrevious, fitToNext};
+  const context = React.useContext(rolContext);
+  const { fitToPrevious, fitToNext } = context.viewManager;
+  return { fitToPrevious, fitToNext };
 }

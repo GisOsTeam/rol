@@ -14,12 +14,12 @@ export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
     layerUid: 'draw_line_layer_tool',
     persist: true,
     listable: true,
-    snapshotable: true,
+    snapshotable: true
   });
   useDrawInteraction({
     activated: props.activated,
     type: GeometryType.LINE_STRING,
-    source: drawSource,
+    source: drawSource
   });
   return <ContainerBtn>Draw line</ContainerBtn>;
 });

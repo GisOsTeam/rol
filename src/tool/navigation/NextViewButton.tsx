@@ -7,15 +7,15 @@ const ContainerBtn = styled.div`
   height: 28px;
 `;
 
-export const PreviousViewButton = withBaseButtonTool(
+export const NextViewButton = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {
-    const { fitToPrevious } = useViewManager();
+    const { fitToNext } = useViewManager();
     React.useEffect(() => {
       if (props.activated === true) {
-        fitToPrevious();
+        fitToNext();
       }
     }, [props.activated]);
-    return <ContainerBtn>Previous</ContainerBtn>;
+    return <ContainerBtn>Next</ContainerBtn>;
   },
   { className: 'counter-button', toggle: false }
 );

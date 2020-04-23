@@ -25,7 +25,7 @@ export function ReprojContent(props: IFunctionBaseWindowToolProps) {
           const newView = new OlView({
             projection: projInfo.code,
             zoom: 1,
-            center: [0, 0],
+            center: [0, 0]
           });
           olMap.setView(newView);
           if (projInfo.lonLatValidity != null) {

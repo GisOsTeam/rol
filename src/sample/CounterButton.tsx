@@ -9,7 +9,7 @@ const ContainerBtn = styled.div`
 export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
-    className: 'counter-button',
+    className: 'counter-button'
   };
 
   public constructor(props: IBaseButtonToolProps) {
@@ -19,7 +19,7 @@ export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
 
   public toolDidActivate(): void {
     this.setState({
-      count: this.state.count + 1,
+      count: this.state.count + 1
     });
   }
 

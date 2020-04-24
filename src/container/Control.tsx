@@ -31,7 +31,7 @@ export class Control extends BaseContainer<IControlProps, IControlState> {
     super(props);
     this.state = {
       changedCounter: 0,
-      control: null,
+      control: null
     };
   }
 
@@ -45,11 +45,11 @@ export class Control extends BaseContainer<IControlProps, IControlState> {
 
   public createControl() {
     const control = new OlControl({
-      element: this.controlDiv.children[0],
+      element: this.controlDiv.children[0]
     });
     this.context.olMap.addControl(control);
     this.setState({
-      control,
+      control
     });
   }
 

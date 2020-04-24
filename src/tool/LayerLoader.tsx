@@ -13,26 +13,26 @@ export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   {
     type: '.kml',
     description: 'KML (.kml)',
-    content: KMLFileLoader,
+    content: KMLFileLoader
   },
   {
     type: '.kmz',
     description: 'KMZ (.kmz)',
-    content: KMZFileLoader,
+    content: KMZFileLoader
   },
   {
     type: '.zip',
     description: 'Zipped Shapefile (.zip)',
-    content: ZipFileLoader,
+    content: ZipFileLoader
   },
   {
     type: 'WMS',
     description: 'Web Map Service',
     options: {
-      gisProxyUrl: 'http://localhost:8181',
+      gisProxyUrl: 'http://localhost:8181'
     },
-    content: WmsLoader,
-  },
+    content: WmsLoader
+  }
 ];
 
 export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(
@@ -41,6 +41,6 @@ export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(
   LayerLoaderButton,
   {
     className: 'layerLoader',
-    selectorTypes: DEFAULT_LAYER_LOADER_SELECTORS,
+    selectorTypes: DEFAULT_LAYER_LOADER_SELECTORS
   }
 );

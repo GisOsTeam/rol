@@ -95,7 +95,7 @@ export class ToolsManager {
     });
   }
 
-  public activateTool(uid: string) {
+  public activateTool(uid: string, silent: boolean) {
     const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
@@ -103,7 +103,7 @@ export class ToolsManager {
     }
     const props = toolElement.reactElement.props as IBaseToolProps;
     if (!props.activated) {
-      if (!props.independant) {
+      if (!props.independant && !silent) {
         this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
             this.updateToolProps(otherToolElement.uid, { activated: false });
@@ -114,7 +114,7 @@ export class ToolsManager {
     }
   }
 
-  public deactivateTool(uid: string) {
+  public deactivateTool(uid: string, silent: boolean) {
     const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
@@ -123,7 +123,7 @@ export class ToolsManager {
     const props = toolElement.reactElement.props as IBaseToolProps;
     if (props.activated) {
       this.updateToolProps(uid, { activated: false });
-      if (!props.independant) {
+      if (!props.independant && !silent) {
         let defaultTool: IToolElement;
         this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
@@ -132,7 +132,7 @@ export class ToolsManager {
           }
         });
         if (defaultTool != null) {
-          this.activateTool(defaultTool.uid);
+          this.activateTool(defaultTool.uid, silent);
         }
       }
     }

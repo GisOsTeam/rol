@@ -12,6 +12,7 @@ import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { Control } from '../container/Control';
 import { Zone } from '../container/Zone';
+import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
@@ -114,6 +115,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <PanZoom uid="PanZoom" />
               <ScaleLine uid="ScaleLine" />
               <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
+                <ZoomRectangleWidget uid="zoomRectangle" />
                 <CounterButton uid="CounterButton" />
                 <CounterButtonFunction uid="CounterButtonFunction" />
                 <CounterWindow uid="CounterWindow" />

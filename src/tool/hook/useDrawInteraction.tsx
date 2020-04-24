@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import Draw from 'ol/interaction/Draw';
+import Draw, { GeometryFunction, DrawEvent } from 'ol/interaction/Draw';
 import GeometryType from 'ol/geom/GeometryType';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
+import { MapBrowserEvent } from 'ol';
+import { ListenerFunction } from 'ol/events';
 
 export interface IUseDrawInteractionProps {
   /**
@@ -13,6 +15,14 @@ export interface IUseDrawInteractionProps {
    * Type.
    */
   type: GeometryType;
+  /**
+   *
+   */
+  geometryFunction?: GeometryFunction;
+  /**
+   *
+   */
+  onDrawEnd?: (evt?: DrawEvent) => void;
   /**
    * Activated.
    */
@@ -25,13 +35,19 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   // Effect for build interaction
   React.useEffect(() => {
     const buildDrawInteraction = () => {
-      setDraw(
-        new Draw({
-          source: props.source,
-          type: props.type
-        })
-      );
+      const preCreateDraw = new Draw({
+        source: props.source,
+        type: props.type,
+        geometryFunction: props.geometryFunction
+      });
+
+      if (props.onDrawEnd) {
+        preCreateDraw.on('drawend', props.onDrawEnd);
+      }
+
+      setDraw(preCreateDraw);
     };
+
     buildDrawInteraction();
     // Cleanup function
     return () => {

@@ -17,6 +17,6 @@ const functionalButton = (props: IBaseButtonToolProps) => {
     }
   }, [props.activated]);
   return <ContainerBtn>count: {String(count)}</ContainerBtn>;
-}
+};
 
-export const CounterButtonFunction = withBaseButtonTool(functionalButton,  { className: 'counter-button' });
+export const CounterButtonFunction = withBaseButtonTool(functionalButton, { className: 'counter-button' });

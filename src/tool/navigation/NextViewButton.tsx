@@ -5,13 +5,14 @@ import { useViewManager } from '../hook/useViewManager';
 import { useTranslate } from '../hook/useTranslate';
 
 const ContainerBtn = styled.div`
-  height: 28px;
   width: 32px;
   height: 28px;
+  position: relative;
   &:after {
     content: '⤻';
-    font-weight: bold;
-    vertical-align: middle;
+    position: absolute;
+    top: 6px;
+    margin-left: -7px;
   }
 `;
 
@@ -26,5 +27,5 @@ export const NextViewButton = withBaseButtonTool(
     }, [props.activated]);
     return <ContainerBtn title={translate('navigation.next', 'Next View')} />;
   },
-  { className: 'counter-button', toggle: false }
+  { className: 'next-view-button', toggle: false }
 );

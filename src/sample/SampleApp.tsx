@@ -117,8 +117,8 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <PanZoom uid="PanZoom" />
               <ScaleLine uid="ScaleLine" />
               <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-                <InitialViewButton uid="InitialView" />
                 <PreviousViewButton uid="PreviousView" />
+                <InitialViewButton uid="InitialView" />
                 <NextViewButton uid="NextView" />
                 <CounterButton uid="CounterButton" />
                 <CounterButtonFunction uid="CounterButtonFunction" />

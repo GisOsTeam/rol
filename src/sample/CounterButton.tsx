@@ -23,6 +23,12 @@ export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
     });
   }
 
+  public toolDidDeactivate(): void {
+    this.setState({
+      count: this.state.count + 1
+    });
+  }
+
   public renderTool(): React.ReactNode {
     return <ContainerBtn>count: {String(this.state.count)}</ContainerBtn>;
   }

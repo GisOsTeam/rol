@@ -158,7 +158,6 @@ export class ToolsManager {
     });
   }
 
-
   /**
    * Set toolElement
    */

@@ -1,27 +1,24 @@
-import * as React from 'react';
 import OlMap from 'ol/Map';
 import { Extent } from 'ol/extent';
 import { MapEvent } from 'ol';
 
 export class ViewManager {
-  private uid: string;
   private olMap: OlMap;
-  private refresh: () => void;
 
+  private initialExtent: Extent;
   private currentExtent: Extent;
   private futureExtends: Extent[] = [];
   private pastExtends: Extent[] = [];
   private shouldUpdate: boolean = true;
 
-  constructor(uid: string, olMap: OlMap, refresh: () => void) {
-    this.uid = uid;
+  constructor(olMap: OlMap) {
     this.olMap = olMap;
-		this.refresh = refresh;
-		// L'init de l'application fait un premier fit,
-		// donc la valeur par défaut de currentView se fera à ce moment là
+
+    // L'init de l'application fait un premier fit,
+    // donc la valeur par défaut de currentView se fera à ce moment là
     this.olMap.on('moveend', this.updateExtends.bind(this));
-	}
-	
+  }
+
   public unregister() {
     this.olMap.un('moveend', this.updateExtends.bind(this));
   }
@@ -47,19 +44,31 @@ export class ViewManager {
     }
   };
 
-	private updateExtends(evt: MapEvent) {
+  public fitToInitial = () => {
+    if (this.initialExtent) {
+      this.olMap.getView().fit(this.initialExtent);
+    }
+  };
+
+  private updateExtends(evt: MapEvent) {
     if (this.shouldUpdate) {
-			const { frameState } = evt;
-			// Premier moveend 
-			if (this.currentExtent) {
-				this.pastExtends = [...this.pastExtends, this.currentExtent];
-			}
+      const { frameState } = evt;
+      // Premier moveend
+      if (!this.initialExtent) {
+        this.initialExtent = frameState.extent;
+      } else {
+        this.pastExtends = [...this.pastExtends, this.currentExtent];
+      }
       this.currentExtent = frameState.extent;
       this.futureExtends = [];
 
-      console.log('New Extent', { pastExtends: this.pastExtends, currentExtent: this.currentExtent, futureExtends: this.futureExtends });
-		}
-		this.shouldUpdate = true;
+      console.log('New Extent', {
+        pastExtends: this.pastExtends,
+        currentExtent: this.currentExtent,
+        futureExtends: this.futureExtends
+      });
+    }
+    this.shouldUpdate = true;
   }
 
   private onPastFitEnd() {

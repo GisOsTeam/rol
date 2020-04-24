@@ -168,7 +168,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       })
     );
     this.layersManager = new LayersManager(props.uid, this.olMap, this.refresh);
-    this.viewManager = new ViewManager(props.uid, this.olMap, this.refresh);
+    this.viewManager = new ViewManager(this.olMap);
     this.toolsManager = new ToolsManager(props.uid, this.refresh);
   }
 

@@ -20,6 +20,7 @@ import { LayerLoader } from '../tool/LayerLoader';
 import { Identify } from '../tool/Identify';
 import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
 import { NextViewButton } from '../tool/navigation/NextViewButton';
+import { InitialViewButton } from '../tool/navigation/InitialViewButton';
 import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
@@ -116,6 +117,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <PanZoom uid="PanZoom" />
               <ScaleLine uid="ScaleLine" />
               <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
+                <InitialViewButton uid="InitialView" />
                 <PreviousViewButton uid="PreviousView" />
                 <NextViewButton uid="NextView" />
                 <CounterButton uid="CounterButton" />

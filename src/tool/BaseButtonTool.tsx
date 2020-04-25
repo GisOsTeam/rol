@@ -57,29 +57,30 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
       if (this.props.onButtonClick) {
         this.props.onButtonClick();
       }
-      if (this.props.toggle) {
-        if (this.props.activated) {
-          this.deactivate();
-        } else {
-          this.activate();
-        }
+
+      if (this.props.activated) {
+        this.deactivate(!this.props.toggle);
       } else {
-        this.activate();
+        this.activate(!this.props.toggle);
       }
     }
   };
 
   public render(): React.ReactNode {
+    const toggleClass = this.props.toggle ? `${this.props.className}-toggle` : '';
+    const activatedClass = this.props.activated
+      ? `${this.props.className}-activated`
+      : `${this.props.className}-unactivated`;
     const className = `${this.props.className}
-      ${this.props.toggle ? `${this.props.className}-toggle` : ''}
-      ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
+      ${toggleClass}
+      ${this.props.toggle ? activatedClass : ''}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
     return (
       <Button
         className={className}
         title={this.props.buttonTitle}
         onClick={this.handleBaseButtonClick}
-        activated={this.props.activated}
+        activated={this.props.toggle && this.props.activated}
       >
         {this.renderTool()}
       </Button>

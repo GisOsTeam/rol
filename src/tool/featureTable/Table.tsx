@@ -50,15 +50,15 @@ export interface ITableProps {
 export function objectToITableFeature(inObject: { [key: string]: any }): ITableFeature {
   const featureSummary: ITableFeature = {};
   Object.keys(inObject)
-    .filter(prop => typeof inObject[prop] !== 'object')
-    .forEach(key => {
+    .filter((prop) => typeof inObject[prop] !== 'object')
+    .forEach((key) => {
       if (!featureSummary[key]) {
         featureSummary[key] = [];
       }
 
       const currentVal = inObject[key];
       if (currentVal instanceof Array) {
-        currentVal.forEach(val => {
+        currentVal.forEach((val) => {
           featureSummary[key].push(val);
         });
       } else {
@@ -80,7 +80,7 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
           highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
         }`}
         key={`layerTab-${key}-${value}-${index}`}
-        onClick={e => (onClickRow ? onClickRow(key, value, nbRows - 1, e) : null)}
+        onClick={(e) => (onClickRow ? onClickRow(key, value, nbRows - 1, e) : null)}
       >
         <td className="label-cell">{key}</td>
         <td className="value-cell">{value}</td>

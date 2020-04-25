@@ -15,7 +15,7 @@ const Window = styled.div`
 
 const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
   height: 20px;
-  background: ${props => (props.activated ? '#88f' : '#ddd')};
+  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   border: 1px solid #999;
   border-radius: 2px;
   display: block;
@@ -34,23 +34,23 @@ const Button = styled.button<Pick<{ activated?: boolean }, 'activated'>>`
   margin: 0px;
   padding: 0px;
   border-radius: 6px;
-  border: 1px solid ${props => (props.activated ? '#ccc' : '#ddd')};
-  box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#ddf' : '#fff')};
+  border: 1px solid ${(props) => (props.activated ? '#ccc' : '#ddd')};
+  box-shadow: inset 0px 1px 0px 0px ${(props) => (props.activated ? '#ddf' : '#fff')};
   background: linear-gradient(
     to bottom,
-    ${props => (props.activated ? '#ddf' : '#fff')} 5%,
-    ${props => (props.activated ? '#aac' : '#ddd')} 100%
+    ${(props) => (props.activated ? '#ddf' : '#fff')} 5%,
+    ${(props) => (props.activated ? '#aac' : '#ddd')} 100%
   );
   color: #444;
   text-decoration: none;
   text-shadow: 0px 1px 0px #fff;
   &:hover {
-    border: 1px solid ${props => (props.activated ? '#999' : '#aaa')};
-    box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#aac' : '#ccc')};
+    border: 1px solid ${(props) => (props.activated ? '#999' : '#aaa')};
+    box-shadow: inset 0px 1px 0px 0px ${(props) => (props.activated ? '#aac' : '#ccc')};
     background: linear-gradient(
       to bottom,
-      ${props => (props.activated ? '#aac' : '#ccc')} 5%,
-      ${props => (props.activated ? '#779' : '#aaa')} 100%
+      ${(props) => (props.activated ? '#aac' : '#ccc')} 5%,
+      ${(props) => (props.activated ? '#779' : '#aaa')} 100%
     );
   }
 `;
@@ -127,7 +127,7 @@ export class BaseWindowTool<
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
-    hideCloseButton: false
+    hideCloseButton: false,
   };
 
   public windowElement: HTMLSpanElement;
@@ -153,8 +153,8 @@ export class BaseWindowTool<
           top: -boundingRect.top,
           bottom: Window.innerHeight - boundingRect.top - boundingRect.height,
           left: -boundingRect.left,
-          right: Window.innerWidth - boundingRect.right
-        }
+          right: Window.innerWidth - boundingRect.right,
+        },
       });
     }
   }
@@ -169,7 +169,7 @@ export class BaseWindowTool<
     this.setState(
       {
         open: true,
-        zIndex: topZIndex++
+        zIndex: topZIndex++,
       },
       () => {
         if (this.props.onOpen) {
@@ -190,7 +190,7 @@ export class BaseWindowTool<
     }
     this.setState(
       {
-        open: false
+        open: false,
       },
       () => {
         if (this.props.onClose) {
@@ -205,7 +205,7 @@ export class BaseWindowTool<
   public start() {
     this.activate();
     this.setState({
-      position: null
+      position: null,
     });
   }
 
@@ -242,12 +242,12 @@ export class BaseWindowTool<
     let style;
     if (this.state.open) {
       style = {
-        zIndex: this.state.zIndex
+        zIndex: this.state.zIndex,
       };
     } else {
       style = {
         zIndex: 0,
-        display: 'none'
+        display: 'none',
       };
     }
     const className = `${this.props.className}
@@ -339,7 +339,7 @@ export class BaseWindowTool<
             className={className}
             onClick={this.handleWindowClick}
             style={style}
-            ref={ref => (this.windowElement = ref)}
+            ref={(ref) => (this.windowElement = ref)}
           >
             <TitleBar className={titleClassName} activated={this.props.activated}>
               {this.renderHeaderContent()}

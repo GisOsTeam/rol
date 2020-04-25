@@ -13,7 +13,7 @@ import { rolContext } from '../../RolContext';
 export const defaultHighlightStyle = new Style({
   fill: new Fill({ color: 'rgba(0, 255, 255, 0.25)' }),
   stroke: new Stroke({ color: 'rgba(0, 255, 255, 0.9)', width: 3 }),
-  zIndex: 100
+  zIndex: 100,
 });
 
 export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
@@ -23,14 +23,14 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
   const source = useDrawSource({
     layerUid: 'identify-highlight',
     persist: false,
-    listable: false
+    listable: false,
   });
 
   React.useEffect(() => {
     if (!props.activated && !props.open) {
       if (source) {
-        Object.values(features).forEach(featArray => {
-          featArray.forEach(feat => {
+        Object.values(features).forEach((featArray) => {
+          featArray.forEach((feat) => {
             feat.setStyle(undefined);
           });
         });
@@ -40,7 +40,7 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     }
   }, [props.activated, props.open]);
 
-  const filterListableSource: IdentifyFilterType = extended => {
+  const filterListableSource: IdentifyFilterType = (extended) => {
     return extended !== source;
   };
 
@@ -49,27 +49,27 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
     filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IIdentifyResponseFeatures = {};
-      Object.keys(identifyResp.features).forEach(layerElementUid => {
+      Object.keys(identifyResp.features).forEach((layerElementUid) => {
         const layerElement = layersManager.getLayerElementByUID(layerElementUid);
         const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
         const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
         newFeatures[name] = identifyResp.features[layerElementUid];
       });
       setFeatures(newFeatures);
-    }
+    },
   });
 
   if (Object.keys(features).length > 0) {
     let identified: any = [];
-    Object.values(features).forEach(featArray => (identified = identified.concat(...featArray)));
+    Object.values(features).forEach((featArray) => (identified = identified.concat(...featArray)));
     source.clear();
     source.addFeatures(identified);
   }
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {
     if (source) {
-      Object.values(features).forEach(featArray => {
-        featArray.forEach(feat => {
+      Object.values(features).forEach((featArray) => {
+        featArray.forEach((feat) => {
           if (selectedFeatures.indexOf(feat) > -1) {
             feat.setStyle(defaultHighlightStyle);
           } else {

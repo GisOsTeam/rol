@@ -8,6 +8,7 @@ import { CounterWindowFunction } from './CounterWindowFunction';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
+import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { Control } from '../container/Control';
@@ -51,6 +52,11 @@ const britishNationalGrid = new ImageStatic({
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
   types: [{ id: 'topp:states' }]
+} as any);
+
+const cities = new ImageWms({
+  url: 'https://demo.mapserver.org/cgi-bin/wms',
+  types: [{ id: 'cities' }],
 } as any);
 
 const highways = new ImageArcGISRest({
@@ -104,6 +110,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
           name="Topp States"
           description="Topp States WMS Layer"
         />
+        <Image uid="UID -- Cities" source={cities} name="Cities" />
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>

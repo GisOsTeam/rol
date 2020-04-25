@@ -51,7 +51,7 @@ export const GenericLayerFileLoader = ({ accept, onFileSelected }: IGenericLayer
         uid: uid(),
         name: (source.getSourceOptions() as any).name,
         type: 'OVERLAY',
-        source,
+        source
       });
     });
   };

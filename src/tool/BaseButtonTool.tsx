@@ -7,23 +7,23 @@ const Button = styled.button<Pick<{ activated?: boolean }, 'activated'>>`
   margin: 0px;
   padding: 0px;
   border-radius: 6px;
-  border: 1px solid ${(props) => (props.activated ? '#ccc' : '#ddd')};
-  box-shadow: inset 0px 1px 0px 0px ${(props) => (props.activated ? '#ddf' : '#fff')};
+  border: 1px solid ${props => (props.activated ? '#ccc' : '#ddd')};
+  box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#ddf' : '#fff')};
   background: linear-gradient(
     to bottom,
-    ${(props) => (props.activated ? '#ddf' : '#fff')} 5%,
-    ${(props) => (props.activated ? '#aac' : '#ddd')} 100%
+    ${props => (props.activated ? '#ddf' : '#fff')} 5%,
+    ${props => (props.activated ? '#aac' : '#ddd')} 100%
   );
   color: #444;
   text-decoration: none;
   text-shadow: 0px 1px 0px #fff;
   &:hover {
-    border: 1px solid ${(props) => (props.activated ? '#999' : '#aaa')};
-    box-shadow: inset 0px 1px 0px 0px ${(props) => (props.activated ? '#aac' : '#ccc')};
+    border: 1px solid ${props => (props.activated ? '#999' : '#aaa')};
+    box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#aac' : '#ccc')};
     background: linear-gradient(
       to bottom,
-      ${(props) => (props.activated ? '#aac' : '#ccc')} 5%,
-      ${(props) => (props.activated ? '#779' : '#aaa')} 100%
+      ${props => (props.activated ? '#aac' : '#ccc')} 5%,
+      ${props => (props.activated ? '#779' : '#aaa')} 100%
     );
   }
 `;
@@ -48,7 +48,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
     ...BaseTool.defaultProps,
     toggle: false,
     className: 'button-tool',
-    buttonTitle: '',
+    buttonTitle: ''
   };
 
   public handleBaseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {

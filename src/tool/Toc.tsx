@@ -55,7 +55,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
 
   public static defaultProps = {
     ...BaseTool.defaultProps,
-    className: 'toc',
+    className: 'toc'
   };
 
   public context: IRolContext;
@@ -71,8 +71,8 @@ export class Toc extends BaseTool<ITocProps, {}> {
   public renderBaseList(parentId: string = 'map'): React.ReactNodeArray {
     const bases: React.ReactNodeArray = [];
     this.context.layersManager
-      .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'BASE')
-      .forEach((layerElement) => {
+      .getLayerElements(layerElement => layerElement.reactElement.props.type === 'BASE')
+      .forEach(layerElement => {
         const source = layerElement.reactElement.props['source'];
         if (source != null && 'isListable' in source) {
           if ((source as IExtended).isListable()) {
@@ -119,8 +119,8 @@ export class Toc extends BaseTool<ITocProps, {}> {
   public renderOverlayTree(parentId: string = 'map'): React.ReactNodeArray {
     const overlayTree: React.ReactNodeArray = [];
     this.context.layersManager
-      .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'OVERLAY')
-      .forEach((layerElement) => {
+      .getLayerElements(layerElement => layerElement.reactElement.props.type === 'OVERLAY')
+      .forEach(layerElement => {
         const source = layerElement.reactElement.props['source'];
         if (source != null && 'isListable' in source) {
           if ((source as IExtended).isListable()) {

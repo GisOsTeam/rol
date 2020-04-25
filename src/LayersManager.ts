@@ -78,22 +78,22 @@ export class LayersManager {
     const view = {
       center: olView.getCenter() as [number, number],
       zoom: olView.getZoom(),
-      projectionCode: olView.getProjection().getCode(),
+      projectionCode: olView.getProjection().getCode()
     };
     // Projections
     const projections: ISnapshotProjection[] = [];
-    getProjectionInfos().map((projectionInfo) => {
+    getProjectionInfos().map(projectionInfo => {
       projections.push({
         code: projectionInfo.code,
         name: projectionInfo.name,
         lonLatValidity: projectionInfo.lonLatValidity,
         remarks: projectionInfo.remarks,
-        wkt: projectionInfo.wkt,
+        wkt: projectionInfo.wkt
       });
     });
     // Layers
     const layers: ISnapshotLayer[] = [];
-    this.getLayerElements().map((layerElement) => {
+    this.getLayerElements().map(layerElement => {
       const props = { ...layerElement.reactElement.props };
       const source = props.source;
       if (source != null && 'getSourceType' in source && 'getSourceOptions' in source && 'isSnapshotable' in source) {
@@ -103,7 +103,7 @@ export class LayersManager {
           layers.push({
             sourceType: (source as IExtended).getSourceType(),
             sourceOptions: (source as IExtended).getSourceOptions(),
-            props,
+            props
           });
         }
       }
@@ -111,7 +111,7 @@ export class LayersManager {
     return {
       view,
       projections,
-      layers,
+      layers
     };
   };
 
@@ -150,7 +150,7 @@ export class LayersManager {
         console.warn(`ROL LayerManager addServiceFromFile -- ServiceType ${type} can't be loaded from a file`);
         return null;
     }
-    return promise.then((extended) => this.addServiceFromSource(extended));
+    return promise.then(extended => this.addServiceFromSource(extended));
   }
 
   /**
@@ -167,7 +167,7 @@ export class LayersManager {
       name,
       description,
       type: 'OVERLAY',
-      source,
+      source
     });
     return uid;
   }
@@ -177,17 +177,17 @@ export class LayersManager {
    */
   public reloadFromSnapshot = (snapshot: ISnapshot) => {
     // Remove old
-    this.getLayerElements().map((layerElement) => {
+    this.getLayerElements().map(layerElement => {
       this.setLayerElement(
         {
           ...layerElement,
-          status: 'del',
+          status: 'del'
         },
         false
       );
     });
     // Projections
-    snapshot.projections.forEach((projection) => {
+    snapshot.projections.forEach(projection => {
       addProjection(projection.code, projection.wkt, projection.lonLatValidity, projection.name, projection.remarks);
     });
     // View
@@ -195,11 +195,11 @@ export class LayersManager {
       new OlView({
         center: snapshot.view.center,
         zoom: snapshot.view.zoom,
-        projection: snapshot.view.projectionCode,
+        projection: snapshot.view.projectionCode
       })
     );
     // Layers
-    snapshot.layers.forEach((layer) => {
+    snapshot.layers.forEach(layer => {
       this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.props);
     });
     // Refresh
@@ -217,7 +217,7 @@ export class LayersManager {
     if (layerMap == null) {
       return [];
     }
-    const arr = Array.from(layerMap.values()).filter((layerElement) => layerElement.status !== 'del');
+    const arr = Array.from(layerMap.values()).filter(layerElement => layerElement.status !== 'del');
     return filterFn == null ? arr : arr.filter(filterFn, thisFilterArg);
   }
 
@@ -234,14 +234,14 @@ export class LayersManager {
   }
 
   public getLayerElementByUID(uid: string): ILayerElement {
-    return this.getLayerElements((le) => le.uid === uid).pop();
+    return this.getLayerElements(le => le.uid === uid).pop();
   }
 
   /**
    * Update layer props
    */
   public updateLayerProps(uid: string, props: any, refreshIfChanging = true) {
-    const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
     if (layerElement != null) {
       this.setLayerElement(
         {
@@ -250,9 +250,9 @@ export class LayersManager {
             ...layerElement.reactElement.props,
             ...props,
             uid,
-            key: uid,
+            key: uid
           }),
-          updatedProps: { ...layerElement.updatedProps, ...props },
+          updatedProps: { ...layerElement.updatedProps, ...props }
         },
         refreshIfChanging
       );
@@ -265,7 +265,7 @@ export class LayersManager {
    * Set Openlayers layer
    */
   public setOlLayer(uid: string, olLayer: OlBaseLayer) {
-    const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
     if (layerElement != null) {
       layerElement.olLayer = olLayer;
       layerElement.olLayer.set('uid', uid, true);
@@ -278,7 +278,7 @@ export class LayersManager {
    * Get Openlayers layer
    */
   public getOlLayer(uid: string): OlBaseLayer {
-    const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
     if (layerElement != null) {
       return layerElement.olLayer;
     } else {
@@ -291,7 +291,7 @@ export class LayersManager {
    * Remove layer
    */
   public removeLayer(uid: string) {
-    const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
     if (layerElement != null) {
       layerElement.status = 'del';
     }
@@ -306,13 +306,13 @@ export class LayersManager {
   ) {
     const reactElement = React.createElement(cl, {
       ...props,
-      key: props.uid,
+      key: props.uid
     });
     this.setLayerElement({
       reactElement,
       uid: props.uid,
       updatedProps: {},
-      status: 'ext',
+      status: 'ext'
     });
   }
 
@@ -324,7 +324,7 @@ export class LayersManager {
     sourceOptions: any,
     props: IBaseLayerProps
   ): IExtended {
-    const layerElement = this.getLayerElements((layerElement) => layerElement.uid == props.uid).pop();
+    const layerElement = this.getLayerElements(layerElement => layerElement.uid == props.uid).pop();
     if (layerElement != null) {
       if (layerElement.olLayer != null) {
         return 'getSource' in layerElement.olLayer ? (layerElement.olLayer as any).getSource() : null;
@@ -379,7 +379,7 @@ export class LayersManager {
     }
     const toDel = new Set<string>();
     // Old children
-    this.getLayerElements((layerElement) => layerElement.status === 'react').map((layerElement) => {
+    this.getLayerElements(layerElement => layerElement.status === 'react').map(layerElement => {
       toDel.add(layerElement.uid);
     });
     // Next children
@@ -399,13 +399,13 @@ export class LayersManager {
               const props = {
                 ...nextChild.props,
                 ...(layerElement != null ? layerElement.updatedProps : {}),
-                key: uid,
+                key: uid
               };
               this.setLayerElement({
                 reactElement: React.cloneElement(nextChild, props),
                 status: 'react',
                 updatedProps: layerElement != null ? layerElement.updatedProps : {},
-                uid,
+                uid
               });
               if (layerElement != null) {
                 this.setOlLayer(uid, layerElement.olLayer);
@@ -417,7 +417,7 @@ export class LayersManager {
     }
     // Set status to 'del' removed children
     toDel.forEach((uid: string) => {
-      const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
+      const layerElement = this.getLayerElements(layerElement => layerElement.uid == uid).pop();
       if (layerElement != null) {
         layerElement.status = 'del';
       }
@@ -437,7 +437,7 @@ export class LayersManager {
     if (!found) {
       if (layerElement.status !== 'del') {
         layerMap.set(layerElement.uid, {
-          ...layerElement,
+          ...layerElement
         });
         changed = true;
       }
@@ -446,7 +446,7 @@ export class LayersManager {
         if (found.status === 'react') {
           layerMap.set(layerElement.uid, {
             ...layerElement,
-            status: 'del',
+            status: 'del'
           });
           changed = true;
         } else if (found.status === 'ext') {
@@ -455,7 +455,7 @@ export class LayersManager {
         }
       } else {
         layerMap.set(layerElement.uid, {
-          ...layerElement,
+          ...layerElement
         });
         changed = !jsonEqual(found.reactElement.props, layerElement.reactElement.props, ['source', 'children']);
       }

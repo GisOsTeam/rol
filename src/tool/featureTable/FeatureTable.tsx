@@ -42,7 +42,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
       customFeat[customFeatureId] = id;
       customFeat = {
         ...customFeat,
-        ...feature.getProperties(),
+        ...feature.getProperties()
       };
       const displayedFeat = objectToITableFeature(customFeat);
 
@@ -59,11 +59,11 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const featureSummary: ITableFeature = {};
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
-  layerUIDs.forEach((layerName) => {
+  layerUIDs.forEach(layerName => {
     if (!featureSummary[layerName]) {
       featureSummary[layerName] = [];
     }
-    props.features[layerName].forEach((feature) => {
+    props.features[layerName].forEach(feature => {
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
       featureSummary[layerName].push(id.toString());
       if (displayedObjects.lastIndexOf(feature) > -1) {
@@ -74,7 +74,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   });
 
   const onClickTab = (key: string, value: string, index: number) => {
-    const newFeatures = props.features[key].filter((feat) => feat.getId() === value || getUid(feat) === value);
+    const newFeatures = props.features[key].filter(feat => feat.getId() === value || getUid(feat) === value);
     if (props.onChangeDisplayedFeature) {
       props.onChangeDisplayedFeature(newFeatures);
     }

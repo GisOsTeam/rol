@@ -28,7 +28,7 @@ export class ViewManager {
     if (pastExtends.length > 0) {
       this.shouldUpdate = false;
       this.olMap.getView().fit(pastExtends[pastExtends.length - 1], {
-        callback: this.onPastFitEnd.bind(this)
+        callback: this.onPastFitEnd.bind(this),
       });
     }
   };
@@ -39,7 +39,7 @@ export class ViewManager {
     if (futureExtends.length > 0) {
       this.shouldUpdate = false;
       this.olMap.getView().fit(futureExtends[0], {
-        callback: this.onFutureFitEnd.bind(this)
+        callback: this.onFutureFitEnd.bind(this),
       });
     }
   };
@@ -65,7 +65,7 @@ export class ViewManager {
       console.log('New Extent', {
         pastExtends: this.pastExtends,
         currentExtent: this.currentExtent,
-        futureExtends: this.futureExtends
+        futureExtends: this.futureExtends,
       });
     }
     this.shouldUpdate = true;

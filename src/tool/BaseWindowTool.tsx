@@ -15,7 +15,7 @@ const Window = styled.div`
 
 const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
   height: 20px;
-  background: ${props => (props.activated ? '#88f' : '#ddd')};
+  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   border: 1px solid #999;
   border-radius: 2px;
   display: block;
@@ -29,12 +29,14 @@ const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
   user-select: none;
 `;
 
-const Button = styled.button<{ activated?: boolean, independant?: boolean }>`
+const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   height: 32px;
   min-width: 32px;
-  background-color: ${props => (props.activated && !props.independant ? 'rgba(245,245,245,0.61)' : 'rgba(213,213,213,0.61)')};
+  background-color: ${(props) =>
+    props.activated && !props.independant ? 'rgba(245,245,245,0.61)' : 'rgba(213,213,213,0.61)'};
   border-style: solid;
-  border-color: ${props => (props.activated && !props.independant ? 'rgba(145,145,145,0.61)' : 'rgba(172,172,172,0.61)')};
+  border-color: ${(props) =>
+    props.activated && !props.independant ? 'rgba(145,145,145,0.61)' : 'rgba(172,172,172,0.61)'};
   color: #242424;
   box-shadow: none;
   display: inline-flex;
@@ -115,7 +117,7 @@ export class BaseWindowTool<
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
-    hideCloseButton: false
+    hideCloseButton: false,
   };
 
   public windowElement: HTMLSpanElement;
@@ -141,8 +143,8 @@ export class BaseWindowTool<
           top: -boundingRect.top,
           bottom: Window.innerHeight - boundingRect.top - boundingRect.height,
           left: -boundingRect.left,
-          right: Window.innerWidth - boundingRect.right
-        }
+          right: Window.innerWidth - boundingRect.right,
+        },
       });
     }
   }
@@ -157,7 +159,7 @@ export class BaseWindowTool<
     this.setState(
       {
         open: true,
-        zIndex: topZIndex++
+        zIndex: topZIndex++,
       },
       () => {
         if (this.props.onOpen) {
@@ -178,7 +180,7 @@ export class BaseWindowTool<
     }
     this.setState(
       {
-        open: false
+        open: false,
       },
       () => {
         if (this.props.onClose) {
@@ -193,7 +195,7 @@ export class BaseWindowTool<
   public start() {
     this.activate();
     this.setState({
-      position: null
+      position: null,
     });
   }
 
@@ -230,12 +232,12 @@ export class BaseWindowTool<
     let style;
     if (this.state.open) {
       style = {
-        zIndex: this.state.zIndex
+        zIndex: this.state.zIndex,
       };
     } else {
       style = {
         zIndex: 0,
-        display: 'none'
+        display: 'none',
       };
     }
     const className = `${this.props.className}
@@ -328,7 +330,7 @@ export class BaseWindowTool<
             className={className}
             onClick={this.handleWindowClick}
             style={style}
-            ref={ref => (this.windowElement = ref)}
+            ref={(ref) => (this.windowElement = ref)}
           >
             <TitleBar className={titleClassName} activated={this.props.activated}>
               {this.renderHeaderContent()}

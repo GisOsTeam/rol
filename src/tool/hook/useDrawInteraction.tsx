@@ -28,7 +28,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       setDraw(
         new Draw({
           source: props.source,
-          type: props.type
+          type: props.type,
         })
       );
     };

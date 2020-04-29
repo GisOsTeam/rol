@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BaseContainer, IBaseContainerProps, IBaseContaineState } from './BaseContainer';
 
 const Container = styled.div`
-display: inline-flex;
+  display: inline-flex;
 `;
 
 export interface IZoneProps extends IBaseContainerProps {
@@ -25,7 +25,7 @@ export interface IZoneState extends IBaseContaineState {}
 
 export class Zone extends BaseContainer<IZoneProps, IZoneState> {
   public static defaultProps = {
-    className: 'zone'
+    className: 'zone',
   };
 
   constructor(props: IZoneProps) {

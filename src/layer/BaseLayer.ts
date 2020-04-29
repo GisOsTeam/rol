@@ -56,7 +56,7 @@ export class BaseLayer<
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public static defaultProps = {
-    type: 'OVERLAY'
+    type: 'OVERLAY',
   };
 
   public context: IRolContext;
@@ -195,11 +195,11 @@ export class BaseLayer<
     const value = event.target.get(key);
     if (key === 'visible' && value === true && this.props.type === 'BASE') {
       this.context.layersManager
-        .getLayerElements(layerElement => {
+        .getLayerElements((layerElement) => {
           const props = layerElement.reactElement.props;
           return props.type === 'BASE' && props.visible === true && layerElement.uid !== this.props.uid;
         })
-        .forEach(layerElement => {
+        .forEach((layerElement) => {
           this.context.layersManager.updateLayerProps(layerElement.uid, { visible: false });
         });
     }

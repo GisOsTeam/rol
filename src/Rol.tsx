@@ -121,7 +121,7 @@ export interface IRolState {
 
 export class Rol extends React.Component<IRolProps, IRolState> {
   public static defaultProps = {
-    className: 'map'
+    className: 'map',
   };
 
   /**
@@ -153,18 +153,18 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       this.olMap = new OlMap({
         controls: [],
         interactions: [],
-        keyboardEventTarget: props.keyboardEventTarget
+        keyboardEventTarget: props.keyboardEventTarget,
       });
     } else {
       this.olMap = new OlMap({
         controls: [],
-        keyboardEventTarget: props.keyboardEventTarget
+        keyboardEventTarget: props.keyboardEventTarget,
       });
     }
     this.olMap.setView(
       new OlView({
         center: [0, 0],
-        zoom: 2
+        zoom: 2,
       })
     );
     this.layersManager = new LayersManager(props.uid, this.olMap, this.refresh);
@@ -180,7 +180,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       this.props.afterMount.call(this, {
         olMap: this.olMap,
         layersManager: this.layersManager,
-        toolsManager: this.toolsManager
+        toolsManager: this.toolsManager,
       } as IAfterData);
     }
   }
@@ -192,7 +192,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       this.props.afterUpdate.call(this, {
         olMap: this.olMap,
         layersManager: this.layersManager,
-        toolsManager: this.toolsManager
+        toolsManager: this.toolsManager,
       } as IAfterData);
     }
   }
@@ -220,13 +220,15 @@ export class Rol extends React.Component<IRolProps, IRolState> {
   public renderChildren(): React.ReactElement<any>[] {
     const elems: React.ReactElement<any>[] = [];
     // Layers
-    this.layersManager.getLayerElements().forEach(layerElement => {
+    this.layersManager.getLayerElements().forEach((layerElement) => {
       elems.push(layerElement.reactElement);
     });
     // Tools
     React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
       if (child != null && BaseTool.isPrototypeOf(child.type)) {
-        const toolElement = this.toolsManager.getToolElements(toolElement => toolElement.uid == child.props.uid).pop();
+        const toolElement = this.toolsManager
+          .getToolElements((toolElement) => toolElement.uid == child.props.uid)
+          .pop();
         if (toolElement != null) {
           elems.push(toolElement.reactElement);
         }
@@ -247,7 +249,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
         <GlobalStyle />
         {this.renderProjections()}
         <div
-          ref={divMap => {
+          ref={(divMap) => {
             this.divMap = divMap;
           }}
           className={`${this.props.className}-olmap`}
@@ -262,7 +264,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
             viewManager: this.viewManager,
             translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
               return defaultText;
-            }
+            },
           }}
         >
           {this.renderChildren()}

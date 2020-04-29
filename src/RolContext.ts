@@ -43,5 +43,5 @@ export const rolContext = React.createContext<IRolContext>({
   viewManager: null,
   translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;
-  }
+  },
 });

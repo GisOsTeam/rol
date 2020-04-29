@@ -33,7 +33,7 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     activated: false,
     defaultActivated: false,
     independant: false,
-    className: 'tool'
+    className: 'tool',
   };
 
   public static contextType: React.Context<IRolContext> = rolContext;
@@ -62,13 +62,13 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     this.toolDidDestroy();
   }
 
-  public toolDidConstruct(): void { }
+  public toolDidConstruct(): void {}
 
-  public toolDidActivate(): void { }
+  public toolDidActivate(): void {}
 
-  public toolDidDeactivate(): void { }
+  public toolDidDeactivate(): void {}
 
-  public toolDidDestroy(): void { }
+  public toolDidDestroy(): void {}
 
   /**
    * Activate tool.

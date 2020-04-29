@@ -39,7 +39,7 @@ export class Overlay extends BaseContainer<IOverlayProps, IOverlayState> {
   public static defaultProps = {
     positioning: 'top-left',
     stopEvent: false,
-    autoPan: false
+    autoPan: false,
   };
 
   public context: IRolContext;
@@ -63,7 +63,7 @@ export class Overlay extends BaseContainer<IOverlayProps, IOverlayState> {
     super(props);
     this.state = {
       changedCounter: 0,
-      overlay: null
+      overlay: null,
     };
   }
 
@@ -85,11 +85,11 @@ export class Overlay extends BaseContainer<IOverlayProps, IOverlayState> {
     const overlay = new OlOverlay({
       element: this.overlayDiv.children[0],
       stopEvent: this.props.stopEvent,
-      autoPan: this.props.autoPan
+      autoPan: this.props.autoPan,
     });
     this.context.olMap.addOverlay(overlay);
     this.setState({
-      overlay
+      overlay,
     });
   }
 

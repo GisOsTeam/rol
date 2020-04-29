@@ -41,12 +41,12 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
     const buildDrawInteractionAndLayer = () => {
       const sourceOptions = {
         snapshotable: props.snapshotable === true,
-        listable: props.listable === true
+        listable: props.listable === true,
       };
       const layerProps = {
         uid: props.layerUid,
         name: props.name != null ? props.name : 'Draw',
-        layerStyles: props.styles != null ? props.styles : getDefaultLayerStyles()
+        layerStyles: props.styles != null ? props.styles : getDefaultLayerStyles(),
       };
       const localVectorSource = context.layersManager.createAndAddLayerFromSourceDefinition(
         SourceTypeEnum.LocalVector,

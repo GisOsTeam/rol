@@ -48,7 +48,7 @@ export class ToolsManager {
     if (toolMap == null) {
       return [];
     }
-    const arr = Array.from(toolMap.values()).filter(toolElement => toolElement.status !== 'del');
+    const arr = Array.from(toolMap.values()).filter((toolElement) => toolElement.status !== 'del');
     return filterFn == null ? arr : arr.filter(filterFn, thisFilterArg);
   }
 
@@ -56,7 +56,7 @@ export class ToolsManager {
    * Update tool props
    */
   public updateToolProps(uid: string, props: any, refreshIfChanging = true) {
-    const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
+    const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement != null) {
       this.setToolElement(
         {
@@ -65,9 +65,9 @@ export class ToolsManager {
             ...toolElement.reactElement.props,
             ...props,
             uid,
-            key: uid
+            key: uid,
           }),
-          updatedProps: { ...toolElement.updatedProps, ...props }
+          updatedProps: { ...toolElement.updatedProps, ...props },
         },
         refreshIfChanging
       );
@@ -85,18 +85,18 @@ export class ToolsManager {
   ) {
     const reactElement = React.createElement(cl, {
       ...props,
-      uid: props.uid
+      uid: props.uid,
     });
     this.setToolElement({
       reactElement,
       uid: props.uid,
       updatedProps: {},
-      status: 'ext'
+      status: 'ext',
     });
   }
 
   public activateTool(uid: string, force: boolean = false) {
-    const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
+    const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
       return;
@@ -111,7 +111,7 @@ export class ToolsManager {
     }
     if (!props.activated || force) {
       if (!props.independant) {
-        this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
+        this.getToolElements((otherToolElement) => otherToolElement.uid !== uid).forEach((otherToolElement) => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
             this.updateToolProps(otherToolElement.uid, { activated: false });
           }
@@ -122,7 +122,7 @@ export class ToolsManager {
   }
 
   public deactivateTool(uid: string) {
-    const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
+    const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
       return;
@@ -132,7 +132,7 @@ export class ToolsManager {
       this.updateToolProps(uid, { activated: false });
       if (!props.independant) {
         let defaultTool: IToolElement;
-        this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
+        this.getToolElements((otherToolElement) => otherToolElement.uid !== uid).forEach((otherToolElement) => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
             this.updateToolProps(otherToolElement.uid, { activated: false });
             if ((otherToolElement.reactElement.props as IBaseToolProps).defaultActivated) {
@@ -153,14 +153,14 @@ export class ToolsManager {
   public fromChildren(nextChildren: React.ReactNode) {
     const toDel = new Set<string>();
     // Old children
-    this.getToolElements(toolElement => toolElement.status === 'react').map(toolElement => {
+    this.getToolElements((toolElement) => toolElement.status === 'react').map((toolElement) => {
       toDel.add(toolElement.uid);
     });
     // Next children
     this.fromSubChildren(nextChildren, toDel);
     // Set status to 'del' removed children
     toDel.forEach((uid: string) => {
-      const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
+      const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
       if (toolElement != null) {
         toolElement.status = 'del';
       }
@@ -180,7 +180,7 @@ export class ToolsManager {
     if (!found) {
       if (toolElement.status !== 'del') {
         toolMap.set(toolElement.uid, {
-          ...toolElement
+          ...toolElement,
         });
         changed = true;
       }
@@ -189,7 +189,7 @@ export class ToolsManager {
         if (found.status === 'react') {
           toolMap.set(toolElement.uid, {
             ...toolElement,
-            status: 'del'
+            status: 'del',
           });
           changed = true;
         } else if (found.status === 'ext') {
@@ -198,7 +198,7 @@ export class ToolsManager {
         }
       } else {
         toolMap.set(toolElement.uid, {
-          ...toolElement
+          ...toolElement,
         });
         changed = !jsonEqual(found.reactElement.props, toolElement.reactElement.props, ['children']);
       }
@@ -232,7 +232,7 @@ export class ToolsManager {
                 reactElement: React.cloneElement(nextChild, props),
                 status: 'react',
                 updatedProps: toolElement != null ? toolElement.updatedProps : {},
-                uid
+                uid,
               });
             }
           }

@@ -2,25 +2,29 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseToolProps, BaseTool } from './BaseTool';
 
-const Button = styled.button<{ activated?: boolean, independant?: boolean, toggle?: boolean }>`
+const Button = styled.button<{ activated?: boolean; independant?: boolean; toggle?: boolean }>`
   height: 32px;
   min-width: 32px;
-  background-color: ${props => (props.activated && !props.independant ? 'rgba(245,245,245,0.61)' : 'rgba(213,213,213,0.61)')};
+  background-color: ${(props) =>
+    props.activated && !props.independant ? 'rgba(245,245,245,0.61)' : 'rgba(213,213,213,0.61)'};
   border-style: solid;
-  border-color: ${props => (props.activated && !props.independant ? 'rgba(145,145,145,0.61)' : 'rgba(172,172,172,0.61)')};
+  border-color: ${(props) =>
+    props.activated && !props.independant ? 'rgba(145,145,145,0.61)' : 'rgba(172,172,172,0.61)'};
   color: #242424;
   box-shadow: none;
   display: inline-flex;
   border-width: 1px !important;
   border-radius: 5px !important;
   padding-top: 4px;
-  ${props => (props.toggle ? `
+  ${(props) =>
+    props.toggle
+      ? `
   &:before {
     margin-right: 5px;
     content: '${props.activated ? '☑' : '☐'}';
   }
-  ` : ''
-  )};
+  `
+      : ''};
 `;
 
 export interface IBaseButtonToolProps extends IBaseToolProps {
@@ -43,7 +47,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
     ...BaseTool.defaultProps,
     toggle: false,
     className: 'button-tool',
-    buttonTitle: ''
+    buttonTitle: '',
   };
 
   public handleBaseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {

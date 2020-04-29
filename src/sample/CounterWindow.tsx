@@ -2,8 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool/BaseWindowTool';
 
-const ContainerBtn = styled.div`
-`;
+const ContainerBtn = styled.div``;
 
 export const CounterWindow = withBaseWindowTool(
   // Content

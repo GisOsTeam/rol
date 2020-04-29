@@ -77,7 +77,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
         id: elem[0],
         serverURL: serverUrl,
         description: elem[1],
-        name: elem[0]
+        name: elem[0],
       };
       layersManager.addWMS(wmsService, gisProxyUrl);
     });
@@ -85,7 +85,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
 
   return (
     <rolContext.Consumer>
-      {context => (
+      {(context) => (
         <Container>
           {capabilities == null && (
             <React.Fragment>

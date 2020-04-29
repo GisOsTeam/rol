@@ -1,35 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IBaseButtonToolProps, BaseButtonTool } from '../tool/BaseButtonTool';
+import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
+import { usePrevious } from '../tool/hook/usePrevious';
 
 const ContainerBtn = styled.div`
-  height: 28px;
 `;
 
-export class CounterButton extends BaseButtonTool<IBaseButtonToolProps, any> {
-  public static defaultProps = {
-    ...BaseButtonTool.defaultProps,
-    className: 'counter-button'
-  };
-
-  public constructor(props: IBaseButtonToolProps) {
-    super(props);
-    this.state = { count: 0 };
-  }
-
-  public toolDidActivate(): void {
-    this.setState({
-      count: this.state.count + 1
-    });
-  }
-
-  public toolDidDeactivate(): void {
-    this.setState({
-      count: this.state.count + 1
-    });
-  }
-
-  public renderTool(): React.ReactNode {
-    return <ContainerBtn>count: {String(this.state.count)}</ContainerBtn>;
-  }
-}
+export const CounterButton = withBaseButtonTool((props: IBaseButtonToolProps) => {
+  const [count, setCount] = React.useState<number>(0);
+  const oldCount = usePrevious(count);
+  React.useEffect(() => {
+    // Si le previous n'est pas undefined, i.e. si on n'est pas dans le didMount
+    if (typeof oldCount === 'number') {
+      setCount(count + 1);
+    }
+  }, [props.activated]);
+  return <ContainerBtn>count: {String(count)}</ContainerBtn>;
+}, { className: 'counter-button' });

@@ -5,14 +5,8 @@ import { useViewManager } from '../hook/useViewManager';
 import { useTranslate } from '../hook/useTranslate';
 
 const ContainerBtn = styled.div`
-  width: 32px;
-  height: 28px;
-  position: relative;
   &:after {
     content: '⤺';
-    position: absolute;
-    top: 6px;
-    margin-left: -7px;
   }
 `;
 
@@ -27,5 +21,5 @@ export const PreviousViewButton = withBaseButtonTool(
     }, [props.activated]);
     return <ContainerBtn title={translate('navigation.previous', 'Previous View')} />;
   },
-  { className: 'previous-view-button', toggle: false }
+  { className: 'previous-view-button', independant: true }
 );

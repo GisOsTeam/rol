@@ -4,12 +4,9 @@ import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { useTranslate } from '../hook/useTranslate';
 
 const Container = styled.div`
-  width: 32px;
-  height: 28px;
   &:after {
     content: '⤳';
     font-weight: bold;
-    vertical-align: middle;
   }
 `;
 

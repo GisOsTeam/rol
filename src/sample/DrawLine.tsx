@@ -6,7 +6,6 @@ import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';
 
 const ContainerBtn = styled.div`
-  height: 28px;
 `;
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {

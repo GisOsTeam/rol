@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Rol, IAfterData } from '../Rol';
 import OlView from 'ol/View';
 import { CounterButton } from './CounterButton';
-import { CounterButtonFunction } from './CounterButtonFunction';
+import { CounterToggleButton } from './CounterToggleButton';
 import { CounterWindow } from './CounterWindow';
-import { CounterWindowFunction } from './CounterWindowFunction';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
@@ -128,9 +127,8 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
                 <InitialViewButton uid="InitialView" />
                 <NextViewButton uid="NextView" />
                 <CounterButton uid="CounterButton" />
-                <CounterButtonFunction uid="CounterButtonFunction" />
+                <CounterToggleButton uid="CounterToggleButton" />
                 <CounterWindow uid="CounterWindow" />
-                <CounterWindowFunction uid="CounterWindowFunction" />
                 <LayerLoader uid="LayerLoader" />
                 <ShowSnapshot uid="ShowSnapshot" />
                 <DrawLine uid="DrawLine" />

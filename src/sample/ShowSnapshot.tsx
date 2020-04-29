@@ -4,7 +4,6 @@ import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
 import { IRolContext, rolContext } from '../RolContext';
 
 const ContainerBtn = styled.div`
-  height: 28px;
 `;
 
 const Container = styled.div`

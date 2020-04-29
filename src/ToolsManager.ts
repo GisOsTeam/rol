@@ -95,15 +95,22 @@ export class ToolsManager {
     });
   }
 
-  public activateTool(uid: string, silent: boolean) {
+  public activateTool(uid: string, force: boolean = false) {
     const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
       return;
     }
     const props = toolElement.reactElement.props as IBaseToolProps;
-    if (!props.activated) {
-      if (!props.independant && !silent) {
+    if (force) {
+      this.updateToolProps(uid, { activated: false });
+      setTimeout(() => {
+        this.activateTool(uid);
+      }, 1);
+      return;
+    }
+    if (!props.activated || force) {
+      if (!props.independant) {
         this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
             this.updateToolProps(otherToolElement.uid, { activated: false });
@@ -114,7 +121,7 @@ export class ToolsManager {
     }
   }
 
-  public deactivateTool(uid: string, silent: boolean) {
+  public deactivateTool(uid: string) {
     const toolElement = this.getToolElements(subToolElement => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);
@@ -123,16 +130,18 @@ export class ToolsManager {
     const props = toolElement.reactElement.props as IBaseToolProps;
     if (props.activated) {
       this.updateToolProps(uid, { activated: false });
-      if (!props.independant && !silent) {
+      if (!props.independant) {
         let defaultTool: IToolElement;
         this.getToolElements(otherToolElement => otherToolElement.uid !== uid).forEach(otherToolElement => {
           if (!(otherToolElement.reactElement.props as IBaseToolProps).independant) {
             this.updateToolProps(otherToolElement.uid, { activated: false });
-            defaultTool = otherToolElement;
+            if ((otherToolElement.reactElement.props as IBaseToolProps).defaultActivated) {
+              defaultTool = otherToolElement;
+            }
           }
         });
         if (defaultTool != null) {
-          this.activateTool(defaultTool.uid, silent);
+          this.activateTool(defaultTool.uid);
         }
       }
     }

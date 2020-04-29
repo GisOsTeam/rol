@@ -2,30 +2,25 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseToolProps, BaseTool } from './BaseTool';
 
-const Button = styled.button<Pick<{ activated?: boolean }, 'activated'>>`
+const Button = styled.button<{ activated?: boolean, independant?: boolean, toggle?: boolean }>`
   height: 32px;
-  margin: 0px;
-  padding: 0px;
-  border-radius: 6px;
-  border: 1px solid ${props => (props.activated ? '#ccc' : '#ddd')};
-  box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#ddf' : '#fff')};
-  background: linear-gradient(
-    to bottom,
-    ${props => (props.activated ? '#ddf' : '#fff')} 5%,
-    ${props => (props.activated ? '#aac' : '#ddd')} 100%
-  );
-  color: #444;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #fff;
-  &:hover {
-    border: 1px solid ${props => (props.activated ? '#999' : '#aaa')};
-    box-shadow: inset 0px 1px 0px 0px ${props => (props.activated ? '#aac' : '#ccc')};
-    background: linear-gradient(
-      to bottom,
-      ${props => (props.activated ? '#aac' : '#ccc')} 5%,
-      ${props => (props.activated ? '#779' : '#aaa')} 100%
-    );
+  min-width: 32px;
+  background-color: ${props => (props.activated && !props.independant ? 'rgba(245,245,245,0.61)' : 'rgba(213,213,213,0.61)')};
+  border-style: solid;
+  border-color: ${props => (props.activated && !props.independant ? 'rgba(145,145,145,0.61)' : 'rgba(172,172,172,0.61)')};
+  color: #242424;
+  box-shadow: none;
+  display: inline-flex;
+  border-width: 1px !important;
+  border-radius: 5px !important;
+  padding-top: 4px;
+  ${props => (props.toggle ? `
+  &:before {
+    margin-right: 5px;
+    content: '${props.activated ? '☑' : '☐'}';
   }
+  ` : ''
+  )};
 `;
 
 export interface IBaseButtonToolProps extends IBaseToolProps {
@@ -58,10 +53,14 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
         this.props.onButtonClick();
       }
 
-      if (this.props.activated) {
-        this.deactivate(!this.props.toggle);
+      if (this.props.toggle) {
+        if (this.props.activated) {
+          this.deactivate();
+        } else {
+          this.activate();
+        }
       } else {
-        this.activate(!this.props.toggle);
+        this.activate(this.props.independant);
       }
     }
   };
@@ -73,14 +72,16 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
       : `${this.props.className}-unactivated`;
     const className = `${this.props.className}
       ${toggleClass}
-      ${this.props.toggle ? activatedClass : ''}
+      ${activatedClass}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
     return (
       <Button
         className={className}
         title={this.props.buttonTitle}
         onClick={this.handleBaseButtonClick}
-        activated={this.props.toggle && this.props.activated}
+        activated={this.props.activated}
+        independant={this.props.independant}
+        toggle={this.props.toggle}
       >
         {this.renderTool()}
       </Button>

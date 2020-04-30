@@ -18,11 +18,11 @@ const Container = styled.div`
   box-shadow: none;
 `;
 
-const SubContainer = styled.div<{ height: number, overflowy: string }>`
+const SubContainer = styled.div<{ height: number; overflowy: string }>`
   width: 200px;
   height: ${(props) => `${props.height}px`};
   margin: 2px;
-  overflow-y:  ${(props) => props.overflowy};
+  overflow-y: ${(props) => props.overflowy};
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -58,7 +58,7 @@ interface ILayerElementItemProps {
   dragHandleProps: object;
 }
 
-interface LayerElementItemState { }
+interface LayerElementItemState {}
 
 class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElementItemState> {
   public static contextType: React.Context<IRolContext> = rolContext;

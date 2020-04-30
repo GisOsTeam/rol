@@ -18,11 +18,11 @@ const Container = styled.div`
   box-shadow: none;
 `;
 
-const SubContainer = styled.div`
+const SubContainer = styled.div<{ height: number, overflowy: string }>`
   width: 200px;
-  max-height: 400px;
+  height: ${(props) => `${props.height}px`};
   margin: 2px;
-  overflow-y: auto;
+  overflow-y:  ${(props) => props.overflowy};
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@ const DivInline = styled.div`
 
 const DivDragHandle = styled.div`
   width: 10px;
-  height: 10px;
+  height: 22px;
   ::after {
     content: '☰';
   }
@@ -58,7 +58,7 @@ interface ILayerElementItemProps {
   dragHandleProps: object;
 }
 
-interface LayerElementItemState {}
+interface LayerElementItemState { }
 
 class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElementItemState> {
   public static contextType: React.Context<IRolContext> = rolContext;
@@ -170,12 +170,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
     return overlays;
   }
 
-  public handleChange = (
-    newList: ReadonlyArray<ILayerElement>,
-    movedItem: ILayerElement,
-    oldIndex: number,
-    newIndex: number
-  ) => {
+  public handleChange = (newList: ReadonlyArray<ILayerElement>) => {
     let order = 0;
     newList.forEach((layerElement) => {
       this.context.layersManager.updateLayerProps(layerElement.uid, { order });
@@ -187,13 +182,21 @@ export class Toc extends BaseTool<ITocProps, {}> {
     if (this.props.disabled === true) {
       return null;
     }
+    const bases = this.getBases();
+    const overlay = this.getOverlays();
+    let height = 1 + 27 * (bases.length + overlay.length);
+    let overflowy = 'hidden';
+    if (height > 400) {
+      height = 400;
+      overflowy = 'scroll';
+    }
     return (
       <Container className={`${this.props.className} ol-unselectable ol-control`}>
-        <SubContainer>
+        <SubContainer height={height} overflowy={overflowy}>
           <div>
             <DraggableList<ILayerElement, void, LayerElementItem>
               itemKey="uid"
-              list={this.getBases()}
+              list={bases}
               template={LayerElementItem}
               onMoveEnd={this.handleChange}
               constrainDrag={true}
@@ -202,7 +205,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
           <div>
             <DraggableList<ILayerElement, void, LayerElementItem>
               itemKey="uid"
-              list={this.getOverlays()}
+              list={overlay}
               template={LayerElementItem}
               onMoveEnd={this.handleChange}
               constrainDrag={true}

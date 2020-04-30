@@ -45,13 +45,12 @@ const DivInline = styled.div`
 `;
 
 const DivDragHandle = styled.div`
-  width: 1Opx;
-  height: 1Opx;
+  width: 10px;
+  height: 10px;
   ::after {
     content: '☰';
   }
 `;
-
 
 interface ILayerElementItemProps {
   item: ILayerElement;
@@ -59,8 +58,7 @@ interface ILayerElementItemProps {
   dragHandleProps: object;
 }
 
-interface LayerElementItemState {
-}
+interface LayerElementItemState {}
 
 class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElementItemState> {
   public static contextType: React.Context<IRolContext> = rolContext;
@@ -89,10 +87,7 @@ class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElem
         if (truncName !== name) {
           title = name;
         }
-        if (
-          item.reactElement.props.description != null &&
-          item.reactElement.props.description != ''
-        ) {
+        if (item.reactElement.props.description != null && item.reactElement.props.description != '') {
           if (title.length > 0) {
             title += '\n';
           }
@@ -151,7 +146,10 @@ export class Toc extends BaseTool<ITocProps, {}> {
     const overlays: ILayerElement[] = [];
     this.context.layersManager
       .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'BASE')
-      .sort((layerElement1, layerElement2) => layerElement1.reactElement.props.order - layerElement2.reactElement.props.order)
+      .sort(
+        (layerElement1, layerElement2) =>
+          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
+      )
       .forEach((layerElement) => {
         overlays.push(layerElement);
       });
@@ -162,20 +160,28 @@ export class Toc extends BaseTool<ITocProps, {}> {
     const overlays: ILayerElement[] = [];
     this.context.layersManager
       .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'OVERLAY')
-      .sort((layerElement1, layerElement2) => layerElement1.reactElement.props.order - layerElement2.reactElement.props.order)
+      .sort(
+        (layerElement1, layerElement2) =>
+          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
+      )
       .forEach((layerElement) => {
         overlays.push(layerElement);
       });
     return overlays;
   }
 
-  public handleChange = (newList: ReadonlyArray<ILayerElement>, movedItem: ILayerElement, oldIndex: number, newIndex: number) => {
+  public handleChange = (
+    newList: ReadonlyArray<ILayerElement>,
+    movedItem: ILayerElement,
+    oldIndex: number,
+    newIndex: number
+  ) => {
     let order = 0;
     newList.forEach((layerElement) => {
       this.context.layersManager.updateLayerProps(layerElement.uid, { order });
       order++;
     });
-  }
+  };
 
   public renderTool(): React.ReactNode {
     if (this.props.disabled === true) {

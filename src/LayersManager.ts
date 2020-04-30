@@ -337,7 +337,6 @@ export class LayersManager {
           }
           return true;
         });
-        let source = null;
         if ('getSource' in found) {
           const source = (found as any).getSource();
           // Update source

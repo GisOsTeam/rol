@@ -35,7 +35,10 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
     if (source == null) {
       source = undefined;
     }
-    source.init().then(() => this.getOlLayer().setSource(source), () => this.getOlLayer().setSource(source));
+    source.init().then(
+      () => this.getOlLayer().setSource(source),
+      () => this.getOlLayer().setSource(source)
+    );
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {

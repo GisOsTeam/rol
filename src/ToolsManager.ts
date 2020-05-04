@@ -53,47 +53,6 @@ export class ToolsManager {
   }
 
   /**
-   * Set toolElement
-   */
-  private setToolElement(toolElement: IToolElement, refreshIfChanging = true) {
-    const toolMap = toolMaps.get(this.uid);
-    if (toolMap == null) {
-      return false;
-    }
-    const found = toolMap.get(toolElement.uid);
-    let changed = false;
-    if (!found) {
-      if (toolElement.status !== 'del') {
-        toolMap.set(toolElement.uid, {
-          ...toolElement
-        });
-        changed = true;
-      }
-    } else {
-      if (toolElement.status === 'del') {
-        if (found.status === 'react') {
-          toolMap.set(toolElement.uid, {
-            ...toolElement,
-            status: 'del'
-          });
-          changed = true;
-        } else if (found.status === 'ext') {
-          toolMap.delete(toolElement.uid);
-          changed = true;
-        }
-      } else {
-        toolMap.set(toolElement.uid, {
-          ...toolElement
-        });
-        changed = !jsonEqual(found.reactElement.props, toolElement.reactElement.props, ['children']);
-      }
-    }
-    if (refreshIfChanging && changed) {
-      this.refresh();
-    }
-  }
-
-  /**
    * Update tool props
    */
   public updateToolProps(uid: string, props: any, refreshIfChanging = true) {
@@ -106,9 +65,9 @@ export class ToolsManager {
             ...toolElement.reactElement.props,
             ...props,
             uid,
-            key: uid
+            key: uid,
           }),
-          updatedProps: { ...toolElement.updatedProps, ...props }
+          updatedProps: { ...toolElement.updatedProps, ...props },
         },
         refreshIfChanging
       );
@@ -126,13 +85,13 @@ export class ToolsManager {
   ) {
     const reactElement = React.createElement(cl, {
       ...props,
-      uid: props.uid
+      uid: props.uid,
     });
     this.setToolElement({
       reactElement,
       uid: props.uid,
       updatedProps: {},
-      status: 'ext'
+      status: 'ext',
     });
   }
 
@@ -273,7 +232,7 @@ export class ToolsManager {
                 reactElement: React.cloneElement(nextChild, props),
                 status: 'react',
                 updatedProps: toolElement != null ? toolElement.updatedProps : {},
-                uid
+                uid,
               });
             }
           }

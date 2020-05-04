@@ -50,7 +50,7 @@ export class Heatmap extends BaseLayer<IHeatmapProps, {}, OlHeatmapLayer, Vector
     if (source == null) {
       source = undefined;
     }
-    this.getOlLayer().setSource(source);
+    source.init().then(() => this.getOlLayer().setSource(source), () => this.getOlLayer().setSource(source));
   }
 
   public setGradient(gradient: string[]) {

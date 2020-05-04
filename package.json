@@ -28,8 +28,8 @@
   "author": "Mathieu MAST",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@types/jszip": "^3.1.7",
     "@types/ol": "^6.3.1",
@@ -39,7 +39,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
-    "html-webpack-plugin": "^4.2.1",
+    "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
     "ol": "6.3.1",
     "prettier": "^2.0.5",
@@ -58,7 +58,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.22",
+    "@gisosteam/aol": "^0.0.24",
     "bhreq": "^0.0.12",
     "react-draggable": "^4.3.1",
     "react-draggable-list": "^4.0.3",

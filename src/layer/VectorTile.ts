@@ -35,7 +35,7 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
     if (source == null) {
       source = undefined;
     }
-    this.getOlLayer().setSource(source);
+    source.init().then(() => this.getOlLayer().setSource(source), () => this.getOlLayer().setSource(source));
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {

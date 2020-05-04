@@ -8,6 +8,8 @@ import { BaseContainer } from './container/BaseContainer';
 import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Projection } from './Projection';
+import { useViewManager } from './tool/hook/useViewManager';
+import { ViewManager } from './ViewManager';
 
 const GlobalStyle = createGlobalStyle`
 .ol-unsupported {
@@ -142,6 +144,8 @@ export class Rol extends React.Component<IRolProps, IRolState> {
    */
   private toolsManager: ToolsManager;
 
+  private viewManager: ViewManager;
+
   constructor(props: IRolProps) {
     super(props);
     this.state = { changedCounter: 0 };
@@ -164,6 +168,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       })
     );
     this.layersManager = new LayersManager(props.uid, this.olMap, this.refresh);
+    this.viewManager = new ViewManager(this.olMap);
     this.toolsManager = new ToolsManager(props.uid, this.refresh);
   }
 
@@ -192,6 +197,9 @@ export class Rol extends React.Component<IRolProps, IRolState> {
     }
   }
 
+  public componentWillUnmount() {
+    this.viewManager.unregister();
+  }
   public refresh = () => {
     this.setState((prevState: IRolState) => {
       return { changedCounter: prevState.changedCounter + 1 };
@@ -253,6 +261,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
             olGroup: this.olMap.getLayerGroup(),
             layersManager: this.layersManager,
             toolsManager: this.toolsManager,
+            viewManager: this.viewManager,
             translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
               return defaultText;
             },

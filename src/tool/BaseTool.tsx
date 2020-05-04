@@ -73,19 +73,15 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
   /**
    * Activate tool.
    */
-  public activate() {
-    if (!this.props.independant) {
-      this.context.toolsManager.activateTool(this.props.uid);
-    }
+  public activate(force: boolean = false) {
+    this.context.toolsManager.activateTool(this.props.uid, force);
   }
 
   /**
    * Deactivate tool
    */
   public deactivate() {
-    if (!this.props.independant) {
-      this.context.toolsManager.deactivateTool(this.props.uid);
-    }
+    this.context.toolsManager.deactivateTool(this.props.uid);
   }
 
   public handleBaseToolClick = () => {

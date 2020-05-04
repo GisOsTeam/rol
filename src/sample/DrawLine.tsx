@@ -5,9 +5,7 @@ import { useDrawSource } from '../tool/hook/useDrawSource';
 import { useDrawInteraction } from '../tool/hook/useDrawInteraction';
 import GeometryType from 'ol/geom/GeometryType';
 
-const ContainerBtn = styled.div`
-  height: 28px;
-`;
+const ContainerBtn = styled.div``;
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
   const drawSource = useDrawSource({

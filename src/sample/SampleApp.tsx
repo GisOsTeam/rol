@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Rol, IAfterData } from '../Rol';
 import OlView from 'ol/View';
 import { CounterButton } from './CounterButton';
-import { CounterButtonFunction } from './CounterButtonFunction';
+import { CounterToggleButton } from './CounterToggleButton';
 import { CounterWindow } from './CounterWindow';
 import { CounterWindowFunction } from './CounterWindowFunction';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
+import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { Control } from '../container/Control';
@@ -19,6 +20,9 @@ import { ScaleLine } from '../tool/ScaleLine';
 import { PanZoom } from '../tool/PanZoom';
 import { LayerLoader } from '../tool/LayerLoader';
 import { Identify } from '../tool/Identify';
+import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
+import { NextViewButton } from '../tool/navigation/NextViewButton';
+import { InitialViewButton } from '../tool/navigation/InitialViewButton';
 import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
@@ -33,25 +37,30 @@ const wkt27700 =
 
 const osm = new Xyz({
   url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  projection: 'EPSG:3857',
+  projection: 'EPSG:3857'
 });
 
 const world2D = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
-  projection: 'EPSG:3857',
+  projection: 'EPSG:3857'
 } as any);
 
 const britishNationalGrid = new ImageStatic({
   url:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/British_National_Grid.svg/2000px-British_National_Grid.svg.png',
   projection: 'EPSG:27700',
-  imageExtent: [0, 0, 700000, 1300000],
+  imageExtent: [0, 0, 700000, 1300000]
 });
 
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
   types: [{ id: 'topp:states' }],
+} as any);
+
+const cities = new ImageWms({
+  url: 'https://demo.mapserver.org/cgi-bin/wms',
+  types: [{ id: 'cities' }],
 } as any);
 
 const highways = new ImageArcGISRest({
@@ -105,6 +114,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
           name="Topp States"
           description="Topp States WMS Layer"
         />
+        <Image uid="UID -- Cities" source={cities} name="Cities" />
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>
@@ -115,9 +125,12 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
               <PanZoom uid="PanZoom" />
               <ScaleLine uid="ScaleLine" />
               <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
+                <PreviousViewButton uid="PreviousView" />
+                <InitialViewButton uid="InitialView" />
+                <NextViewButton uid="NextView" />
                 <ZoomRectangleWidget uid="zoomRectangle" />
                 <CounterButton uid="CounterButton" />
-                <CounterButtonFunction uid="CounterButtonFunction" />
+                <CounterToggleButton uid="CounterToggleButton" />
                 <CounterWindow uid="CounterWindow" />
                 <CounterWindowFunction uid="CounterWindowFunction" />
                 <LayerLoader uid="LayerLoader" />

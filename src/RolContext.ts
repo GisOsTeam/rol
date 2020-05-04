@@ -4,6 +4,7 @@ import OlGroupLayer from 'ol/layer/Group';
 import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Translate } from './Translate';
+import { ViewManager } from './ViewManager';
 
 // Rol context interface
 export interface IRolContext {
@@ -24,6 +25,10 @@ export interface IRolContext {
    */
   toolsManager: ToolsManager;
   /**
+   * View Manager
+   */
+  viewManager: ViewManager;
+  /**
    * Translate
    */
   translate: Translate;
@@ -35,6 +40,7 @@ export const rolContext = React.createContext<IRolContext>({
   olGroup: null,
   layersManager: null,
   toolsManager: null,
+  viewManager: null,
   translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;
   },

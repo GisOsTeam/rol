@@ -1,12 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
+import { usePrevious } from '../tool/hook/usePrevious';
 
-const ContainerBtn = styled.div`
-  height: 28px;
-`;
+const ContainerBtn = styled.div``;
 
-export const CounterButtonFunction = withBaseButtonTool(
+export const CounterToggleButton = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {
     const [count, setCount] = React.useState<number>(0);
     React.useEffect(() => {
@@ -16,5 +15,5 @@ export const CounterButtonFunction = withBaseButtonTool(
     }, [props.activated]);
     return <ContainerBtn>count: {String(count)}</ContainerBtn>;
   },
-  { className: 'counter-button' }
+  { className: 'counter-button', toggle: true }
 );

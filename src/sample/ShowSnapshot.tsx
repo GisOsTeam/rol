@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
 import { IRolContext, rolContext } from '../RolContext';
 
-const ContainerBtn = styled.div`
-  height: 28px;
-`;
+const ContainerBtn = styled.div``;
 
 const Container = styled.div`
   margin: 2px;

@@ -1,37 +1,27 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IBaseWindowToolProps, BaseWindowTool } from '../tool/BaseWindowTool';
+import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool/BaseWindowTool';
 
-const ContainerBtn = styled.div`
-  height: 28px;
-`;
+const ContainerBtn = styled.div``;
 
-export class CounterWindow extends BaseWindowTool<IBaseWindowToolProps, any> {
-  public static defaultProps = {
-    ...BaseWindowTool.defaultProps,
-    className: 'counter-window',
-  };
-
-  public constructor(props: IBaseWindowToolProps) {
-    super(props);
-    this.state = { count: 0 };
-  }
-
-  public toolDidActivate(): void {
-    this.setState({
-      count: this.state.count + 1,
-    });
-  }
-
-  public renderHeaderContent(): React.ReactNode {
+export const CounterWindow = withBaseWindowTool(
+  // Content
+  (props: IFunctionBaseWindowToolProps) => {
+    const [count, setCount] = React.useState<number>(0);
+    React.useEffect(() => {
+      if (props.activated === true) {
+        setCount(count + 1);
+      }
+    }, [props.activated]);
+    return <span>count: {String(count)}</span>;
+  },
+  // Header Content
+  (props: IFunctionBaseWindowToolProps) => {
     return <span>Counter</span>;
-  }
-
-  public renderOpenButtonContent(): React.ReactNode {
+  },
+  // Open Button Content
+  (props: IFunctionBaseWindowToolProps) => {
     return <ContainerBtn>Counter</ContainerBtn>;
-  }
-
-  public renderTool(): React.ReactNode {
-    return <span>count: {String(this.state.count)}</span>;
-  }
-}
+  },
+  { className: 'counter-window' }
+);

@@ -16,11 +16,12 @@ export interface IUseDrawInteractionProps {
    */
   type: GeometryType;
   /**
-   *
+   * Openlayers GeometryFunction for Draw Interaction.
+   * Used for regular polygons, squares, etc...
    */
   geometryFunction?: GeometryFunction;
   /**
-   *
+   * Callback on drawend
    */
   onDrawEnd?: (evt?: DrawEvent) => void;
   /**

@@ -39,7 +39,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       const preCreateDraw = new Draw({
         source: props.source,
         type: props.type,
-        geometryFunction: props.geometryFunction
+        geometryFunction: props.geometryFunction,
       });
 
       if (props.onDrawEnd) {

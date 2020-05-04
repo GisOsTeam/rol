@@ -169,7 +169,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     showZoomSlider: true,
     showPan: true,
     showOrigin: true,
-    showRotation: true
+    showRotation: true,
   };
 
   public context: IRolContext;
@@ -300,7 +300,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       view.animate({
         rotation: 0,
         duration: 200,
-        easing: inAndOut
+        easing: inAndOut,
       });
     }
   };
@@ -317,7 +317,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     view.animate({
       center,
       duration: 200,
-      easing: inAndOut
+      easing: inAndOut,
     });
   }
 
@@ -330,7 +330,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     view.animate({
       zoom: (view as any).getConstrainedZoom(zoom + delta),
       duration: 200,
-      easing: inAndOut
+      easing: inAndOut,
     });
   }
 
@@ -380,13 +380,13 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     if (this.props.showZoomSlider) {
       slider = (
         <DivSlider
-          ref={containerThumb => {
+          ref={(containerThumb) => {
             this.containerThumb = containerThumb;
           }}
           className={`${this.props.className}-zoom-slider`}
         >
           <ButtonSliderThumb
-            ref={btnThumb => {
+            ref={(btnThumb) => {
               this.btnThumb = btnThumb;
             }}
             className={`${this.props.className}-zoom-slider-thumb`}
@@ -415,7 +415,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     return (
       <div>
         <ButtonRotate
-          ref={buttonRotate => {
+          ref={(buttonRotate) => {
             this.buttonRotate = buttonRotate;
           }}
           className={`${this.props.className}-rotate`}
@@ -423,7 +423,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
           title={rotateTitle}
         >
           <div
-            ref={divRotate => {
+            ref={(divRotate) => {
               this.divRotate = divRotate;
             }}
           >

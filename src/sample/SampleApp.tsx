@@ -33,30 +33,30 @@ const wkt27700 =
 
 const osm = new Xyz({
   url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  projection: 'EPSG:3857'
+  projection: 'EPSG:3857',
 });
 
 const world2D = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
-  projection: 'EPSG:3857'
+  projection: 'EPSG:3857',
 } as any);
 
 const britishNationalGrid = new ImageStatic({
   url:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/British_National_Grid.svg/2000px-British_National_Grid.svg.png',
   projection: 'EPSG:27700',
-  imageExtent: [0, 0, 700000, 1300000]
+  imageExtent: [0, 0, 700000, 1300000],
 });
 
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
-  types: [{ id: 'topp:states' }]
+  types: [{ id: 'topp:states' }],
 } as any);
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{ id: 1 }]
+  types: [{ id: 1 }],
 } as any);
 
 export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
@@ -80,7 +80,7 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
             new OlView({
               center: [490000, 6800000],
               zoom: 5,
-              projection: 'EPSG:3857'
+              projection: 'EPSG:3857',
             })
           );
         }}

@@ -14,7 +14,7 @@ const ContainerBtn = styled.div`
 const drawSourceOpt: IUseDrawSourceProps = {
   layerUid: 'zoom-rectangle-widget-draw-source',
   persist: false,
-  listable: false
+  listable: false,
 };
 
 export const ZoomRectangleWidget = withBaseButtonTool(
@@ -30,7 +30,7 @@ export const ZoomRectangleWidget = withBaseButtonTool(
       evt.preventDefault();
       const { feature } = evt;
       olMap.getView().fit(feature.getGeometry().getExtent(), {
-        callback: onFitEnd
+        callback: onFitEnd,
       });
     };
 
@@ -39,7 +39,7 @@ export const ZoomRectangleWidget = withBaseButtonTool(
       type: GeometryType.CIRCLE,
       geometryFunction: createBox(),
       activated: props.activated,
-      onDrawEnd
+      onDrawEnd,
     });
     return <ContainerBtn>Zoom Rect</ContainerBtn>;
   },

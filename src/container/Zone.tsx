@@ -20,7 +20,7 @@ export interface IZoneState extends IBaseContaineState {}
 
 export class Zone extends BaseContainer<IZoneProps, IZoneState> {
   public static defaultProps = {
-    className: 'zone'
+    className: 'zone',
   };
 
   constructor(props: IZoneProps) {

@@ -38,7 +38,7 @@ export class BaseContainer<P extends IBaseContainerProps, S extends IBaseContain
       if (child != null && BaseTool.isPrototypeOf(child.type)) {
         if (child != null && BaseTool.isPrototypeOf(child.type)) {
           const toolElement = this.context.toolsManager
-            .getToolElements(toolElement => toolElement.uid == child.props.uid)
+            .getToolElements((toolElement) => toolElement.uid == child.props.uid)
             .pop();
           if (toolElement != null) {
             elems.push(toolElement.reactElement);

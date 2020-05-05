@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --host 0.0.0.0 --port 3000 --config webpack.dev.config.js --content-base src --hot --inline",
     "prettier": "prettier --single-quote --print-width 120 --write --parser typescript '{src, test}/**/*.ts'; prettier --single-quote --print-width 120 --write --parser typescript '{src,test}/**/*.tsx'",
     "lint": "npm run prettier && eslint . --ext .ts,.tsx",
-    "genindex": "barrelsby -d ./src -l all -q -e sample -e __tests__ -e .d.ts",
+    "genindex": "barrelsby -d ./src -D -l all -q -e sample -e __tests__ -e .d.ts",
     "build": "rimraf lib && npm run genindex && npm run lint && tsc -p tsconfig.json && cp ./package.json lib",
     "prepublishOnly": "[[ \"$PWD\" =~ /lib ]]",
     "pub": "pushd ./ && npm run build && cd lib && npm publish --access public && popd"
@@ -64,7 +64,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.25",
+    "@gisosteam/aol": "^0.0.26",
     "bhreq": "^0.0.13",
     "react-draggable": "^4.3.1",
     "react-draggable-list": "^4.0.3",

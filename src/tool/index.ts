@@ -13,6 +13,7 @@ export * from './Reproj';
 export * from './ScaleLine';
 export * from './Toc';
 export * from './common/index';
+export * from './draw/index';
 export * from './featureTable/index';
 export * from './hook/index';
 export * from './identify/index';

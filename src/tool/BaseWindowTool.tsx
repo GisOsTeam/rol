@@ -361,7 +361,7 @@ export function withBaseWindowTool<P extends IBaseWindowToolProps>(
     | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
   defaultProps?: Partial<P>
 ) {
-  const tool = class extends BaseWindowTool<P, IBaseWindowToolState> {
+  const Tool = class extends BaseWindowTool<P, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {
       return React.createElement(headerContent, { ...this.state, ...this.props, ...defaultProps });
     }
@@ -372,6 +372,6 @@ export function withBaseWindowTool<P extends IBaseWindowToolProps>(
       return React.createElement(component, { ...this.state, ...this.props, ...defaultProps });
     }
   };
-  tool.defaultProps = { ...tool.defaultProps, ...defaultProps };
-  return tool;
+  Tool.defaultProps = { ...Tool.defaultProps, ...defaultProps };
+  return Tool;
 }

@@ -95,7 +95,7 @@ export class ToolsManager {
     });
   }
 
-  public activateTool(uid: string, force: boolean = false) {
+  public activateTool(uid: string, force = false) {
     const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement == null) {
       console.error(`Element not found for uid ${uid}`);

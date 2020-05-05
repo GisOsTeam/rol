@@ -72,6 +72,7 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
 
+  /* eslint-disable */
   const renderVal = (key: string, value: string, index: number) => {
     ++nbRows;
     return (
@@ -87,6 +88,7 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
       </tr>
     );
   };
+  /* eslint-enable */
 
   Object.keys(feature).forEach((key: string, propIndex) => {
     const value = feature[key];

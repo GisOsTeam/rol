@@ -62,18 +62,26 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     this.toolDidDestroy();
   }
 
-  public toolDidConstruct(): void {}
+  public toolDidConstruct(): void {
+    // do nothing.
+  }
 
-  public toolDidActivate(): void {}
+  public toolDidActivate(): void {
+    // do nothing.
+  }
 
-  public toolDidDeactivate(): void {}
+  public toolDidDeactivate(): void {
+    // do nothing.
+  }
 
-  public toolDidDestroy(): void {}
+  public toolDidDestroy(): void {
+    // do nothing.
+  }
 
   /**
    * Activate tool.
    */
-  public activate(force: boolean = false) {
+  public activate(force = false) {
     this.context.toolsManager.activateTool(this.props.uid, force);
   }
 
@@ -108,11 +116,11 @@ export function withBaseTool<P extends IBaseToolProps>(
   component: string | React.FunctionComponent<IBaseToolProps> | React.ComponentClass<IBaseToolProps, {}>,
   defaultProps?: Partial<IBaseToolProps>
 ) {
-  const tool = class extends BaseTool<P, {}> {
+  const Tool = class extends BaseTool<P, {}> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }
   };
-  tool.defaultProps = { ...tool.defaultProps, ...defaultProps };
-  return tool;
+  Tool.defaultProps = { ...Tool.defaultProps, ...defaultProps };
+  return Tool;
 }

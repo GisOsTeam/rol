@@ -118,9 +118,8 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                 <label>{translate('wmsLoader.selection', 'Select layers*')}</label>
                 {capabilities.Capability.Layer.Layer.map((layer: any) => {
                   return (
-                    <li>
+                    <li key={layer.Name}>
                       <input
-                        key={layer.Name}
                         id={layer.Name}
                         type="checkbox"
                         onChange={handleCheckboxChange(layer.Name, layer.Abstract)}

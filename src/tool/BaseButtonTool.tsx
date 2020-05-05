@@ -61,7 +61,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
         if (this.props.activated) {
           this.deactivate();
         } else {
-          this.activate();
+          this.activate(this.props.independant);
         }
       } else {
         this.activate(this.props.independant);
@@ -97,11 +97,11 @@ export function withBaseButtonTool<P extends IBaseButtonToolProps>(
   component: string | React.FunctionComponent<IBaseButtonToolProps> | React.ComponentClass<IBaseButtonToolProps, {}>,
   defaultProps?: Partial<IBaseButtonToolProps>
 ) {
-  const tool = class extends BaseButtonTool<P, {}> {
+  const Tool = class extends BaseButtonTool<P, {}> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }
   };
-  tool.defaultProps = { ...tool.defaultProps, ...defaultProps };
-  return tool;
+  Tool.defaultProps = { ...Tool.defaultProps, ...defaultProps };
+  return Tool;
 }

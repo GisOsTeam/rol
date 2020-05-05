@@ -9,7 +9,7 @@ export class ViewManager {
   private currentExtent: Extent;
   private futureExtends: Extent[] = [];
   private pastExtends: Extent[] = [];
-  private shouldUpdate: boolean = true;
+  private shouldUpdate = true;
 
   constructor(olMap: OlMap) {
     this.olMap = olMap;

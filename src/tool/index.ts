@@ -11,6 +11,7 @@ export * from './LayerLoader';
 export * from './PanZoom';
 export * from './Reproj';
 export * from './ScaleLine';
+export * from './ShowSnapshot';
 export * from './Toc';
 export * from './common/index';
 export * from './draw/index';

@@ -8,8 +8,7 @@ import { BaseContainer } from './container/BaseContainer';
 import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Projection } from './Projection';
-import { useViewManager } from './tool/hook/useViewManager';
-import { ViewManager } from './ViewManager';
+import { ViewManager } from '@gisosteam/aol/ViewManager';
 
 const GlobalStyle = createGlobalStyle`
 .ol-unsupported {

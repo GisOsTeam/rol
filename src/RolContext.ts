@@ -4,7 +4,7 @@ import OlGroupLayer from 'ol/layer/Group';
 import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Translate } from './Translate';
-import { ViewManager } from './ViewManager';
+import { ViewManager } from '@gisosteam/aol/ViewManager';
 
 // Rol context interface
 export interface IRolContext {

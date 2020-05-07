@@ -9,6 +9,3 @@ export * from './Rol';
 export * from './RolContext';
 export * from './ToolsManager';
 export * from './Translate';
-export * from './container/index';
-export * from './layer/index';
-export * from './tool/index';

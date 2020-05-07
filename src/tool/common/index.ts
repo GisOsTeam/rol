@@ -4,4 +4,3 @@
 
 export * from './Selector';
 export * from './WmsLoader';
-export * from './loaders/index';

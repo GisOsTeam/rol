@@ -26,23 +26,25 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
-      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then((queryResponses: IQueryResponse[]) => {
-        const features: any = {};
-        queryResponses.forEach((queryResponse: IQueryResponse) => {
-          const { featureTypeResponses } = queryResponse;
-          featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
-            if (ftResp.features.length > 0) {
-              const filtered = layersManager.getLayerElementFromSource(ftResp.source);
-              const layerUid = filtered ? filtered.uid : 'unknown';
-              if (!features[layerUid]) {
-                features[layerUid] = [];
+      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then(
+        (queryResponses: IQueryResponse[]) => {
+          const features: any = {};
+          queryResponses.forEach((queryResponse: IQueryResponse) => {
+            const { featureTypeResponses } = queryResponse;
+            featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
+              if (ftResp.features.length > 0) {
+                const filtered = layersManager.getLayerElementFromSource(ftResp.source);
+                const layerUid = filtered ? filtered.uid : 'unknown';
+                if (!features[layerUid]) {
+                  features[layerUid] = [];
+                }
+                features[layerUid].push(...ftResp.features);
               }
-              features[layerUid].push(...ftResp.features);
-            }
+            });
           });
-        });
-        props.onIdentifyResponse({ features, position: clickEvent.pixel });
-      });
+          props.onIdentifyResponse({ features, position: clickEvent.pixel });
+        }
+      );
     };
 
     if (props.activated) {

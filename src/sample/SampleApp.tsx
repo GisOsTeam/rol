@@ -55,13 +55,13 @@ const britishNationalGrid = new ImageStatic({
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
   types: [{ id: 'topp:states' }],
-  params: {}
+  params: {},
 });
 
 const cities = new ImageWms({
   url: 'https://demo.mapserver.org/cgi-bin/wms',
   types: [{ id: 'cities' }],
-  params: {}
+  params: {},
 });
 
 const highways = new ImageArcGISRest({

@@ -5,4 +5,6 @@ import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 
 export type IIdentifyProps = IBaseWindowToolProps & Partial<IIdentifyContentProps>;
 
-export const Identify = withBaseWindowTool<IIdentifyProps>(IdentifyContent, IdentifyHeader, IdentifyButton, { className: 'identify' });
+export const Identify = withBaseWindowTool<IIdentifyProps>(IdentifyContent, IdentifyHeader, IdentifyButton, {
+  className: 'identify',
+});

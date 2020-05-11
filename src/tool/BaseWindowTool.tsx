@@ -106,17 +106,17 @@ export interface IBaseWindowToolState {
   /**
    * Bounds.
    */
-  bounds: { top: number, bottom: number, left: number, right: number };
+  bounds: { top: number; bottom: number; left: number; right: number };
   /**
    * Position.
    */
-  position: { x: number, y: number };
+  position: { x: number; y: number };
 }
 
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-  > extends BaseButtonTool<P, S> {
+> extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -190,14 +190,14 @@ export class BaseWindowTool<
     return true;
   }
 
-  public checkPosition(position: { x: number, y: number }) {
+  public checkPosition(position: { x: number; y: number }) {
     let { x, y } = position;
     const boundingRect = this.windowElement.getBoundingClientRect();
     const bounds = {
       top: 0,
       bottom: window.innerHeight - boundingRect.height,
       left: 0,
-      right: window.innerWidth- boundingRect.width,
+      right: window.innerWidth - boundingRect.width,
     };
     if (x > bounds.right) {
       x = bounds.right;
@@ -216,15 +216,15 @@ export class BaseWindowTool<
 
   public handleResize = () => {
     this.checkPosition(this.state.position);
-  }
+  };
 
   public handleStart = () => {
     this.activate();
-  }
+  };
 
-  public handleDrag = (e: any, position: { x: number, y: number }) => {
+  public handleDrag = (e: any, position: { x: number; y: number }) => {
     this.checkPosition(position);
-  }
+  };
 
   public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -273,51 +273,51 @@ export class BaseWindowTool<
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
     const openButtonClassName = `${this.props.className.split(/\s+/g)[0]}-open-button
       ${
-      this.state.open
-        ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
-        : `${this.props.className.split(/\s+/g)[0]}-open-button-closed`
+        this.state.open
+          ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
+          : `${this.props.className.split(/\s+/g)[0]}-open-button-closed`
       }
       ${
-      this.props.activated
-        ? `${this.props.className.split(/\s+/g)[0]}-open-button-activated`
-        : `${this.props.className.split(/\s+/g)[0]}-open-button-unactivated`
+        this.props.activated
+          ? `${this.props.className.split(/\s+/g)[0]}-open-button-activated`
+          : `${this.props.className.split(/\s+/g)[0]}-open-button-unactivated`
       }
       ${
-      this.props.disabled
-        ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
-        : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
+        this.props.disabled
+          ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
+          : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
       }`;
     const titleClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar
       ${
-      this.state.open
-        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
-        : `${this.props.className.split(/\s+/g)[0]}-titlebar-closed`
+        this.state.open
+          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
+          : `${this.props.className.split(/\s+/g)[0]}-titlebar-closed`
       }
       ${
-      this.props.activated
-        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-activated`
-        : `${this.props.className.split(/\s+/g)[0]}-titlebar-unactivated`
+        this.props.activated
+          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-activated`
+          : `${this.props.className.split(/\s+/g)[0]}-titlebar-unactivated`
       }
       ${
-      this.props.disabled
-        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
-        : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
+        this.props.disabled
+          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
+          : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
       }`;
     const contentClassName = `${this.props.className.split(/\s+/g)[0]}-content
       ${
-      this.state.open
-        ? `${this.props.className.split(/\s+/g)[0]}-content-open`
-        : `${this.props.className.split(/\s+/g)[0]}-content-closed`
+        this.state.open
+          ? `${this.props.className.split(/\s+/g)[0]}-content-open`
+          : `${this.props.className.split(/\s+/g)[0]}-content-closed`
       }
       ${
-      this.props.activated
-        ? `${this.props.className.split(/\s+/g)[0]}-content-activated`
-        : `${this.props.className.split(/\s+/g)[0]}-content-unactivated`
+        this.props.activated
+          ? `${this.props.className.split(/\s+/g)[0]}-content-activated`
+          : `${this.props.className.split(/\s+/g)[0]}-content-unactivated`
       }
       ${
-      this.props.disabled
-        ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
-        : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
+        this.props.disabled
+          ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
+          : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
       }`;
     const Drag: React.ComponentClass<any> = Draggable as any;
     let openButton = null;
@@ -370,7 +370,7 @@ export class BaseWindowTool<
   }
 }
 
-export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState { }
+export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState {}
 
 export function withBaseWindowTool<P extends IBaseWindowToolProps>(
   component:

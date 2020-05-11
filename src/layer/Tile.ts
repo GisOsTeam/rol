@@ -2,6 +2,7 @@ import * as React from 'react';
 import OlTileLayer from 'ol/layer/Tile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { TimeImage as TileImageSource } from '@gisosteam/aol/source/TileImage';
+import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface ITileProps extends IBaseLayerProps {
   /**
@@ -26,9 +27,13 @@ export class Tile extends BaseLayer<ITileProps, {}, OlTileLayer, TileImageSource
     if (source == null) {
       source = undefined;
     }
-    source.init().then(
-      () => this.getOlLayer().setSource(source),
-      () => this.getOlLayer().setSource(source)
-    );
+    if ('init' in source) {
+      (source as IInitSource).init().then(
+        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
+      );
+    } else {
+      this.getOlLayer().setSource(source);
+    }
   }
 }

@@ -4,6 +4,7 @@ import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { VectorTile as VectorTileSource } from '@gisosteam/aol/source/VectorTile';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
+import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IVectorTileProps extends IBaseLayerProps {
   /**
@@ -35,10 +36,14 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
     if (source == null) {
       source = undefined;
     }
-    source.init().then(
-      () => this.getOlLayer().setSource(source),
-      () => this.getOlLayer().setSource(source)
-    );
+    if ('init' in source) {
+      (source as IInitSource).init().then(
+        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
+      );
+    } else {
+      this.getOlLayer().setSource(source);
+    }
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {

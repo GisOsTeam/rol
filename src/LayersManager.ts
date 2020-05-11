@@ -11,7 +11,7 @@ import { IWMSService } from './layer/IWMSService';
 import { FileTypeEnum } from './layer/FileTypeEnum';
 import { jsonEqual, walk, createSource, uid as genUid } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import { IExtended, IFeatureType } from '@gisosteam/aol/source/IExtended';
+import { ISnapshotSource, IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
@@ -96,16 +96,16 @@ export class LayersManager {
     this.getLayerElements().map((layerElement) => {
       const props = { ...layerElement.reactElement.props };
       const source = props.source;
-      if (source != null && 'getSourceType' in source && 'getSourceOptions' in source && 'isSnapshotable' in source) {
-        if ((source as IExtended).isSnapshotable()) {
-          props.source = undefined;
-          props.children = undefined;
-          layers.push({
-            sourceType: (source as IExtended).getSourceType(),
-            sourceOptions: (source as IExtended).getSourceOptions(),
-            props,
-          });
-        }
+      if (source != null) {
+        //if ((source as IExtended).isSnapshotable()) {
+        props.source = undefined;
+        props.children = undefined;
+        layers.push({
+          sourceType: (source as ISnapshotSource).getSourceType(),
+          sourceOptions: (source as ISnapshotSource).getSourceOptions(),
+          props,
+        });
+        //}
       }
     });
     return {
@@ -135,7 +135,7 @@ export class LayersManager {
    * @returns New Layer's uid
    */
   public addServiceFromFile(file: File, type: FileTypeEnum): Promise<string> {
-    let promise: Promise<IExtended>;
+    let promise: Promise<ISnapshotSource>;
     switch (type) {
       case FileTypeEnum.ZIP:
         promise = loadZippedShapefile(file, this.olMap);
@@ -160,7 +160,7 @@ export class LayersManager {
    * @param description
    * @returns uid of the Layer
    */
-  public addServiceFromSource(source: IExtended, name?: string, description?: string): string {
+  public addServiceFromSource(source: ISnapshotSource, name?: string, description?: string): string {
     const uid = genUid();
     this.createAndAddLayer(Image, {
       uid,
@@ -221,7 +221,7 @@ export class LayersManager {
     return filterFn == null ? arr : arr.filter(filterFn, thisFilterArg);
   }
 
-  public getLayerElementFromSource(source: IExtended): ILayerElement {
+  public getLayerElementFromSource(source: ISnapshotSource): ILayerElement {
     const layerElement = this.getLayerElements((layerElement: ILayerElement) => {
       return layerElement.olLayer != null && (layerElement.olLayer as Layer).getSource() === source;
     }).pop();
@@ -323,7 +323,7 @@ export class LayersManager {
     sourceType: SourceTypeEnum,
     sourceOptions: any,
     props: IBaseLayerProps
-  ): IExtended {
+  ): ISnapshotSource {
     const layerElement = this.getLayerElements((layerElement) => layerElement.uid == props.uid).pop();
     if (layerElement != null) {
       if (layerElement.olLayer != null) {

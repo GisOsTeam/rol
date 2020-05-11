@@ -4,7 +4,7 @@ import OlSource from 'ol/source/Source';
 import { ObjectEvent } from 'ol/Object';
 import { rolContext, IRolContext } from '../RolContext';
 import { walk, jsonEqual } from '@gisosteam/aol/utils';
-import { IExtended } from '@gisosteam/aol/source/IExtended';
+import { ISnapshotSource } from '@gisosteam/aol/source/IExtended';
 
 let globalOrder = 0;
 
@@ -44,7 +44,7 @@ export interface IBaseLayerProps {
   /**
    * Source.
    */
-  source?: IExtended;
+  source?: ISnapshotSource;
 }
 
 export class BaseLayer<

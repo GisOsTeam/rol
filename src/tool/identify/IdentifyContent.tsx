@@ -3,18 +3,16 @@ import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from '../ho
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTable';
 import { useDrawSource } from '../hook/useDrawSource';
-import Style from 'ol/style/Style';
-import Fill from 'ol/style/Fill';
-import Stroke from 'ol/style/Stroke';
 import { IdentifyFilterType, identify } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
+import { createLayerStyles } from '@gisosteam/aol/utils';
 
-// Move to AOL ?
-export const defaultHighlightStyle = new Style({
-  fill: new Fill({ color: 'rgba(0, 255, 255, 0.25)' }),
-  stroke: new Stroke({ color: 'rgba(0, 255, 255, 0.9)', width: 3 }),
-  zIndex: 100,
-});
+export const defaultHighlightStyle = createLayerStyles({
+  fillColor: 'rgba(0, 255, 255, 0.2)',
+  strokeColor: 'rgba(0, 0, 255, 0.9)',
+  width: 3,
+  radius: 3,
+})
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;
@@ -29,17 +27,13 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     layerUid: 'identify-highlight',
     persist: false,
     listable: false,
+    styles: defaultHighlightStyle,
   });
 
   React.useEffect(() => {
     if (!props.activated && !props.open) {
       if (source) {
-        Object.values(features).forEach((featArray) => {
-          featArray.forEach((feat) => {
-            feat.setStyle(undefined);
-          });
-        });
-        source.clear();
+              source.clear();
       }
       setFeatures({});
     }
@@ -66,25 +60,9 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     },
   });
 
-  if (Object.keys(features).length > 0) {
-    let identified: any = [];
-    Object.values(features).forEach((featArray) => (identified = identified.concat(...featArray)));
-    source.clear();
-    source.addFeatures(identified);
-  }
-
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {
-    if (source) {
-      Object.values(features).forEach((featArray) => {
-        featArray.forEach((feat) => {
-          if (selectedFeatures.indexOf(feat) > -1) {
-            feat.setStyle(defaultHighlightStyle);
-          } else {
-            feat.setStyle(undefined);
-          }
-        });
-      });
-    }
+    source.clear();
+    source.addFeatures(selectedFeatures);
   };
 
   return <FeatureTable onChangeDisplayedFeature={onDisplayedFeatureChange} features={features} />;

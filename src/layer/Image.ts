@@ -2,6 +2,7 @@ import * as React from 'react';
 import OlImageLayer from 'ol/layer/Image';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { Image as ImageSource } from '@gisosteam/aol/source/Image';
+import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IImageProps extends IBaseLayerProps {
   /**
@@ -26,9 +27,13 @@ export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, ImageSource>
     if (source == null) {
       source = undefined;
     }
-    source.init().then(
-      () => this.getOlLayer().setSource(source),
-      () => this.getOlLayer().setSource(source)
-    );
+    if ('init' in source) {
+      (source as IInitSource).init().then(
+        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
+      );
+    } else {
+      this.getOlLayer().setSource(source);
+    }
   }
 }

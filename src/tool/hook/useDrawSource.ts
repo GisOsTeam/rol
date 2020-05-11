@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import { getDefaultLayerStyles } from '@gisosteam/aol/utils';
+import { createLayerStyles } from '@gisosteam/aol/utils';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
@@ -46,7 +46,7 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
       const layerProps = {
         uid: props.layerUid,
         name: props.name != null ? props.name : 'Draw',
-        layerStyles: props.styles != null ? props.styles : getDefaultLayerStyles(),
+        layerStyles: props.styles != null ? props.styles : createLayerStyles(),
       };
       const localVectorSource = context.layersManager.createAndAddLayerFromSourceDefinition(
         SourceTypeEnum.LocalVector,

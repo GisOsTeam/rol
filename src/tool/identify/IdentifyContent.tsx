@@ -16,7 +16,12 @@ export const defaultHighlightStyle = new Style({
   zIndex: 100,
 });
 
-export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
+export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
+  limit?: number;
+  tolerance?: number;
+}
+
+export function IdentifyContent(props: IIdentifyContentProps) {
   const [features, setFeatures] = React.useState<IIdentifyResponseFeatures>({});
   const { layersManager } = React.useContext(rolContext);
 
@@ -46,6 +51,8 @@ export function IdentifyContent(props: IFunctionBaseWindowToolProps) {
 
   useIdentify({
     activated: props.activated ? props.activated : false,
+    limit: props.limit,
+    tolerance: props.tolerance,
     filterSources: filterListableSource,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IIdentifyResponseFeatures = {};

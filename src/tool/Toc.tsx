@@ -28,18 +28,6 @@ const SubContainer = styled.div<{ height: number; overflowy: string }>`
   flex-direction: column;
 `;
 
-const SpanParentSubTree = styled.span`
-  ::after {
-    margin-left: 10px;
-    margin-botom: 2px;
-    content: '▶';
-  }
-`;
-
-const DivSubTree = styled.div`
-  margin-left: 20px;
-`;
-
 const DivInline = styled.div`
   display: inline-flex;
 `;

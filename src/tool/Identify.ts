@@ -1,6 +1,8 @@
 import { IdentifyButton } from './identify/IdentifyButton';
-import { IdentifyContent } from './identify/IdentifyContent';
+import { IdentifyContent, IIdentifyContentProps } from './identify/IdentifyContent';
 import { IdentifyHeader } from './identify/IdentifyHeader';
-import { withBaseWindowTool } from './BaseWindowTool';
+import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 
-export const Identify = withBaseWindowTool(IdentifyContent, IdentifyHeader, IdentifyButton, { className: 'identify' });
+export type IIdentifyProps = IBaseWindowToolProps & Partial<IIdentifyContentProps>;
+
+export const Identify = withBaseWindowTool<IIdentifyProps>(IdentifyContent, IdentifyHeader, IdentifyButton, { className: 'identify' });

@@ -43,7 +43,7 @@ const world2D = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
   projection: 'EPSG:3857',
-} as any);
+});
 
 const britishNationalGrid = new ImageStatic({
   url:
@@ -55,27 +55,24 @@ const britishNationalGrid = new ImageStatic({
 const toppStateSource = new TileWms({
   url: 'https://ahocevar.com/geoserver/wms',
   types: [{ id: 'topp:states' }],
-} as any);
+  params: {}
+});
 
 const cities = new ImageWms({
   url: 'https://demo.mapserver.org/cgi-bin/wms',
   types: [{ id: 'cities' }],
-} as any);
+  params: {}
+});
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
   types: [{ id: 1 }],
-} as any);
+});
 
-export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
+export class SampleApp extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
-    this.state = { hideTools: false };
   }
-
-  public setHideTools = (hideTools: boolean) => {
-    this.setState({ hideTools });
-  };
 
   public render(): React.ReactNode {
     return (
@@ -117,28 +114,26 @@ export class SampleApp extends React.Component<{}, { hideTools: boolean }> {
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>
-          {this.state.hideTools === false && (
-            <Zone>
-              <Toc uid="Toc" />
-              <Fullscreen uid="Fullscreen" />
-              <PanZoom uid="PanZoom" />
-              <ScaleLine uid="ScaleLine" />
-              <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-                <PreviousViewButton uid="PreviousView" />
-                <InitialViewButton uid="InitialView" />
-                <NextViewButton uid="NextView" />
-                <ZoomRectangleWidget uid="zoomRectangle" />
-                <CounterButton uid="CounterButton" />
-                <CounterToggleButton uid="CounterToggleButton" />
-                <CounterWindow uid="CounterWindow" />
-                <LayerLoader uid="LayerLoader" />
-                <ShowSnapshot uid="ShowSnapshot" />
-                <DrawLine uid="DrawLine" />
-                <Identify uid="IdentifyTool" />
-                <Reproj uid="ReprojTool" />
-              </Zone>
+          <Zone>
+            <Toc uid="Toc" />
+            <Fullscreen uid="Fullscreen" />
+            <PanZoom uid="PanZoom" />
+            <ScaleLine uid="ScaleLine" />
+            <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
+              <PreviousViewButton uid="PreviousView" />
+              <InitialViewButton uid="InitialView" />
+              <NextViewButton uid="NextView" />
+              <ZoomRectangleWidget uid="zoomRectangle" />
+              <CounterButton uid="CounterButton" />
+              <CounterToggleButton uid="CounterToggleButton" />
+              <CounterWindow uid="CounterWindow" />
+              <LayerLoader uid="LayerLoader" />
+              <ShowSnapshot uid="ShowSnapshot" />
+              <DrawLine uid="DrawLine" />
+              <Identify uid="IdentifyTool" tolerance={10} />
+              <Reproj uid="ReprojTool" />
             </Zone>
-          )}
+          </Zone>
         </Control>
       </Rol>
     );

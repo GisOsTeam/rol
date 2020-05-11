@@ -2,9 +2,10 @@ import * as React from 'react';
 import styled, { ThemedStyledFunction } from 'styled-components';
 import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
+import { jsonEqual } from '@gisosteam/aol/utils';
 
 const Window = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   border: 1px solid #cccccc;
@@ -47,6 +48,8 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
 
 const CloseButton = styled.span`
   position: absolute;
+  height: 18px;
+  width: 18px;
   right: 14px;
   cursor: pointer;
   &:after {
@@ -103,17 +106,17 @@ export interface IBaseWindowToolState {
   /**
    * Bounds.
    */
-  bounds: any;
+  bounds: { top: number, bottom: number, left: number, right: number };
   /**
    * Position.
    */
-  position: any;
+  position: { x: number, y: number };
 }
 
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
   S extends IBaseWindowToolState = IBaseWindowToolState
-> extends BaseButtonTool<P, S> {
+  > extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
@@ -124,11 +127,12 @@ export class BaseWindowTool<
 
   constructor(props: P) {
     super(props);
-    this.state = {} as Readonly<S>;
+    this.state = { open: false } as Readonly<S>;
   }
 
   public componentDidMount() {
     super.componentDidMount();
+    window.addEventListener('resize', this.handleResize);
     if (this.props.defaultOpened) {
       this.open();
     }
@@ -136,17 +140,10 @@ export class BaseWindowTool<
 
   public componentDidUpdate(prevProps: P, prevState: S, snap: any) {
     super.componentDidUpdate(prevProps, prevState, snap);
-    const boundingRect: any = this.windowElement ? this.windowElement.getBoundingClientRect() : {};
-    if (boundingRect.height !== 0 && boundingRect.width !== 0 && !this.state.bounds) {
-      this.setState({
-        bounds: {
-          top: -boundingRect.top,
-          bottom: Window.innerHeight - boundingRect.top - boundingRect.height,
-          left: -boundingRect.left,
-          right: Window.innerWidth - boundingRect.right,
-        },
-      });
-    }
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   }
 
   /**
@@ -181,6 +178,7 @@ export class BaseWindowTool<
     this.setState(
       {
         open: false,
+        position: { x: 0, y: 0 },
       },
       () => {
         if (this.props.onClose) {
@@ -192,11 +190,40 @@ export class BaseWindowTool<
     return true;
   }
 
-  public start() {
+  public checkPosition(position: { x: number, y: number }) {
+    let { x, y } = position;
+    const boundingRect = this.windowElement.getBoundingClientRect();
+    const bounds = {
+      top: 0,
+      bottom: window.innerHeight - boundingRect.height,
+      left: 0,
+      right: window.innerWidth- boundingRect.width,
+    };
+    if (x > bounds.right) {
+      x = bounds.right;
+    }
+    if (x < bounds.left) {
+      x = bounds.left;
+    }
+    if (y > bounds.bottom) {
+      y = bounds.bottom;
+    }
+    if (y < bounds.top) {
+      y = bounds.top;
+    }
+    this.setState({ position: { x, y } });
+  }
+
+  public handleResize = () => {
+    this.checkPosition(this.state.position);
+  }
+
+  public handleStart = () => {
     this.activate();
-    this.setState({
-      position: null,
-    });
+  }
+
+  public handleDrag = (e: any, position: { x: number, y: number }) => {
+    this.checkPosition(position);
   }
 
   public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -246,51 +273,51 @@ export class BaseWindowTool<
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
     const openButtonClassName = `${this.props.className.split(/\s+/g)[0]}-open-button
       ${
-        this.state.open
-          ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
-          : `${this.props.className.split(/\s+/g)[0]}-open-button-closed`
+      this.state.open
+        ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
+        : `${this.props.className.split(/\s+/g)[0]}-open-button-closed`
       }
       ${
-        this.props.activated
-          ? `${this.props.className.split(/\s+/g)[0]}-open-button-activated`
-          : `${this.props.className.split(/\s+/g)[0]}-open-button-unactivated`
+      this.props.activated
+        ? `${this.props.className.split(/\s+/g)[0]}-open-button-activated`
+        : `${this.props.className.split(/\s+/g)[0]}-open-button-unactivated`
       }
       ${
-        this.props.disabled
-          ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
-          : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
+      this.props.disabled
+        ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
+        : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
       }`;
     const titleClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar
       ${
-        this.state.open
-          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
-          : `${this.props.className.split(/\s+/g)[0]}-titlebar-closed`
+      this.state.open
+        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
+        : `${this.props.className.split(/\s+/g)[0]}-titlebar-closed`
       }
       ${
-        this.props.activated
-          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-activated`
-          : `${this.props.className.split(/\s+/g)[0]}-titlebar-unactivated`
+      this.props.activated
+        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-activated`
+        : `${this.props.className.split(/\s+/g)[0]}-titlebar-unactivated`
       }
       ${
-        this.props.disabled
-          ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
-          : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
+      this.props.disabled
+        ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
+        : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
       }`;
     const contentClassName = `${this.props.className.split(/\s+/g)[0]}-content
       ${
-        this.state.open
-          ? `${this.props.className.split(/\s+/g)[0]}-content-open`
-          : `${this.props.className.split(/\s+/g)[0]}-content-closed`
+      this.state.open
+        ? `${this.props.className.split(/\s+/g)[0]}-content-open`
+        : `${this.props.className.split(/\s+/g)[0]}-content-closed`
       }
       ${
-        this.props.activated
-          ? `${this.props.className.split(/\s+/g)[0]}-content-activated`
-          : `${this.props.className.split(/\s+/g)[0]}-content-unactivated`
+      this.props.activated
+        ? `${this.props.className.split(/\s+/g)[0]}-content-activated`
+        : `${this.props.className.split(/\s+/g)[0]}-content-unactivated`
       }
       ${
-        this.props.disabled
-          ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
-          : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
+      this.props.disabled
+        ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
+        : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
       }`;
     const Drag: React.ComponentClass<any> = Draggable as any;
     let openButton = null;
@@ -321,9 +348,8 @@ export class BaseWindowTool<
         {openButton}
         <Drag
           handle={`.${this.props.className.split(/\s+/g)[0]}-titlebar`}
-          onStart={this.start.bind(this)}
-          bounds={this.state.bounds}
-          defaultPosition={{ x: 0, y: 0 }}
+          onStart={this.handleStart}
+          onDrag={this.handleDrag}
           position={this.state.position}
         >
           <Window
@@ -344,7 +370,7 @@ export class BaseWindowTool<
   }
 }
 
-export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState {}
+export interface IFunctionBaseWindowToolProps extends IBaseWindowToolProps, IBaseWindowToolState { }
 
 export function withBaseWindowTool<P extends IBaseWindowToolProps>(
   component:

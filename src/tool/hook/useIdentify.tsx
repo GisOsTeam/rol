@@ -15,6 +15,8 @@ export interface IIdentifyResponse {
 export interface IUseIdentifyProps {
   activated: boolean;
   onIdentifyResponse: (identifyResp: IIdentifyResponse) => unknown;
+  limit?: number;
+  tolerance?: number;
   filterSources?: IdentifyFilterType;
 }
 
@@ -24,7 +26,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
-      identify(clickEvent.pixel, olMap, undefined, props.filterSources).then((queryResponses: IQueryResponse[]) => {
+      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then((queryResponses: IQueryResponse[]) => {
         const features: any = {};
         queryResponses.forEach((queryResponse: IQueryResponse) => {
           const { featureTypeResponses } = queryResponse;

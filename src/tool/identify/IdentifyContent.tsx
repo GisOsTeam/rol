@@ -12,7 +12,7 @@ export const defaultHighlightStyle = createLayerStyles({
   strokeColor: 'rgba(0, 0, 255, 0.9)',
   width: 3,
   radius: 3,
-})
+});
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;
@@ -33,7 +33,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
   React.useEffect(() => {
     if (!props.activated && !props.open) {
       if (source) {
-              source.clear();
+        source.clear();
       }
       setFeatures({});
     }

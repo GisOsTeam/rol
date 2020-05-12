@@ -6,6 +6,8 @@ import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType, identify } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
 import { createLayerStyles } from '@gisosteam/aol/utils';
+import { SimpleList } from '../composite/SimpleList';
+import { SimpleItemComponent } from '../composite/SimpleItemComponent';
 
 export const defaultHighlightStyle = createLayerStyles({
   fillColor: 'rgba(0, 255, 255, 0.2)',

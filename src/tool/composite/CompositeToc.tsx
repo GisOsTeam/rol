@@ -5,7 +5,9 @@ import { BaseTool, IBaseToolProps } from '../BaseTool';
 import { IExtended } from '@gisosteam/aol/source/IExtended';
 import DraggableList from 'react-draggable-list';
 import { ILayerElement } from '../../LayersManager';
-import { LayerElementItem } from './LayerElementItem';
+import { LayerElementItem, ILayerElementItemProps } from './LayerElementItem';
+import { SimpleList } from './SimpleList';
+import { DraggableListAdaptator } from './DraggableListAdaptater';
 
 const Container = styled.div`
   top: 15px;
@@ -36,7 +38,7 @@ export interface ITocProps extends IBaseToolProps {
   className?: string;
 }
 
-export class Toc extends BaseTool<ITocProps, {}> {
+export class CompositeToc extends BaseTool<ITocProps, {}> {
   public static defaultProps = {
     ...BaseTool.defaultProps,
     className: 'toc',
@@ -93,6 +95,21 @@ export class Toc extends BaseTool<ITocProps, {}> {
     return (
       <Container className={`${this.props.className} ol-unselectable ol-control`}>
         <SubContainer height={height} overflowy={overflowy}>
+          <div>
+            <DraggableListAdaptator<ILayerElement, ILayerElementItemProps, LayerElementItem>
+                items={bases}
+                uid='BaseTocList'
+                itemComponent={LayerElementItem}
+                itemComponentProps={{
+                    item: null,
+                    itemSelected: -1,
+                    dragHandleProps: null,
+                    onMoveEnd: this.handleChange,
+                    constrainDrag: true
+                }}
+            />
+          </div>
+          <hr />
           <div>
             <DraggableList<ILayerElement, void, LayerElementItem>
               itemKey="uid"

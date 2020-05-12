@@ -1,21 +1,7 @@
 import * as React from 'react';
-import { IItemComponentProps } from './SimpleItemComponent';
+import { IBaseUIItem, IBaseUIList } from './models';
 
-export interface IBaseListProps<E, T extends IItemComponentProps<E>> {
-  items: E[];
-
-  itemComponent: React.FunctionComponent<T> | React.ComponentClass<T>;
-
-  itemComponentProps: T;
-  uid: string;
-}
-
-export function SimpleList<T extends IItemComponentProps<Record<string, any>>>({
-  items,
-  itemComponent,
-  itemComponentProps,
-  uid,
-}: IBaseListProps<Record<string, any>, T>) {
+export function SimpleList<T extends IBaseUIItem>({ items, itemComponent, itemComponentProps, uid }: IBaseUIList<T>) {
   return (
     <>
       {items.map((item, index) =>

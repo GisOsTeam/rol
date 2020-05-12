@@ -2,8 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext, IRolContext } from '../../RolContext';
 import { IExtended } from '@gisosteam/aol/source/IExtended';
-import { ILayerElement } from '../../LayersManager';
-import { IItemComponentProps } from './SimpleItemComponent';
+import { IBaseUIItem } from './models/IBaseUIItem';
 
 const DivInline = styled.div`
   display: inline-flex;
@@ -18,7 +17,7 @@ const DivDragHandle = styled.div`
   }
 `;
 
-export interface ILayerElementItemProps extends IItemComponentProps<ILayerElement> {
+export interface ILayerElementItemProps extends IBaseUIItem {
   itemSelected: number;
   dragHandleProps: object;
 }

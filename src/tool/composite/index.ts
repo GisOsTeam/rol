@@ -3,6 +3,7 @@
  */
 
 export * from './CompositeToc';
+export * from './DraggableListAdaptater';
 export * from './LayerElementItem';
 export * from './SimpleItemComponent';
 export * from './SimpleList';

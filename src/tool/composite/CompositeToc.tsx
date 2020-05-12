@@ -8,7 +8,7 @@ import { ILayerElement } from '../../LayersManager';
 import { LayerElementItem, ILayerElementItemProps } from './LayerElementItem';
 import { SimpleList } from './SimpleList';
 import { DraggableListAdaptator } from './DraggableListAdaptater';
-import { IItemComponentProps, SimpleItemComponent } from './SimpleItemComponent';
+import { SimpleItemComponent } from './SimpleItemComponent';
 
 const Container = styled.div`
   top: 15px;

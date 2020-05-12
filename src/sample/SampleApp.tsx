@@ -49,7 +49,7 @@ const world2D = new TileArcGISRest({
 const timeZones = new WmtsCapabilities({
   capabilitiesUrl: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS',
   layer: 'WorldTimeZones',
-  matrixSet: 'GoogleMapsCompatible'
+  matrixSet: 'GoogleMapsCompatible',
 });
 
 const britishNationalGrid = new ImageStatic({

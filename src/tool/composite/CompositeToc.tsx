@@ -29,9 +29,6 @@ const SubContainer = styled.div<{ height: number; overflowy: string }>`
   flex-direction: column;
 `;
 
-
-
-
 export interface ITocProps extends IBaseToolProps {
   /**
    * Class name.

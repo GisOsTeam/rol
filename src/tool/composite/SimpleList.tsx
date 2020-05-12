@@ -24,4 +24,4 @@ export function SimpleList<T extends IItemComponentProps<Record<string, any>>>({
       )}
     </>
   );
-};
+}

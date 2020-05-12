@@ -97,16 +97,16 @@ export class CompositeToc extends BaseTool<ITocProps, {}> {
         <SubContainer height={height} overflowy={overflowy}>
           <div>
             <DraggableListAdaptator<ILayerElement, ILayerElementItemProps, LayerElementItem>
-                items={bases}
-                uid='BaseTocList'
-                itemComponent={LayerElementItem}
-                itemComponentProps={{
-                    item: null,
-                    itemSelected: -1,
-                    dragHandleProps: null,
-                    onMoveEnd: this.handleChange,
-                    constrainDrag: true
-                }}
+              items={bases}
+              uid="BaseTocList"
+              itemComponent={LayerElementItem}
+              itemComponentProps={{
+                item: null,
+                itemSelected: -1,
+                dragHandleProps: null,
+                onMoveEnd: this.handleChange,
+                constrainDrag: true,
+              }}
             />
           </div>
           <hr />

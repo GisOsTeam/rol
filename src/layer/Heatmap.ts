@@ -2,6 +2,7 @@ import * as React from 'react';
 import OlHeatmapLayer from 'ol/layer/Heatmap';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { Vector } from '@gisosteam/aol/source/Vector';
+import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IHeatmapProps extends IBaseLayerProps {
   /**
@@ -50,10 +51,14 @@ export class Heatmap extends BaseLayer<IHeatmapProps, {}, OlHeatmapLayer, Vector
     if (source == null) {
       source = undefined;
     }
-    source.init().then(
-      () => this.getOlLayer().setSource(source),
-      () => this.getOlLayer().setSource(source)
-    );
+    if ('init' in source) {
+      (source as IInitSource).init().then(
+        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
+      );
+    } else {
+      this.getOlLayer().setSource(source);
+    }
   }
 
   public setGradient(gradient: string[]) {

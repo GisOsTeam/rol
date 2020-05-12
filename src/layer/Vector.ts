@@ -4,6 +4,7 @@ import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { Vector as VectorSource } from '@gisosteam/aol/source/Vector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
+import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IVectorProps extends IBaseLayerProps {
   /**
@@ -35,10 +36,14 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
     if (source == null) {
       source = undefined;
     }
-    source.init().then(
-      () => this.getOlLayer().setSource(source),
-      () => this.getOlLayer().setSource(source)
-    );
+    if ('init' in source) {
+      (source as IInitSource).init().then(
+        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
+      );
+    } else {
+      this.getOlLayer().setSource(source);
+    }
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {

@@ -9,6 +9,7 @@ import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { TileWms } from '@gisosteam/aol/source/TileWms';
 import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
+import { WmtsCapabilities } from '@gisosteam/aol/source/WmtsCapabilities';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { Control } from '../container/Control';
 import { Zone } from '../container/Zone';
@@ -43,6 +44,12 @@ const world2D = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
   projection: 'EPSG:3857',
+});
+
+const timeZones = new WmtsCapabilities({
+  capabilitiesUrl: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS',
+  layer: 'WorldTimeZones',
+  matrixSet: 'GoogleMapsCompatible'
 });
 
 const britishNationalGrid = new ImageStatic({
@@ -104,6 +111,13 @@ export class SampleApp extends React.Component<{}, {}> {
         />
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
         <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
+        <Tile
+          uid="UID -- Time zones"
+          source={timeZones}
+          name="Time zones"
+          description="Time zones WMTS Layer"
+          type="BASE"
+        />
         <Tile
           uid="UID -- Topp States"
           source={toppStateSource}

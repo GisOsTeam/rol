@@ -62,7 +62,7 @@ class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElem
   };
 
   public render(): React.ReactNode {
-    const { item, itemSelected, dragHandleProps } = this.props;
+    const { item, dragHandleProps } = this.props;
     const source = item.reactElement.props['source'];
     if (source != null && 'isListable' in source) {
       if ((source as IExtended).isListable()) {
@@ -171,8 +171,8 @@ export class Toc extends BaseTool<ITocProps, {}> {
       return null;
     }
     const bases = this.getBases();
-    const overlay = this.getOverlays();
-    let height = 1 + 27 * (bases.length + overlay.length);
+    const overlays = this.getOverlays();
+    let height = 1 + 27 * (bases.length + overlays.length);
     let overflowy = 'hidden';
     if (height > 400) {
       height = 400;
@@ -193,7 +193,7 @@ export class Toc extends BaseTool<ITocProps, {}> {
           <div>
             <DraggableList<ILayerElement, void, LayerElementItem>
               itemKey="uid"
-              list={overlay}
+              list={overlays}
               template={LayerElementItem}
               onMoveEnd={this.handleChange}
               constrainDrag={true}

@@ -16,7 +16,6 @@ export function SimpleList<T extends IItemComponentProps<Record<string, any>>>({
   itemComponentProps,
   uid,
 }: IBaseListProps<Record<string, any>, T>) {
-  console.log({ items, uid, itemComponent });
   return (
     <>
       {items.map((item, index) =>

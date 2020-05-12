@@ -7,6 +7,7 @@ import { IItemComponentProps } from './SimpleItemComponent';
 
 const DivInline = styled.div`
   display: inline-flex;
+  width: 100%;
 `;
 
 const DivDragHandle = styled.div`

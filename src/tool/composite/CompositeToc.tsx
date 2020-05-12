@@ -1,13 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext, IRolContext } from '../../RolContext';
-import { BaseTool, IBaseToolProps } from '../BaseTool';
+import { BaseTool, IBaseToolProps, withBaseTool } from '../BaseTool';
 import { IExtended } from '@gisosteam/aol/source/IExtended';
 import DraggableList from 'react-draggable-list';
 import { ILayerElement } from '../../LayersManager';
 import { LayerElementItem, ILayerElementItemProps } from './LayerElementItem';
 import { SimpleList } from './SimpleList';
 import { DraggableListAdaptator } from './DraggableListAdaptater';
+import { IItemComponentProps, SimpleItemComponent } from './SimpleItemComponent';
 
 const Container = styled.div`
   top: 15px;
@@ -31,14 +32,21 @@ const SubContainer = styled.div<{ height: number; overflowy: string }>`
   flex-direction: column;
 `;
 
-export interface ITocProps extends IBaseToolProps {
+export interface IComposedTocProps extends IBaseToolProps {
   /**
    * Class name.
    */
   className?: string;
 }
 
-export class CompositeToc extends BaseTool<ITocProps, {}> {
+export interface ICompositeTocProps extends IComposedTocProps {
+  basemapsListComponent?: any;
+  basemapsListComponentProps?: Record<string, any>;
+  overlaysListComponent?: any;
+  overlaysListComponentProps?: Record<string, any>;
+}
+
+export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   public static defaultProps = {
     ...BaseTool.defaultProps,
     className: 'toc',
@@ -80,6 +88,24 @@ export class CompositeToc extends BaseTool<ITocProps, {}> {
     });
   };
 
+  public renderBaseList() {
+    const bases = this.getBases();
+    return React.createElement(this.props.basemapsListComponent, {
+      ...this.props.basemapsListComponentProps,
+      items: bases,
+      uid: 'BaseTocList',
+    });
+  }
+
+  public renderOverlayList() {
+    const overlays = this.getOverlays();
+    return React.createElement(this.props.overlaysListComponent, {
+      ...this.props.overlaysListComponentProps,
+      items: overlays,
+      uid: 'OverlaysTocList',
+    });
+  }
+
   public renderTool(): React.ReactNode {
     if (this.props.disabled === true) {
       return null;
@@ -95,41 +121,24 @@ export class CompositeToc extends BaseTool<ITocProps, {}> {
     return (
       <Container className={`${this.props.className} ol-unselectable ol-control`}>
         <SubContainer height={height} overflowy={overflowy}>
-          <div>
-            <DraggableListAdaptator<ILayerElement, ILayerElementItemProps, LayerElementItem>
-              items={bases}
-              uid="BaseTocList"
-              itemComponent={LayerElementItem}
-              itemComponentProps={{
-                item: null,
-                itemSelected: -1,
-                dragHandleProps: null,
-                onMoveEnd: this.handleChange,
-                constrainDrag: true,
-              }}
-            />
-          </div>
-          <hr />
-          <div>
-            <DraggableList<ILayerElement, void, LayerElementItem>
-              itemKey="uid"
-              list={bases}
-              template={LayerElementItem}
-              onMoveEnd={this.handleChange}
-              constrainDrag={true}
-            />
-          </div>
-          <div>
-            <DraggableList<ILayerElement, void, LayerElementItem>
-              itemKey="uid"
-              list={overlay}
-              template={LayerElementItem}
-              onMoveEnd={this.handleChange}
-              constrainDrag={true}
-            />
-          </div>
+          <div>{this.renderBaseList()}</div>
+          <div>{this.renderOverlayList()}</div>
         </SubContainer>
       </Container>
     );
   }
 }
+
+export const ComposedToc = withBaseTool(CompositeToc, {
+  basemapsListComponent: SimpleList,
+  basemapsListComponentProps: {
+    itemComponent: SimpleItemComponent,
+    itemComponentProps: {
+      displayedProp: 'uid',
+    },
+  },
+  overlaysListComponent: DraggableListAdaptator,
+  overlaysListComponentProps: {
+    itemComponent: LayerElementItem,
+  },
+});

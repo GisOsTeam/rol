@@ -9,6 +9,5 @@ export interface ISimpleItemComponentProps extends IItemComponentProps<Record<st
 }
 
 export const SimpleItemComponent = ({ displayedProp, item }: ISimpleItemComponentProps) => {
-  console.log({ displayedProp, item });
   return <p>{item[displayedProp]}</p>;
 };

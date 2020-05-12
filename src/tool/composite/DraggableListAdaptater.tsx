@@ -4,6 +4,7 @@ import { IItemComponentProps } from './SimpleItemComponent';
 import DraggableList, { TemplateProps } from 'react-draggable-list';
 import { ILayerElement } from '../../LayersManager';
 import { LayerElementItem } from './LayerElementItem';
+import { rolContext } from '../../RolContext';
 
 type DraggableCompoProps<I> = React.Component<Partial<TemplateProps<I, void>>>;
 type pwet<I, C extends IItemComponentProps<I>, T extends DraggableCompoProps<I>> = IBaseListProps<I, C>;
@@ -16,8 +17,22 @@ export interface IDraggableListAdaptatorProps<I, C extends IItemComponentProps<I
 export function DraggableListAdaptator<I, C extends IItemComponentProps<I>, T extends DraggableCompoProps<I>>(
   props: IDraggableListAdaptatorProps<I, C, T>
 ) {
+  const context = React.useContext(rolContext);
   const { items: elements, itemComponent, itemComponentProps } = props;
+
+  const handleChange = (newList: ReadonlyArray<ILayerElement>) => {
+    newList.forEach((layerElement, order) => {
+      context.layersManager.updateLayerProps(layerElement.uid, { order });
+    });
+  };
+
   return (
-    <DraggableList<I, void, T> {...itemComponentProps} itemKey="uid" list={elements} template={itemComponent as any} />
+    <DraggableList<I, void, T>
+      {...itemComponentProps}
+      itemKey="uid"
+      list={elements}
+      template={itemComponent as any}
+      onMoveEnd={handleChange}
+    />
   );
 }

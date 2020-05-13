@@ -20,14 +20,41 @@ const DivDragHandle = styled.div`
 export interface ILayerElementItemProps extends IBaseUIItem {
   itemSelected: number;
   dragHandleProps: object;
+
+  // Received from DraggableList
+  commonProps?: Record<string, any>;
+  inputProps?: Record<string, any>;
 }
 
-interface LayerElementItemState {}
+interface LayerElementItemState {
+  inputProps?: Pick<ILayerElementItemProps, 'inputProps'>;
+}
 
 export class LayerElementItem extends React.Component<ILayerElementItemProps, LayerElementItemState> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
+
+  constructor(props: ILayerElementItemProps) {
+    super(props);
+    this.state = {};
+  }
+
+  /**
+   * RTFM
+   * Called before render
+   * @param props
+   * @param state
+   */
+  static getDerivedStateFromProps(props: ILayerElementItemProps, state: LayerElementItemState) {
+    return {
+      ...state,
+      inputProps: {
+        ...props.commonProps.inputProps,
+        ...props.inputProps,
+      },
+    };
+  }
 
   public handleCheckboxChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     this.context.layersManager.updateLayerProps(key, { visible: e.currentTarget.checked });
@@ -38,7 +65,7 @@ export class LayerElementItem extends React.Component<ILayerElementItemProps, La
   };
 
   public render(): React.ReactNode {
-    const { item, itemSelected, dragHandleProps } = this.props;
+    const { item, dragHandleProps } = this.props;
     const source = item.reactElement.props['source'];
     if (source != null && 'isListable' in source) {
       if ((source as IExtended).isListable()) {
@@ -60,25 +87,16 @@ export class LayerElementItem extends React.Component<ILayerElementItemProps, La
         if (title === '') {
           title = name;
         }
+
         let input;
-        if (item.reactElement.props.type === 'OVERLAY') {
-          input = (
-            <input
-              type="checkbox"
-              checked={item.reactElement.props.visible !== false ? true : false}
-              onChange={this.handleCheckboxChange(item.uid)}
-            />
-          );
-        } else {
-          input = (
-            <input
-              type="radio"
-              name="radiotoc"
-              checked={item.reactElement.props.visible !== false ? true : false}
-              onChange={this.handleRadioChange(item.uid)}
-            />
-          );
+        if (this.state.inputProps) {
+          input = React.createElement('input', {
+            ...this.state.inputProps,
+            checked: item.reactElement.props.visible !== false ? true : false,
+            onChange: this.handleCheckboxChange(item.uid),
+          });
         }
+
         const label = <label title={title}>{truncName}</label>;
         return (
           <DivInline>

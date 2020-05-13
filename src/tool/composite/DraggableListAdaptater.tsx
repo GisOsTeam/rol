@@ -24,10 +24,11 @@ export function DraggableListAdaptator<I, C extends IBaseUIItem, T extends Dragg
   };
 
   return (
-    <DraggableList<I, void, T>
+    <DraggableList<I, any, T>
       {...itemComponentProps}
       itemKey="uid"
       list={elements}
+      commonProps={itemComponentProps}
       template={itemComponent as any}
       onMoveEnd={handleChange}
     />

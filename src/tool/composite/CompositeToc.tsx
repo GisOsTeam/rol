@@ -130,15 +130,23 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
 }
 
 export const ComposedToc = withBaseTool(CompositeToc, {
-  basemapsListComponent: SimpleList,
+  basemapsListComponent: DraggableListAdaptator,
   basemapsListComponentProps: {
-    itemComponent: SimpleItemComponent,
+    itemComponent: LayerElementItem,
     itemComponentProps: {
-      displayedProp: 'uid',
+      inputProps: {
+        type: 'radio',
+        name: 'radiotoc',
+      },
     },
   },
   overlaysListComponent: DraggableListAdaptator,
   overlaysListComponentProps: {
     itemComponent: LayerElementItem,
+    itemComponentProps: {
+      inputProps: {
+        type: 'checkbox',
+      },
+    },
   },
 });

@@ -1,14 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { rolContext, IRolContext } from '../../RolContext';
-import { BaseTool, IBaseToolProps, withBaseTool } from '../BaseTool';
-import { IExtended } from '@gisosteam/aol/source/IExtended';
-import DraggableList from 'react-draggable-list';
+import { BaseTool, IBaseToolProps } from '../BaseTool';
 import { ILayerElement } from '../../LayersManager';
-import { LayerElementItem, ILayerElementItemProps } from './LayerElementItem';
-import { SimpleList } from './SimpleList';
-import { DraggableListAdaptator } from './DraggableListAdaptater';
-import { SimpleItemComponent } from './SimpleItemComponent';
 
 const Container = styled.div`
   top: 15px;
@@ -128,25 +121,3 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
     );
   }
 }
-
-export const ComposedToc = withBaseTool(CompositeToc, {
-  basemapsListComponent: DraggableListAdaptator,
-  basemapsListComponentProps: {
-    itemComponent: LayerElementItem,
-    itemComponentProps: {
-      inputProps: {
-        type: 'radio',
-        name: 'radiotoc',
-      },
-    },
-  },
-  overlaysListComponent: DraggableListAdaptator,
-  overlaysListComponentProps: {
-    itemComponent: LayerElementItem,
-    itemComponentProps: {
-      inputProps: {
-        type: 'checkbox',
-      },
-    },
-  },
-});

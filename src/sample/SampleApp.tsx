@@ -16,7 +16,6 @@ import { Zone } from '../container/Zone';
 import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
-import { ComposedToc } from '../tool/composite';
 import { ScaleLine } from '../tool/ScaleLine';
 import { PanZoom } from '../tool/PanZoom';
 import { LayerLoader } from '../tool/LayerLoader';
@@ -130,8 +129,7 @@ export class SampleApp extends React.Component<{}, {}> {
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>
           <Zone>
-            <ComposedToc uid="ComToc" />
-            {/* <Toc uid="Toc" /> */}
+            <Toc uid="Toc" />
             <Fullscreen uid="Fullscreen" />
             <PanZoom uid="PanZoom" />
             <ScaleLine uid="ScaleLine" />

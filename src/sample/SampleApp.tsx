@@ -48,8 +48,11 @@ const world2D = new TileArcGISRest({
 
 const timeZones = new WmtsCapabilities({
   capabilitiesUrl: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS',
+  // capabilitiesUrl: 'http://localhost:8181/aHR0cHM6Ly9zYW1wbGVzZXJ2ZXI2LmFyY2dpc29ubGluZS5jb20vYXJjZ2lzL3Jlc3Qvc2VydmljZXMvV29ybGRUaW1lWm9uZXMvTWFwU2VydmVyL1dNVFM%3D',
+  // url: 'http://localhost:8181/aHR0cHM6Ly9zYW1wbGVzZXJ2ZXI2LmFyY2dpc29ubGluZS5jb20vYXJjZ2lzL3Jlc3Qvc2VydmljZXMvV29ybGRUaW1lWm9uZXMvTWFwU2VydmVyL1dNVFM%3D',
   layer: 'WorldTimeZones',
   matrixSet: 'GoogleMapsCompatible',
+  requestEncoding: 'KVP'
 });
 
 const britishNationalGrid = new ImageStatic({

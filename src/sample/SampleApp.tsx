@@ -52,7 +52,7 @@ const timeZones = new WmtsCapabilities({
   // url: 'http://localhost:8181/aHR0cHM6Ly9zYW1wbGVzZXJ2ZXI2LmFyY2dpc29ubGluZS5jb20vYXJjZ2lzL3Jlc3Qvc2VydmljZXMvV29ybGRUaW1lWm9uZXMvTWFwU2VydmVyL1dNVFM%3D',
   layer: 'WorldTimeZones',
   matrixSet: 'GoogleMapsCompatible',
-  requestEncoding: 'KVP'
+  requestEncoding: 'KVP',
 });
 
 const britishNationalGrid = new ImageStatic({

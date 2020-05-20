@@ -211,7 +211,7 @@ export class LayersManager {
     });
     // Refresh
     this.refresh();
-  };
+  }
 
   /**
    * Get infoElements

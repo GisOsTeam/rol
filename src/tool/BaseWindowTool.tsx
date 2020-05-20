@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled, { ThemedStyledFunction } from 'styled-components';
 import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
-import { jsonEqual } from '@gisosteam/aol/utils';
 
 const Window = styled.div`
   position: fixed;
@@ -12,22 +11,6 @@ const Window = styled.div`
   border-radius: 3px;
   background-color: rgba(255, 255, 255, 0.9);
   padding: 3px;
-`;
-
-const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
-  height: 20px;
-  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
-  border: 1px solid #999;
-  border-radius: 2px;
-  display: block;
-  margin-bottom: 10px;
-  padding: 3px 5px;
-  text-align: center;
-  cursor: move;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 `;
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
@@ -46,12 +29,35 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   padding-top: 4px;
 `;
 
-const CloseButton = styled.span`
-  position: absolute;
+const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
+  height: 20px;
+  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
+  border: 1px solid #999;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 3px 5px;
+  text-align: center;
+  cursor: move;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+
+const TitleBarContent = styled.span`
+  flex-grow: 1;
+`;
+
+const TitleBarCloseButton = styled.button<{ activated?: boolean; independant?: boolean }>`
+  flex-grow: 0;
   height: 18px;
   width: 18px;
-  right: 14px;
-  cursor: pointer;
+  border-style: none;
+  margin: 0;
+  padding: 0;
+  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   &:after {
     content: '✖';
   }
@@ -191,6 +197,9 @@ export class BaseWindowTool<
   }
 
   public checkPosition(position: { x: number; y: number }) {
+    if (position == null) {
+      return;
+    }
     let { x, y } = position;
     const boundingRect = this.windowElement.getBoundingClientRect();
     const bounds = {
@@ -303,6 +312,7 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
       }`;
+    const titleContentClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar-content`;
     const contentClassName = `${this.props.className.split(/\s+/g)[0]}-content
       ${
         this.state.open
@@ -337,9 +347,11 @@ export class BaseWindowTool<
     let closeButton = null;
     if (!this.props.hideCloseButton) {
       closeButton = (
-        <CloseButton
+        <TitleBarCloseButton
           className={`${this.props.className.split(/\s+/g)[0]}-titlebar-close-button`}
           onClick={this.handleCloseClick}
+          activated={this.props.activated}
+          independant={this.props.independant}
         />
       );
     }
@@ -347,7 +359,7 @@ export class BaseWindowTool<
       <React.Fragment>
         {openButton}
         <Drag
-          handle={`.${this.props.className.split(/\s+/g)[0]}-titlebar`}
+          handle={`.${titleContentClassName}`}
           onStart={this.handleStart}
           onDrag={this.handleDrag}
           position={this.state.position}
@@ -359,7 +371,7 @@ export class BaseWindowTool<
             ref={(ref) => (this.windowElement = ref)}
           >
             <TitleBar className={titleClassName} activated={this.props.activated}>
-              {this.renderHeaderContent()}
+              <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
               {closeButton}
             </TitleBar>
             <Content className={contentClassName}>{this.renderTool()}</Content>

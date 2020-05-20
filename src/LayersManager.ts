@@ -173,9 +173,16 @@ export class LayersManager {
   }
 
   /**
+   * Reload layers.
+   */
+  public reload() {
+    this.reloadFromSnapshot(this.getSnapshot());
+  }
+
+  /**
    * Reload from snapshot.
    */
-  public reloadFromSnapshot = (snapshot: ISnapshot) => {
+  public reloadFromSnapshot(snapshot: ISnapshot) {
     // Remove old
     this.getLayerElements().map((layerElement) => {
       this.setLayerElement(

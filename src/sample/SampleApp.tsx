@@ -98,6 +98,7 @@ export class SampleApp extends React.Component<{}, {}> {
               projection: 'EPSG:3857',
             })
           );
+          afterData.layersManager.reload();
         }}
       >
         <Projection

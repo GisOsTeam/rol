@@ -33,10 +33,7 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
   }
 
   public setSource(source: VectorSource) {
-    if (source == null) {
-      source = undefined;
-    }
-    if ('init' in source) {
+    if (source != null && 'init' in source) {
       (source as IInitSource).init().then(
         () => this.getOlLayer().setSource(source),
         () => this.getOlLayer().setSource(source)

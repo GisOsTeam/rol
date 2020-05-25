@@ -24,10 +24,7 @@ export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, ImageSource>
   }
 
   public setSource(source: ImageSource) {
-    if (source == null) {
-      source = undefined;
-    }
-    if ('init' in source) {
+    if (source != null && 'init' in source) {
       (source as IInitSource).init().then(
         () => this.getOlLayer().setSource(source),
         () => this.getOlLayer().setSource(source)

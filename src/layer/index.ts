@@ -5,7 +5,6 @@
 export * from './BaseLayer';
 export * from './FileTypeEnum';
 export * from './Heatmap';
-export * from './IWMSService';
 export * from './Image';
 export * from './Tile';
 export * from './Vector';

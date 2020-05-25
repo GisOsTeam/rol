@@ -8,31 +8,31 @@ export interface IHeatmapProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: Vector;
+  source?: Vector;
   /**
    * Gradient.
    */
-  gradient: string[];
+  gradient?: string[];
   /**
    * Radius.
    */
-  radius: number;
+  radius?: number;
   /**
    * Blur.
    */
-  blur: number;
+  blur?: number;
   /**
    * Shadow.
    */
-  shadow: number;
+  shadow?: number;
   /**
    * Weight.
    */
-  weight: string;
+  weight?: string;
   /**
    * Render mode.
    */
-  renderMode: string;
+  renderMode?: string;
 }
 
 export class Heatmap extends BaseLayer<IHeatmapProps, {}, OlHeatmapLayer, Vector> {

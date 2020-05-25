@@ -10,7 +10,7 @@ export interface IVectorProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: VectorSource;
+  source?: VectorSource;
   /**
    * Layer styles.
    */

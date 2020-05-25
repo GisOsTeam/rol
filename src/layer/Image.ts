@@ -8,7 +8,7 @@ export interface IImageProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: ImageSource;
+  source?: ImageSource;
 }
 
 export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, ImageSource> {

@@ -8,7 +8,7 @@ export interface ITileProps extends IBaseLayerProps {
   /**
    * Source.
    */
-  source: TileImageSource;
+  source?: TileImageSource;
 }
 
 export class Tile extends BaseLayer<ITileProps, {}, OlTileLayer, TileImageSource> {

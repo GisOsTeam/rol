@@ -7,7 +7,6 @@ import { Vector } from './layer/Vector';
 import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
-import { IWMSService } from './layer/IWMSService';
 import { FileTypeEnum } from './layer/FileTypeEnum';
 import { jsonEqual, walk, createSource, uid as genUid } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
@@ -16,7 +15,6 @@ import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 import Layer from 'ol/layer/Layer';
-import { loadWMS } from '@gisosteam/aol/load/wms';
 import { loadZippedShapefile } from '@gisosteam/aol/load/shpz';
 import { loadKML } from '@gisosteam/aol/load/kml';
 import { loadKMZ } from '@gisosteam/aol/load/kmz';
@@ -116,19 +114,6 @@ export class LayersManager {
   };
 
   /**
-   * Load & Add a WMS Service
-   * @param service
-   * @param proxy
-   * @returns New Layer's uid
-   */
-  public async addWMS({ id, serverURL, name, description }: IWMSService, proxy?: string): Promise<string> {
-    const types: Array<IFeatureType<string>> = [];
-    types.push({ id });
-    const extended = await loadWMS(serverURL + '/wms', types, proxy);
-    return this.addServiceFromSource(extended, name, description);
-  }
-
-  /**
    * Load file and add service
    * @param file
    * @param type FileTypeEnum.KML | KMZ | ZIP
@@ -147,7 +132,7 @@ export class LayersManager {
         promise = loadKMZ(file, this.olMap);
         break;
       default:
-        console.warn(`ROL LayerManager addServiceFromFile -- ServiceType ${type} can't be loaded from a file`);
+        console.warn(`ServiceType ${type} can't be loaded from a file`);
         return null;
     }
     return promise.then((extended) => this.addServiceFromSource(extended));
@@ -160,7 +145,7 @@ export class LayersManager {
    * @param description
    * @returns uid of the Layer
    */
-  public addServiceFromSource(source: ISnapshotSource, name?: string, description?: string): string {
+  public addServiceFromSource(source: ISnapshotSource, name?: string, description?: string): Promise<string> {
     const uid = genUid();
     this.createAndAddLayer(Image, {
       uid,
@@ -169,7 +154,7 @@ export class LayersManager {
       type: 'OVERLAY',
       source,
     });
-    return uid;
+    return Promise.resolve(uid);
   }
 
   /**

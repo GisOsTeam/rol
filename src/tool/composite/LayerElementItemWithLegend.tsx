@@ -45,25 +45,29 @@ interface LayerElementItemWithLegendState {
   displayLegend: boolean;
 }
 
-export class LayerElementItemWithLegend extends React.Component<ILayerElementItemProps, LayerElementItemWithLegendState> {
+export class LayerElementItemWithLegend extends React.Component<
+  ILayerElementItemProps,
+  LayerElementItemWithLegendState
+> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
-  
+
   private mounted: boolean;
 
   constructor(props: ILayerElementItemProps) {
     super(props);
     this.state = {
       legendByLayer: {},
-      displayLegend: false
+      displayLegend: false,
     };
   }
 
   /**
-   * @todo upgrade AOL pour récupérer la légende depuis la source 
-   * 
-   */  
+   * @todo upgrade AOL pour récupérer la légende depuis la source
+   *
+   */
+
   async componentDidMount() {
     const { item } = this.props;
     this.mounted = true;
@@ -78,23 +82,27 @@ export class LayerElementItemWithLegend extends React.Component<ILayerElementIte
       const displayedLayers = source.getSourceOptions().types.map((type) => type.id);
       legendResp.layers.forEach((layer: any) => {
         if (displayedLayers.indexOf(layer.layerId) >= 0) {
-          legendByLayer[layer.layerId] = layer.legend.map((legend: any): ILayerLegend => ({
-            srcImage: `data:image/png;base64, ${legend.imageData}`,
-            label: legend.label || layer.layerName
-          }));
+          legendByLayer[layer.layerId] = layer.legend.map(
+            (legend: any): ILayerLegend => ({
+              srcImage: `data:image/png;base64, ${legend.imageData}`,
+              label: legend.label || layer.layerName,
+            })
+          );
         }
       });
 
       console.log(elementProps, legendResp, displayedLayers, legendByLayer);
     } else if (source instanceof TileWms || source instanceof ImageWms) {
-      legendByLayer[0] = [{
-        srcImage: `${source.getLegendUrl(undefined, {"TRANSPARENT":true, "SLD_VERSION": "1.1.0"})}`
-      }];
+      legendByLayer[0] = [
+        {
+          srcImage: `${source.getLegendUrl(undefined, { TRANSPARENT: true, SLD_VERSION: '1.1.0' })}`,
+        },
+      ];
     }
-    
+
     // A ne pas faire mais c'est temporaire
     if (this.mounted && legendByLayer) {
-      this.setState({ legendByLayer })
+      this.setState({ legendByLayer });
     }
   }
 
@@ -129,20 +137,21 @@ export class LayerElementItemWithLegend extends React.Component<ILayerElementIte
     const { displayLegend, legendByLayer } = this.state;
     if (displayLegend && legendByLayer) {
       return Object.values(legendByLayer).map((lgd, index) => {
-        return (<div key={index}>
-          {
-            lgd.map((layer, li) => {
+        return (
+          <div key={index}>
+            {lgd.map((layer, li) => {
               const label = layer.label ? layer.label : null;
               return (
                 <span key={li}>
-                  <img src={layer.srcImage} />{label}
+                  <img src={layer.srcImage} />
+                  {label}
                 </span>
               );
-            })
-          }
-        </div>);
+            })}
+          </div>
+        );
       });
-    };
+    }
   }
 
   public render(): React.ReactNode {
@@ -179,7 +188,11 @@ export class LayerElementItemWithLegend extends React.Component<ILayerElementIte
           });
         }
 
-        const label = <label title={title} onClick={() => this.setState({ displayLegend: !this.state.displayLegend })}>{truncName}</label>;
+        const label = (
+          <label title={title} onClick={() => this.setState({ displayLegend: !this.state.displayLegend })}>
+            {truncName}
+          </label>
+        );
         return (
           <div>
             <DivInline>
@@ -187,9 +200,7 @@ export class LayerElementItemWithLegend extends React.Component<ILayerElementIte
               {input}
               {label}
             </DivInline>
-            <div>
-              {this.renderLegend()}
-            </div>
+            <div>{this.renderLegend()}</div>
           </div>
         );
       }

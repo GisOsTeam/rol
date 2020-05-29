@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { withBaseTool } from './BaseTool';
 import { CompositeToc, DraggableListAdaptator, LayerElementItem } from './composite';
+import { LayerElementItemWithLegend } from './composite/LayerElementItemWithLegend';
 
 export const Toc = withBaseTool(CompositeToc, {
   basemapsListComponent: DraggableListAdaptator,
@@ -15,7 +16,7 @@ export const Toc = withBaseTool(CompositeToc, {
   },
   overlaysListComponent: DraggableListAdaptator,
   overlaysListComponentProps: {
-    itemComponent: LayerElementItem,
+    itemComponent: LayerElementItemWithLegend,
     itemComponentProps: {
       inputProps: {
         type: 'checkbox',

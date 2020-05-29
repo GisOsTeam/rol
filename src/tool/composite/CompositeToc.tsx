@@ -106,7 +106,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
     const bases = this.getBases();
     const overlay = this.getOverlays();
     let height = 1 + 27 * (bases.length + overlay.length);
-    let overflowy = 'hidden';
+    let overflowy = 'auto';
     if (height > 400) {
       height = 400;
       overflowy = 'scroll';

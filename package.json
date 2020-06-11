@@ -34,7 +34,7 @@
     "@babel/preset-react": "^7.10.1",
     "@types/jszip": "^3.4.1",
     "@types/ol": "^6.3.1",
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
@@ -61,8 +61,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.35",
-    "bhreq": "^0.0.14",
+    "@gisosteam/aol": "^0.0.36",
+    "bhreq": "^0.1.0",
     "react-draggable": "^4.4.3",
     "react-draggable-list": "^4.0.3",
     "styled-components": "^5.1.1"

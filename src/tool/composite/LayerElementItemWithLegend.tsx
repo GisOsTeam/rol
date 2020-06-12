@@ -77,7 +77,7 @@ export class LayerElementItemWithLegend extends React.Component<
     const source = elementProps['source'];
 
     let legendByLayer: Record<string, ILayerLegend[]> = {};
-    if(source.fetchLegend) {
+    if (source.fetchLegend) {
       this.promLegend = source.fetchLegend();
       legendByLayer = await this.promLegend;
     }
@@ -91,7 +91,7 @@ export class LayerElementItemWithLegend extends React.Component<
   componentWillUnmount() {
     this.mounted = false;
   }
-  
+
   /**
    * RTFM
    * Called before render

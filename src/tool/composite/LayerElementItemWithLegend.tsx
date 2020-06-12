@@ -55,6 +55,8 @@ export class LayerElementItemWithLegend extends React.Component<
 
   private mounted: boolean;
 
+  private promLegend: Promise<Record<string, ILayerLegend[]>>;
+
   constructor(props: ILayerElementItemProps) {
     super(props);
     this.state = {
@@ -73,31 +75,11 @@ export class LayerElementItemWithLegend extends React.Component<
     this.mounted = true;
     const elementProps = item.reactElement.props;
     const source = elementProps['source'];
-    let legendResp;
-    const legendByLayer: Record<string, ILayerLegend[]> = {};
-    // console.log(elementProps);
-    if (source instanceof ImageArcGISRest) {
-      legendResp = await fetch(`${source.getSourceOptions().url}/legend?f=json`);
-      legendResp = await legendResp.json();
-      const displayedLayers = source.getSourceOptions().types.map((type) => type.id);
-      legendResp.layers.forEach((layer: any) => {
-        if (displayedLayers.indexOf(layer.layerId) >= 0) {
-          legendByLayer[layer.layerId] = layer.legend.map(
-            (legend: any): ILayerLegend => ({
-              srcImage: `data:image/png;base64, ${legend.imageData}`,
-              label: legend.label || layer.layerName,
-            })
-          );
-        }
-      });
 
-      console.log(elementProps, legendResp, displayedLayers, legendByLayer);
-    } else if (source instanceof TileWms || source instanceof ImageWms) {
-      legendByLayer[0] = [
-        {
-          srcImage: `${source.getLegendUrl(undefined, { TRANSPARENT: true, SLD_VERSION: '1.1.0' })}`,
-        },
-      ];
+    let legendByLayer: Record<string, ILayerLegend[]> = {};
+    if(source.fetchLegend) {
+      this.promLegend = source.fetchLegend();
+      legendByLayer = await this.promLegend;
     }
 
     // A ne pas faire mais c'est temporaire
@@ -109,6 +91,7 @@ export class LayerElementItemWithLegend extends React.Component<
   componentWillUnmount() {
     this.mounted = false;
   }
+  
   /**
    * RTFM
    * Called before render

@@ -68,11 +68,11 @@ const toppStateSource = new TileWms({
   params: {},
 });
 
-const cities = new ImageWms({
-  url: 'https://demo.mapserver.org/cgi-bin/wms',
-  types: [{ id: 'cities' }],
-  params: {},
-});
+// const cities = new ImageWms({
+//   url: 'https://demo.mapserver.org/cgi-bin/wms',
+//   types: [{ id: 'cities' }],
+//   params: {},
+// });
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
@@ -128,7 +128,7 @@ export class SampleApp extends React.Component<{}, {}> {
           name="Topp States"
           description="Topp States WMS Layer"
         />
-        <Image uid="UID -- Cities" source={cities} name="Cities" />
+        {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
         <Image uid="UID -- Highways" source={highways} name="Highways" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>

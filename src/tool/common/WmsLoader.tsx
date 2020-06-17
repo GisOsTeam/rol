@@ -7,6 +7,7 @@ import { LayersManager } from '../../LayersManager';
 import { useTranslate } from '../hook/useTranslate';
 import { loadWMS } from '@gisosteam/aol/load/wms';
 import { IFeatureType } from '@gisosteam/aol/source/IExtended';
+import { uid as genUid } from '@gisosteam/aol/utils';
 
 const Container = styled.div`
   display: flex;
@@ -76,8 +77,13 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
     selected.forEach((elem: [string, string]) => {
       const types: Array<IFeatureType<string>> = [];
       types.push({ id: elem[0] });
-      loadWMS(serverUrl + '/wms', types, gisProxyUrl).then((source) =>
-        layersManager.addServiceFromSource(source, elem[0], elem[1])
+      loadWMS(serverUrl, types, gisProxyUrl).then((source) =>
+        layersManager.createAndAddLayerFromSource(source, {
+          uid: genUid(),
+          name: elem[0],
+          description: elem[1],
+          type: 'OVERLAY',
+        })
       );
     });
   };

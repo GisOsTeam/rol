@@ -7,17 +7,13 @@ import { Vector } from './layer/Vector';
 import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
-import { FileTypeEnum } from './layer/FileTypeEnum';
-import { jsonEqual, walk, createSource, uid as genUid } from '@gisosteam/aol/utils';
+import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
 import { ISnapshotSource, IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 import Layer from 'ol/layer/Layer';
-import { loadZippedShapefile } from '@gisosteam/aol/load/shpz';
-import { loadKML } from '@gisosteam/aol/load/kml';
-import { loadKMZ } from '@gisosteam/aol/load/kmz';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -112,50 +108,6 @@ export class LayersManager {
       layers,
     };
   };
-
-  /**
-   * Load file and add service
-   * @param file
-   * @param type FileTypeEnum.KML | KMZ | ZIP
-   * @returns New Layer's uid
-   */
-  public addServiceFromFile(file: File, type: FileTypeEnum): Promise<string> {
-    let promise: Promise<ISnapshotSource>;
-    switch (type) {
-      case FileTypeEnum.ZIP:
-        promise = loadZippedShapefile(file, this.olMap);
-        break;
-      case FileTypeEnum.KML:
-        promise = loadKML(file, this.olMap);
-        break;
-      case FileTypeEnum.KMZ:
-        promise = loadKMZ(file, this.olMap);
-        break;
-      default:
-        console.warn(`ServiceType ${type} can't be loaded from a file`);
-        return null;
-    }
-    return promise.then((extended) => this.addServiceFromSource(extended));
-  }
-
-  /**
-   * Add a service from a source
-   * @param source
-   * @param name
-   * @param description
-   * @returns uid of the Layer
-   */
-  public addServiceFromSource(source: ISnapshotSource, name?: string, description?: string): Promise<string> {
-    const uid = genUid();
-    this.createAndAddLayer(Image, {
-      uid,
-      name,
-      description,
-      type: 'OVERLAY',
-      source,
-    });
-    return Promise.resolve(uid);
-  }
 
   /**
    * Reload layers.
@@ -311,6 +263,30 @@ export class LayersManager {
   /**
    * Create and add layer props
    */
+  public createAndAddLayerFromSource(source: ISnapshotSource, props: IBaseLayerProps): ISnapshotSource {
+    switch (source.getLayerType()) {
+      case LayerTypeEnum.Image:
+        this.createAndAddLayer(Image, { ...props, source });
+        break;
+      case LayerTypeEnum.Tile:
+        this.createAndAddLayer(Tile, { ...props, source });
+        break;
+      case LayerTypeEnum.Vector:
+        this.createAndAddLayer(Vector, { ...props, source });
+        break;
+      case LayerTypeEnum.VectorTile:
+        this.createAndAddLayer(VectorTile, { ...props, source });
+        break;
+      /*case LayerTypeEnum.Heatmap:
+        this.createAndAddLayer(VectorTile, { ...props, source });
+        break;*/
+    }
+    return source;
+  }
+
+  /**
+   * Create and add layer props
+   */
   public createAndAddLayerFromSourceDefinition(
     sourceType: SourceTypeEnum,
     sourceOptions: any,
@@ -340,23 +316,7 @@ export class LayersManager {
       }
     }
     const source = createSource(sourceType, sourceOptions);
-    switch (source.getLayerType()) {
-      case LayerTypeEnum.Image:
-        this.createAndAddLayer(Image, { ...props, source });
-        break;
-      case LayerTypeEnum.Tile:
-        this.createAndAddLayer(Tile, { ...props, source });
-        break;
-      case LayerTypeEnum.Vector:
-        this.createAndAddLayer(Vector, { ...props, source });
-        break;
-      case LayerTypeEnum.VectorTile:
-        this.createAndAddLayer(VectorTile, { ...props, source });
-        break;
-      /*case LayerTypeEnum.Heatmap:
-        this.createAndAddLayer(VectorTile, { ...props, source });
-        break;*/
-    }
+    this.createAndAddLayerFromSource(source, props);
     return source;
   }
 

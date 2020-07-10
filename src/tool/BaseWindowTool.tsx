@@ -98,6 +98,10 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
    * Close handler.
    */
   onClose?: () => void;
+  /**
+   * Default position.
+   */
+  defaultPosition?: { x: number; y: number };
 }
 
 export interface IBaseWindowToolState {
@@ -127,13 +131,14 @@ export class BaseWindowTool<
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
     hideCloseButton: false,
+    defaultPosition: { x: 200, y: 200 },
   };
 
   public windowElement: HTMLSpanElement;
 
   constructor(props: P) {
     super(props);
-    this.state = { open: false } as Readonly<S>;
+    this.state = { open: false, position: this.props.defaultPosition } as Readonly<S>;
   }
 
   public componentDidMount() {
@@ -184,7 +189,7 @@ export class BaseWindowTool<
     this.setState(
       {
         open: false,
-        position: { x: 0, y: 0 },
+        position: this.props.defaultPosition,
       },
       () => {
         if (this.props.onClose) {

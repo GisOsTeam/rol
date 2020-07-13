@@ -121,16 +121,16 @@ export class GroupButtonTool<
     return (
       <React.Fragment>
         <Button
-            className={openButtonClassName}
-            title={this.props.buttonTitle}
-            onClick={this.handleButtonClick}
-            activated={this.state.open}
-            independant={true}
+          className={openButtonClassName}
+          title={this.props.buttonTitle}
+          onClick={this.handleButtonClick}
+          activated={this.state.open}
+          independant={true}
         >
-            {this.renderOpenButtonContent()}
+          {this.renderOpenButtonContent()}
         </Button>
         <Group shouldDisplay={this.state.open} className={className} position={this.props.groupPosition}>
-            {this.renderChildren()}
+          {this.renderChildren()}
         </Group>
       </React.Fragment>
     );

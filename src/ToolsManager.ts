@@ -106,7 +106,7 @@ export class ToolsManager {
       this.updateToolProps(uid, { activated: false });
       setTimeout(() => {
         this.activateTool(uid);
-      }, 1);
+      }, 100);
       return;
     }
     if (!props.activated || force) {
@@ -197,7 +197,6 @@ export class ToolsManager {
           changed = true;
         }
       } else {
-        console.log('SetToolElement changed', { uid: toolElement.uid, refreshIfChanging, changed });
         toolMap.set(toolElement.uid, {
           ...toolElement,
         });
@@ -216,7 +215,7 @@ export class ToolsManager {
     }
     // Next children
     if (children) {
-      React.Children.map(children, (nextChild: React.ReactElement<any>) => {
+      React.Children.forEach(children, (nextChild: React.ReactElement<any>) => {
         if (nextChild != null && BaseTool.isPrototypeOf(nextChild.type)) {
           const uid = nextChild.props.uid;
           // uid is null: log error

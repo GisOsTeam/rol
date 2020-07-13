@@ -21,9 +21,10 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   padding-top: 4px;
 `;
 
-const Group = styled.div<{ position: GroupPosition }>`
+const Group = styled.div<{ shouldDisplay: boolean; position: GroupPosition }>`
   position: absolute;
   ${(props) => props.position}: -35px;
+  display: ${(props) => (props.shouldDisplay ? 'inline' : 'none')};
 `;
 
 export type GroupPosition = 'top' | 'left' | 'right' | 'bottom';
@@ -67,10 +68,6 @@ export class GroupButtonTool<
     this.state = { open: false } as Readonly<S>;
   }
 
-  public refresh = () => {
-    console.log('Pwet, refresh');
-    this.render();
-  };
   /**
    * Open Window.
    */
@@ -133,15 +130,15 @@ export class GroupButtonTool<
     );
 
     const buttonGroup = (
-      <Group className={className} position={this.props.groupPosition}>
-        {this.props.children}
+      <Group shouldDisplay={this.state.open} className={className} position={this.props.groupPosition}>
+        {this.renderChildren()}
       </Group>
     );
 
     return (
       <React.Fragment>
         {openButton}
-        {this.state.open ? buttonGroup : null}
+        {buttonGroup}
       </React.Fragment>
     );
   }

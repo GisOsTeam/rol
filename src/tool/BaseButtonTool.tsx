@@ -52,7 +52,6 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
 
   public handleBaseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log('CLick', this.props);
     if (!this.props.disabled) {
       if (this.props.onButtonClick) {
         this.props.onButtonClick();

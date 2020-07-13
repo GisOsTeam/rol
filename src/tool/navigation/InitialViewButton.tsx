@@ -15,7 +15,6 @@ export const InitialViewButton = withBaseButtonTool(
     const { fitToInitial } = useViewManager();
     const translate = useTranslate();
     React.useEffect(() => {
-      console.log('Use effect', props);
       if (props.activated === true) {
         fitToInitial();
       }

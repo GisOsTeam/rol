@@ -17,9 +17,9 @@ import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
-import { PanZoom } from '../tool/PanZoom';
-import { LayerLoader } from '../tool/LayerLoader';
-import { Identify } from '../tool/Identify';
+import { PanZoom, GroupButtonTool } from '../tool';
+import { LayerLoader } from '../tool';
+import { Identify } from '../tool';
 import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
 import { NextViewButton } from '../tool/navigation/NextViewButton';
 import { InitialViewButton } from '../tool/navigation/InitialViewButton';
@@ -138,9 +138,12 @@ export class SampleApp extends React.Component<{}, {}> {
             <PanZoom uid="PanZoom" />
             <ScaleLine uid="ScaleLine" />
             <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-              <PreviousViewButton uid="PreviousView" />
-              <InitialViewButton uid="InitialView" />
-              <NextViewButton uid="NextView" />
+                <PreviousViewButton uid="PreviousView" />
+              <GroupButtonTool uid="ViewTools" groupPosition="top">
+                <InitialViewButton uid="InitialView" />
+                <NextViewButton uid="NextView" />
+                <CounterButton uid="CounterButton2" />
+              </GroupButtonTool>
               <ZoomRectangleWidget uid="zoomRectangle" />
               <CounterButton uid="CounterButton" />
               <CounterToggleButton uid="CounterToggleButton" />

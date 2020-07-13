@@ -222,8 +222,9 @@ export class Rol extends React.Component<IRolProps, IRolState> {
     this.layersManager.getLayerElements().forEach((layerElement) => {
       elems.push(layerElement.reactElement);
     });
-    // Tools
+
     React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
+      // Tools
       if (child != null && BaseTool.isPrototypeOf(child.type)) {
         const toolElement = this.toolsManager
           .getToolElements((toolElement) => toolElement.uid == child.props.uid)
@@ -232,13 +233,13 @@ export class Rol extends React.Component<IRolProps, IRolState> {
           elems.push(toolElement.reactElement);
         }
       }
-    });
-    // Containers
-    React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
+      
+      // Containers
       if (child != null && BaseContainer.isPrototypeOf(child.type)) {
         elems.push(child);
       }
     });
+
     return elems;
   }
 

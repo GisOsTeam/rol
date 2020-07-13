@@ -33,24 +33,23 @@ export class BaseContainer<P extends IBaseContainerProps, S extends IBaseContain
 
   public renderChildren(): React.ReactElement<any>[] {
     const elems: React.ReactElement<any>[] = [];
-    // Tools
-    React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
-      if (child != null && BaseTool.isPrototypeOf(child.type)) {
-        if (child != null && BaseTool.isPrototypeOf(child.type)) {
-          const toolElement = this.context.toolsManager
-            .getToolElements((toolElement) => toolElement.uid == child.props.uid)
-            .pop();
-          if (toolElement != null) {
-            elems.push(toolElement.reactElement);
-          }
+    React.Children.forEach(this.props.children, (child: React.ReactElement<any>) => {
+      if (child != null) {
+        // Tools
+        if (BaseTool.isPrototypeOf(child.type)) {
+            const toolElement = this.context.toolsManager
+              .getToolElements((toolElement) => toolElement.uid == child.props.uid)
+              .pop();
+            if (toolElement != null) {
+              elems.push(toolElement.reactElement);
+            }
         }
-      }
-    });
-    // Containers
-    React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
-      if (child != null && BaseContainer.isPrototypeOf(child.type)) {
-        elems.push(child);
-      }
+        
+        // Containers
+        if (BaseContainer.isPrototypeOf(child.type)) {
+          elems.push(child);
+        }
+      } 
     });
     return elems;
   }

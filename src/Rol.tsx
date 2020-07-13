@@ -233,7 +233,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
           elems.push(toolElement.reactElement);
         }
       }
-      
+
       // Containers
       if (child != null && BaseContainer.isPrototypeOf(child.type)) {
         elems.push(child);

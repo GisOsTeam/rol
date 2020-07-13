@@ -138,7 +138,7 @@ export class SampleApp extends React.Component<{}, {}> {
             <PanZoom uid="PanZoom" />
             <ScaleLine uid="ScaleLine" />
             <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-                <PreviousViewButton uid="PreviousView" />
+              <PreviousViewButton uid="PreviousView" />
               <GroupButtonTool uid="ViewTools" groupPosition="top">
                 <InitialViewButton uid="InitialView" />
                 <NextViewButton uid="NextView" />

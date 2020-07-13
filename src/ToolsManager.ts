@@ -197,7 +197,7 @@ export class ToolsManager {
           changed = true;
         }
       } else {
-        console.log('SetToolElement changed', { uid: toolElement.uid, refreshIfChanging, changed})
+        console.log('SetToolElement changed', { uid: toolElement.uid, refreshIfChanging, changed });
         toolMap.set(toolElement.uid, {
           ...toolElement,
         });

@@ -22,9 +22,9 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
 `;
 
 const Group = styled.div<{ position: GroupPosition }>`
-    position: absolute;
-    ${((props) => props.position )}: -35px;
-`
+  position: absolute;
+  ${(props) => props.position}: -35px;
+`;
 
 export type GroupPosition = 'top' | 'left' | 'right' | 'bottom';
 
@@ -59,7 +59,7 @@ export class GroupButtonTool<
   public static defaultProps: IGroupButtonToolProps = {
     ...BaseButtonTool.defaultProps,
     groupPosition: 'top',
-    children: []
+    children: [],
   };
 
   constructor(props: P) {
@@ -68,9 +68,9 @@ export class GroupButtonTool<
   }
 
   public refresh = () => {
-      console.log("Pwet, refresh")
-      this.render();
-  }
+    console.log('Pwet, refresh');
+    this.render();
+  };
   /**
    * Open Window.
    */
@@ -96,11 +96,11 @@ export class GroupButtonTool<
   public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!this.props.disabled) {
-        if (!this.state.open) {
-            this.open();
-        } else {
-            this.close();
-        }
+      if (!this.state.open) {
+        this.open();
+      } else {
+        this.close();
+      }
     }
   };
 
@@ -133,15 +133,15 @@ export class GroupButtonTool<
     );
 
     const buttonGroup = (
-        <Group className={className} position={this.props.groupPosition} >
-            {this.props.children}  
-        </Group>
+      <Group className={className} position={this.props.groupPosition}>
+        {this.props.children}
+      </Group>
     );
-    
+
     return (
       <React.Fragment>
         {openButton}
-        { this.state.open ? buttonGroup : null }
+        {this.state.open ? buttonGroup : null}
       </React.Fragment>
     );
   }

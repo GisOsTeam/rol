@@ -106,7 +106,7 @@ export class ToolsManager {
       this.updateToolProps(uid, { activated: false });
       setTimeout(() => {
         this.activateTool(uid);
-      }, 100);
+      }, 1);
       return;
     }
     if (!props.activated || force) {

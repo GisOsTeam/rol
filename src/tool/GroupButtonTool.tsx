@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { BaseButtonTool, IBaseButtonToolProps, withBaseButtonTool } from './BaseButtonTool';
+import { BaseButtonTool } from './BaseButtonTool';
 import styled from 'styled-components';
-import { IRolContext, rolContext } from '../RolContext';
-import { BaseContainer, IBaseContainerProps, IBaseContaineState, Zone, IZoneState, IZoneProps } from '../container';
-import { IBaseToolProps } from './BaseTool';
+import { BaseContainer, IBaseContaineState, IZoneProps } from '../container';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   height: 32px;
@@ -21,10 +19,12 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   padding-top: 4px;
 `;
 
-const Group = styled.div<{ shouldDisplay: boolean; position: GroupPosition }>`
+const Group = styled.div<{ shouldDisplay: boolean; position: GroupPosition; offset: number }>`
   position: absolute;
   ${(props) => props.position}: -35px;
-  display: ${(props) => (props.shouldDisplay ? 'inline' : 'none')};
+  ${(props) => (props.position === 'top' || props.position === 'bottom' ? 'left' : 'top')}: ${(props) =>
+    props.offset}px;
+  display: ${(props) => (props.shouldDisplay ? 'inherit' : 'none')};
 `;
 
 export type GroupPosition = 'top' | 'left' | 'right' | 'bottom';
@@ -44,6 +44,11 @@ export interface IGroupButtonToolProps extends IZoneProps {
    * buttonTitle
    */
   buttonTitle?: string;
+
+  /**
+   * Button Text
+   */
+  btnText: string;
 }
 
 export interface IGroupButtonToolState extends IBaseContaineState {
@@ -57,7 +62,8 @@ export class GroupButtonTool<
   P extends IGroupButtonToolProps = IGroupButtonToolProps,
   S extends IGroupButtonToolState = IGroupButtonToolState
 > extends BaseContainer<P, S> {
-  public static defaultProps: IGroupButtonToolProps = {
+  private groupBtnRef: React.RefObject<HTMLButtonElement>;
+  public static defaultProps: Partial<IGroupButtonToolProps> = {
     ...BaseButtonTool.defaultProps,
     groupPosition: 'top',
     children: [],
@@ -66,6 +72,7 @@ export class GroupButtonTool<
   constructor(props: P) {
     super(props);
     this.state = { open: false } as Readonly<S>;
+    this.groupBtnRef = React.createRef();
   }
 
   /**
@@ -106,10 +113,6 @@ export class GroupButtonTool<
     this.close();
   };
 
-  public renderOpenButtonContent(): React.ReactNode {
-    return `Grp Btn`;
-  }
-
   public render(): React.ReactNode {
     const className = `${this.props.className}
       ${this.state.open ? `open` : `closed`}
@@ -118,21 +121,34 @@ export class GroupButtonTool<
       ${this.state.open ? `open` : `closed`}
       ${this.props.disabled ? `disabled` : `enabled`}`;
 
+    let offset = 0;
+    if (this.groupBtnRef.current) {
+      const btn = this.groupBtnRef.current;
+      const isTopOrBot = this.props.groupPosition === 'top' || this.props.groupPosition === 'bottom';
+      offset = isTopOrBot ? btn.offsetLeft : btn.offsetTop;
+    }
+
     return (
-      <React.Fragment>
+      <>
         <Button
           className={openButtonClassName}
           title={this.props.buttonTitle}
           onClick={this.handleButtonClick}
           activated={this.state.open}
           independant={true}
+          ref={this.groupBtnRef}
         >
-          {this.renderOpenButtonContent()}
+          {this.props.btnText}
         </Button>
-        <Group shouldDisplay={this.state.open} className={className} position={this.props.groupPosition}>
+        <Group
+          shouldDisplay={this.state.open}
+          offset={offset}
+          className={className}
+          position={this.props.groupPosition}
+        >
           {this.renderChildren()}
         </Group>
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -138,16 +138,16 @@ export class SampleApp extends React.Component<{}, {}> {
             <PanZoom uid="PanZoom" />
             <ScaleLine uid="ScaleLine" />
             <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-              <PreviousViewButton uid="PreviousView" />
-              <GroupButtonTool uid="ViewTools" groupPosition="top">
-                <InitialViewButton uid="InitialView" />
-                <NextViewButton uid="NextView" />
-                <CounterButton uid="CounterButton2" />
-              </GroupButtonTool>
-              <ZoomRectangleWidget uid="zoomRectangle" />
               <CounterButton uid="CounterButton" />
               <CounterToggleButton uid="CounterToggleButton" />
               <CounterWindow uid="CounterWindow" />
+              <CounterButton uid="CounterButton2" />
+              <GroupButtonTool btnText="Navigation Tools" uid="ViewTools" groupPosition="top">
+                <PreviousViewButton uid="PreviousView" />
+                <InitialViewButton uid="InitialView" />
+                <NextViewButton uid="NextView" />
+              </GroupButtonTool>
+              <ZoomRectangleWidget uid="zoomRectangle" />
               <LayerLoader uid="LayerLoader" />
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />

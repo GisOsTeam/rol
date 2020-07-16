@@ -142,7 +142,7 @@ export class SampleApp extends React.Component<{}, {}> {
               <CounterToggleButton uid="CounterToggleButton" />
               <CounterWindow uid="CounterWindow" />
               <CounterButton uid="CounterButton2" />
-              <GroupButtonTool btnText="Navigation Tools" uid="ViewTools" groupPosition="top">
+              <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">
                 <PreviousViewButton uid="PreviousView" />
                 <InitialViewButton uid="InitialView" />
                 <NextViewButton uid="NextView" />

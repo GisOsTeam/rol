@@ -48,7 +48,12 @@ export interface IGroupButtonToolProps extends IZoneProps {
   /**
    * Button Text
    */
-  btnText: string;
+  btnContent?: JSX.Element;
+
+  /**
+   * btnClassName
+   */
+  btnClassName?: string;
 }
 
 export interface IGroupButtonToolState extends IBaseContaineState {
@@ -117,7 +122,7 @@ export class GroupButtonTool<
     const className = `${this.props.className}
       ${this.state.open ? `open` : `closed`}
       ${this.props.disabled ? `disabled` : `enabled`}`;
-    const openButtonClassName = `${this.props.className.split(/\s+/g)[0]}-open-button
+    const openButtonClassName = `${this.props.btnClassName} ${this.props.className.split(/\s+/g)[0]}-open-button
       ${this.state.open ? `open` : `closed`}
       ${this.props.disabled ? `disabled` : `enabled`}`;
 
@@ -138,7 +143,7 @@ export class GroupButtonTool<
           independant={true}
           ref={this.groupBtnRef}
         >
-          {this.props.btnText}
+          {this.props.btnContent}
         </Button>
         <Group
           shouldDisplay={this.state.open}

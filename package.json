@@ -1,6 +1,6 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "OpenLayers with React",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

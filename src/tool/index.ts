@@ -6,6 +6,7 @@ export * from './BaseButtonTool';
 export * from './BaseTool';
 export * from './BaseWindowTool';
 export * from './Fullscreen';
+export * from './GroupButtonTool';
 export * from './Identify';
 export * from './LayerLoader';
 export * from './PanZoom';

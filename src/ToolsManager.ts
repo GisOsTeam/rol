@@ -215,7 +215,7 @@ export class ToolsManager {
     }
     // Next children
     if (children) {
-      React.Children.map(children, (nextChild: React.ReactElement<any>) => {
+      React.Children.forEach(children, (nextChild: React.ReactElement<any>) => {
         if (nextChild != null && BaseTool.isPrototypeOf(nextChild.type)) {
           const uid = nextChild.props.uid;
           // uid is null: log error

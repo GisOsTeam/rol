@@ -91,6 +91,10 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
    */
   hideReduceButton?: boolean;
   /**
+   * Open on activate
+   */
+  openOnActivate?: boolean; 
+  /**
    * Open handler.
    */
   onOpen?: () => void;
@@ -155,6 +159,12 @@ export class BaseWindowTool<
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+  }
+
+  toolDidActivate() {
+    if (this.props.openOnActivate) {
+      this.open();
+    }
   }
 
   /**

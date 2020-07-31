@@ -93,7 +93,7 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
   /**
    * Open on activate
    */
-  openOnActivate?: boolean; 
+  openOnActivate?: boolean;
   /**
    * Open handler.
    */

@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled, { ThemedStyledFunction } from 'styled-components';
 import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
+import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
+import { Rol } from '../Rol';
 
 const Window = styled.div`
   position: fixed;
@@ -291,11 +293,15 @@ export class BaseWindowTool<
         display: 'none',
       };
     }
-    const className = `${this.props.className}
+    const rolOpened = this.state.open ? RolCssClassNameEnum.OPENED : RolCssClassNameEnum.CLOSED;
+    const rolActivated = this.props.activated ? RolCssClassNameEnum.ACTIVATED : RolCssClassNameEnum.DEACTIVATED;
+    const rolEnabled = this.props.disabled ? RolCssClassNameEnum.DISABLED : RolCssClassNameEnum.ENABLED;
+    const rolClasses = `${rolOpened} ${rolActivated} ${rolEnabled}`;
+    const className = `${rolClasses} ${RolCssClassNameEnum.TOOL} ${this.props.className}
       ${this.state.open ? `${this.props.className}-open` : `${this.props.className}-closed`}
       ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
-    const openButtonClassName = `${this.props.className.split(/\s+/g)[0]}-open-button
+    const openButtonClassName = `${rolClasses} ${RolCssClassNameEnum.OPEN_BTN} ${this.props.className.split(/\s+/g)[0]}-open-button
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
@@ -311,7 +317,7 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
       }`;
-    const titleClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar
+    const titleClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE}${this.props.className.split(/\s+/g)[0]}-titlebar
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
@@ -327,8 +333,8 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
       }`;
-    const titleContentClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar-content`;
-    const contentClassName = `${this.props.className.split(/\s+/g)[0]}-content
+    const titleContentClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE_BAR} ${this.props.className.split(/\s+/g)[0]}-titlebar-content`;
+    const contentClassName = `${rolClasses} ${RolCssClassNameEnum.CONTENT} ${this.props.className.split(/\s+/g)[0]}-content
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-content-open`

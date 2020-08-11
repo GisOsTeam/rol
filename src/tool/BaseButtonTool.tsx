@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseToolProps, BaseTool } from './BaseTool';
+import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean; toggle?: boolean }>`
   height: 32px;
@@ -70,11 +71,16 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
   };
 
   public render(): React.ReactNode {
+    const rolActivated = this.props.activated ? RolCssClassNameEnum.ACTIVATED : RolCssClassNameEnum.DEACTIVATED;
+    const rolEnabled = this.props.disabled ? RolCssClassNameEnum.DISABLED : RolCssClassNameEnum.ENABLED;
+    const rolToogled = this.props.toggle ? RolCssClassNameEnum.TOOGLED : null;
+    const rolClasses = `${rolActivated} ${rolEnabled} ${rolToogled}`;
+
     const toggleClass = this.props.toggle ? `${this.props.className}-toggle` : '';
     const activatedClass = this.props.activated
       ? `${this.props.className}-activated`
       : `${this.props.className}-unactivated`;
-    const className = `${this.props.className}
+    const className = `${rolClasses} ${this.props.className}
       ${toggleClass}
       ${activatedClass}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;

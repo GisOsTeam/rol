@@ -7,5 +7,6 @@ export * from './LayersManager';
 export * from './Projection';
 export * from './Rol';
 export * from './RolContext';
+export * from './RolCssClassNameEnum';
 export * from './ToolsManager';
 export * from './Translate';

@@ -105,7 +105,6 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     const rolActivated = this.props.activated ? RolCssClassNameEnum.ACTIVATED : RolCssClassNameEnum.DEACTIVATED;
     const rolEnabled = this.props.disabled ? RolCssClassNameEnum.DISABLED : RolCssClassNameEnum.ENABLED;
     const rolClasses = `${rolActivated} ${rolEnabled}`;
-    
     const className = `${rolClasses} ${this.props.className}
       ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;

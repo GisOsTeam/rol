@@ -97,6 +97,10 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
    */
   openOnActivate?: boolean;
   /**
+   * Close on deactivate
+   */
+  closeOnDeactivate?: boolean;
+  /**
    * Open handler.
    */
   onOpen?: () => void;
@@ -169,6 +173,11 @@ export class BaseWindowTool<
     }
   }
 
+  toolDidDeactivate() {
+    if (this.props.closeOnDeactivate) {
+      this.close();
+    }
+  }
   /**
    * Open Window.
    */
@@ -301,7 +310,9 @@ export class BaseWindowTool<
       ${this.state.open ? `${this.props.className}-open` : `${this.props.className}-closed`}
       ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
-    const openButtonClassName = `${rolClasses} ${RolCssClassNameEnum.OPEN_BTN} ${this.props.className.split(/\s+/g)[0]}-open-button
+    const openButtonClassName = `${rolClasses} ${RolCssClassNameEnum.OPEN_BTN} ${
+      this.props.className.split(/\s+/g)[0]
+    }-open-button
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-open-button-open`
@@ -333,8 +344,12 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
       }`;
-    const titleContentClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE_BAR} ${this.props.className.split(/\s+/g)[0]}-titlebar-content`;
-    const contentClassName = `${rolClasses} ${RolCssClassNameEnum.CONTENT} ${this.props.className.split(/\s+/g)[0]}-content
+    const titleContentClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE_BAR} ${
+      this.props.className.split(/\s+/g)[0]
+    }-titlebar-content`;
+    const contentClassName = `${rolClasses} ${RolCssClassNameEnum.CONTENT} ${
+      this.props.className.split(/\s+/g)[0]
+    }-content
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-content-open`

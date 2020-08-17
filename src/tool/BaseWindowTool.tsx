@@ -328,7 +328,8 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
       }`;
-    const titleClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE}${this.props.className.split(/\s+/g)[0]}-titlebar
+    const baseTitlebarClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar`;
+    const titleClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE} ${baseTitlebarClassName}
       ${
         this.state.open
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-open`
@@ -395,7 +396,7 @@ export class BaseWindowTool<
       <React.Fragment>
         {openButton}
         <Drag
-          handle={`.${titleContentClassName}`}
+          handle={`.${baseTitlebarClassName}`}
           onStart={this.handleStart}
           onDrag={this.handleDrag}
           position={this.state.position}

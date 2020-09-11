@@ -3,8 +3,6 @@ import { rolContext } from '../../RolContext';
 import Draw, { GeometryFunction, DrawEvent } from 'ol/interaction/Draw';
 import GeometryType from 'ol/geom/GeometryType';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
-import { MapBrowserEvent } from 'ol';
-import { ListenerFunction } from 'ol/events';
 
 export interface IUseDrawInteractionProps {
   /**

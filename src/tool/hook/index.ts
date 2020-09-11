@@ -9,4 +9,5 @@ export * from './useLayerManager';
 export * from './useOlMap';
 export * from './usePrevious';
 export * from './useTranslate';
+export * from './useTranslateInteraction';
 export * from './useViewManager';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { jsPDF } from 'jspdf';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
-import { useOlMap, useTranslate, useDrawSource, useDrawInteraction } from '../hook';
+import { useOlMap, useTranslate, useDrawSource, useTranslateInteraction } from '../hook';
 import { exportToImage } from '@gisosteam/aol/utils';
 import OlFeature from 'ol/Feature';
 import { fromExtent } from 'ol/geom/Polygon';
@@ -113,6 +113,8 @@ export function PrintContent(props: IPrintContentProps) {
   const rectSource = useDrawSource({
     layerUid: 'print_layer_tool',
   });
+
+  const translateInteraction = useTranslateInteraction({ source: rectSource, activated: props.activated });
 
   React.useEffect(() => {
     setFormValue({

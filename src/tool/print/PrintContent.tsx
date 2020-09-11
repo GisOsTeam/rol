@@ -245,18 +245,9 @@ export function PrintContent(props: IPrintContentProps) {
     e.preventDefault();
     setPrinting(true);
     canceling = false;
-    const imageSize = computeImageSize(formValue.format, formValue.orientation, 100, 10, 30, 10, 10);
-    const rect = computeRectangle(
-      formValue.format,
-      formValue.orientation,
-      center,
-      olMap.getView().getProjection(),
-      +formValue.scale,
-      10,
-      30,
-      10,
-      10
-    );
+    const dpi = 150;
+    const imageSize = computeImageSize(formValue.format, formValue.orientation, dpi, 10, 30, 10, 10);
+    const rect = rectSource.getFeatures()[0].getGeometry().getExtent();
     exportToImage(olMap, imageSize, rect, 'JPEG', () => canceling)
       .then(
         (dataUrl) => {
@@ -274,6 +265,7 @@ export function PrintContent(props: IPrintContentProps) {
 
   const handleFitButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    olMap.getView().fit(rectSource.getFeatures()[0].getGeometry().getExtent());
   };
 
   const handleCenterButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -361,12 +353,12 @@ export function PrintContent(props: IPrintContentProps) {
         <ButtonFit
           className={`${props.className}-fit`}
           onClick={handleFitButtonClick}
-          title={translate('print.fit', 'Fit')}
+          title={translate('print.fit', 'Fit the view to the print rectangle')}
         />
         <ButtonCenter
           className={`${props.className}-center`}
           onClick={handleCenterButtonClick}
-          title={translate('print.center', 'Center')}
+          title={translate('print.center', 'Move the print rectangle to center of the view')}
         />
         <ButtonCancel
           className={`${props.className}-cancel`}

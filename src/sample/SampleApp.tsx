@@ -17,7 +17,7 @@ import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
-import { PanZoom, GroupButtonTool } from '../tool';
+import { PanZoom, GroupButtonTool, Print } from '../tool';
 import { LayerLoader } from '../tool';
 import { Identify } from '../tool';
 import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
@@ -153,6 +153,7 @@ export class SampleApp extends React.Component<{}, {}> {
               <DrawLine uid="DrawLine" />
               <Identify uid="IdentifyTool" tolerance={10} />
               <Reproj uid="ReprojTool" />
+              <Print uid="PrintTool" />
             </Zone>
           </Zone>
         </Control>

@@ -13,7 +13,7 @@ export interface IUseDrawSourceProps {
   /**
    * Persist.
    */
-  persist: boolean;
+  persist?: boolean;
   /**
    * Styles.
    */

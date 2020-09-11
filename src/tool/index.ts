@@ -10,6 +10,7 @@ export * from './GroupButtonTool';
 export * from './Identify';
 export * from './LayerLoader';
 export * from './PanZoom';
+export * from './Print';
 export * from './Reproj';
 export * from './ScaleLine';
 export * from './ShowSnapshot';

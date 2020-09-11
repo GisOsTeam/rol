@@ -21,8 +21,8 @@ export interface IUseuseTranslateInteractionProps {
    */
   filter?: (p0: FeatureLike, p1: Layer<Source>) => boolean;
   /**
- * Callback on translateend.
- */
+   * Callback on translateend.
+   */
   onTranslateEnd?: (evt?: TranslateEvent) => void;
   /**
    * Activated.
@@ -60,7 +60,7 @@ export function useTranslateInteraction(props: IUseuseTranslateInteractionProps)
     // Cleanup function
     return () => {
       if (translate != null) {
-        console.log("clear TranslateInteraction");
+        console.log('clear TranslateInteraction');
         context.olMap.removeInteraction(translate);
         setTranslate(null);
       }

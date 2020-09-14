@@ -99,7 +99,7 @@ const defaultMargins: { [scale: string]: number } = {
   top: 15,
   right: 10,
   bottom: 10,
-}
+};
 
 const mm2m = 0.001;
 
@@ -108,7 +108,7 @@ const mm2inch = 25.4;
 // Canceling is global tool variable
 let canceling = false;
 
-export interface IPrintContentProps extends IFunctionBaseWindowToolProps { }
+export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
 
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();

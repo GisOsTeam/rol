@@ -94,6 +94,13 @@ const scales: { [scale: string]: string } = {
   10000000: '1 / 10 000 000',
 };
 
+const defaultMargins: { [scale: string]: number } = {
+  left: 10,
+  top: 15,
+  right: 10,
+  bottom: 10,
+}
+
 const mm2m = 0.001;
 
 const mm2inch = 25.4;
@@ -101,7 +108,7 @@ const mm2inch = 25.4;
 // Canceling is global tool variable
 let canceling = false;
 
-export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
+export interface IPrintContentProps extends IFunctionBaseWindowToolProps { }
 
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();
@@ -139,14 +146,11 @@ export function PrintContent(props: IPrintContentProps) {
     format: string,
     orientation: string,
     resolution: number,
-    marginLeft: number,
-    marginTop: number,
-    marginRight: number,
-    marginBottom: number
+    margin: { [scale: string]: number }
   ): [number, number] => {
     const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - marginLeft - marginRight;
-    const innerHeight = pdfSize[1] - marginTop - marginBottom;
+    const innerWidth = pdfSize[0] - margin.left - margin.right;
+    const innerHeight = pdfSize[1] - margin.top - margin.bottom;
     let imageWidth = (innerWidth * resolution) / mm2inch;
     let imageHeight = (innerHeight * resolution) / mm2inch;
     imageWidth = Math.round(imageWidth);
@@ -160,14 +164,11 @@ export function PrintContent(props: IPrintContentProps) {
     center: [number, number],
     projection: Projection,
     scale: number,
-    marginLeft: number,
-    marginTop: number,
-    marginRight: number,
-    marginBottom: number
+    margin: { [scale: string]: number }
   ): [number, number, number, number] => {
     const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - marginLeft - marginRight;
-    const innerHeight = pdfSize[1] - marginTop - marginBottom;
+    const innerWidth = pdfSize[0] - margin.left - margin.right;
+    const innerHeight = pdfSize[1] - margin.top - margin.bottom;
     const pointResolution = getPointResolution(projection, 1, center);
     const rectWidth = (innerWidth * mm2m * scale) / pointResolution;
     const rectHeight = (innerHeight * mm2m * scale) / pointResolution;
@@ -184,20 +185,18 @@ export function PrintContent(props: IPrintContentProps) {
     orientation: string,
     dataUrl: string,
     imageFormat: string,
-    marginLeft: number,
-    marginTop: number,
-    marginRight: number,
-    marginBottom: number
+    margin: { [scale: string]: number }
   ) => {
     const pdf = new jsPDF(orientation as any, 'mm', format);
     pdf.addImage(
       dataUrl,
       imageFormat,
-      marginLeft,
-      marginTop,
-      dims[format][0] - marginLeft - marginRight,
-      dims[format][1] - marginTop - marginBottom
+      margin.left,
+      margin.top,
+      dims[format][0] - margin.left - margin.right,
+      dims[format][1] - margin.top - margin.bottom
     );
+    pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
     pdf.save('map.pdf');
   };
 
@@ -215,10 +214,7 @@ export function PrintContent(props: IPrintContentProps) {
             center,
             olMap.getView().getProjection(),
             +formValue.scale,
-            10,
-            30,
-            10,
-            10
+            defaultMargins
           )
         ),
       })
@@ -248,12 +244,12 @@ export function PrintContent(props: IPrintContentProps) {
     setPrinting(true);
     canceling = false;
     const dpi = 150;
-    const imageSize = computeImageSize(formValue.format, formValue.orientation, dpi, 10, 30, 10, 10);
+    const imageSize = computeImageSize(formValue.format, formValue.orientation, dpi, defaultMargins);
     const rect = rectSource.getFeatures()[0].getGeometry().getExtent();
     exportToImage(olMap, imageSize, rect, 'JPEG', () => canceling)
       .then(
         (dataUrl) => {
-          buildPdf(formValue.format, formValue.orientation, dataUrl, 'JPEG', 10, 30, 10, 10);
+          buildPdf(formValue.format, formValue.orientation, dataUrl, 'JPEG', defaultMargins);
         },
         (err) => {
           console.error(err);
@@ -302,14 +298,6 @@ export function PrintContent(props: IPrintContentProps) {
         <input id="title" type="text" value={formValue.title} onChange={handleChangeInput('title')} />
       </div>
       <div>
-        <label htmlFor="subtitle1">{translate('print.subtitle1', 'Subtitle 1')}</label>
-        <input id="subtitle1" type="text" value={formValue.title} onChange={handleChangeInput('subtitle1')} />
-      </div>
-      <div>
-        <label htmlFor="subtitle2">{translate('print.subtitle2', 'Subtitle 2')}</label>
-        <input id="subtitle2" type="text" value={formValue.title} onChange={handleChangeInput('subtitle2')} />
-      </div>
-      <div>
         <label htmlFor="format">{translate('print.format', 'Format')}</label>
         <select id="format" value={formValue.format} onChange={handleChangeSelect('format')}>
           {Object.keys(formats).map((key: string) => {
@@ -322,7 +310,7 @@ export function PrintContent(props: IPrintContentProps) {
         </select>
       </div>
       <div>
-        <label htmlFor="orientation">{translate('print.format', 'Format')}</label>
+        <label htmlFor="orientation">{translate('print.orientation', 'Orientation')}</label>
         <select id="orientation" value={formValue.orientation} onChange={handleChangeSelect('orientation')}>
           {Object.keys(orientations).map((key: string) => {
             return (

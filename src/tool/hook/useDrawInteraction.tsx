@@ -39,14 +39,11 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
         type: props.type,
         geometryFunction: props.geometryFunction,
       });
-
       if (props.onDrawEnd) {
         preCreateDraw.on('drawend', props.onDrawEnd);
       }
-
       setDraw(preCreateDraw);
     };
-
     buildDrawInteraction();
     // Cleanup function
     return () => {

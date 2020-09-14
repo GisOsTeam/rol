@@ -1,6 +1,6 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "OpenLayers with React",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -44,7 +44,7 @@
     "babel-loader": "^8.1.0",
     "barrelsby": "^2.2.0",
     "css-loader": "^4.3.0",
-    "eslint": "^7.8.1",
+    "eslint": "^7.9.0",
     "eslint-plugin-react": "^7.20.6",
     "html-webpack-plugin": "^4.4.1",
     "husky": "^4.3.0",

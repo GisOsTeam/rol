@@ -52,10 +52,8 @@ export function useTranslateInteraction(props: IUseuseTranslateInteractionProps)
       if (props.onTranslateEnd) {
         preCreateTranslate.on('translateend', props.onTranslateEnd);
       }
-
       setTranslate(preCreateTranslate);
     };
-
     buildTranslateInteraction();
     // Cleanup function
     return () => {

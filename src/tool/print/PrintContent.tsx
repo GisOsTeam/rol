@@ -108,7 +108,7 @@ const mm2inch = 25.4;
 // Canceling is global tool variable
 let canceling = false;
 
-export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
+export interface IPrintContentProps extends IFunctionBaseWindowToolProps { }
 
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();
@@ -196,12 +196,14 @@ export function PrintContent(props: IPrintContentProps) {
       dims[format][0] - margin.left - margin.right,
       dims[format][1] - margin.top - margin.bottom
     );
-    pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
+    if (formValue.title != null) {
+      pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
+    }
     pdf.save('map.pdf');
   };
 
   const drawRect = () => {
-    if (formValue.format == null || formValue.orientation == null || formValue.scale == null) {
+    if (formValue.format == null || formValue.orientation == null || formValue.scale == null || center == null) {
       return;
     }
     rectSource.clear();

@@ -108,7 +108,7 @@ const mm2inch = 25.4;
 // Canceling is global tool variable
 let canceling = false;
 
-export interface IPrintContentProps extends IFunctionBaseWindowToolProps { }
+export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
 
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();

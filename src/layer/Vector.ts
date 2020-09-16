@@ -14,7 +14,7 @@ export interface IVectorProps extends IBaseLayerProps {
   /**
    * Layer styles.
    */
-  layerStyles: LayerStyles;
+  layerStyles?: LayerStyles;
 }
 
 export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSource> {

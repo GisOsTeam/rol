@@ -2,24 +2,21 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../BaseButtonTool';
 import { useViewManager } from '../hook/useViewManager';
-import { useTranslate } from '../hook/useTranslate';
 
-const ContainerBtn = styled.div`
-  &:after {
-    content: '⤺';
-  }
-`;
+const ContainerBtn = styled.div``;
 
 export const PreviousViewButton = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {
+    const {activated = false, buttonContent = '⤺'} = props;
     const { fitToPrevious } = useViewManager();
-    const translate = useTranslate();
     React.useEffect(() => {
-      if (props.activated === true) {
+      if (activated === true) {
         fitToPrevious();
       }
-    }, [props.activated]);
-    return <ContainerBtn title={translate('navigation.previous', 'Previous View')} />;
+    }, [activated]);
+    return <ContainerBtn>
+      {buttonContent}
+    </ContainerBtn>;
   },
-  { className: 'previous-view-button', independant: true }
+  { className: 'previous-view-button', independant: true, buttonTitle: 'Previous View' }
 );

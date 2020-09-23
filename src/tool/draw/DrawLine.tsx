@@ -19,5 +19,5 @@ export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
     type: GeometryType.LINE_STRING,
     source: drawSource,
   });
-  return <ContainerBtn>Draw line</ContainerBtn>;
+return <ContainerBtn>{props.buttonContent || 'Draw Line'}</ContainerBtn>;
 });

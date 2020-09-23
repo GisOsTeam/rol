@@ -53,7 +53,8 @@ export class ShowSnapshot extends BaseWindowTool<IBaseWindowToolProps, any> {
   }
 
   public renderOpenButtonContent(): React.ReactNode {
-    return <ContainerBtn>Show snapshot</ContainerBtn>;
+    const btnContent = this.props.buttonContent || 'Show snapshot';
+    return <ContainerBtn>{btnContent}</ContainerBtn>;
   }
 
   public renderTool(): React.ReactNode {

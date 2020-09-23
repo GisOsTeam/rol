@@ -3,6 +3,7 @@ import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
 import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
+import { getFeaturesBySourceFromQueryResponse } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
 
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];
@@ -28,20 +29,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
     const onClick = (clickEvent: MapBrowserEvent) => {
       identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then(
         (queryResponses: IQueryResponse[]) => {
-          const features: any = {};
-          queryResponses.forEach((queryResponse: IQueryResponse) => {
-            const { featureTypeResponses } = queryResponse;
-            featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
-              if (ftResp.features.length > 0) {
-                const filtered = layersManager.getLayerElementFromSource(ftResp.source);
-                const layerUid = filtered ? filtered.uid : 'unknown';
-                if (!features[layerUid]) {
-                  features[layerUid] = [];
-                }
-                features[layerUid].push(...ftResp.features);
-              }
-            });
-          });
+          const features: any = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);
           props.onIdentifyResponse({ features, position: clickEvent.pixel });
         }
       );

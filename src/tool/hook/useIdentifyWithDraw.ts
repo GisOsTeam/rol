@@ -37,9 +37,9 @@ export function useIdentifyWithDraw(props: IUseIdentifyWithDrawProps): any {
   const { olMap, layersManager } = context;
 
   /**
-     * Lance l'identification à la fin de l'opération de dessin
-     */
-  const handleOnDrawEnd = async(evt: DrawEvent | undefined): Promise<any> => {
+   * Lance l'identification à la fin de l'opération de dessin
+   */
+  const handleOnDrawEnd = async (evt: DrawEvent | undefined): Promise<any> => {
     if (evt) {
       let geom = null;
       if (props.typeGeom === GeometryType.POLYGON) {
@@ -59,8 +59,8 @@ export function useIdentifyWithDraw(props: IUseIdentifyWithDrawProps): any {
   };
 
   /**
-     * supprime le dessin une fois qu'il est est finis
-     */
+   * supprime le dessin une fois qu'il est est finis
+   */
   const handleOndblCLickMap = (): void => {
     layerSelectionDraw.current.clear();
   };
@@ -69,7 +69,7 @@ export function useIdentifyWithDraw(props: IUseIdentifyWithDrawProps): any {
     activated: props.activated,
     type: props.typeGeom,
     source: layerSelectionDraw.current,
-    onDrawEnd: handleOnDrawEnd
+    onDrawEnd: handleOnDrawEnd,
   });
 
   if (props.typeGeom === GeometryType.POLYGON || props.typeGeom === GeometryType.LINE_STRING) {

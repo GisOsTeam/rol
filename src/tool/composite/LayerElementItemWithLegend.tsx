@@ -126,7 +126,7 @@ export class LayerElementItemWithLegend extends React.Component<
               const label = layer.label ? layer.label : null;
               return (
                 <span key={li}>
-                  <img src={layer.srcImage} />
+                  <img src={layer.srcImage} height={layer.height} width={layer.width} />
                   {label}
                 </span>
               );

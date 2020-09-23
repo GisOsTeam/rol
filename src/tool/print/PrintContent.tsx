@@ -1,13 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { jsPDF } from 'jspdf';
+import { jsPDF as JsPDF } from 'jspdf';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
-import { useOlMap, useTranslate, useDrawSource, useTranslateInteraction } from '../hook';
-import { exportToImage } from '@gisosteam/aol/utils';
+import { useOlMap, useTranslate, useDrawSource, useTranslateInteraction, useLayersManager } from '../hook';
+import { exportToImage, exportLegendToImage } from '@gisosteam/aol/utils';
 import OlFeature from 'ol/Feature';
 import { fromExtent } from 'ol/geom/Polygon';
 import Projection from 'ol/proj/Projection';
 import { getPointResolution } from 'ol/proj';
+import { IExtended } from '@gisosteam/aol/source/IExtended';
+import { ILayerElement } from '../../LayersManager';
 
 const Container = styled.div`
   margin: 2px;
@@ -101,9 +103,16 @@ const defaultMargins: { [scale: string]: number } = {
   bottom: 10,
 };
 
-const mm2m = 0.001;
+const defaultImageMargins: { [scale: string]: number } = {
+  left: 10,
+  top: 15,
+  right: 60,
+  bottom: 10,
+};
 
+const mm2m = 0.001;
 const mm2inch = 25.4;
+const pt2mm = 0.28;
 
 // Canceling is global tool variable
 let canceling = false;
@@ -112,6 +121,7 @@ export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
 
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();
+  const layersManager = useLayersManager();
   const translate = useTranslate();
   const [formValue, setFormValue] = React.useState<{ [key: string]: string }>({});
   const [center, setCenter] = React.useState<[number, number] | null>(null);
@@ -121,7 +131,7 @@ export function PrintContent(props: IPrintContentProps) {
     layerUid: 'print_layer_tool',
   });
 
-  const translateInteraction = useTranslateInteraction({ source: rectSource, activated: props.activated });
+  useTranslateInteraction({ source: rectSource, activated: props.activated && !printing });
 
   React.useEffect(() => {
     setFormValue({
@@ -142,17 +152,34 @@ export function PrintContent(props: IPrintContentProps) {
     return [pdfWidth, pdfHeight];
   };
 
-  const computeImageSize = (
+  const computeMapImageSize = (
     format: string,
     orientation: string,
-    resolution: number,
-    margin: { [scale: string]: number }
+    dpi: number,
+    imageMargin: { [scale: string]: number }
   ): [number, number] => {
     const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - margin.left - margin.right;
+    const innerWidth = pdfSize[0] - imageMargin.left - imageMargin.right;
+    const innerHeight = pdfSize[1] - imageMargin.top - imageMargin.bottom;
+    let imageWidth = (innerWidth * dpi) / mm2inch;
+    let imageHeight = (innerHeight * dpi) / mm2inch;
+    imageWidth = Math.round(imageWidth);
+    imageHeight = Math.round(imageHeight);
+    return [imageWidth, imageHeight];
+  };
+
+  const computeLegendImageSize = (
+    format: string,
+    orientation: string,
+    dpi: number,
+    margin: { [scale: string]: number },
+    imageMargin: { [scale: string]: number }
+  ): [number, number] => {
+    const pdfSize = computePdfSize(format, orientation);
+    const innerWidth = imageMargin.right - margin.right;
     const innerHeight = pdfSize[1] - margin.top - margin.bottom;
-    let imageWidth = (innerWidth * resolution) / mm2inch;
-    let imageHeight = (innerHeight * resolution) / mm2inch;
+    let imageWidth = (innerWidth * dpi) / mm2inch;
+    let imageHeight = (innerHeight * dpi) / mm2inch;
     imageWidth = Math.round(imageWidth);
     imageHeight = Math.round(imageHeight);
     return [imageWidth, imageHeight];
@@ -164,11 +191,11 @@ export function PrintContent(props: IPrintContentProps) {
     center: [number, number],
     projection: Projection,
     scale: number,
-    margin: { [scale: string]: number }
+    imageMargin: { [scale: string]: number }
   ): [number, number, number, number] => {
     const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - margin.left - margin.right;
-    const innerHeight = pdfSize[1] - margin.top - margin.bottom;
+    const innerWidth = pdfSize[0] - imageMargin.left - imageMargin.right;
+    const innerHeight = pdfSize[1] - imageMargin.top - imageMargin.bottom;
     const pointResolution = getPointResolution(projection, 1, center);
     const rectWidth = (innerWidth * mm2m * scale) / pointResolution;
     const rectHeight = (innerHeight * mm2m * scale) / pointResolution;
@@ -183,18 +210,30 @@ export function PrintContent(props: IPrintContentProps) {
   const buildPdf = (
     format: string,
     orientation: string,
-    dataUrl: string,
-    imageFormat: string,
-    margin: { [scale: string]: number }
+    mapDataUrl: string,
+    mapImageFormat: string,
+    legendDataUrl: string,
+    legendImageFormat: string,
+    margin: { [scale: string]: number },
+    imageMargin: { [scale: string]: number }
   ) => {
-    const pdf = new jsPDF(orientation as any, 'mm', format);
+    const pdf = new JsPDF(orientation as any, 'mm', format);
+    const pdfSize = computePdfSize(format, orientation);
     pdf.addImage(
-      dataUrl,
-      imageFormat,
+      mapDataUrl,
+      mapImageFormat,
       margin.left,
       margin.top,
-      dims[format][0] - margin.left - margin.right,
-      dims[format][1] - margin.top - margin.bottom
+      pdfSize[0] - imageMargin.left - imageMargin.right,
+      pdfSize[1] - imageMargin.top - imageMargin.bottom
+    );
+    pdf.addImage(
+      legendDataUrl,
+      legendImageFormat,
+      pdfSize[0] - imageMargin.right,
+      margin.top,
+      imageMargin.right - margin.right,
+      pdfSize[1] - margin.top - margin.bottom
     );
     if (formValue.title != null) {
       pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
@@ -216,7 +255,7 @@ export function PrintContent(props: IPrintContentProps) {
             center,
             olMap.getView().getProjection(),
             +formValue.scale,
-            defaultMargins
+            defaultImageMargins
           )
         ),
       })
@@ -245,13 +284,49 @@ export function PrintContent(props: IPrintContentProps) {
     e.preventDefault();
     setPrinting(true);
     canceling = false;
-    const dpi = 150;
-    const imageSize = computeImageSize(formValue.format, formValue.orientation, dpi, defaultMargins);
+    const dpi = mm2inch / pt2mm;
+    const mapImageSize = computeMapImageSize(formValue.format, formValue.orientation, dpi, defaultImageMargins);
+    const legendImageSize = computeLegendImageSize(
+      formValue.format,
+      formValue.orientation,
+      dpi,
+      defaultMargins,
+      defaultImageMargins
+    );
     const rect = rectSource.getFeatures()[0].getGeometry().getExtent();
-    exportToImage(olMap, imageSize, rect, 'JPEG', () => canceling)
+
+    const sources: IExtended[] = [];
+    const layerElements = layersManager.getLayerElements((layerElement: ILayerElement) => {
+      const source = layerElement.reactElement.props.source;
+      const visible = layerElement.reactElement.props.visible;
+      return (
+        source != null &&
+        typeof source.isListable === 'function' &&
+        typeof source.fetchLegend === 'function' &&
+        (source as IExtended).isListable() &&
+        visible !== false
+      );
+    });
+    for (const layerElement of layerElements) {
+      sources.push(layerElement.reactElement.props.source);
+    }
+
+    Promise.all([
+      exportToImage(olMap, mapImageSize, rect, 'JPEG', () => canceling),
+      exportLegendToImage(sources, legendImageSize, 'JPEG', () => canceling),
+    ])
       .then(
-        (dataUrl) => {
-          buildPdf(formValue.format, formValue.orientation, dataUrl, 'JPEG', defaultMargins);
+        ([mapDataUrl, legendDataUrl]) => {
+          buildPdf(
+            formValue.format,
+            formValue.orientation,
+            mapDataUrl,
+            'JPEG',
+            legendDataUrl,
+            'JPEG',
+            defaultMargins,
+            defaultImageMargins
+          );
         },
         (err) => {
           console.error(err);
@@ -336,6 +411,13 @@ export function PrintContent(props: IPrintContentProps) {
         </select>
       </div>
       <div>
+        {printing ? (
+          <p>{translate('print.instructionPrinting', 'Please do not interfere on the map during printing')}</p>
+        ) : (
+          <p>{translate('print.instruction', 'Please set the printing area on the map.')}</p>
+        )}
+      </div>
+      <div>
         <ButtonPrint
           className={`${props.className}-print`}
           onClick={handlePrintButtonClick}
@@ -346,11 +428,13 @@ export function PrintContent(props: IPrintContentProps) {
           className={`${props.className}-fit`}
           onClick={handleFitButtonClick}
           title={translate('print.fit', 'Fit the view to the print rectangle')}
+          disabled={printing}
         />
         <ButtonCenter
           className={`${props.className}-center`}
           onClick={handleCenterButtonClick}
           title={translate('print.center', 'Move the print rectangle to center of the view')}
+          disabled={printing}
         />
         <ButtonCancel
           className={`${props.className}-cancel`}

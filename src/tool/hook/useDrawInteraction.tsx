@@ -31,6 +31,7 @@ export interface IUseDrawInteractionProps {
 export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   const context = React.useContext(rolContext);
   const [draw, setDraw] = React.useState<Draw>(null);
+  const [added, setAdded] = React.useState<boolean>(false);
   // Effect for build interaction
   React.useEffect(() => {
     const buildDrawInteraction = () => {
@@ -42,12 +43,13 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       if (props.onDrawEnd) {
         preCreateDraw.on('drawend', props.onDrawEnd);
       }
+      preCreateDraw.setActive(props.activated);
       setDraw(preCreateDraw);
     };
     buildDrawInteraction();
     // Cleanup function
     return () => {
-      if (draw != null) {
+      if (draw != null && context.olMap != null) {
         context.olMap.removeInteraction(draw);
         setDraw(null);
       }
@@ -55,14 +57,12 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   }, [props.source, props.type]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
-    if (props.activated === true) {
-      if (draw != null) {
+    if (draw != null) {
+      if (!added && context.olMap != null) {
         context.olMap.addInteraction(draw);
+        setAdded(true);
       }
-    } else {
-      if (draw != null) {
-        context.olMap.removeInteraction(draw);
-      }
+      draw.setActive(props.activated === true);
     }
   }, [props.activated]);
   return draw;

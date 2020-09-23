@@ -4,7 +4,7 @@ import { loadZippedShapefile } from '@gisosteam/aol/load/shpz';
 import { loadKMZ } from '@gisosteam/aol/load/kmz';
 import { useTranslate } from '../../hook/useTranslate';
 import { useOlMap } from '../../hook/useOlMap';
-import { useLayerManager } from '../../hook/useLayerManager';
+import { useLayersManager } from '../../hook/useLayersManager';
 import { loadKML } from '@gisosteam/aol/load/kml';
 import { Vector } from '../../../layer/Vector';
 import { uid } from '@gisosteam/aol/utils';
@@ -38,7 +38,7 @@ export const GenericLayerFileLoader = ({ accept, onFileSelected }: IGenericLayer
   const inputFileRef = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const translate = useTranslate();
-  const layerManager = useLayerManager();
+  const layersManager = useLayersManager();
 
   const handleFileSelectorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile: File = event.currentTarget.files[0];
@@ -47,7 +47,7 @@ export const GenericLayerFileLoader = ({ accept, onFileSelected }: IGenericLayer
 
     promise.then((source: LocalVector) => {
       setIsLoading(false);
-      layerManager.createAndAddLayer(Vector, {
+      layersManager.createAndAddLayer(Vector, {
         uid: uid(),
         name: (source.getSourceOptions() as any).name,
         type: 'OVERLAY',

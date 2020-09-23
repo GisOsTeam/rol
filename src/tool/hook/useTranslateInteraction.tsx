@@ -5,9 +5,9 @@ import { FeatureLike } from 'ol/Feature';
 import Layer from 'ol/layer/Layer';
 import Source from 'ol/source/Source';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
-import { useLayerManager } from './useLayerManager';
+import { useLayersManager } from './useLayersManager';
 
-export interface IUseuseTranslateInteractionProps {
+export interface IUseTranslateInteractionProps {
   /**
    * Draw source.
    */
@@ -30,17 +30,18 @@ export interface IUseuseTranslateInteractionProps {
   activated?: boolean;
 }
 
-export function useTranslateInteraction(props: IUseuseTranslateInteractionProps): Translate {
+export function useTranslateInteraction(props: IUseTranslateInteractionProps): Translate {
   const context = React.useContext(rolContext);
-  const layerManager = useLayerManager();
+  const layersManager = useLayersManager();
   const [translate, setTranslate] = React.useState<Translate>(null);
+  const [added, setAdded] = React.useState<boolean>(false);
   // Effect for build interaction
   React.useEffect(() => {
     const buildTranslateInteraction = () => {
       if (props.source == null) {
         return;
       }
-      const layerElement = layerManager.getLayerElementFromSource(props.source);
+      const layerElement = layersManager.getLayerElementFromSource(props.source);
       if (layerElement == null || layerElement.olLayer == null) {
         return;
       }
@@ -48,7 +49,7 @@ export function useTranslateInteraction(props: IUseuseTranslateInteractionProps)
         layers: [layerElement.olLayer as Layer],
         hitTolerance: props.hitTolerance,
       });
-
+      preCreateTranslate.setActive(props.activated);
       if (props.onTranslateEnd) {
         preCreateTranslate.on('translateend', props.onTranslateEnd);
       }
@@ -57,8 +58,7 @@ export function useTranslateInteraction(props: IUseuseTranslateInteractionProps)
     buildTranslateInteraction();
     // Cleanup function
     return () => {
-      if (translate != null) {
-        console.log('clear TranslateInteraction');
+      if (translate != null && context.olMap != null) {
         context.olMap.removeInteraction(translate);
         setTranslate(null);
       }
@@ -66,14 +66,12 @@ export function useTranslateInteraction(props: IUseuseTranslateInteractionProps)
   }, [props.source, props.hitTolerance]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
-    if (props.activated === true) {
-      if (translate != null) {
+    if (translate != null) {
+      if (!added && context.olMap != null) {
         context.olMap.addInteraction(translate);
+        setAdded(true);
       }
-    } else {
-      if (translate != null) {
-        context.olMap.removeInteraction(translate);
-      }
+      translate.setActive(props.activated === true);
     }
   }, [props.activated]);
   return translate;

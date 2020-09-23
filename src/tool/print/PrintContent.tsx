@@ -289,7 +289,7 @@ export function PrintContent(props: IPrintContentProps) {
     const legendImageSize = computeLegendImageSize(
       formValue.format,
       formValue.orientation,
-      dpi,
+      2 * dpi,
       defaultMargins,
       defaultImageMargins
     );

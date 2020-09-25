@@ -1,14 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { rolContext, IRolContext } from '../../RolContext';
-import { IExtended } from '@gisosteam/aol/source/IExtended';
+import { ILegendRecord, ILegendSource, ISnapshotSource } from '@gisosteam/aol/source/IExtended';
 import { IBaseUIItem } from './models/IBaseUIItem';
-import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
-import { ImageWms } from '@gisosteam/aol/source/ImageWms';
-import { TileWms } from '@gisosteam/aol/source/TileWms';
 
 const DivInline = styled.div`
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+const DivInlineSpaceBetween = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
 `;
 
@@ -19,17 +24,34 @@ const DivDragHandle = styled.div`
     content: '☰';
   }
 `;
-export interface ILayerLegend {
-  label?: string;
-  /**
-   * Either a base64 or an URL
-   */
-  srcImage: string;
-  height?: number;
-  width?: number;
-}
 
-export interface ILayerElementItemProps extends IBaseUIItem {
+const DivRemove = styled.div`
+  width: 10px;
+  height: 22px;
+  ::after {
+    content: '☒';
+  }
+`;
+
+const DivMenuClose = styled.div`
+  width: 10px;
+  height: 22px;
+  margin-right: 3px;
+  ::after {
+    content: '⮞';
+  }
+`;
+
+const DivMenuOpen = styled.div`
+  width: 10px;
+  height: 22px;
+  margin-right: 3px;
+  ::after {
+    content: '⮟';
+  }
+`;
+
+export interface ILayerElementItemWithLegendProps extends IBaseUIItem {
   itemSelected: number;
   dragHandleProps: object;
 
@@ -39,72 +61,25 @@ export interface ILayerElementItemProps extends IBaseUIItem {
 }
 
 interface LayerElementItemWithLegendState {
-  inputProps?: Pick<ILayerElementItemProps, 'inputProps'>;
-  legendByLayer: Record<string, ILayerLegend[]>;
-
-  displayLegend: boolean;
+  legendRecord: ILegendRecord;
+  displayMenu: boolean;
+  loading: boolean;
 }
 
 export class LayerElementItemWithLegend extends React.Component<
-  ILayerElementItemProps,
+  ILayerElementItemWithLegendProps,
   LayerElementItemWithLegendState
-> {
+  > {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
 
-  private mounted: boolean;
-
-  private promLegend: Promise<Record<string, ILayerLegend[]>>;
-
-  constructor(props: ILayerElementItemProps) {
+  constructor(props: ILayerElementItemWithLegendProps) {
     super(props);
     this.state = {
-      legendByLayer: {},
-      displayLegend: false,
-    };
-  }
-
-  /**
-   * @todo upgrade AOL pour récupérer la légende depuis la source
-   *
-   */
-
-  async componentDidMount() {
-    const { item } = this.props;
-    this.mounted = true;
-    const elementProps = item.reactElement.props;
-    const source = elementProps['source'];
-
-    let legendByLayer: Record<string, ILayerLegend[]> = {};
-    if (source.fetchLegend) {
-      this.promLegend = source.fetchLegend();
-      legendByLayer = await this.promLegend;
-    }
-
-    // A ne pas faire mais c'est temporaire
-    if (this.mounted && legendByLayer) {
-      this.setState({ legendByLayer });
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  /**
-   * RTFM
-   * Called before render
-   * @param props
-   * @param state
-   */
-  static getDerivedStateFromProps(props: ILayerElementItemProps, state: LayerElementItemWithLegendState) {
-    return {
-      ...state,
-      inputProps: {
-        ...props.commonProps.inputProps,
-        ...props.inputProps,
-      },
+      legendRecord: {},
+      displayMenu: false,
+      loading: false,
     };
   }
 
@@ -116,17 +91,43 @@ export class LayerElementItemWithLegend extends React.Component<
     this.context.layersManager.updateLayerProps(key, { visible: true });
   };
 
-  public renderLegend() {
-    const { displayLegend, legendByLayer } = this.state;
-    if (displayLegend && legendByLayer) {
-      return Object.values(legendByLayer).map((lgd, index) => {
+  public handleOpenClose = () => {
+    const { item } = this.props;
+    if (this.state.displayMenu) {
+      this.setState({ displayMenu: false });
+      return;
+    }
+    this.setState({ displayMenu: true });
+    const source = item.reactElement.props.source;
+    if (source != null && typeof source.fetchLegend === 'function') {
+      this.setState({ loading: true });
+      (source as ILegendSource).fetchLegend().then(rec => {
+        this.setState({ legendRecord: rec, loading: false });
+      }, () => {
+        this.setState({ legendRecord: null, loading: false });
+      });
+    }
+  };
+
+  public handleRemove = () => {
+    const { item } = this.props;
+    this.context.layersManager.removeLayer(item.uid);
+  };
+
+  public renderMenu() {
+    const { item } = this.props;
+    const { legendRecord } = this.state;
+    let legend = null;
+    if (legendRecord != null) {
+      legend = Object.values(legendRecord).map((lgd, index) => {
         return (
           <div key={index}>
-            {lgd.map((layer, li) => {
-              const label = layer.label ? layer.label : null;
+            {lgd.map((layerLgd, li) => {
+              const label = layerLgd.label ? layerLgd.label : null;
               return (
+                layerLgd.height > 0 && layerLgd.width > 0 &&
                 <span key={li}>
-                  <img src={layer.srcImage} height={layer.height} width={layer.width} />
+                  <img src={layerLgd.srcImage} height={layerLgd.height} width={layerLgd.width} />
                   {label}
                 </span>
               );
@@ -135,55 +136,78 @@ export class LayerElementItemWithLegend extends React.Component<
         );
       });
     }
+    const source = item.reactElement.props.source;
+    return <div>
+      {legend}
+      {typeof source.isRemovable === 'function' && (source as ISnapshotSource).isRemovable() && <DivRemove onClick={this.handleRemove} title={this.context.translate('toc.remove', 'Remove')} />}
+    </div>;
+  }
+
+  public renderLabel() {
+    const { item } = this.props;
+    const name = item.reactElement.props.name || '';
+    let truncName = name;
+    if (truncName.length > 15) {
+      truncName = truncName.substring(0, 14) + '…';
+    }
+    let title = '';
+    if (truncName !== name) {
+      title = name;
+    }
+    if (item.reactElement.props.description != null && item.reactElement.props.description != '') {
+      if (title.length > 0) {
+        title += '\n';
+      }
+      title += item.reactElement.props.description;
+    }
+    if (title === '') {
+      title = name;
+    }
+    return (
+      <label title={title}>
+        {truncName}
+      </label>
+    );
   }
 
   public render(): React.ReactNode {
     const { item, dragHandleProps } = this.props;
     const elementProps = item.reactElement.props;
-    const source = elementProps['source'];
-    if (source != null && 'isListable' in source) {
-      if ((source as IExtended).isListable()) {
-        const name = item.reactElement.props.name || '';
-        let truncName = name;
-        if (truncName.length > 15) {
-          truncName = truncName.substring(0, 14) + '…';
-        }
-        let title = '';
-        if (truncName !== name) {
-          title = name;
-        }
-        if (item.reactElement.props.description != null && item.reactElement.props.description != '') {
-          if (title.length > 0) {
-            title += '\n';
-          }
-          title += item.reactElement.props.description;
-        }
-        if (title === '') {
-          title = name;
-        }
-
+    const source = elementProps.source;
+    if (source != null && typeof source.isListable === 'function') {
+      if ((source as ISnapshotSource).isListable()) {
         let input;
-        if (this.state.inputProps) {
+        if (this.props.commonProps != null || this.props.inputProps != null) {
           input = React.createElement('input', {
-            ...this.state.inputProps,
+            ...this.props.commonProps.inputProps,
+            ...this.props.inputProps,
             checked: item.reactElement.props.visible !== false ? true : false,
             onChange: this.handleCheckboxChange(item.uid),
           });
         }
 
-        const label = (
-          <label title={title} onClick={() => this.setState({ displayLegend: !this.state.displayLegend })}>
-            {truncName}
-          </label>
-        );
+        let menuOpenCloseIndicator = null;
+        if (this.state.displayMenu) {
+          menuOpenCloseIndicator = <DivMenuOpen />
+        } else {
+          menuOpenCloseIndicator = <DivMenuClose />
+        }
+
         return (
           <div>
             <DivInline>
               <DivDragHandle {...dragHandleProps} />
               {input}
-              {label}
+              <DivInlineSpaceBetween onClick={this.handleOpenClose}>
+                {this.renderLabel()}
+                {menuOpenCloseIndicator}
+              </DivInlineSpaceBetween>
             </DivInline>
-            <div>{this.renderLegend()}</div>
+            {this.state.displayMenu && (
+              <div>
+                {this.renderMenu()}
+              </div>
+            )}
           </div>
         );
       }

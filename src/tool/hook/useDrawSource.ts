@@ -30,6 +30,10 @@ export interface IUseDrawSourceProps {
    * Listable.
    */
   listable?: boolean;
+  /**
+   * Listable.
+   */
+  removable?: boolean;
 }
 
 export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
@@ -42,7 +46,9 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
       const sourceOptions = {
         snapshotable: props.snapshotable === true,
         listable: props.listable === true,
+        removable: props.removable === true,
       };
+      console.log(sourceOptions);
       const layerProps = {
         uid: props.layerUid,
         name: props.name != null ? props.name : 'Draw',
@@ -65,6 +71,6 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
         setSource(null);
       }
     };
-  }, [props.layerUid, props.styles, props.name, props.snapshotable, props.listable]);
+  }, [props.layerUid, props.styles, props.name, props.snapshotable, props.listable, props.removable]);
   return source;
 }

@@ -48,7 +48,6 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
         listable: props.listable === true,
         removable: props.removable === true,
       };
-      console.log(sourceOptions);
       const layerProps = {
         uid: props.layerUid,
         name: props.name != null ? props.name : 'Draw',

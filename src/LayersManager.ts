@@ -333,13 +333,11 @@ export class LayersManager {
     if (layerMap == null) {
       return;
     }
-    console.log(layerMap);
     const toDel = new Set<string>();
     // Old children
     this.getLayerElements((layerElement) => layerElement.status === 'react').map((layerElement) => {
       toDel.add(layerElement.uid);
     });
-    console.log(toDel);
     // Next children
     if (nextChildren) {
       React.Children.map(nextChildren, (nextChild: React.ReactElement<any>) => {

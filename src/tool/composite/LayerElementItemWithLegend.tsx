@@ -69,7 +69,7 @@ interface LayerElementItemWithLegendState {
 export class LayerElementItemWithLegend extends React.Component<
   ILayerElementItemWithLegendProps,
   LayerElementItemWithLegendState
-  > {
+> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
@@ -101,11 +101,14 @@ export class LayerElementItemWithLegend extends React.Component<
     const source = item.reactElement.props.source;
     if (source != null && typeof source.fetchLegend === 'function') {
       this.setState({ loading: true });
-      (source as ILegendSource).fetchLegend().then(rec => {
-        this.setState({ legendRecord: rec, loading: false });
-      }, () => {
-        this.setState({ legendRecord: null, loading: false });
-      });
+      (source as ILegendSource).fetchLegend().then(
+        (rec) => {
+          this.setState({ legendRecord: rec, loading: false });
+        },
+        () => {
+          this.setState({ legendRecord: null, loading: false });
+        }
+      );
     }
   };
 
@@ -125,11 +128,13 @@ export class LayerElementItemWithLegend extends React.Component<
             {lgd.map((layerLgd, li) => {
               const label = layerLgd.label ? layerLgd.label : null;
               return (
-                layerLgd.height > 0 && layerLgd.width > 0 &&
-                <span key={li}>
-                  <img src={layerLgd.srcImage} height={layerLgd.height} width={layerLgd.width} />
-                  {label}
-                </span>
+                layerLgd.height > 0 &&
+                layerLgd.width > 0 && (
+                  <span key={li}>
+                    <img src={layerLgd.srcImage} height={layerLgd.height} width={layerLgd.width} />
+                    {label}
+                  </span>
+                )
               );
             })}
           </div>
@@ -137,10 +142,14 @@ export class LayerElementItemWithLegend extends React.Component<
       });
     }
     const source = item.reactElement.props.source;
-    return <div>
-      {legend}
-      {typeof source.isRemovable === 'function' && (source as ISnapshotSource).isRemovable() && <DivRemove onClick={this.handleRemove} title={this.context.translate('toc.remove', 'Remove')} />}
-    </div>;
+    return (
+      <div>
+        {legend}
+        {typeof source.isRemovable === 'function' && (source as ISnapshotSource).isRemovable() && (
+          <DivRemove onClick={this.handleRemove} title={this.context.translate('toc.remove', 'Remove')} />
+        )}
+      </div>
+    );
   }
 
   public renderLabel() {
@@ -163,11 +172,7 @@ export class LayerElementItemWithLegend extends React.Component<
     if (title === '') {
       title = name;
     }
-    return (
-      <label title={title}>
-        {truncName}
-      </label>
-    );
+    return <label title={title}>{truncName}</label>;
   }
 
   public render(): React.ReactNode {
@@ -188,9 +193,9 @@ export class LayerElementItemWithLegend extends React.Component<
 
         let menuOpenCloseIndicator = null;
         if (this.state.displayMenu) {
-          menuOpenCloseIndicator = <DivMenuOpen />
+          menuOpenCloseIndicator = <DivMenuOpen />;
         } else {
-          menuOpenCloseIndicator = <DivMenuClose />
+          menuOpenCloseIndicator = <DivMenuClose />;
         }
 
         return (
@@ -203,11 +208,7 @@ export class LayerElementItemWithLegend extends React.Component<
                 {menuOpenCloseIndicator}
               </DivInlineSpaceBetween>
             </DivInline>
-            {this.state.displayMenu && (
-              <div>
-                {this.renderMenu()}
-              </div>
-            )}
+            {this.state.displayMenu && <div>{this.renderMenu()}</div>}
           </div>
         );
       }

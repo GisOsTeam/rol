@@ -27,10 +27,7 @@ export interface ILayerElementItemProps extends IBaseUIItem {
   inputProps?: Record<string, any>;
 }
 
-export class LayerElementItem extends React.Component<
-  ILayerElementItemProps,
-  {}
-  > {
+export class LayerElementItem extends React.Component<ILayerElementItemProps, {}> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
@@ -63,11 +60,7 @@ export class LayerElementItem extends React.Component<
     if (title === '') {
       title = name;
     }
-    return (
-      <label title={title}>
-        {truncName}
-      </label>
-    );
+    return <label title={title}>{truncName}</label>;
   }
 
   public render(): React.ReactNode {

@@ -38,6 +38,10 @@ export interface IBaseButtonToolProps extends IBaseToolProps {
    */
   buttonTitle?: string;
   /**
+   * Content
+   */
+  buttonContent?: string | React.ReactElement;
+  /**
    * Click handler.
    */
   onButtonClick?: () => void;

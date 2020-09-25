@@ -5,6 +5,7 @@
 export * from './useDrawInteraction';
 export * from './useDrawSource';
 export * from './useIdentify';
+export * from './useIdentifyWithDraw';
 export * from './useLayerManager';
 export * from './useLayersManager';
 export * from './useOlMap';

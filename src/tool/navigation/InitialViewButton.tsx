@@ -2,24 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../BaseButtonTool';
 import { useViewManager } from '../hook/useViewManager';
-import { useTranslate } from '../hook/useTranslate';
 
-const ContainerBtn = styled.div`
-  &:after {
-    content: '🌍';
-  }
-`;
+const ContainerBtn = styled.div``;
 
 export const InitialViewButton = withBaseButtonTool(
-  (props: IBaseButtonToolProps) => {
+  ({ activated = false, buttonContent = '🌍' }: IBaseButtonToolProps) => {
     const { fitToInitial } = useViewManager();
-    const translate = useTranslate();
     React.useEffect(() => {
-      if (props.activated === true) {
+      if (activated === true) {
         fitToInitial();
       }
-    }, [props.activated]);
-    return <ContainerBtn title={translate('navigation.initial', 'Initial View')} />;
+    }, [activated]);
+    return <ContainerBtn>{buttonContent}</ContainerBtn>;
   },
-  { className: 'initial-view-button', independant: true }
+  { className: 'initial-view-button', independant: true, buttonTitle: 'Initial View' }
 );

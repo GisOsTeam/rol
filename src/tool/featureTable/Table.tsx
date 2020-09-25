@@ -110,7 +110,11 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
           </th>
         );
       });
-      return <thead>{headContent}</thead>;
+      return (
+        <thead>
+          <tr>{headContent}</tr>
+        </thead>
+      );
     }
   };
 

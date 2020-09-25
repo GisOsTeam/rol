@@ -17,31 +17,34 @@ const drawSourceOpt: IUseDrawSourceProps = {
   listable: false,
 };
 
-export const ZoomRectangleWidget = withBaseButtonTool(
-  (props: IBaseButtonToolProps) => {
-    const olMap = useOlMap();
-    const source = useDrawSource(drawSourceOpt);
+export interface IZoomRectangleWidgetProps extends IBaseButtonToolProps {
+  buttonContent?: string | React.ReactElement;
+}
 
-    const onFitEnd = () => {
-      source.clear();
-    };
+const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }: IZoomRectangleWidgetProps) => {
+  const olMap = useOlMap();
+  const source = useDrawSource(drawSourceOpt);
+  const onFitEnd = () => {
+    source.clear();
+  };
 
-    const onDrawEnd = (evt: DrawEvent) => {
-      evt.preventDefault();
-      const { feature } = evt;
-      olMap.getView().fit(feature.getGeometry().getExtent(), {
-        callback: onFitEnd,
-      });
-    };
-
-    useDrawInteraction({
-      source,
-      type: GeometryType.CIRCLE,
-      geometryFunction: createBox(),
-      activated: props.activated,
-      onDrawEnd,
+  const onDrawEnd = (evt: DrawEvent) => {
+    evt.preventDefault();
+    const { feature } = evt;
+    olMap.getView().fit(feature.getGeometry().getExtent(), {
+      callback: onFitEnd,
     });
-    return <ContainerBtn>Zoom Rect</ContainerBtn>;
-  },
-  { className: 'counter-button', toggle: true }
-);
+  };
+
+  useDrawInteraction({
+    source,
+    type: GeometryType.CIRCLE,
+    geometryFunction: createBox(),
+    activated,
+    onDrawEnd,
+  });
+
+  return <ContainerBtn>{buttonContent}</ContainerBtn>;
+};
+
+export const ZoomRectangleWidget = withBaseButtonTool(zoomRectangleFC, { className: 'counter-button', toggle: true });

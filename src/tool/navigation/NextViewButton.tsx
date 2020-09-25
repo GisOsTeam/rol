@@ -4,22 +4,17 @@ import { IBaseButtonToolProps, withBaseButtonTool } from '../BaseButtonTool';
 import { useViewManager } from '../hook/useViewManager';
 import { useTranslate } from '../hook/useTranslate';
 
-const ContainerBtn = styled.div`
-  &:after {
-    content: '⤻';
-  }
-`;
+const ContainerBtn = styled.div``;
 
 export const NextViewButton = withBaseButtonTool(
-  (props: IBaseButtonToolProps) => {
+  ({ activated = false, buttonContent = '⤻' }: IBaseButtonToolProps) => {
     const { fitToNext } = useViewManager();
-    const translate = useTranslate();
     React.useEffect(() => {
-      if (props.activated === true) {
+      if (activated === true) {
         fitToNext();
       }
-    }, [props.activated]);
-    return <ContainerBtn title={translate('navigation.next', 'Next View')} />;
+    }, [activated]);
+    return <ContainerBtn>{buttonContent}</ContainerBtn>;
   },
-  { className: 'next-view-button', independant: true }
+  { className: 'next-view-button', independant: true, buttonTitle: 'Next View' }
 );

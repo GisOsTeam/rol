@@ -160,8 +160,6 @@ export interface IPanZoomProps extends IBaseToolProps {
 }
 
 export class PanZoom extends BaseTool<IPanZoomProps, any> {
-  public static contextType: React.Context<IRolContext> = rolContext;
-
   public static defaultProps = {
     ...BaseTool.defaultProps,
     className: 'panzoom',
@@ -171,6 +169,8 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     showOrigin: true,
     showRotation: true,
   };
+  
+  public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
 

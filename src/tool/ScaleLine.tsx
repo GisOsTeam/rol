@@ -83,7 +83,7 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
     className: 'scaleline',
     minWidth: 64,
   };
-  
+
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;

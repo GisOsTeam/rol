@@ -169,7 +169,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     showOrigin: true,
     showRotation: true,
   };
-  
+
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;

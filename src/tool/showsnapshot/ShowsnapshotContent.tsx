@@ -9,11 +9,9 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export interface IShowsnapshotContentProps extends IFunctionBaseWindowToolProps {
-}
+export interface IShowsnapshotContentProps extends IFunctionBaseWindowToolProps {}
 
 export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
-
   const layersManager = useLayersManager();
 
   const [snapshot, setSnapshot] = React.useState<string>(JSON.stringify(layersManager.getSnapshot()));
@@ -38,10 +36,12 @@ export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
     this.setState({ snapshot: event.target.value });
   };
 
-  return <Container>
-    <textarea value={snapshot} onChange={handleTextareaChange} />
-    <button onClick={handleGetButtonClick}>Get snapshot from map</button>
-    <button onClick={handleReloadButtonClick}>Reload map from snapshot</button>
-    <button onClick={handleClearButtonClick}>Clear map</button>
-  </Container>;
+  return (
+    <Container>
+      <textarea value={snapshot} onChange={handleTextareaChange} />
+      <button onClick={handleGetButtonClick}>Get snapshot from map</button>
+      <button onClick={handleReloadButtonClick}>Reload map from snapshot</button>
+      <button onClick={handleClearButtonClick}>Clear map</button>
+    </Container>
+  );
 }

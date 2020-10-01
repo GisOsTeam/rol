@@ -5,6 +5,11 @@ import { withBaseWindowTool, IBaseWindowToolProps } from './BaseWindowTool';
 
 export type IShowsnapshotProps = IBaseWindowToolProps & Partial<IShowsnapshotContentProps>;
 
-export const ShowSnapshot = withBaseWindowTool<IShowsnapshotProps>(ShowsnapshotContent, ShowsnapshotHeader, ShowsnapshotButton, {
-  className: 'showsnapshot',
-});
+export const ShowSnapshot = withBaseWindowTool<IShowsnapshotProps>(
+  ShowsnapshotContent,
+  ShowsnapshotHeader,
+  ShowsnapshotButton,
+  {
+    className: 'showsnapshot',
+  }
+);

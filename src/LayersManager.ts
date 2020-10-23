@@ -91,15 +91,15 @@ export class LayersManager {
       const props = { ...layerElement.reactElement.props };
       const source = props.source;
       if (source != null) {
-        //if ((source as IExtended).isSnapshotable()) {
-        props.source = undefined;
-        props.children = undefined;
-        layers.push({
-          sourceType: (source as ISnapshotSource).getSourceType(),
-          sourceOptions: (source as ISnapshotSource).getSourceOptions(),
-          props,
-        });
-        //}
+        if (typeof source.isSnapshotable === 'function' && (source as ISnapshotSource).isSnapshotable()) {
+          props.source = undefined;
+          props.children = undefined;
+          layers.push({
+            sourceType: (source as ISnapshotSource).getSourceType(),
+            sourceOptions: (source as ISnapshotSource).getSourceOptions(),
+            props,
+          });
+        }
       }
     });
     return {
@@ -237,7 +237,12 @@ export class LayersManager {
   public removeLayer(uid: string) {
     const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
     if (layerElement != null) {
-      layerElement.status = 'del';
+      this.setLayerElement({
+        reactElement: layerElement.reactElement,
+        uid,
+        updatedProps: {},
+        status: 'del',
+      });
     }
   }
 
@@ -394,14 +399,11 @@ export class LayersManager {
       }
     } else {
       if (layerElement.status === 'del') {
-        if (found.status === 'react') {
+        if (found.status === 'react' || found.status === 'ext') {
           layerMap.set(layerElement.uid, {
             ...layerElement,
             status: 'del',
           });
-          changed = true;
-        } else if (found.status === 'ext') {
-          layerMap.delete(layerElement.uid);
           changed = true;
         }
       } else {

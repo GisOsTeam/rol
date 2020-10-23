@@ -78,13 +78,13 @@ export interface IScaleLineProps extends IBaseToolProps {
 }
 
 export class ScaleLine extends BaseTool<IScaleLineProps, any> {
-  public static contextType: React.Context<IRolContext> = rolContext;
-
   public static defaultProps = {
     ...BaseTool.defaultProps,
     className: 'scaleline',
     minWidth: 64,
   };
+
+  public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;
 

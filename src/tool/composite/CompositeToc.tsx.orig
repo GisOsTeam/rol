@@ -47,8 +47,14 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   };
 
   public getBases(): ILayerElement[] {
-    const bases = this.context.layersManager
+<<<<<<< HEAD
+    const overlays: ILayerElement[] = [];
+    this.context.layersManager
       .getLayerElements((layerElement) => layerElement.reactElement.props.type.toUpperCase() === 'BASE')
+=======
+    const bases = this.context.layersManager
+      .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'BASE')
+>>>>>>> ba5231c6770f617f1e6c303badd8d32624cbdff2
       .sort(
         (layerElement1, layerElement2) =>
           layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
@@ -57,17 +63,23 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   }
 
   public getOverlays(): ILayerElement[] {
+<<<<<<< HEAD
+    const overlays: ILayerElement[] = [];
+    this.context.layersManager
+      .getLayerElements((layerElement) => layerElement.reactElement.props.type.toUpperCase() === 'OVERLAY')
+=======
     const overlays = this.context.layersManager
       .getLayerElements((layerElement) => {
         const props = layerElement.reactElement.props;
         const source = props.source;
         return (
-          props.type.toUpperCase() === 'OVERLAY' &&
+          props.type === 'OVERLAY' &&
           source != null &&
           typeof source.isListable === 'function' &&
           (source as ISnapshotSource).isListable()
         );
       })
+>>>>>>> ba5231c6770f617f1e6c303badd8d32624cbdff2
       .sort(
         (layerElement1, layerElement2) =>
           layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
@@ -102,6 +114,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   }
 
   public renderTool(): React.ReactNode {
+    console.log(this.props, CompositeToc.defaultProps);
     if (this.props.disabled === true) {
       return null;
     }

@@ -48,7 +48,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   public getBases(): ILayerElement[] {
     const overlays: ILayerElement[] = [];
     this.context.layersManager
-      .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'BASE')
+      .getLayerElements((layerElement) => layerElement.reactElement.props.type.toUpperCase() === 'BASE')
       .sort(
         (layerElement1, layerElement2) =>
           layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
@@ -62,7 +62,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
   public getOverlays(): ILayerElement[] {
     const overlays: ILayerElement[] = [];
     this.context.layersManager
-      .getLayerElements((layerElement) => layerElement.reactElement.props.type === 'OVERLAY')
+      .getLayerElements((layerElement) => layerElement.reactElement.props.type.toUpperCase() === 'OVERLAY')
       .sort(
         (layerElement1, layerElement2) =>
           layerElement1.reactElement.props.order - layerElement2.reactElement.props.order

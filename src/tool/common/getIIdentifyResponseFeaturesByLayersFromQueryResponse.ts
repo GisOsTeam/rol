@@ -7,12 +7,10 @@ export const getFeaturesBySourceByLayersFromQueryResponse = (
   layersManager: LayersManager
 ): IIdentifyResponseFeaturesByLayer => {
   const features: IIdentifyResponseFeaturesByLayer = {};
-  console.log(queryResponses);
   queryResponses.forEach((queryResponse: IQueryResponse) => {
     const { featureTypeResponses } = queryResponse;
     featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
       if (ftResp.features.length > 0) {
-        console.log(ftResp.features);
         const layerId = ftResp.type.id;
         const filtered = layersManager.getLayerElementFromSource(ftResp.source);
         const sourceUid = filtered ? filtered.uid : 'unknown';

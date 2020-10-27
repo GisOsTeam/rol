@@ -23,8 +23,7 @@ export const getFeaturesBySourceByLayersFromQueryResponse = (
           features[sourceUid][layerId] = [];
         }
 
-        if(features[sourceUid])
-        features[sourceUid][layerId].push(...ftResp.features);
+        if (features[sourceUid]) features[sourceUid][layerId].push(...ftResp.features);
       }
     });
   });

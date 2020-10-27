@@ -76,7 +76,7 @@ const cities = new ImageWms({
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{id: 0}, { id: 1, name: 'Highways' }],
+  types: [{ id: 0 }, { id: 1, name: 'Highways' }],
 });
 
 export class SampleApp extends React.Component<{}, {}> {

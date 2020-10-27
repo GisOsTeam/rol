@@ -12,7 +12,7 @@ export interface IIdentifyResponseFeatures {
 
 export interface IIdentifyResponseFeaturesByLayer {
   [sourceId: string]: {
-    [layerId: string]: Feature[]
+    [layerId: string]: Feature[];
   };
 }
 
@@ -52,7 +52,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
           if (props.onIdentifyResponseWithLayerGroup) {
             const featsByLayer = getFeaturesBySourceByLayersFromQueryResponse(queryResponses, layersManager);
-            props.onIdentifyResponseWithLayerGroup({ features: featsByLayer, position })
+            props.onIdentifyResponseWithLayerGroup({ features: featsByLayer, position });
           }
         }
       );

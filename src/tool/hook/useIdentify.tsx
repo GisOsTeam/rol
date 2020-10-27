@@ -4,18 +4,33 @@ import { rolContext } from '../../RolContext';
 import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { getFeaturesBySourceFromQueryResponse } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
+import { getFeaturesBySourceByLayersFromQueryResponse } from '../common/getIIdentifyResponseFeaturesByLayersFromQueryResponse';
 
 export interface IIdentifyResponseFeatures {
   [key: string]: Feature[];
 }
+
+export interface IIdentifyResponseFeaturesByLayer {
+  [sourceId: string]: {
+    [layerId: string]: Feature[]
+  };
+}
+
 export interface IIdentifyResponse {
   features: IIdentifyResponseFeatures;
   position: number[];
 }
 
+export interface IIdentifyResponseByLayer {
+  features: IIdentifyResponseFeaturesByLayer;
+  position: number[];
+}
+
 export interface IUseIdentifyProps {
   activated: boolean;
-  onIdentifyResponse: (identifyResp: IIdentifyResponse) => unknown;
+  onIdentifyResponse?: (identifyResp: IIdentifyResponse) => unknown;
+
+  onIdentifyResponseWithLayerGroup?: (idenfityResponseByLayer: IIdentifyResponseByLayer) => unknown;
   limit?: number;
   tolerance?: number;
   filterSources?: IdentifyFilterType;
@@ -29,8 +44,16 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
     const onClick = (clickEvent: MapBrowserEvent) => {
       identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then(
         (queryResponses: IQueryResponse[]) => {
-          const features: any = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);
-          props.onIdentifyResponse({ features, position: clickEvent.pixel });
+          const position = clickEvent.pixel;
+          if (props.onIdentifyResponse) {
+            const features: any = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);
+            props.onIdentifyResponse({ features, position });
+          }
+
+          if (props.onIdentifyResponseWithLayerGroup) {
+            const featsByLayer = getFeaturesBySourceByLayersFromQueryResponse(queryResponses, layersManager);
+            props.onIdentifyResponseWithLayerGroup({ features: featsByLayer, position })
+          }
         }
       );
     };

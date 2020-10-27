@@ -76,7 +76,7 @@ const cities = new ImageWms({
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{ id: 1 }],
+  types: [{id: 0}, { id: 1, name: 'Highways' }],
 });
 
 export class SampleApp extends React.Component<{}, {}> {
@@ -128,8 +128,8 @@ export class SampleApp extends React.Component<{}, {}> {
           name="Topp States"
           description="Topp States WMS Layer"
         />
-        <Image uid="UID -- Cities" source={cities} name="Cities" />
-        <Image uid="UID -- Highways" source={highways} name="Highways" />
+        {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
+        <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
         <Control>
           <Zone>

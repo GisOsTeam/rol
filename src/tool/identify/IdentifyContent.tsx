@@ -58,6 +58,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
       });
       setFeatures(newFeatures);
     },
+    onIdentifyResponseWithLayerGroup: console.log,
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {

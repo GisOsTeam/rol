@@ -4,4 +4,5 @@
 
 export * from './Selector';
 export * from './WmsLoader';
+export * from './getIIdentifyResponseFeaturesByLayersFromQueryResponse';
 export * from './getIIdentifyResponseFeaturesFromQueryResponse';

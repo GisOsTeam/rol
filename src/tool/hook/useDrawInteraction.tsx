@@ -1,23 +1,8 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import Draw, { GeometryFunction, DrawEvent } from 'ol/interaction/Draw';
-import GeometryType from 'ol/geom/GeometryType';
-import { LocalVector } from '@gisosteam/aol/source/LocalVector';
+import Draw, { Options, DrawEvent } from 'ol/interaction/Draw';
 
-export interface IUseDrawInteractionProps {
-  /**
-   * Draw source.
-   */
-  source: LocalVector;
-  /**
-   * Type.
-   */
-  type: GeometryType;
-  /**
-   * Openlayers GeometryFunction for Draw Interaction.
-   * Used for regular polygons, squares, etc...
-   */
-  geometryFunction?: GeometryFunction;
+export interface IUseDrawInteractionProps extends Options {
   /**
    * Callback on drawend
    */
@@ -35,11 +20,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   // Effect for build interaction
   React.useEffect(() => {
     const buildDrawInteraction = () => {
-      const preCreateDraw = new Draw({
-        source: props.source,
-        type: props.type,
-        geometryFunction: props.geometryFunction,
-      });
+      const preCreateDraw = new Draw(props);
       if (props.onDrawEnd) {
         preCreateDraw.on('drawend', props.onDrawEnd);
       }

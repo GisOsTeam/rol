@@ -53,7 +53,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
     props.condition,
     props.freehand,
     props.freehandCondition,
-    props.wrapX
+    props.wrapX,
   ]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {

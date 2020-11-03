@@ -19,12 +19,13 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   const [added, setAdded] = React.useState<boolean>(false);
   // Effect for build interaction
   React.useEffect(() => {
+    const { activated, onDrawEnd, ...options } = props;
     const buildDrawInteraction = () => {
-      const preCreateDraw = new Draw(props);
-      if (props.onDrawEnd) {
-        preCreateDraw.on('drawend', props.onDrawEnd);
+      const preCreateDraw = new Draw(options);
+      if (onDrawEnd) {
+        preCreateDraw.on('drawend', onDrawEnd);
       }
-      preCreateDraw.setActive(props.activated);
+      preCreateDraw.setActive(activated);
       setDraw(preCreateDraw);
     };
     buildDrawInteraction();
@@ -35,7 +36,25 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
         setDraw(null);
       }
     };
-  }, [props.source, props.type]);
+  }, [
+    props.type,
+    props.clickTolerance,
+    props.features,
+    props.source,
+    props.dragVertexDelay,
+    props.snapTolerance,
+    props.stopClick,
+    props.maxPoints,
+    props.minPoints,
+    props.finishCondition,
+    props.style,
+    props.geometryFunction,
+    props.geometryName,
+    props.condition,
+    props.freehand,
+    props.freehandCondition,
+    props.wrapX
+  ]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
     if (draw != null) {

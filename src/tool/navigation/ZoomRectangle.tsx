@@ -36,10 +36,12 @@ const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }
     });
   };
 
+  const geometryFunction = React.useCallback(createBox(), []);
+
   useDrawInteraction({
     source,
     type: GeometryType.CIRCLE,
-    geometryFunction: createBox(),
+    geometryFunction,
     activated,
     onDrawEnd,
   });

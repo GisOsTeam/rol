@@ -24,17 +24,16 @@ export interface IZoomRectangleWidgetProps extends IBaseButtonToolProps {
 const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }: IZoomRectangleWidgetProps) => {
   const olMap = useOlMap();
   const source = useDrawSource(drawSourceOpt);
-  const onFitEnd = () => {
-    source.clear();
-  };
+  
+  const onDrawEnd = React.useCallback((evt: DrawEvent) => {
+    const onFitEnd = () => source.clear();
 
-  const onDrawEnd = (evt: DrawEvent) => {
     evt.preventDefault();
     const { feature } = evt;
     olMap.getView().fit(feature.getGeometry().getExtent(), {
       callback: onFitEnd,
     });
-  };
+  }, []);
 
   const geometryFunction = React.useCallback(createBox(), []);
 

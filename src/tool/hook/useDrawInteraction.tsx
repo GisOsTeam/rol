@@ -37,6 +37,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       }
     };
   }, [
+    props.onDrawEnd,
     props.type,
     props.clickTolerance,
     props.features,

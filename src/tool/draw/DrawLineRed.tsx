@@ -15,7 +15,7 @@ const styles = createLayerStyles({
   strokeColor: 'rgba(255, 0, 0, 0.7)',
   fillColor: 'rgba(255, 0, 0, 0.01)',
   radius: width / 2,
-  width
+  width,
 });
 
 export const DrawLineRed = withBaseButtonTool((props: IBaseButtonToolProps) => {
@@ -25,7 +25,7 @@ export const DrawLineRed = withBaseButtonTool((props: IBaseButtonToolProps) => {
     name: 'Draw red Style',
     listable: true,
     snapshotable: true,
-    styles
+    styles,
   });
 
   // const { layersManager } = React.useContext(rolContext);

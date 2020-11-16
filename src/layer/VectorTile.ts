@@ -46,8 +46,8 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
 
   /**
    * applyLayerStyles s'embrouille, du coup on passe par les styles classiques
-   * 
-   **/ 
+   *
+   **/
   public setLayerStyles(layerStyles: LayerStyles) {
     this.getOlLayer().setStyle(layerStylesToOlStyle(layerStyles));
     // applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);

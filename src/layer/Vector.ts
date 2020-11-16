@@ -5,6 +5,7 @@ import { Vector as VectorSource } from '@gisosteam/aol/source/Vector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 import { IInitSource } from '@gisosteam/aol/source/IExtended';
+import { layerStylesToOlStyle } from '../utils';
 
 export interface IVectorProps extends IBaseLayerProps {
   /**
@@ -25,11 +26,9 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
   public updateProps(prevProps: IVectorProps, nextProps: IVectorProps) {
     super.updateProps(prevProps, nextProps);
     if (prevProps == null || prevProps.source !== nextProps.source) {
-      console.log('Changement de Source', nextProps.uid);
       this.setSource(nextProps.source);
     }
     if (prevProps == null || !jsonEqual(prevProps.layerStyles, nextProps.layerStyles)) {
-      console.log(prevProps?.layerStyles, nextProps.layerStyles);
       this.setLayerStyles(nextProps.layerStyles);
     }
   }
@@ -45,8 +44,9 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
     }
   }
 
+  // applyLayerStyles s'embrouille, du coup on passe par les styles classiques
   public setLayerStyles(layerStyles: LayerStyles) {
-    console.log('Set LayerStyle', this.getOlLayer(), layerStyles, this.props.uid);
-    applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
+    this.getOlLayer().setStyle(layerStylesToOlStyle(layerStyles));
+    // applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
   }
 }

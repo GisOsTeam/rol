@@ -5,6 +5,7 @@ import { VectorTile as VectorTileSource } from '@gisosteam/aol/source/VectorTile
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 import { IInitSource } from '@gisosteam/aol/source/IExtended';
+import { layerStylesToOlStyle } from '../utils';
 
 export interface IVectorTileProps extends IBaseLayerProps {
   /**
@@ -43,7 +44,12 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
     }
   }
 
+  /**
+   * applyLayerStyles s'embrouille, du coup on passe par les styles classiques
+   * 
+   **/ 
   public setLayerStyles(layerStyles: LayerStyles) {
-    applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
+    this.getOlLayer().setStyle(layerStylesToOlStyle(layerStyles));
+    // applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
   }
 }

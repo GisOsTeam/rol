@@ -25,9 +25,11 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
   public updateProps(prevProps: IVectorProps, nextProps: IVectorProps) {
     super.updateProps(prevProps, nextProps);
     if (prevProps == null || prevProps.source !== nextProps.source) {
+      console.log("Changement de Source", nextProps.uid)
       this.setSource(nextProps.source);
     }
     if (prevProps == null || !jsonEqual(prevProps.layerStyles, nextProps.layerStyles)) {
+      console.log(prevProps?.layerStyles, nextProps.layerStyles)
       this.setLayerStyles(nextProps.layerStyles);
     }
   }
@@ -44,6 +46,7 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSou
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {
+    console.log("Set LayerStyle", this.getOlLayer(), layerStyles, this.props.uid);
     applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
   }
 }

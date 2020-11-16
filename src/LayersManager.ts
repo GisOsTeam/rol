@@ -321,6 +321,7 @@ export class LayersManager {
       }
     }
     const source = createSource(sourceType, sourceOptions);
+    source.set('uid', props.uid);
     this.createAndAddLayerFromSource(source, props);
     return source;
   }

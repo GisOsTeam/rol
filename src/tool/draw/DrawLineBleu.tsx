@@ -15,51 +15,28 @@ import Stroke from 'ol/style/Stroke';
 const ContainerBtn = styled.div``;
 
 const styles = createLayerStyles({
-  strokeColor: 'rgb(255, 0, 0)',
-  fillColor: 'rgb(255, 0, 0)',
+  strokeColor: 'rgb(0, 0, 255)',
+  fillColor: 'rgb(0, 0, 255)',
   radius: 5,
   width: 5,
 });
 
-const color = 'rgb(255, 0, 0)';
-const style = new Style({
-  fill: new Fill({
-    color,
-  }),
-  stroke: new Stroke({
-    color,
-    width: 5,
-  }),
-});
-
-export const DrawLineRed = withBaseButtonTool((props: IBaseButtonToolProps) => {
+export const DrawLineBleu = withBaseButtonTool((props: IBaseButtonToolProps) => {
   const drawSource = useDrawSource({
-    layerUid: 'PWET_draw_line_layer_tool_PWET',
+    layerUid: 'draw_line_layer_tool_bleu',
     persist: true,
-    name: 'Draw red Style',
+    name: 'Draw Bleu Style',
     listable: true,
     snapshotable: true,
     styles,
   });
 
-  const { layersManager } = React.useContext(rolContext);
-
-  React.useEffect(() => {
-    const layer = layersManager.getLayerElementFromSource(drawSource);
-    if (layer) {
-      const olLayer = layer.olLayer as OlVector;
-      if (olLayer && olLayer.getStyle) {
-        olLayer.setStyle(style);
-      }
-    }
-  }, [drawSource]);
-
-  const onDrawEnd = React.useCallback(() => console.log('Red drawEnd', drawSource), [drawSource]);
+  const onDrawEnd = React.useCallback(() => console.log('Bleu drawEnd', drawSource), [drawSource]);
   useDrawInteraction({
     activated: props.activated,
     type: GeometryType.LINE_STRING,
     source: drawSource,
     onDrawEnd,
   });
-  return <ContainerBtn>{props.buttonContent || 'Draw Line Red OlStyles'}</ContainerBtn>;
+  return <ContainerBtn>{props.buttonContent || 'Draw Line Bleu'}</ContainerBtn>;
 });

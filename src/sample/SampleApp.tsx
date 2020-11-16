@@ -25,6 +25,7 @@ import { NextViewButton } from '../tool/navigation/NextViewButton';
 import { InitialViewButton } from '../tool/navigation/InitialViewButton';
 import { ShowSnapshot } from '../tool/ShowSnapshot';
 import { DrawLineRed } from '../tool/draw/DrawLineRed';
+import { DrawLineBleu } from '../tool/draw/DrawLineBleu';
 import { DrawLine } from '../tool/draw';
 import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
@@ -152,6 +153,7 @@ export class SampleApp extends React.Component<{}, {}> {
               <LayerLoader uid="LayerLoader" />
               <ShowSnapshot uid="ShowSnapshot" />
               <DrawLine uid="DrawLine" />
+              <DrawLineBleu uid="DrawLineBleu" />
               <DrawLineRed uid="DrawLineREd" />
               <Identify uid="IdentifyTool" tolerance={10} />
               <Reproj uid="ReprojTool" />

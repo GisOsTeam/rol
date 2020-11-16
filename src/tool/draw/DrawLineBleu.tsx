@@ -9,9 +9,9 @@ import { createLayerStyles } from '@gisosteam/aol/utils';
 const ContainerBtn = styled.div``;
 
 const styles = createLayerStyles({
-  strokeColor: 'rgba(0, 0, 255, 0.7)',
-  fillColor: 'rgba(0, 0, 255, 0.01)',
-  radius: 1,
+  strokeColor: 'rgba(0, 0, 255, 17)',
+  fillColor: 'rgba(0, 0, 255, 1)',
+  radius: 5,
   width: 1,
 });
 
@@ -28,7 +28,7 @@ export const DrawLineBleu = withBaseButtonTool((props: IBaseButtonToolProps) => 
   const onDrawEnd = React.useCallback(() => console.log('Bleu drawEnd', drawSource), [drawSource]);
   useDrawInteraction({
     activated: props.activated,
-    type: GeometryType.POLYGON,
+    type: GeometryType.LINE_STRING,
     source: drawSource,
     onDrawEnd,
   });

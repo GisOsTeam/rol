@@ -3,3 +3,4 @@
  */
 
 export * from './DrawLine';
+export * from './DrawLineBleu';

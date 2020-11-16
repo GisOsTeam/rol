@@ -26,16 +26,13 @@ export function layerStylesToOlStyle(layerStyles: LayerStyles): Style {
   let stroke = new Stroke();
   let fill = new Fill();
   let image = new Circle();
+  let radius = 5;
   // let text = new Text();
 
   for (const layerStyle of layerStyles) {
     switch (layerStyle.type) {
       case 'circle':
-        image = new Circle({
-          radius: layerStyle.paint['circle-radius'] as number,
-          fill,
-          stroke,
-        });
+        radius = layerStyle.paint['circle-radius'] as number;
         break;
       case 'fill':
         fill = new Fill({
@@ -67,5 +64,10 @@ export function layerStylesToOlStyle(layerStyles: LayerStyles): Style {
     }
   }
 
+  image = new Circle({
+    radius,
+    fill,
+    stroke,
+  });
   return new Style({ stroke, image, fill });
 }

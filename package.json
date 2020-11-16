@@ -1,6 +1,6 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "OpenLayers with React",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,8 @@
     "genindex": "barrelsby -d ./src -D -L -l all -q -e sample -e __tests__ -e .d.ts",
     "build": "rimraf lib && npm run genindex && npm run lint && tsc -p tsconfig.json && cp ./package.json lib",
     "prepublishOnly": "[[ \"$PWD\" =~ /lib ]]",
-    "pub": "pushd ./ && npm run build && cd lib && npm publish --access public && popd"
+    "pub": "pushd ./ && npm run build && cd lib && npm publish --access public && popd",
+    "pubalpha": "pushd ./ && npm run build && cd lib && npm publish --access public --tag beta && popd"
   },
   "husky": {
     "hooks": {

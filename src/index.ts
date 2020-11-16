@@ -10,3 +10,4 @@ export * from './RolContext';
 export * from './RolCssClassNameEnum';
 export * from './ToolsManager';
 export * from './Translate';
+export * from './utils';

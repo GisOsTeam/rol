@@ -9,6 +9,7 @@ export * from './Fullscreen';
 export * from './GroupButtonTool';
 export * from './Identify';
 export * from './LayerLoader';
+export * from './OneShotButtonTool';
 export * from './PanZoom';
 export * from './Print';
 export * from './Reproj';

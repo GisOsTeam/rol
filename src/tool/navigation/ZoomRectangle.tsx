@@ -25,15 +25,18 @@ const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }
   const olMap = useOlMap();
   const source = useDrawSource(drawSourceOpt);
 
-  const onDrawEnd = React.useCallback((evt: DrawEvent) => {
-    const onFitEnd = () => source.clear();
+  const onDrawEnd = React.useCallback(
+    (evt: DrawEvent) => {
+      const onFitEnd = () => source.clear();
 
-    evt.preventDefault();
-    const { feature } = evt;
-    olMap.getView().fit(feature.getGeometry().getExtent(), {
-      callback: onFitEnd,
-    });
-  }, [source, olMap]);
+      evt.preventDefault();
+      const { feature } = evt;
+      olMap.getView().fit(feature.getGeometry().getExtent(), {
+        callback: onFitEnd,
+      });
+    },
+    [source, olMap]
+  );
 
   const geometryFunction = React.useCallback(createBox(), []);
 

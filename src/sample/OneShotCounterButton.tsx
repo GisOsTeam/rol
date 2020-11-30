@@ -6,7 +6,6 @@ const ContainerBtn = styled.div``;
 
 export const OneShotCounterButton = withOneShotButtonTool(
   (props: IOneShotButtonTool) => {
-    console.log('Pwet');
     const [count, setCount] = React.useState<number>(0);
     React.useEffect(() => {
       if (props.activated === true) {

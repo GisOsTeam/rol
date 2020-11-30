@@ -31,14 +31,14 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   padding-top: 4px;
 `;
 
-const TitleBar = styled.div<Pick<{ activated?: boolean }, 'activated'>>`
+const TitleBar = styled.div<Pick<{ activated?: boolean, isUnfold?: boolean }, 'activated' | 'isUnfold'>>`
   height: 20px;
   background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   border: 1px solid #999;
   border-radius: 2px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: ${(props) => (props.isUnfold ? '10px' : '0px')};
   padding: 3px 5px;
   text-align: center;
   cursor: move;
@@ -62,6 +62,19 @@ const TitleBarCloseButton = styled.button<{ activated?: boolean; independant?: b
   background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   &:after {
     content: '✖';
+  }
+`;
+
+const TitleBarFoldButton = styled.button<{ activated?: boolean; isUnfold?: boolean; independant?: boolean }>`
+  flex-grow: 0;
+  height: 18px;
+  width: 18px;
+  border-style: none;
+  margin: 0;
+  padding: 0;
+  background: ${(props) => (props.activated ? '#88f' : '#ddd')};
+  &:after {
+    content: '−';
   }
 `;
 
@@ -112,6 +125,10 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
    * Default position.
    */
   defaultPosition?: { x: number; y: number };
+  /**
+   * Should display fold/unfold button
+   */
+  displayFoldButton?: boolean;
 }
 
 export interface IBaseWindowToolState {
@@ -131,6 +148,8 @@ export interface IBaseWindowToolState {
    * Position.
    */
   position: { x: number; y: number };
+
+  isUnfold: boolean;
 }
 
 export class BaseWindowTool<
@@ -141,6 +160,7 @@ export class BaseWindowTool<
     ...BaseButtonTool.defaultProps,
     defaultOpened: false,
     hideCloseButton: false,
+    displayFoldButton: true,
     defaultPosition: { x: 200, y: 200 },
   };
 
@@ -148,7 +168,7 @@ export class BaseWindowTool<
 
   constructor(props: P) {
     super(props);
-    this.state = { open: false, position: this.props.defaultPosition } as Readonly<S>;
+    this.state = { isUnfold: true, open: false, position: this.props.defaultPosition } as Readonly<S>;
   }
 
   public componentDidMount() {
@@ -188,6 +208,7 @@ export class BaseWindowTool<
     this.setState(
       {
         open: true,
+        isUnfold: true,
         zIndex: topZIndex++,
       },
       () => {
@@ -219,6 +240,28 @@ export class BaseWindowTool<
         this.deactivate();
       }
     );
+    return true;
+  }
+
+  public unfold(): boolean {
+    if(this.state.isUnfold) {
+      return false;
+    }
+    this.setState({
+        ...this.state,
+        isUnfold: true
+    });
+    return true;
+  }
+
+  public fold(): boolean {
+    if(!this.state.isUnfold) {
+      return false;
+    }
+    this.setState({
+        ...this.state,
+        isUnfold: false
+    });
     return true;
   }
 
@@ -280,6 +323,15 @@ export class BaseWindowTool<
   public handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     this.close();
+  };
+
+  public handleReduceClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if(this.state.isUnfold) {
+      this.fold();
+    } else {
+      this.unfold();
+    }
   };
 
   public renderHeaderContent(): React.ReactNode {
@@ -392,6 +444,25 @@ export class BaseWindowTool<
         />
       );
     }
+    let foldButton = null;
+    if (this.props.displayFoldButton) {
+      foldButton = <TitleBarFoldButton
+      className={`${this.props.className.split(/\s+/g)[0]}-titlebar-fold-button ${this.state.isUnfold ? 'rol-unfold' : 'rol-fold'}`}
+      onClick={this.handleReduceClick}
+      activated={this.props.activated}
+      independant={this.props.independant}
+      isUnfold={this.state.isUnfold}
+    />;
+    }
+
+    /**
+     * On utilise visibility pas display pour conserver la taille du widget
+     */
+    const foldStyle: React.CSSProperties = {
+      visibility: 'hidden',
+      margin: '0px 2px',
+      height: '0px' 
+    };
     return (
       <React.Fragment>
         {openButton}
@@ -409,9 +480,10 @@ export class BaseWindowTool<
           >
             <TitleBar className={titleClassName} activated={this.props.activated}>
               <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
+              {foldButton}       
               {closeButton}
             </TitleBar>
-            <Content className={contentClassName}>{this.renderTool()}</Content>
+            <Content style={this.state.isUnfold ? null : foldStyle} className={contentClassName}>{this.renderTool()}</Content>
           </Window>
         </Drag>
       </React.Fragment>

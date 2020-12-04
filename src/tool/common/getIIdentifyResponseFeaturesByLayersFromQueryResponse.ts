@@ -11,7 +11,7 @@ export const getFeaturesBySourceByLayersFromQueryResponse = (
     const { featureTypeResponses } = queryResponse;
     featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
       if (ftResp.features.length > 0) {
-        const layerId = ftResp.type.id;
+        const layerId = ftResp.type ? ftResp.type.id : -1;
         const filtered = layersManager.getLayerElementFromSource(ftResp.source);
         const sourceUid = filtered ? filtered.uid : 'unknown';
         if (!features[sourceUid]) {

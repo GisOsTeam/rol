@@ -18,6 +18,22 @@ const DivDragHandle = styled.div`
   }
 `;
 
+const Label = styled.label`
+  width: 142px;
+  white-space: nowrap;
+  font-size: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(36, 36, 36, 1) 0%,
+    rgba(36, 36, 36, 0.9) 60%,
+    rgba(36, 36, 36, 0.5) 95%,
+    rgba(36, 36, 36, 0) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
 export interface ILayerElementItemProps extends IBaseUIItem {
   itemSelected: number;
   dragHandleProps: object;
@@ -43,14 +59,7 @@ export class LayerElementItem extends React.Component<ILayerElementItemProps, {}
   public renderLabel() {
     const { item } = this.props;
     const name = item.reactElement.props.name || '';
-    let truncName = name;
-    if (truncName.length > 15) {
-      truncName = truncName.substring(0, 14) + '…';
-    }
-    let title = '';
-    if (truncName !== name) {
-      title = name;
-    }
+    let title = name;
     if (item.reactElement.props.description != null && item.reactElement.props.description != '') {
       if (title.length > 0) {
         title += '\n';
@@ -60,7 +69,7 @@ export class LayerElementItem extends React.Component<ILayerElementItemProps, {}
     if (title === '') {
       title = name;
     }
-    return <label title={title}>{truncName}</label>;
+    return <Label title={title}>{name}</Label>;
   }
 
   public render(): React.ReactNode {

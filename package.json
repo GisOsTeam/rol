@@ -62,7 +62,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.0.60",
+    "@gisosteam/aol": "^0.0.61",
     "bhreq": "^0.1.0",
     "jspdf": "^2.2.0",
     "react-draggable": "^4.4.3",

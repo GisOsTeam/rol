@@ -28,7 +28,7 @@ export interface IIdentifyResponseByLayer {
 
 export interface IUseIdentifyCommonProps {
   activated: boolean;
-  
+
   /**
    * Pris en compte que sur les couches AGS
    */

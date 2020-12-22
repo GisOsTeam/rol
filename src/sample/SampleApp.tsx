@@ -99,6 +99,8 @@ export class SampleApp extends React.Component<{}, {}> {
               projection: 'EPSG:3857',
             })
           );
+        }}
+        afterUpdate={(afterData: IAfterData) => {
           afterData.layersManager.reload();
         }}
       >

@@ -67,7 +67,7 @@ export function useIdentifyWithDraw(props: IUseIdentifyWithDrawProps): any {
           props.limit,
           props.tolerance,
           props.filterSources,
-          props.isAtScale
+          props.layersParam
         );
         if (props.onIdentifyResponse) {
           const features = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);

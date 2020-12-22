@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
-import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
+import { IQueryFeatureTypeResponse, IQueryResponse, LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { getFeaturesBySourceFromQueryResponse } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
 import { getFeaturesBySourceByLayersFromQueryResponse } from '../common/getIIdentifyResponseFeaturesByLayersFromQueryResponse';
@@ -32,7 +32,7 @@ export interface IUseIdentifyCommonProps {
   /**
    * Pris en compte que sur les couches AGS
    */
-  isAtScale?: boolean;
+  layersParam?: LayersPrefixEnum;
 
   limit?: number;
   tolerance?: number;
@@ -51,7 +51,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
-      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources, props.isAtScale).then(
+      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources, props.layersParam).then(
         (queryResponses: IQueryResponse[]) => {
           const position = clickEvent.pixel;
           if (props.onIdentifyResponse) {

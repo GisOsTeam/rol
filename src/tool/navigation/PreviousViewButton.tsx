@@ -1,11 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IBaseButtonToolProps, withBaseButtonTool } from '../BaseButtonTool';
+import { IBaseButtonToolProps } from '../BaseButtonTool';
 import { useViewManager } from '../hook/useViewManager';
+import { withOneShotButtonTool } from '../OneShotButtonTool';
 
 const ContainerBtn = styled.div``;
 
-export const PreviousViewButton = withBaseButtonTool(
+export const PreviousViewButton = withOneShotButtonTool(
   (props: IBaseButtonToolProps) => {
     const { activated = false, buttonContent = '⤺' } = props;
     const { fitToPrevious } = useViewManager();

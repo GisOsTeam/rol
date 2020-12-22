@@ -310,8 +310,13 @@ export class BaseWindowTool<
       if (this.props.onButtonClick) {
         this.props.onButtonClick();
       }
-      this.open();
-      this.activate();
+      if (this.props.activated && this.props.toggle) {
+        this.close();
+        this.deactivate();
+      } else {
+        this.open();
+        this.activate();
+      }
     }
   };
 

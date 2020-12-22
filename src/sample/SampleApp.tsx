@@ -141,7 +141,7 @@ export class SampleApp extends React.Component<{}, {}> {
             <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
               <CounterButton uid="CounterButton" />
               <CounterToggleButton uid="CounterToggleButton" />
-              <CounterWindow uid="CounterWindow" />
+              <CounterWindow uid="CounterWindow" toggle={true} />
               <OneShotCounterButton uid="oneshotbtnTool" />
               <CounterButton uid="CounterButton2" />
               <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">

@@ -81,7 +81,6 @@ const highways = new ImageArcGISRest({
 });
 
 export class SampleApp extends React.Component<{}, {}> {
-
   private reloaded = false;
 
   constructor(props: {}) {

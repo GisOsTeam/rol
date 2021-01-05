@@ -81,6 +81,9 @@ const highways = new ImageArcGISRest({
 });
 
 export class SampleApp extends React.Component<{}, {}> {
+
+  private reloaded = false;
+
   constructor(props: {}) {
     super(props);
   }
@@ -101,7 +104,10 @@ export class SampleApp extends React.Component<{}, {}> {
           );
         }}
         afterUpdate={(afterData: IAfterData) => {
-          afterData.layersManager.reload();
+          if (this.reloaded === false) {
+            this.reloaded = true;
+            afterData.layersManager.reload();
+          }
         }}
       >
         <Projection

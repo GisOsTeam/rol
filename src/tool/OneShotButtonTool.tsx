@@ -39,7 +39,7 @@ export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool
   /**
    * @override
    * On ne gère pas la props toggle sur les OneShotButtonTool
-   * @param event 
+   * @param event
    */
   public handleBaseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

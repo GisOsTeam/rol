@@ -101,7 +101,7 @@ export class SampleApp extends React.Component<{}, {}> {
           );
         }}
         afterUpdate={(afterData: IAfterData) => {
-          afterData.layersManager.reload();
+          // afterData.layersManager.reload();
         }}
       >
         <Projection

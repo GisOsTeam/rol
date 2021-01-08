@@ -16,6 +16,10 @@ export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
 
   const [snapshot, setSnapshot] = React.useState<string>(JSON.stringify(layersManager.getSnapshot()));
 
+  React.useEffect(() => {
+    setSnapshot(JSON.stringify(layersManager.getSnapshot()));
+  }, [props.open]);
+
   const handleGetButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setSnapshot(JSON.stringify(layersManager.getSnapshot()));

@@ -10,14 +10,14 @@ import { TileWms } from '@gisosteam/aol/source/TileWms';
 import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { WmtsCapabilities } from '@gisosteam/aol/source/WmtsCapabilities';
-import { Xyz } from '@gisosteam/aol/source/Xyz';
+import { Osm } from '@gisosteam/aol/source/Osm';
 import { Control } from '../container/Control';
 import { Zone } from '../container/Zone';
 import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
-import { PanZoom, GroupButtonTool, Print } from '../tool';
+import { PanZoom, GroupButtonTool, Print, Search } from '../tool';
 import { LayerLoader } from '../tool';
 import { Identify } from '../tool';
 import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
@@ -30,18 +30,21 @@ import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
 import { Projection } from '../Projection';
 import { OneShotCounterButton } from './OneShotCounterButton';
+import { BanSearchProvider } from '@gisosteam/aol/search';
 
 const wkt2154 =
   'PROJCS["RGF93 / Lambert-93",GEOGCS["RGF93",DATUM["Reseau_Geodesique_Francais_1993",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6171"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4171"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",49],PARAMETER["standard_parallel_2",44],PARAMETER["latitude_of_origin",46.5],PARAMETER["central_meridian",3],PARAMETER["false_easting",700000],PARAMETER["false_northing",6600000],AUTHORITY["EPSG","2154"],AXIS["X",EAST],AXIS["Y",NORTH]]';
 const wkt27700 =
   'PROJCS["OSGB 1936 / British National Grid",GEOGCS["OSGB 1936",DATUM["OSGB_1936",SPHEROID["Airy 1830",6377563.396,299.3249646,AUTHORITY["EPSG","7001"]],AUTHORITY["EPSG","6277"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4277"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",49],PARAMETER["central_meridian",-2],PARAMETER["scale_factor",0.9996012717],PARAMETER["false_easting",400000],PARAMETER["false_northing",-100000],AUTHORITY["EPSG","27700"],AXIS["Easting",EAST],AXIS["Northing",NORTH]]';
 
-const osm = new Xyz({
-  url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+const osm = new Osm({});
+
+const worldStreet = new TileArcGISRest({
+  url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer',
   projection: 'EPSG:3857',
 });
 
-const world2D = new TileArcGISRest({
+const worldImagery = new TileArcGISRest({
   url: 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer',
   // url: 'http://localhost:8181/aHR0cHM6Ly9zZXJ2aWNlcy5hcmNnaXNvbmxpbmUuY29tL2FyY2dpcy9yZXN0L3NlcnZpY2VzL0VTUklfSW1hZ2VyeV9Xb3JsZF8yRA%3D%3D/MapServer',
   projection: 'EPSG:3857',
@@ -78,6 +81,12 @@ const cities = new ImageWms({
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
   types: [{ id: 0 }, { id: 1, name: 'Highways' }],
+});
+
+const pk = new ImageWms({
+  url: 'https://geo-prep.vnf.fr/adws/service/wms/af073203-0704-11eb-b701-67e74f799165',
+  types: [{ id: '7a87614a-33e2-11eb-bbe9-f78eb64fe1df' }],
+  params: {},
 });
 
 export class SampleApp extends React.Component<{}, {}> {
@@ -122,7 +131,8 @@ export class SampleApp extends React.Component<{}, {}> {
           lonLatValidity={[-8.82, 49.79, 1.92, 60.94]}
         />
         <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
-        <Tile uid="UID -- World 2D" source={world2D} name="World 2D" type="BASE" />
+        <Tile uid="UID -- World Street" source={worldStreet} name="World Street" type="BASE" />
+        <Tile uid="UID -- World Imagery" source={worldImagery} name="World Imagery" type="BASE" />
         <Tile
           uid="UID -- Time zones"
           source={timeZones}
@@ -139,12 +149,14 @@ export class SampleApp extends React.Component<{}, {}> {
         {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
         <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
         <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
+        <Image uid="UID -- PK" source={pk} name="Point kilométrique" />
         <Control>
           <Zone>
             <Toc uid="Toc" />
             <Fullscreen uid="Fullscreen" />
             <PanZoom uid="PanZoom" />
             <ScaleLine uid="ScaleLine" />
+            <Search uid="Search" searchProvider={new BanSearchProvider()} />
             <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
               <CounterButton uid="CounterButton" />
               <CounterToggleButton uid="CounterToggleButton" />

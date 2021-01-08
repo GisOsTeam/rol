@@ -6,8 +6,7 @@ import { cloneView } from '@gisosteam/aol/utils';
 import { rolContext, IRolContext } from '../RolContext';
 import { BaseTool, IBaseToolProps } from './BaseTool';
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Button = styled.button`
   height: 32px;
@@ -353,7 +352,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       origin = <ButtonNoorigin className={`${this.props.className}-noorigin`} disabled />;
     }
     return (
-      <div className="ol-unselectable ol-control" style={{top: '86px', left: '15px'}}>
+      <div className="ol-unselectable ol-control" style={{ top: '86px', left: '15px' }}>
         <ButtonUp className={`${this.props.className}-up`} onClick={this.handleUpButtonClick} title={upTitle} />
         <ButtonLeft className={`${this.props.className}-left`} onClick={this.handleLeftButtonClick} title={leftTitle} />
         {origin}
@@ -396,7 +395,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       top += 140;
     }
     return (
-      <div className="ol-unselectable ol-control" style={{top: `${top}px`, left: `15px`}}>
+      <div className="ol-unselectable ol-control" style={{ top: `${top}px`, left: `15px` }}>
         <ButtonZoom className={`${this.props.className}-zoom`} onClick={this.handleZoomButtonClick} title={zoomTitle} />
         {slider}
         <ButtonUnzoom

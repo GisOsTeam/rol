@@ -95,21 +95,19 @@ export function SearchContent(props: ISearchContentProps) {
             value: searchValue,
             onChange: (event, { newValue }) => {
               setSearchValue(newValue);
-            }
+            },
           }}
           suggestions={searchResults}
           onSuggestionsFetchRequested={({ value }) => {
-            props.searchProvider.search(value, olMap.getView().getProjection()).then(
-              (results) => {
-                setSearchResults(results);
-              }
-            );
+            props.searchProvider.search(value, olMap.getView().getProjection()).then((results) => {
+              setSearchResults(results);
+            });
           }}
           onSuggestionsClearRequested={() => {
             setSearchResults([]);
           }}
           getSuggestionValue={(suggestion) => suggestion.name}
-          renderSuggestion={suggestion =>
+          renderSuggestion={(suggestion) => (
             <div className={`${props.className}-item`} key={suggestion.id ? suggestion.id : suggestion.name}>
               <span>
                 {suggestion.type === 'housenumber' && <BiHome />}
@@ -120,11 +118,9 @@ export function SearchContent(props: ISearchContentProps) {
                 {suggestion.type === 'object' && <BiTargetLock />}
                 {suggestion.type === 'entity' && <BiTargetLock />}
               </span>
-              <span style={{ display: 'inline', marginLeft: '6px' }}>
-                {suggestion.name}
-              </span>
+              <span style={{ display: 'inline', marginLeft: '6px' }}>{suggestion.name}</span>
             </div>
-          }
+          )}
           onSuggestionSelected={(event, { suggestion }) => {
             if (suggestion.feature != null) {
               const extent = suggestion.feature.getGeometry().getExtent();

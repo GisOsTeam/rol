@@ -36,6 +36,22 @@ export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool
     this.deactivate();
   }
 
+  /**
+   * @override
+   * On ne gère pas la props toggle sur les OneShotButtonTool
+   * @param event
+   */
+  public handleBaseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!this.props.disabled) {
+      if (this.props.onButtonClick) {
+        this.props.onButtonClick();
+      }
+
+      this.activate(this.props.independant);
+    }
+  };
+
   public render(): React.ReactNode {
     const rolActivated = this.props.activated ? RolCssClassNameEnum.ACTIVATED : RolCssClassNameEnum.DEACTIVATED;
     const rolEnabled = this.props.disabled ? RolCssClassNameEnum.DISABLED : RolCssClassNameEnum.ENABLED;

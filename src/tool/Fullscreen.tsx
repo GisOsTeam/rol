@@ -6,7 +6,6 @@ import { BaseTool, IBaseToolProps } from './BaseTool';
 const Container = styled.div`
   top: 46px;
   left: 47px;
-  width: 96px;
 `;
 
 const ButtonFullscreen = styled.button`

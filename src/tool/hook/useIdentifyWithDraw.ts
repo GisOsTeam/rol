@@ -11,21 +11,30 @@ import { DrawEvent } from 'ol/interaction/Draw';
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
-import { IIdentifyResponseFeatures } from '.';
+import {
+  IIdentifyResponseFeatures,
+  IIdentifyResponseFeaturesByLayer,
+  IUseIdentifyCommonProps,
+  IUseIdentifyProps,
+} from '.';
 import { getFeaturesBySourceFromQueryResponse } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
+import { getFeaturesBySourceByLayersFromQueryResponse } from '../common/index';
 
 export interface IIdentifyWithDrawResponse {
   features: IIdentifyResponseFeatures;
   position: Coordinate | Coordinate[] | Coordinate[][];
 }
 
-export interface IUseIdentifyWithDrawProps {
-  activated: boolean | undefined;
-  tolerance?: number;
-  limit?: number;
+export interface IIdentifyWithDrawResponseByLayer {
+  features: IIdentifyResponseFeaturesByLayer;
+  position: Coordinate | Coordinate[] | Coordinate[][];
+}
+
+export interface IUseIdentifyWithDrawProps extends IUseIdentifyCommonProps {
   typeGeom: GeometryType;
   layerDraw: LocalVector;
-  onIdentifyResponse: (identifyResp: IIdentifyWithDrawResponse) => unknown;
+  onIdentifyResponse: (identifyResp: IIdentifyWithDrawResponse) => any;
+  onIdentifyResponseWithLayerGroup: (identifyResp: IIdentifyWithDrawResponseByLayer) => any;
 }
 
 /**
@@ -51,9 +60,23 @@ export function useIdentifyWithDraw(props: IUseIdentifyWithDrawProps): any {
       }
       if (geom) {
         const position = geom.getCoordinates();
-        const queryResponses = await identify(geom, olMap, props.limit, props.tolerance);
-        const features = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);
-        props.onIdentifyResponse({ features: features, position: position });
+        // TODO mutualiser avec le useIdentify
+        const queryResponses = await identify(
+          geom,
+          olMap,
+          props.limit,
+          props.tolerance,
+          props.filterSources,
+          props.layersParam
+        );
+        if (props.onIdentifyResponse) {
+          const features = getFeaturesBySourceFromQueryResponse(queryResponses, layersManager);
+          props.onIdentifyResponse({ features: features, position: position });
+        }
+        if (props.onIdentifyResponseWithLayerGroup) {
+          const features = getFeaturesBySourceByLayersFromQueryResponse(queryResponses, layersManager);
+          props.onIdentifyResponseWithLayerGroup({ features, position });
+        }
       }
     }
   };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Feature, MapBrowserEvent } from 'ol';
 import { rolContext } from '../../RolContext';
-import { IQueryFeatureTypeResponse, IQueryResponse } from '@gisosteam/aol/source/IExtended';
+import { IQueryFeatureTypeResponse, IQueryResponse, LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { getFeaturesBySourceFromQueryResponse } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
 import { getFeaturesBySourceByLayersFromQueryResponse } from '../common/getIIdentifyResponseFeaturesByLayersFromQueryResponse';
@@ -26,14 +26,23 @@ export interface IIdentifyResponseByLayer {
   position: number[];
 }
 
-export interface IUseIdentifyProps {
+export interface IUseIdentifyCommonProps {
   activated: boolean;
-  onIdentifyResponse?: (identifyResp: IIdentifyResponse) => unknown;
 
-  onIdentifyResponseWithLayerGroup?: (idenfityResponseByLayer: IIdentifyResponseByLayer) => unknown;
+  /**
+   * Pris en compte que sur les couches AGS
+   */
+  layersParam?: LayersPrefixEnum;
+
   limit?: number;
   tolerance?: number;
   filterSources?: IdentifyFilterType;
+}
+
+export interface IUseIdentifyProps extends IUseIdentifyCommonProps {
+  onIdentifyResponse?: (identifyResp: IIdentifyResponse) => unknown;
+
+  onIdentifyResponseWithLayerGroup?: (idenfityResponseByLayer: IIdentifyResponseByLayer) => unknown;
 }
 
 export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse> {
@@ -42,7 +51,7 @@ export function useIdentify(props: IUseIdentifyProps): Promise<IIdentifyResponse
 
   React.useEffect(() => {
     const onClick = (clickEvent: MapBrowserEvent) => {
-      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources).then(
+      identify(clickEvent.pixel, olMap, props.limit, props.tolerance, props.filterSources, props.layersParam).then(
         (queryResponses: IQueryResponse[]) => {
           const position = clickEvent.pixel;
           if (props.onIdentifyResponse) {

@@ -14,5 +14,6 @@ export * from './PanZoom';
 export * from './Print';
 export * from './Reproj';
 export * from './ScaleLine';
+export * from './Search';
 export * from './ShowSnapshot';
 export * from './Toc';

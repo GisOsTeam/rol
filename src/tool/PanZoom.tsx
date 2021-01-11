@@ -6,11 +6,7 @@ import { cloneView } from '@gisosteam/aol/utils';
 import { rolContext, IRolContext } from '../RolContext';
 import { BaseTool, IBaseToolProps } from './BaseTool';
 
-const Container = styled.div`
-  top: 86px;
-  left: 15px;
-  width: 96px;
-`;
+const Container = styled.div``;
 
 const Button = styled.button`
   height: 32px;
@@ -356,7 +352,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       origin = <ButtonNoorigin className={`${this.props.className}-noorigin`} disabled />;
     }
     return (
-      <div>
+      <div className="ol-unselectable ol-control" style={{ top: '86px', left: '15px' }}>
         <ButtonUp className={`${this.props.className}-up`} onClick={this.handleUpButtonClick} title={upTitle} />
         <ButtonLeft className={`${this.props.className}-left`} onClick={this.handleLeftButtonClick} title={leftTitle} />
         {origin}
@@ -394,8 +390,12 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
         </DivSlider>
       );
     }
+    let top = 50;
+    if (this.props.showPan) {
+      top += 140;
+    }
     return (
-      <div>
+      <div className="ol-unselectable ol-control" style={{ top: `${top}px`, left: `15px` }}>
         <ButtonZoom className={`${this.props.className}-zoom`} onClick={this.handleZoomButtonClick} title={zoomTitle} />
         {slider}
         <ButtonUnzoom
@@ -412,8 +412,15 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       return null;
     }
     const rotateTitle = this.context.translate('panzoom.rotate', 'Set map orientation to north up');
+    let top = 50;
+    if (this.props.showPan) {
+      top += 100;
+    }
+    if (this.props.showZoom) {
+      top += 100;
+    }
     return (
-      <div>
+      <div className="ol-unselectable ol-control">
         <ButtonRotate
           ref={(buttonRotate) => {
             this.buttonRotate = buttonRotate;
@@ -439,7 +446,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       return null;
     }
     return (
-      <Container className={`${this.props.className} ol-unselectable ol-control`}>
+      <Container className={this.props.className}>
         {this.renderPan()}
         {this.renderZoom()}
         {this.renderRotation()}

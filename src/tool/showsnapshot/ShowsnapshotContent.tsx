@@ -14,7 +14,7 @@ export interface IShowsnapshotContentProps extends IFunctionBaseWindowToolProps 
 export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
   const layersManager = useLayersManager();
 
-  const [snapshot, setSnapshot] = React.useState<string>(JSON.stringify(layersManager.getSnapshot()));
+  const [snapshot, setSnapshot] = React.useState<string>('');
 
   React.useEffect(() => {
     setSnapshot(JSON.stringify(layersManager.getSnapshot()));
@@ -32,12 +32,11 @@ export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
 
   const handleClearButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const clearSnapshot = { ...JSON.parse(snapshot), layers: [] };
-    layersManager.reloadFromSnapshot(clearSnapshot);
+    layersManager.reloadFromSnapshot({ ...JSON.parse(snapshot), layers: [] });
   };
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ snapshot: event.target.value });
+    setSnapshot(event.target.value);
   };
 
   return (

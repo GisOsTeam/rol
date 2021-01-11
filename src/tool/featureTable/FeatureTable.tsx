@@ -21,7 +21,6 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
 
   const layerUIDs = Object.keys(props.features);
-
   React.useEffect(() => {
     const firstKey: string = layerUIDs[0];
     const firstFeatures: Feature[] = props.features[firstKey] ? [props.features[firstKey][0]] : [];

@@ -167,7 +167,7 @@ export class LayersManager {
 
   public getLayerElementFromSource(source: ISnapshotSource): ILayerElement {
     const layerElement = this.getLayerElements((layerElement: ILayerElement) => {
-      return layerElement.olLayer != null && (layerElement.olLayer as Layer).getSource() === source;
+      return layerElement.reactElement.props.source === source;
     }).pop();
     if (layerElement != null) {
       return layerElement;

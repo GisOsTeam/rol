@@ -92,109 +92,111 @@ const pk = new ImageWms({
 export class SampleApp extends React.Component<{}, { hide: boolean }> {
   private reloaded = false;
 
-
-
   constructor(props: {}) {
     super(props);
 
-    this.state = { hide: false }
+    this.state = { hide: false };
   }
 
   public render(): React.ReactNode {
     return (
       <>
-      <Rol
-        uid="map"
-        keyboardEventTarget={document}
-        olMapStyle={{ width: '100%', height: '600px' }}
-        afterMount={(afterData: IAfterData) => {
-          afterData.olMap.setView(
-            new OlView({
-              center: [490000, 6800000],
-              zoom: 5,
-              projection: 'EPSG:3857',
-            })
-          );
-        }}
-        afterUpdate={(afterData: IAfterData) => {
-          if (this.reloaded === false) {
-            this.reloaded = true;
-            afterData.layersManager.reload();
-          }
-        }}
-        style={{
-          visibility: this.state.hide ? 'hidden' : 'unset'
-        }}
-      >
-        <Projection
-          code="EPSG:2154"
-          name="RGF93 / Lambert-93"
-          wkt={wkt2154}
-          lonLatValidity={[-9.86, 41.15, 10.38, 51.56]}
-        />
-        <Projection
-          code="EPSG:27700"
-          name="OSGB 1936 / British National Grid"
-          wkt={wkt27700}
-          lonLatValidity={[-8.82, 49.79, 1.92, 60.94]}
-        />
-        <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
-        <Tile uid="UID -- World Street" source={worldStreet} name="World Street" type="BASE" />
-        <Tile uid="UID -- World Imagery" source={worldImagery} name="World Imagery" type="BASE" />
-        <Tile
-          uid="UID -- Time zones"
-          source={timeZones}
-          name="Time zones"
-          description="Time zones WMTS Layer"
-          type="BASE"
-        />
-        <Tile
-          uid="UID -- Topp States"
-          source={toppStateSource}
-          name="Topp States"
-          description="Topp States WMS Layer"
-        />
-        {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
-        <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
-        <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
-        <Image uid="UID -- PK" source={pk} name="Point kilométrique" />
-        <Control>
-          <Zone>
-            <Toc uid="Toc" />
-            <Fullscreen uid="Fullscreen" />
-            <PanZoom uid="PanZoom" />
-            <ScaleLine uid="ScaleLine" />
-            <Search uid="Search" searchProvider={new BanSearchProvider()} />
-            <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-              <CounterButton uid="CounterButton" />
-              <CounterToggleButton uid="CounterToggleButton" />
-              <CounterWindow uid="CounterWindow" toggle={true} />
-              <OneShotCounterButton uid="oneshotbtnTool" />
-              <CounterButton uid="CounterButton2" />
-              <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">
-                <PreviousViewButton uid="PreviousView" />
-                <InitialViewButton uid="InitialView" />
-                <NextViewButton uid="NextView" />
-              </GroupButtonTool>
-              <ZoomRectangleWidget uid="zoomRectangle" />
-              <LayerLoader uid="LayerLoader" />
-              <ShowSnapshot uid="ShowSnapshot" />
-              <DrawLine uid="DrawLine" />
-              <Identify uid="IdentifyTool" tolerance={10} />
-              <Reproj uid="ReprojTool" />
-              <Print uid="PrintTool" onPrintStart={() => {
-                  this.setState({hide: true})
-                  console.log("Start");
-                }} onPrintEnd={(pdf) => { 
-                  this.setState({ hide: false });
-                  console.log("End"); 
-                  pdf && pdf.save('pwet')
-                }} />
+        {(() => (!this.state.hide ? null : <h1>App visibility: hidden</h1>))()}
+        <Rol
+          uid="map"
+          keyboardEventTarget={document}
+          olMapStyle={{ width: '100%', height: '600px' }}
+          afterMount={(afterData: IAfterData) => {
+            afterData.olMap.setView(
+              new OlView({
+                center: [490000, 6800000],
+                zoom: 5,
+                projection: 'EPSG:3857',
+              })
+            );
+          }}
+          afterUpdate={(afterData: IAfterData) => {
+            if (this.reloaded === false) {
+              this.reloaded = true;
+              afterData.layersManager.reload();
+            }
+          }}
+          style={{
+            visibility: this.state.hide ? 'hidden' : 'unset',
+          }}
+        >
+          <Projection
+            code="EPSG:2154"
+            name="RGF93 / Lambert-93"
+            wkt={wkt2154}
+            lonLatValidity={[-9.86, 41.15, 10.38, 51.56]}
+          />
+          <Projection
+            code="EPSG:27700"
+            name="OSGB 1936 / British National Grid"
+            wkt={wkt27700}
+            lonLatValidity={[-8.82, 49.79, 1.92, 60.94]}
+          />
+          <Tile uid="UID -- OSM" source={osm} name="OSM" type="BASE" visible={true} />
+          <Tile uid="UID -- World Street" source={worldStreet} name="World Street" type="BASE" />
+          <Tile uid="UID -- World Imagery" source={worldImagery} name="World Imagery" type="BASE" />
+          <Tile
+            uid="UID -- Time zones"
+            source={timeZones}
+            name="Time zones"
+            description="Time zones WMTS Layer"
+            type="BASE"
+          />
+          <Tile
+            uid="UID -- Topp States"
+            source={toppStateSource}
+            name="Topp States"
+            description="Topp States WMS Layer"
+          />
+          {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
+          <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
+          <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
+          <Image uid="UID -- PK" source={pk} name="Point kilométrique" />
+          <Control>
+            <Zone>
+              <Toc uid="Toc" />
+              <Fullscreen uid="Fullscreen" />
+              <PanZoom uid="PanZoom" />
+              <ScaleLine uid="ScaleLine" />
+              <Search uid="Search" searchProvider={new BanSearchProvider()} />
+              <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
+                <CounterButton uid="CounterButton" />
+                <CounterToggleButton uid="CounterToggleButton" />
+                <CounterWindow uid="CounterWindow" toggle={true} />
+                <OneShotCounterButton uid="oneshotbtnTool" />
+                <CounterButton uid="CounterButton2" />
+                <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">
+                  <PreviousViewButton uid="PreviousView" />
+                  <InitialViewButton uid="InitialView" />
+                  <NextViewButton uid="NextView" />
+                </GroupButtonTool>
+                <ZoomRectangleWidget uid="zoomRectangle" />
+                <LayerLoader uid="LayerLoader" />
+                <ShowSnapshot uid="ShowSnapshot" />
+                <DrawLine uid="DrawLine" />
+                <Identify uid="IdentifyTool" tolerance={10} />
+                <Reproj uid="ReprojTool" />
+                <Print
+                  uid="PrintTool"
+                  onPrintStart={() => {
+                    this.setState({ hide: true });
+                    console.log('Start');
+                  }}
+                  onPrintEnd={(pdf) => {
+                    this.setState({ hide: false });
+                    console.log('End');
+                    pdf && pdf.save('pwet');
+                  }}
+                />
+              </Zone>
             </Zone>
-          </Zone>
-        </Control>
-      </Rol>
-      {() => !this.state.hide ? null : <p>App visibility: hidden</p>}
+          </Control>
+        </Rol>
       </>
     );
   }

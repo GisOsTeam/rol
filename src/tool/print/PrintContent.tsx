@@ -118,8 +118,8 @@ const pt2mm = 0.28;
 let canceling = false;
 
 export interface IPrintContentProps extends IFunctionBaseWindowToolProps {
-  onPrintStart ?: () => void;
-  onPrintEnd ?: (pdf?: JsPDF) => void;
+  onPrintStart?: () => void;
+  onPrintEnd?: (pdf?: JsPDF) => void;
 }
 
 export const defaultPrintEnd = (pdf?: JsPDF) => {
@@ -217,40 +217,43 @@ export function PrintContent(props: IPrintContentProps) {
     ] as [number, number, number, number];
   };
 
-  const buildPdf = React.useCallback((
-    format: string,
-    orientation: string,
-    mapDataUrl: string,
-    mapImageFormat: string,
-    legendDataUrl: string,
-    legendImageFormat: string,
-    margin: { [scale: string]: number },
-    imageMargin: { [scale: string]: number }
-  ) => {
-    const pdf = new JsPDF(orientation as any, 'mm', format);
-    const pdfSize = computePdfSize(format, orientation);
-    pdf.addImage(
-      mapDataUrl,
-      mapImageFormat,
-      margin.left,
-      margin.top,
-      pdfSize[0] - imageMargin.left - imageMargin.right,
-      pdfSize[1] - imageMargin.top - imageMargin.bottom
-    );
-    pdf.addImage(
-      legendDataUrl,
-      legendImageFormat,
-      pdfSize[0] - imageMargin.right,
-      margin.top,
-      imageMargin.right - margin.right,
-      pdfSize[1] - margin.top - margin.bottom
-    );
-    if (formValue.title != null) {
-      pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
-    }
+  const buildPdf = React.useCallback(
+    (
+      format: string,
+      orientation: string,
+      mapDataUrl: string,
+      mapImageFormat: string,
+      legendDataUrl: string,
+      legendImageFormat: string,
+      margin: { [scale: string]: number },
+      imageMargin: { [scale: string]: number }
+    ) => {
+      const pdf = new JsPDF(orientation as any, 'mm', format);
+      const pdfSize = computePdfSize(format, orientation);
+      pdf.addImage(
+        mapDataUrl,
+        mapImageFormat,
+        margin.left,
+        margin.top,
+        pdfSize[0] - imageMargin.left - imageMargin.right,
+        pdfSize[1] - imageMargin.top - imageMargin.bottom
+      );
+      pdf.addImage(
+        legendDataUrl,
+        legendImageFormat,
+        pdfSize[0] - imageMargin.right,
+        margin.top,
+        imageMargin.right - margin.right,
+        pdfSize[1] - margin.top - margin.bottom
+      );
+      if (formValue.title != null) {
+        pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
+      }
 
-    onPrintEnd(pdf);
-  }, [onPrintEnd]);
+      onPrintEnd(pdf);
+    },
+    [onPrintEnd]
+  );
 
   const drawRect = () => {
     if (formValue.format == null || formValue.orientation == null || formValue.scale == null || center == null) {

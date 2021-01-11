@@ -117,8 +117,16 @@ const pt2mm = 0.28;
 // Canceling is global tool variable
 let canceling = false;
 
-export interface IPrintContentProps extends IFunctionBaseWindowToolProps {}
+export interface IPrintContentProps extends IFunctionBaseWindowToolProps {
+  onPrintStart ?: () => void;
+  onPrintEnd ?: (pdf?: JsPDF) => void;
+}
 
+export const defaultPrintEnd = (pdf?: JsPDF) => {
+  if (pdf) {
+    pdf.save('map.pdf');
+  }
+};
 export function PrintContent(props: IPrintContentProps) {
   const olMap = useOlMap();
   const layersManager = useLayersManager();
@@ -126,6 +134,8 @@ export function PrintContent(props: IPrintContentProps) {
   const [formValue, setFormValue] = React.useState<{ [key: string]: string }>({});
   const [center, setCenter] = React.useState<[number, number] | null>(null);
   const [printing, setPrinting] = React.useState<boolean>(false);
+
+  const { onPrintEnd = defaultPrintEnd, onPrintStart } = props;
 
   const rectSource = useDrawSource({
     layerUid: 'print_layer_tool',
@@ -207,7 +217,7 @@ export function PrintContent(props: IPrintContentProps) {
     ] as [number, number, number, number];
   };
 
-  const buildPdf = (
+  const buildPdf = React.useCallback((
     format: string,
     orientation: string,
     mapDataUrl: string,
@@ -238,8 +248,9 @@ export function PrintContent(props: IPrintContentProps) {
     if (formValue.title != null) {
       pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
     }
-    pdf.save('map.pdf');
-  };
+
+    onPrintEnd(pdf);
+  }, [onPrintEnd]);
 
   const drawRect = () => {
     if (formValue.format == null || formValue.orientation == null || formValue.scale == null || center == null) {
@@ -283,6 +294,9 @@ export function PrintContent(props: IPrintContentProps) {
   const handlePrintButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPrinting(true);
+    if (onPrintStart) {
+      onPrintStart();
+    }
     canceling = false;
     const dpi = mm2inch / pt2mm;
     const mapImageSize = computeMapImageSize(formValue.format, formValue.orientation, dpi, defaultImageMargins);
@@ -329,6 +343,7 @@ export function PrintContent(props: IPrintContentProps) {
           );
         },
         (err) => {
+          onPrintEnd();
           console.error(err);
         }
       )

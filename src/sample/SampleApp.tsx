@@ -89,15 +89,20 @@ const pk = new ImageWms({
   params: {},
 });
 
-export class SampleApp extends React.Component<{}, {}> {
+export class SampleApp extends React.Component<{}, { hide: boolean }> {
   private reloaded = false;
+
+
 
   constructor(props: {}) {
     super(props);
+
+    this.state = { hide: false }
   }
 
   public render(): React.ReactNode {
     return (
+      <>
       <Rol
         uid="map"
         keyboardEventTarget={document}
@@ -116,6 +121,9 @@ export class SampleApp extends React.Component<{}, {}> {
             this.reloaded = true;
             afterData.layersManager.reload();
           }
+        }}
+        style={{
+          visibility: this.state.hide ? 'hidden' : 'unset'
         }}
       >
         <Projection
@@ -174,11 +182,20 @@ export class SampleApp extends React.Component<{}, {}> {
               <DrawLine uid="DrawLine" />
               <Identify uid="IdentifyTool" tolerance={10} />
               <Reproj uid="ReprojTool" />
-              <Print uid="PrintTool" />
+              <Print uid="PrintTool" onPrintStart={() => {
+                  this.setState({hide: true})
+                  console.log("Start");
+                }} onPrintEnd={(pdf) => { 
+                  this.setState({ hide: false });
+                  console.log("End"); 
+                  pdf && pdf.save('pwet')
+                }} />
             </Zone>
           </Zone>
         </Control>
       </Rol>
+      {() => !this.state.hide ? null : <p>App visibility: hidden</p>}
+      </>
     );
   }
 }

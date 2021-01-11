@@ -112,14 +112,14 @@ export class LayersManager {
   /**
    * Reload layers.
    */
-  public reload() {
-    this.reloadFromSnapshot(this.getSnapshot());
+  public reload(): Promise<void> {
+    return this.reloadFromSnapshot(this.getSnapshot());
   }
 
   /**
    * Reload from snapshot.
    */
-  public reloadFromSnapshot(snapshot: ISnapshot) {
+  public reloadFromSnapshot(snapshot: ISnapshot): Promise<void> {
     // Remove old
     this.getLayerElements().map((layerElement) => {
       this.setLayerElement(
@@ -142,12 +142,20 @@ export class LayersManager {
         projection: snapshot.view.projectionCode,
       })
     );
-    // Layers
-    snapshot.layers.forEach((layer) => {
-      this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.props);
-    });
     // Refresh
     this.refresh();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Layers
+        snapshot.layers.forEach((layer) => {
+          this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.props);
+        });
+        // Refresh
+        this.refresh();
+        // Resolv
+        resolve();
+      }, 100);
+    });
   }
 
   /**

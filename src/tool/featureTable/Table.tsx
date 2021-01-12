@@ -62,7 +62,7 @@ export function objectToITableFeature(inObject: { [key: string]: any }): ITableF
           featureSummary[key].push(val);
         });
       } else {
-        featureSummary[key].push(currentVal.toString());
+        featureSummary[key].push(currentVal == null ? '' : currentVal.toString());
       }
     });
   return featureSummary;

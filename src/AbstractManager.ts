@@ -26,7 +26,7 @@ export interface IAbstractElement {
 
 const toolMaps = new Map<string, Map<string, IAbstractElement>>();
 
-export abstract class ToolsManager<T extends React.Component<Tprops>, Tprops extends Pick<IBaseToolProps, "uid">> {
+export abstract class ToolsManager<T extends React.Component<Tprops>, Tprops extends Pick<IBaseToolProps, 'uid'>> {
   private uid: string;
 
   private refresh: () => void;
@@ -79,10 +79,7 @@ export abstract class ToolsManager<T extends React.Component<Tprops>, Tprops ext
   /**
    * Create and add tool props
    */
-  public createAndAddElement(
-    cl: React.ClassType<Tprops, T, any>,
-    props: Tprops
-  ) {
+  public createAndAddElement(cl: React.ClassType<Tprops, T, any>, props: Tprops) {
     const reactElement = React.createElement(cl, {
       ...props,
       uid: props.uid,

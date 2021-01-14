@@ -104,7 +104,7 @@ export class GroupButtonTool<
    * Close Window
    */
   public close(): boolean {
-    console.log("Close", this)
+    console.log('Close', this);
     if (!this.state.open) {
       return false;
     }

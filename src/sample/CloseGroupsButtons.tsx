@@ -10,7 +10,7 @@ export const CloseGroupsButton = withOneShotButtonTool(
     const groupsManager = useGroupesManager();
     React.useEffect(() => {
       if (props.activated === true) {
-        groupsManager.foldGroup("GroupButton");
+        groupsManager.foldGroup('GroupButton');
       }
     }, [props.activated]);
     return <ContainerBtn>Fold Groups</ContainerBtn>;

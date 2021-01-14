@@ -23,54 +23,52 @@ export interface IGroupElement {
   status: Readonly<groupElementStatus>;
 }
 
-
 const groupMaps = new Map<string, Map<string, IGroupElement>>();
 export class GroupsManager {
-    private uid: string;
-  
-    constructor(uid: string) {
-      this.uid = uid;
-      groupMaps.set(uid, new Map<string, IGroupElement>());
+  private uid: string;
+
+  constructor(uid: string) {
+    this.uid = uid;
+    groupMaps.set(uid, new Map<string, IGroupElement>());
+  }
+
+  // registerGroup(group: GroupButtonTool) {
+  //     groupMaps.get(this.uid).set(group.props.uid, group);
+  // }
+
+  getGroup(groupId: string) {
+    return groupMaps.get(this.uid).get(groupId);
+  }
+
+  foldGroup(uid: string) {
+    const group = this.getGroup(uid);
+    if (group) {
+      console.log(group);
+      // GroupButtonTool.prototype.close.call(group)
+      // group.close();
     }
+  }
 
-    // registerGroup(group: GroupButtonTool) {
-    //     groupMaps.get(this.uid).set(group.props.uid, group);
-    // }
-
-    getGroup(groupId: string) {
-        return groupMaps.get(this.uid).get(groupId);
+  unfoldGroup(uid: string) {
+    const group = this.getGroup(uid);
+    if (group) {
+      // group.open();
     }
+  }
 
-    foldGroup(uid: string) {
-        const group = this.getGroup(uid);
-        if (group) {
-          console.log(group)
-          // GroupButtonTool.prototype.close.call(group)
-            // group.close();
-        }
+  foldGroups(filter?: (group: GroupButtonTool) => boolean) {
+    const groups = groupMaps.get(this.uid);
+    console.log(groups, !filter);
+    for (const group of Object.values(groups)) {
+      if (!filter || filter(group)) group.close();
     }
+  }
 
-    unfoldGroup(uid: string) {
-        const group = this.getGroup(uid);
-        if (group) {
-            // group.open();
-        }
-    }
+  fromChildren(children: React.ReactNode) {
+    this.fromSubChildren(children);
+  }
 
-    foldGroups(filter?:(group: GroupButtonTool) => boolean) {
-        const groups = groupMaps.get(this.uid);
-        console.log(groups, !filter)
-        for(const group of Object.values(groups)) {
-            if (!filter || filter(group))
-            group.close();
-        }
-    }
-
-    fromChildren(children: React.ReactNode) {
-        this.fromSubChildren(children);
-    }
-
-      /**
+  /**
    * Set toolElement
    */
   private setGroupElement(groupElement: IGroupElement, refreshIfChanging = true) {
@@ -111,17 +109,17 @@ export class GroupsManager {
     }
   }
 
-    private fromSubChildren(children: React.ReactNode) {
-        // Next children
-        if (children) {
-          React.Children.forEach(children, (nextChild: React.ReactElement<any>) => {
-            if (nextChild != null && BaseContainer.isPrototypeOf(nextChild.type) && nextChild.props.uid) {
-              this.registerGroup(nextChild as any);
-            }
-            if (nextChild != null && BaseContainer.isPrototypeOf(nextChild.type)) {
-              this.fromSubChildren(nextChild.props.children);
-            }
-          });
+  private fromSubChildren(children: React.ReactNode) {
+    // Next children
+    if (children) {
+      React.Children.forEach(children, (nextChild: React.ReactElement<any>) => {
+        if (nextChild != null && BaseContainer.isPrototypeOf(nextChild.type) && nextChild.props.uid) {
+          this.registerGroup(nextChild as any);
         }
-      }
+        if (nextChild != null && BaseContainer.isPrototypeOf(nextChild.type)) {
+          this.fromSubChildren(nextChild.props.children);
+        }
+      });
+    }
+  }
 }

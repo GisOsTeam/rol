@@ -73,6 +73,7 @@ export class LayersManager {
       center: olView.getCenter() as [number, number],
       zoom: olView.getZoom(),
       projectionCode: olView.getProjection().getCode(),
+      constrainResolution: olView.getConstrainResolution(),
     };
     // Projections
     const projections: ISnapshotProjection[] = [];
@@ -140,6 +141,7 @@ export class LayersManager {
         center: snapshot.view.center,
         zoom: snapshot.view.zoom,
         projection: snapshot.view.projectionCode,
+        constrainResolution: snapshot.view.constrainResolution,
       })
     );
     // Refresh

@@ -173,12 +173,10 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
                 <GroupButtonTool
                   btnContent={<label>Group</label>}
                   groupPosition="top"
-                  onUnFold={
-                    (group) => {
-                      console.log(group, group.props.children);
-                    }
-                  }
-                  >
+                  onUnFold={(group) => {
+                    console.log(group, group.props.children);
+                  }}
+                >
                   <PreviousViewButton uid="PreviousView" />
                   <InitialViewButton uid="InitialView" />
                   <NextViewButton uid="NextView" />

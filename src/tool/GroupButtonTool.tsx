@@ -106,12 +106,11 @@ export class GroupButtonTool<
     if (!this.state.open) {
       return false;
     }
-    this.setState({ open: false },
-      () => {
-        if (this.props.onFold) {
-          this.props.onFold(this);
-        }
-      });
+    this.setState({ open: false }, () => {
+      if (this.props.onFold) {
+        this.props.onFold(this);
+      }
+    });
     return true;
   }
 

@@ -27,7 +27,9 @@ export const FeatureTable = (props: IFeatureTableProps) => {
       const elem = props.identificationResponseFeatures[sourceId];
       for (const typeId in elem.types) {
         const type = elem.types[typeId];
-        const name = `${elem.layerProps.name} ${type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''}`;
+        const name = `${elem.layerProps.name} ${
+          type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''
+        }`;
         nameFeaturesTmp[name] = type.features;
       }
     }
@@ -68,7 +70,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
       }
       ++featureSummaryLength;
     });
-  };
+  }
   if (isEmpty) {
     return <Container>No data to display</Container>;
   }
@@ -83,12 +85,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
 
   return (
     <Container>
-      <Table
-        feature={featureSummary}
-        header={['Feature']}
-        onClickRow={onClickTab}
-        highlightedKeys={highlightedKeys}
-      />
+      <Table feature={featureSummary} header={['Feature']} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
       {renderContent()}
     </Container>
   );

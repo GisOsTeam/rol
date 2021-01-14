@@ -9,7 +9,10 @@ import { DrawEvent } from 'ol/interaction/Draw';
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
-import { getIIdentifyResponseFeaturesFromQueryResponse, IIdentifyResponseFeatures } from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
+import {
+  getIIdentifyResponseFeaturesFromQueryResponse,
+  IIdentifyResponseFeatures,
+} from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
 import Geometry from 'ol/geom/Geometry';
 
 export interface IIdentifyResponse {

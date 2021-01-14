@@ -10,12 +10,15 @@ export type IIdentifyResponseFeatures = {
       [typeId: string]: {
         type: IFeatureType<string | number>;
         features: Feature[];
-      }
-    } 
-  }
-}
+      };
+    };
+  };
+};
 
-export function getIIdentifyResponseFeaturesFromQueryResponse(queryResponses: IQueryResponse[], layersManager: LayersManager): IIdentifyResponseFeatures {
+export function getIIdentifyResponseFeaturesFromQueryResponse(
+  queryResponses: IQueryResponse[],
+  layersManager: LayersManager
+): IIdentifyResponseFeatures {
   const identifyResponseFeatures: IIdentifyResponseFeatures = {};
   queryResponses.forEach((queryResponse: IQueryResponse) => {
     const { featureTypeResponses } = queryResponse;
@@ -33,8 +36,8 @@ export function getIIdentifyResponseFeaturesFromQueryResponse(queryResponses: IQ
         if (!identifyResponseFeatures[sourceUid].types[type]) {
           identifyResponseFeatures[sourceUid].types[type] = {
             type: ftResp.type,
-            features: []
-          }
+            features: [],
+          };
         }
         identifyResponseFeatures[sourceUid].types[type].features = ftResp.features;
       }

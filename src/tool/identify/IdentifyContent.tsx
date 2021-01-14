@@ -22,7 +22,9 @@ export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
 }
 
 export function IdentifyContent(props: IIdentifyContentProps) {
-  const [identificationResponseFeatures, setIdentificationResponseFeatures] = React.useState<IIdentifyResponseFeatures>({});
+  const [identificationResponseFeatures, setIdentificationResponseFeatures] = React.useState<IIdentifyResponseFeatures>(
+    {}
+  );
   const { layersManager } = React.useContext(rolContext);
 
   const source = useDrawSource({
@@ -69,5 +71,10 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     source.addFeatures(selectedFeatures);
   };
 
-  return <FeatureTable onChangeDisplayedFeature={onDisplayedFeatureChange} identificationResponseFeatures={identificationResponseFeatures} />;
+  return (
+    <FeatureTable
+      onChangeDisplayedFeature={onDisplayedFeatureChange}
+      identificationResponseFeatures={identificationResponseFeatures}
+    />
+  );
 }

@@ -32,7 +32,11 @@ export interface IVectorTileProps extends IBaseLayerProps {
 
 export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLayer, VectorTileSource> {
   public createOlLayer(): OlVectorTileLayer {
-    return new OlVectorTileLayer({ renderBuffer: this.props.renderBuffer, renderMode: this.props.renderMode, declutter: this.props.declutter });
+    return new OlVectorTileLayer({
+      renderBuffer: this.props.renderBuffer,
+      renderMode: this.props.renderMode,
+      declutter: this.props.declutter,
+    });
   }
 
   public updateProps(prevProps: IVectorTileProps, nextProps: IVectorTileProps) {

@@ -187,7 +187,13 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
                 <CounterWindow uid="CounterWindow" toggle={true} />
                 <OneShotCounterButton uid="oneshotbtnTool" />
                 <CounterButton uid="CounterButton2" />
-                <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">
+                <GroupButtonTool
+                  btnContent={<label>Group</label>}
+                  groupPosition="top"
+                  onUnFold={(group) => {
+                    console.log(group, group.props.children);
+                  }}
+                >
                   <PreviousViewButton uid="PreviousView" />
                   <InitialViewButton uid="InitialView" />
                   <NextViewButton uid="NextView" />

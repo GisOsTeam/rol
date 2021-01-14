@@ -54,6 +54,10 @@ export interface IGroupButtonToolProps extends IZoneProps {
    * btnClassName
    */
   btnClassName?: string;
+
+  onFold?: (buttonGroup: GroupButtonTool) => void;
+
+  onUnFold?: (buttonGroup: GroupButtonTool) => void;
 }
 
 export interface IGroupButtonToolState extends IBaseContaineState {
@@ -87,7 +91,11 @@ export class GroupButtonTool<
     if (this.state.open) {
       return false;
     }
-    this.setState({ open: true });
+    this.setState({ open: true }, () => {
+      if (this.props.onUnFold) {
+        this.props.onUnFold(this);
+      }
+    });
     return true;
   }
 
@@ -98,7 +106,11 @@ export class GroupButtonTool<
     if (!this.state.open) {
       return false;
     }
-    this.setState({ open: false });
+    this.setState({ open: false }, () => {
+      if (this.props.onFold) {
+        this.props.onFold(this);
+      }
+    });
     return true;
   }
 

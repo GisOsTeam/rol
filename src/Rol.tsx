@@ -9,6 +9,8 @@ import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Projection } from './Projection';
 import { ViewManager } from '@gisosteam/aol/ViewManager';
+import { GroupsManager } from './GroupManager';
+import { GroupButtonTool } from './tool/index';
 
 const GlobalStyle = createGlobalStyle`
 .ol-unsupported {
@@ -143,6 +145,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
    */
   private toolsManager: ToolsManager;
 
+  private groupsManager: GroupsManager;
   private viewManager: ViewManager;
 
   constructor(props: IRolProps) {
@@ -170,12 +173,14 @@ export class Rol extends React.Component<IRolProps, IRolState> {
     this.layersManager = new LayersManager(props.uid, this.olMap, this.refresh);
     this.viewManager = new ViewManager(this.olMap);
     this.toolsManager = new ToolsManager(props.uid, this.refresh);
+    this.groupsManager = new GroupsManager(props.uid);
   }
 
   public componentDidMount() {
     this.olMap.setTarget(this.divMap);
     this.layersManager.fromChildren(this.props.children);
     this.toolsManager.fromChildren(this.props.children);
+    this.groupsManager.fromChildren(this.props.children);
     if (this.props.afterMount) {
       this.props.afterMount.call(this, {
         olMap: this.olMap,
@@ -188,6 +193,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
   public componentDidUpdate(prevProps: IRolProps, prevState: IRolState, snap: any) {
     this.layersManager.fromChildren(this.props.children);
     this.toolsManager.fromChildren(this.props.children);
+    this.groupsManager.fromChildren(this.props.children);
     if (this.props.afterUpdate) {
       this.props.afterUpdate.call(this, {
         olMap: this.olMap,
@@ -262,6 +268,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
             olGroup: this.olMap.getLayerGroup(),
             layersManager: this.layersManager,
             toolsManager: this.toolsManager,
+            groupsManager: this.groupsManager,
             viewManager: this.viewManager,
             translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
               return defaultText;

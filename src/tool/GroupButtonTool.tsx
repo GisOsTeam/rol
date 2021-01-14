@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BaseButtonTool } from './BaseButtonTool';
 import styled from 'styled-components';
 import { BaseContainer, IBaseContaineState, IZoneProps } from '../container';
+import { IBaseToolProps } from './BaseTool';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
   height: 32px;
@@ -29,7 +30,7 @@ const Group = styled.div<{ shouldDisplay: boolean; position: GroupPosition; offs
 
 export type GroupPosition = 'top' | 'left' | 'right' | 'bottom';
 
-export interface IGroupButtonToolProps extends IZoneProps {
+export interface IGroupButtonToolProps extends IZoneProps, Pick<IBaseToolProps, 'uid'> {
   /**
    * Default position.
    */
@@ -103,6 +104,7 @@ export class GroupButtonTool<
    * Close Window
    */
   public close(): boolean {
+    console.log("Close", this)
     if (!this.state.open) {
       return false;
     }

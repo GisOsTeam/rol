@@ -5,6 +5,7 @@ import { LayersManager } from './LayersManager';
 import { ToolsManager } from './ToolsManager';
 import { Translate } from './Translate';
 import { ViewManager } from '@gisosteam/aol/ViewManager';
+import { GroupsManager } from './GroupManager';
 
 // Rol context interface
 export interface IRolContext {
@@ -25,6 +26,10 @@ export interface IRolContext {
    */
   toolsManager: ToolsManager;
   /**
+   * Groups Manager
+   */
+  groupsManager: GroupsManager;
+  /**
    * View Manager
    */
   viewManager: ViewManager;
@@ -40,6 +45,7 @@ export const rolContext = React.createContext<IRolContext>({
   olGroup: null,
   layersManager: null,
   toolsManager: null,
+  groupsManager: null,
   viewManager: null,
   translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;

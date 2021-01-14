@@ -37,7 +37,6 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       }
     };
   }, [
-    props.onDrawEnd,
     props.type,
     props.clickTolerance,
     props.features,
@@ -47,13 +46,8 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
     props.stopClick,
     props.maxPoints,
     props.minPoints,
-    props.finishCondition,
-    props.style,
-    props.geometryFunction,
     props.geometryName,
-    props.condition,
     props.freehand,
-    props.freehandCondition,
     props.wrapX,
   ]);
   // Effect for manage activate/deactivate

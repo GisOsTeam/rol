@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IIdentifyResponseFeatures } from '../hook/useIdentify';
 import { Feature, getUid } from 'ol';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
+import { IIdentifyResponseFeatures } from '../common';
 
 const Container = styled.div`
   display: flex;
@@ -13,25 +13,26 @@ type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
 export type DisplayedFeaturesType = Feature[];
 
 export interface IFeatureTableProps {
-  features: IIdentifyResponseFeatures;
+  identificationResponseFeatures: IIdentifyResponseFeatures;
   onChangeDisplayedFeature?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
 }
 
 export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
+  const [nameFeatures, setNameFeatures] = React.useState<{ [name: string]: Feature[] }>({});
 
-  const layerUIDs = Object.keys(props.features);
   React.useEffect(() => {
-    const firstKey: string = layerUIDs[0];
-    const firstFeatures: Feature[] = props.features[firstKey] ? [props.features[firstKey][0]] : [];
-    if (props.onChangeDisplayedFeature && firstFeatures.length > 0) {
-      props.onChangeDisplayedFeature(firstFeatures);
+    const nameFeaturesTmp: { [name: string]: Feature[] } = {};
+    for (const sourceId in props.identificationResponseFeatures) {
+      const elem = props.identificationResponseFeatures[sourceId];
+      for (const typeId in elem.types) {
+        const type = elem.types[typeId];
+        const name = `${elem.layerProps.name} ${type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''}`;
+        nameFeaturesTmp[name] = type.features;
+      }
     }
-    setDisplayedObjects(firstFeatures);
-    return () => {
-      setDisplayedObjects([]);
-    };
-  }, [props.features]);
+    setNameFeatures(nameFeaturesTmp);
+  }, [props.identificationResponseFeatures]);
 
   const renderContent = () => {
     const htmlEntities: React.ReactElement[] = displayedObjects.map((feature: Feature, featureIndex: number) => {
@@ -50,30 +51,30 @@ export const FeatureTable = (props: IFeatureTableProps) => {
     return htmlEntities;
   };
 
-  const isEmpty = layerUIDs.length > 0 ? false : true;
-  if (isEmpty) {
-    return <Container>No data to display</Container>;
-  }
-
   const featureSummary: ITableFeature = {};
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
-  layerUIDs.forEach((layerName) => {
-    if (!featureSummary[layerName]) {
-      featureSummary[layerName] = [];
+  let isEmpty = true;
+  for (const type in nameFeatures) {
+    if (!featureSummary[type]) {
+      featureSummary[type] = [];
     }
-    props.features[layerName].forEach((feature) => {
+    nameFeatures[type].forEach((feature) => {
+      isEmpty = false;
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
-      featureSummary[layerName].push(id.toString());
+      featureSummary[type].push(id.toString());
       if (displayedObjects.lastIndexOf(feature) > -1) {
         highlightedKeys.push(featureSummaryLength);
       }
       ++featureSummaryLength;
     });
-  });
+  };
+  if (isEmpty) {
+    return <Container>No data to display</Container>;
+  }
 
   const onClickTab = (key: string, value: string, index: number) => {
-    const newFeatures = props.features[key].filter((feat) => feat.getId() === value || getUid(feat) === value);
+    const newFeatures = nameFeatures[key].filter((feat) => feat.getId() === value || getUid(feat) === value);
     if (props.onChangeDisplayedFeature) {
       props.onChangeDisplayedFeature(newFeatures);
     }
@@ -84,7 +85,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
     <Container>
       <Table
         feature={featureSummary}
-        header={['Layer', 'Feature ID']}
+        header={['Feature']}
         onClickRow={onClickTab}
         highlightedKeys={highlightedKeys}
       />

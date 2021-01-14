@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { useIdentify, IIdentifyResponse, IIdentifyResponseFeatures } from '../hook/useIdentify';
+import { IIdentifyResponseFeatures } from '../common';
+import { useIdentify, IIdentifyResponse } from '../hook/useIdentify';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTable';
 import { useDrawSource } from '../hook/useDrawSource';
-import { IdentifyFilterType, identify } from '@gisosteam/aol/source/query/identify';
+import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
 import { createLayerStyles } from '@gisosteam/aol/utils';
+import GeometryType from 'ol/geom/GeometryType';
 
 export const defaultHighlightStyle = createLayerStyles({
   fillColor: 'rgba(0, 255, 255, 0.2)',
@@ -20,7 +22,7 @@ export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
 }
 
 export function IdentifyContent(props: IIdentifyContentProps) {
-  const [features, setFeatures] = React.useState<IIdentifyResponseFeatures>({});
+  const [identificationResponseFeatures, setIdentificationResponseFeatures] = React.useState<IIdentifyResponseFeatures>({});
   const { layersManager } = React.useContext(rolContext);
 
   const source = useDrawSource({
@@ -35,7 +37,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
       if (source) {
         source.clear();
       }
-      setFeatures({});
+      setIdentificationResponseFeatures({});
     }
   }, [props.activated, props.open]);
 
@@ -48,6 +50,8 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     limit: props.limit,
     tolerance: props.tolerance,
     filterSources: filterListableSource,
+    typeGeom: GeometryType.POINT,
+    drawSource: source,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IIdentifyResponseFeatures = {};
       Object.keys(identifyResp.features).forEach((layerElementUid) => {
@@ -56,9 +60,8 @@ export function IdentifyContent(props: IIdentifyContentProps) {
         const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
         newFeatures[name] = identifyResp.features[layerElementUid];
       });
-      setFeatures(newFeatures);
+      setIdentificationResponseFeatures(newFeatures);
     },
-    // onIdentifyResponseWithLayerGroup: console.log,
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {
@@ -66,5 +69,5 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     source.addFeatures(selectedFeatures);
   };
 
-  return <FeatureTable onChangeDisplayedFeature={onDisplayedFeatureChange} features={features} />;
+  return <FeatureTable onChangeDisplayedFeature={onDisplayedFeatureChange} identificationResponseFeatures={identificationResponseFeatures} />;
 }

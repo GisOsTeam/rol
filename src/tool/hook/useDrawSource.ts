@@ -56,7 +56,7 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
       const localVectorSource = context.layersManager.createAndAddLayerFromSourceDefinition(
         SourceTypeEnum.LocalVector,
         sourceOptions,
-        layerProps
+        layerProps,
       ) as LocalVector;
       setUid(props.layerUid);
       setSource(localVectorSource);
@@ -70,6 +70,6 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
         setSource(null);
       }
     };
-  }, [props.layerUid, props.styles, props.name, props.snapshotable, props.listable, props.removable]);
+  }, [props.layerUid, JSON.stringify(props.styles), props.name, props.snapshotable, props.listable, props.removable]);
   return source;
 }

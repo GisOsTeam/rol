@@ -7,6 +7,7 @@ import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
 import GeometryType from 'ol/geom/GeometryType';
+import { createLayerStyles } from '@gisosteam/aol/utils';
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;
@@ -21,6 +22,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
 
   const source = useDrawSource({
     layerUid: 'identify-tool-draw-source',
+    styles: createLayerStyles({ strokeColor: 'rgba(0, 0, 255, 0.9)', fillColor: 'rgba(127, 127, 127, .6)', width: 6, radius: 6 }),
   });
 
   React.useEffect(() => {
@@ -37,7 +39,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
   };
 
   useIdentify({
-    activated: props.activated ? props.activated : false,
+    activated: props.activated === true,
     limit: props.limit,
     tolerance: props.tolerance,
     filterSources: filterListableSource,

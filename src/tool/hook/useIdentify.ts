@@ -87,13 +87,13 @@ export function useIdentify(props: IUseIdentifyProps): any {
     props.typeGeom === GeometryType.LINE_STRING ||
     props.typeGeom === GeometryType.CIRCLE
   ) {
-    if (props.activated) {
+    if (props.activated === true) {
       olMap.on('dblclick', handleOnClickDblClickMap);
     } else {
       olMap.un('dblclick', handleOnClickDblClickMap);
     }
   } else if (props.typeGeom === GeometryType.POINT) {
-    if (props.activated) {
+    if (props.activated === true) {
       olMap.on('click', handleOnClickDblClickMap);
     } else {
       olMap.un('click', handleOnClickDblClickMap);

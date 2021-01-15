@@ -176,11 +176,11 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
           <VectorTile uid="UID -- PKTILEWFS" source={pkTileWfs} name="Point kilométrique (TILEWFS)" declutter={true} />
           <Control>
             <Zone>
-              <Toc uid="Toc" />
-              <Fullscreen uid="Fullscreen" />
-              <PanZoom uid="PanZoom" />
-              <ScaleLine uid="ScaleLine" />
-              <Search uid="Search" searchProvider={new BanSearchProvider()} />
+              <Toc uid="Toc" independant />
+              <Fullscreen uid="Fullscreen" independant />
+              <PanZoom uid="PanZoom" independant />
+              <ScaleLine uid="ScaleLine" independant />
+              <Search uid="Search" searchProvider={new BanSearchProvider()} independant />
               <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
                 <CounterButton uid="CounterButton" />
                 <CounterToggleButton uid="CounterToggleButton" />

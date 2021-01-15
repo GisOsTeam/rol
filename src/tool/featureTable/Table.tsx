@@ -77,8 +77,9 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
     ++nbRows;
     return (
       <tr
-        className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
-          }`}
+        className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${
+          highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
+        }`}
         key={`layerTab-${key}-${value}-${index}`}
         onClick={(e) => (onClickRow ? onClickRow(key, value, nbRows - 1, e) : null)}
       >

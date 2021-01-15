@@ -9,10 +9,7 @@ import { DrawEvent } from 'ol/interaction/Draw';
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
-import {
-  createQueryResponseFeatures,
-  IQueryResponseFeatures,
-} from '../common/createQueryResponseFeatures';
+import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
 import Geometry from 'ol/geom/Geometry';
 
 export interface IIdentifyResponse {
@@ -85,7 +82,11 @@ export function useIdentify(props: IUseIdentifyProps): any {
     onDrawEnd: handleOnDrawEnd,
   });
 
-  if (props.typeGeom === GeometryType.POLYGON || props.typeGeom === GeometryType.LINE_STRING || props.typeGeom === GeometryType.CIRCLE) {
+  if (
+    props.typeGeom === GeometryType.POLYGON ||
+    props.typeGeom === GeometryType.LINE_STRING ||
+    props.typeGeom === GeometryType.CIRCLE
+  ) {
     if (props.activated) {
       olMap.on('dblclick', handleOnClickDblClickMap);
     } else {

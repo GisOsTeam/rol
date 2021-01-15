@@ -20,7 +20,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
   const { layersManager } = React.useContext(rolContext);
 
   const source = useDrawSource({
-    layerUid: 'identify-tool-draw-source'
+    layerUid: 'identify-tool-draw-source',
   });
 
   React.useEffect(() => {

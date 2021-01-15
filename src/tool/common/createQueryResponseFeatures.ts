@@ -23,7 +23,7 @@ export function createQueryResponseFeatures(
   queryResponses.forEach((queryResponse: IQueryResponse) => {
     const { featureTypeResponses } = queryResponse;
     featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
-      if (ftResp.features.length > 0) {
+      if (ftResp.features != null && ftResp.features.length > 0) {
         const type = ftResp.type ? `${ftResp.type.id}` : '-1';
         const layerElement = layersManager.getLayerElementFromSource(ftResp.source);
         const sourceUid = layerElement ? layerElement.uid : 'unknown';

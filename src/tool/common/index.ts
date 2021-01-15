@@ -4,4 +4,4 @@
 
 export * from './Selector';
 export * from './WmsLoader';
-export * from './getIIdentifyResponseFeaturesFromQueryResponse';
+export * from './createQueryResponseFeatures';

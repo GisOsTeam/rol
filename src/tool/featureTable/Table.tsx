@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border: blue solid 1px;
-  width: 350px;
+  width: 450px;
   overflow: hidden;
   
   div.scrollable-table {
-    max-height: 450px;
+    max-height: 250px;
     overflow-y: auto;
   }
 
@@ -77,9 +77,8 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
     ++nbRows;
     return (
       <tr
-        className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${
-          highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
-        }`}
+        className={`tab-layer-row ${nbRows % 2 ? 'odd' : 'even'} ${highlightedKeys && highlightedKeys.includes(nbRows - 1) ? 'selected' : ''
+          }`}
         key={`layerTab-${key}-${value}-${index}`}
         onClick={(e) => (onClickRow ? onClickRow(key, value, nbRows - 1, e) : null)}
       >
@@ -91,9 +90,11 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
   /* eslint-enable */
 
   Object.keys(feature).forEach((key: string, propIndex) => {
-    const value = feature[key];
-    const htmlElems = value.map((val, index) => renderVal(key, val, index));
-    rows = [...rows, ...htmlElems];
+    if (key !== 'feature_id') {
+      const value = feature[key];
+      const htmlElems = value.map((val, index) => renderVal(key, val, index));
+      rows = [...rows, ...htmlElems];
+    }
   });
 
   const renderHeader = () => {

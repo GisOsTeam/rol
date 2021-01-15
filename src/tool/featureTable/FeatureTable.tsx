@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Feature, getUid } from 'ol';
 import { Table, ITableFeature, objectToITableFeature } from './Table';
-import { IIdentifyResponseFeatures } from '../common';
+import { IQueryResponseFeatures } from '../common';
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
 export type DisplayedFeaturesType = Feature[];
 
 export interface IFeatureTableProps {
-  identificationResponseFeatures: IIdentifyResponseFeatures;
+  identificationResponseFeatures: IQueryResponseFeatures;
   onChangeDisplayedFeature?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
 }
 
@@ -22,18 +22,26 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   const [nameFeatures, setNameFeatures] = React.useState<{ [name: string]: Feature[] }>({});
 
   React.useEffect(() => {
+    let firstFeature = null;
     const nameFeaturesTmp: { [name: string]: Feature[] } = {};
     for (const sourceId in props.identificationResponseFeatures) {
       const elem = props.identificationResponseFeatures[sourceId];
       for (const typeId in elem.types) {
         const type = elem.types[typeId];
-        const name = `${elem.layerProps.name} ${
-          type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''
-        }`;
+        const name = `${elem.layerProps.name} ${type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''
+          }`;
         nameFeaturesTmp[name] = type.features;
+        firstFeature = type.features[0];
       }
     }
     setNameFeatures(nameFeaturesTmp);
+
+    if (firstFeature != null) {
+      setDisplayedObjects([firstFeature]);
+    }
+    return () => {
+      setDisplayedObjects([]);
+    };
   }, [props.identificationResponseFeatures]);
 
   const renderContent = () => {

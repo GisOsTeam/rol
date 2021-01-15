@@ -138,7 +138,7 @@ export function PrintContent(props: IPrintContentProps) {
   const { onPrintEnd = defaultPrintEnd, onPrintStart } = props;
 
   const rectSource = useDrawSource({
-    layerUid: 'print_layer_tool',
+    layerUid: 'print-tool-draw-source',
   });
 
   useTranslateInteraction({ source: rectSource, activated: props.activated && !printing });

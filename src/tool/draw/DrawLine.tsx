@@ -9,9 +9,7 @@ const ContainerBtn = styled.div``;
 
 export const DrawLine = withBaseButtonTool((props: IBaseButtonToolProps) => {
   const drawSource = useDrawSource({
-    layerUid: 'draw_line_layer_tool',
-    persist: true,
-    listable: true,
+    layerUid: 'draw-line-tool-draw-source',
     snapshotable: true,
   });
   useDrawInteraction({

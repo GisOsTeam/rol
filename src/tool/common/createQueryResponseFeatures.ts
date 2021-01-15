@@ -3,7 +3,7 @@ import { Feature } from 'ol';
 import { LayersManager } from '../../LayersManager';
 import { IBaseLayerProps } from '../../layer/BaseLayer';
 
-export type IIdentifyResponseFeatures = {
+export type IQueryResponseFeatures = {
   [sourceId: string]: {
     layerProps: IBaseLayerProps;
     types: {
@@ -15,11 +15,11 @@ export type IIdentifyResponseFeatures = {
   };
 };
 
-export function getIIdentifyResponseFeaturesFromQueryResponse(
+export function createQueryResponseFeatures(
   queryResponses: IQueryResponse[],
   layersManager: LayersManager
-): IIdentifyResponseFeatures {
-  const identifyResponseFeatures: IIdentifyResponseFeatures = {};
+): IQueryResponseFeatures {
+  const queryResponseFeatures: IQueryResponseFeatures = {};
   queryResponses.forEach((queryResponse: IQueryResponse) => {
     const { featureTypeResponses } = queryResponse;
     featureTypeResponses.forEach((ftResp: IQueryFeatureTypeResponse) => {
@@ -27,21 +27,21 @@ export function getIIdentifyResponseFeaturesFromQueryResponse(
         const type = ftResp.type ? `${ftResp.type.id}` : '-1';
         const layerElement = layersManager.getLayerElementFromSource(ftResp.source);
         const sourceUid = layerElement ? layerElement.uid : 'unknown';
-        if (!identifyResponseFeatures[sourceUid]) {
-          identifyResponseFeatures[sourceUid] = {
+        if (!queryResponseFeatures[sourceUid]) {
+          queryResponseFeatures[sourceUid] = {
             layerProps: layerElement.reactElement.props,
             types: {},
           };
         }
-        if (!identifyResponseFeatures[sourceUid].types[type]) {
-          identifyResponseFeatures[sourceUid].types[type] = {
+        if (!queryResponseFeatures[sourceUid].types[type]) {
+          queryResponseFeatures[sourceUid].types[type] = {
             type: ftResp.type,
             features: [],
           };
         }
-        identifyResponseFeatures[sourceUid].types[type].features = ftResp.features;
+        queryResponseFeatures[sourceUid].types[type].features = ftResp.features;
       }
     });
   });
-  return identifyResponseFeatures;
+  return queryResponseFeatures;
 }

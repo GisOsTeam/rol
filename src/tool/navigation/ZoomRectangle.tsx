@@ -11,19 +11,15 @@ const ContainerBtn = styled.div`
   height: 28px;
 `;
 
-const drawSourceOpt: IUseDrawSourceProps = {
-  layerUid: 'zoom-rectangle-widget-draw-source',
-  persist: false,
-  listable: false,
-};
-
 export interface IZoomRectangleWidgetProps extends IBaseButtonToolProps {
   buttonContent?: string | React.ReactElement;
 }
 
 const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }: IZoomRectangleWidgetProps) => {
   const olMap = useOlMap();
-  const source = useDrawSource(drawSourceOpt);
+  const source = useDrawSource({
+    layerUid: 'zoom-rectangle-tool-draw-source',
+  });
 
   const onDrawEnd = React.useCallback(
     (evt: DrawEvent) => {

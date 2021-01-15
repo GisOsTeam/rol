@@ -10,13 +10,13 @@ import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
 import {
-  getIIdentifyResponseFeaturesFromQueryResponse,
-  IIdentifyResponseFeatures,
-} from '../common/getIIdentifyResponseFeaturesFromQueryResponse';
+  createQueryResponseFeatures,
+  IQueryResponseFeatures,
+} from '../common/createQueryResponseFeatures';
 import Geometry from 'ol/geom/Geometry';
 
 export interface IIdentifyResponse {
-  features: IIdentifyResponseFeatures;
+  features: IQueryResponseFeatures;
   drawGeom: Geometry;
 }
 
@@ -35,10 +35,9 @@ export interface IUseIdentifyProps {
 }
 
 /**
- * outil de dessin de geom (POINT, LIGNE, POLYGONE) + Identification des feats sur la carte qui intersectent cette geom
+ * outil de dessin de geom (POINT, LIGNE, POLYGONE, CIRCLE) + Identification des feats sur la carte qui intersectent cette geom
  */
 export function useIdentify(props: IUseIdentifyProps): any {
-  const drawSourceRef = React.useRef<LocalVector>(props.drawSource);
   const context = React.useContext(rolContext);
   const { olMap, layersManager } = context;
 
@@ -65,7 +64,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
           props.layersParam
         );
         if (props.onIdentifyResponse) {
-          const features = getIIdentifyResponseFeaturesFromQueryResponse(queryResponses, layersManager);
+          const features = createQueryResponseFeatures(queryResponses, layersManager);
           props.onIdentifyResponse({ features: features, drawGeom: geom });
         }
       }
@@ -82,11 +81,11 @@ export function useIdentify(props: IUseIdentifyProps): any {
   useDrawInteraction({
     activated: props.activated,
     type: props.typeGeom,
-    source: drawSourceRef.current,
+    source: props.drawSource,
     onDrawEnd: handleOnDrawEnd,
   });
 
-  if (props.typeGeom === GeometryType.POLYGON || props.typeGeom === GeometryType.LINE_STRING) {
+  if (props.typeGeom === GeometryType.POLYGON || props.typeGeom === GeometryType.LINE_STRING || props.typeGeom === GeometryType.CIRCLE) {
     if (props.activated) {
       olMap.on('dblclick', handleOnClickDblClickMap);
     } else {

@@ -22,7 +22,12 @@ export function IdentifyContent(props: IIdentifyContentProps) {
 
   const source = useDrawSource({
     layerUid: 'identify-tool-draw-source',
-    styles: createLayerStyles({ strokeColor: 'rgba(0, 0, 255, 0.9)', fillColor: 'rgba(127, 127, 127, .6)', width: 6, radius: 6 }),
+    styles: createLayerStyles({
+      strokeColor: 'rgba(0, 0, 255, 0.9)',
+      fillColor: 'rgba(127, 127, 127, .6)',
+      width: 6,
+      radius: 6,
+    }),
   });
 
   React.useEffect(() => {

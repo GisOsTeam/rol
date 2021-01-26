@@ -17,7 +17,7 @@ import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
-import { PanZoom, GroupButtonTool, Print, Search } from '../tool';
+import { PanZoom, GroupButtonTool, Print, Search, IBaseToolProps, IBaseWindowToolProps } from '../tool';
 import { LayerLoader } from '../tool';
 import { Identify } from '../tool';
 import { PreviousViewButton } from '../tool/navigation/PreviousViewButton';
@@ -170,7 +170,10 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
                 <CounterWindow uid="CounterWindow" toggle={true} />
                 <OneShotCounterButton uid="oneshotbtnTool" />
                 <CounterButton uid="CounterButton2" />
-                <GroupButtonTool btnContent={<label>Group</label>} uid="ViewTools" groupPosition="top">
+                <GroupButtonTool 
+                  onFold={(grp) => React.Children.forEach(grp.props.children as React.ComponentElement<IBaseToolProps, any>[], (child) => console.log(child.props.uid))}
+                  btnContent={<label>Group</label>}
+                  groupPosition="top">
                   <PreviousViewButton uid="PreviousView" />
                   <InitialViewButton uid="InitialView" />
                   <NextViewButton uid="NextView" />

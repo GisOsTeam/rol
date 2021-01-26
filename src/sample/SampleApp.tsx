@@ -170,10 +170,16 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
                 <CounterWindow uid="CounterWindow" toggle={true} />
                 <OneShotCounterButton uid="oneshotbtnTool" />
                 <CounterButton uid="CounterButton2" />
-                <GroupButtonTool 
-                  onFold={(grp) => React.Children.forEach(grp.props.children as React.ComponentElement<IBaseToolProps, any>[], (child) => console.log(child.props.uid))}
+                <GroupButtonTool
+                  onFold={(grp) =>
+                    React.Children.forEach(
+                      grp.props.children as React.ComponentElement<IBaseToolProps, any>[],
+                      (child) => console.log(child.props.uid)
+                    )
+                  }
                   btnContent={<label>Group</label>}
-                  groupPosition="top">
+                  groupPosition="top"
+                >
                   <PreviousViewButton uid="PreviousView" />
                   <InitialViewButton uid="InitialView" />
                   <NextViewButton uid="NextView" />

@@ -271,7 +271,7 @@ export function PrintContent(props: IPrintContentProps) {
             +formValue.scale,
             defaultImageMargins
           )
-        )
+        ),
       })
     );
   }, [center, formValue.format, formValue.orientation, formValue.scale, olMap, rectSource]);

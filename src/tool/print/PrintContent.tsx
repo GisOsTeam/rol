@@ -179,7 +179,7 @@ const computeRectangle = (
     center[0] - rectWidth / 2,
     center[1] - rectHeight / 2,
     center[0] + rectWidth / 2,
-    center[1] + rectHeight / 2
+    center[1] + rectHeight / 2,
   ] as [number, number, number, number];
 };
 
@@ -255,7 +255,7 @@ export function PrintContent(props: IPrintContentProps) {
     [onPrintEnd]
   );
 
-  const drawRect = () => {
+  const drawRect = React.useCallback((): void => {
     if (formValue.format == null || formValue.orientation == null || formValue.scale == null || center == null) {
       return;
     }
@@ -271,10 +271,21 @@ export function PrintContent(props: IPrintContentProps) {
             +formValue.scale,
             defaultImageMargins
           )
-        ),
+        )
       })
     );
-  };
+  }, [center, formValue.format, formValue.orientation, formValue.scale, olMap, rectSource]);
+
+  React.useEffect(() => {
+    if (props.activated) {
+      setCenter(olMap.getView().getCenter() as [number, number]);
+      drawRect();
+    }
+
+    return (): void => {
+      if (rectSource) rectSource.clear();
+    };
+  }, [props.activated, drawRect, olMap, rectSource]);
 
   const handleChangeInput = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -380,12 +391,6 @@ export function PrintContent(props: IPrintContentProps) {
       rectSource.clear();
     }
     return null;
-  }
-
-  if (center == null) {
-    setCenter(olMap.getView().getCenter() as [number, number]);
-  } else {
-    drawRect();
   }
 
   return (

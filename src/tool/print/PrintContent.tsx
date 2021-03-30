@@ -117,6 +117,72 @@ const pt2mm = 0.28;
 // Canceling is global tool variable
 let canceling = false;
 
+const computePdfSize = (format: string, orientation: string): [number, number] => {
+  let pdfWidth = dims[format][0];
+  let pdfHeight = dims[format][1];
+  if (orientation === 'portrait') {
+    const tmp = pdfWidth;
+    pdfWidth = pdfHeight;
+    pdfHeight = tmp;
+  }
+  return [pdfWidth, pdfHeight];
+};
+
+const computeMapImageSize = (
+  format: string,
+  orientation: string,
+  dpi: number,
+  imageMargins: { [scale: string]: number }
+): [number, number] => {
+  const pdfSize = computePdfSize(format, orientation);
+  const innerWidth = pdfSize[0] - imageMargins.left - imageMargins.right;
+  const innerHeight = pdfSize[1] - imageMargins.top - imageMargins.bottom;
+  let imageWidth = (innerWidth * dpi) / mm2inch;
+  let imageHeight = (innerHeight * dpi) / mm2inch;
+  imageWidth = Math.round(imageWidth);
+  imageHeight = Math.round(imageHeight);
+  return [imageWidth, imageHeight];
+};
+
+const computeLegendImageSize = (
+  format: string,
+  orientation: string,
+  dpi: number,
+  margins: { [scale: string]: number },
+  imageMargins: { [scale: string]: number }
+): [number, number] => {
+  const pdfSize = computePdfSize(format, orientation);
+  const innerWidth = imageMargins.right - margins.right;
+  const innerHeight = pdfSize[1] - margins.top - margins.bottom - 95;
+  let imageWidth = (innerWidth * dpi) / mm2inch;
+  let imageHeight = (innerHeight * dpi) / mm2inch;
+  imageWidth = Math.round(imageWidth);
+  imageHeight = Math.round(imageHeight);
+  return [imageWidth, imageHeight];
+};
+
+const computeRectangle = (
+  format: string,
+  orientation: string,
+  center: [number, number],
+  projection: Projection,
+  scale: number,
+  imageMargins: { [scale: string]: number }
+): [number, number, number, number] => {
+  const pdfSize = computePdfSize(format, orientation);
+  const innerWidth = pdfSize[0] - imageMargins.left - imageMargins.right;
+  const innerHeight = pdfSize[1] - imageMargins.top - imageMargins.bottom;
+  const pointResolution = getPointResolution(projection, 1, center);
+  const rectWidth = (innerWidth * mm2m * scale) / pointResolution;
+  const rectHeight = (innerHeight * mm2m * scale) / pointResolution;
+  return [
+    center[0] - rectWidth / 2,
+    center[1] - rectHeight / 2,
+    center[0] + rectWidth / 2,
+    center[1] + rectHeight / 2
+  ] as [number, number, number, number];
+};
+
 export interface IPrintContentProps extends IFunctionBaseWindowToolProps {
   onPrintStart?: () => void;
   onPrintEnd?: (pdf?: JsPDF) => void;
@@ -150,72 +216,6 @@ export function PrintContent(props: IPrintContentProps) {
       scale: '20000',
     });
   }, []);
-
-  const computePdfSize = (format: string, orientation: string): [number, number] => {
-    let pdfWidth = dims[format][0];
-    let pdfHeight = dims[format][1];
-    if (orientation === 'portrait') {
-      const tmp = pdfWidth;
-      pdfWidth = pdfHeight;
-      pdfHeight = tmp;
-    }
-    return [pdfWidth, pdfHeight];
-  };
-
-  const computeMapImageSize = (
-    format: string,
-    orientation: string,
-    dpi: number,
-    imageMargin: { [scale: string]: number }
-  ): [number, number] => {
-    const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - imageMargin.left - imageMargin.right;
-    const innerHeight = pdfSize[1] - imageMargin.top - imageMargin.bottom;
-    let imageWidth = (innerWidth * dpi) / mm2inch;
-    let imageHeight = (innerHeight * dpi) / mm2inch;
-    imageWidth = Math.round(imageWidth);
-    imageHeight = Math.round(imageHeight);
-    return [imageWidth, imageHeight];
-  };
-
-  const computeLegendImageSize = (
-    format: string,
-    orientation: string,
-    dpi: number,
-    margin: { [scale: string]: number },
-    imageMargin: { [scale: string]: number }
-  ): [number, number] => {
-    const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = imageMargin.right - margin.right;
-    const innerHeight = pdfSize[1] - margin.top - margin.bottom;
-    let imageWidth = (innerWidth * dpi) / mm2inch;
-    let imageHeight = (innerHeight * dpi) / mm2inch;
-    imageWidth = Math.round(imageWidth);
-    imageHeight = Math.round(imageHeight);
-    return [imageWidth, imageHeight];
-  };
-
-  const computeRectangle = (
-    format: string,
-    orientation: string,
-    center: [number, number],
-    projection: Projection,
-    scale: number,
-    imageMargin: { [scale: string]: number }
-  ): [number, number, number, number] => {
-    const pdfSize = computePdfSize(format, orientation);
-    const innerWidth = pdfSize[0] - imageMargin.left - imageMargin.right;
-    const innerHeight = pdfSize[1] - imageMargin.top - imageMargin.bottom;
-    const pointResolution = getPointResolution(projection, 1, center);
-    const rectWidth = (innerWidth * mm2m * scale) / pointResolution;
-    const rectHeight = (innerHeight * mm2m * scale) / pointResolution;
-    return [
-      center[0] - rectWidth / 2,
-      center[1] - rectHeight / 2,
-      center[0] + rectWidth / 2,
-      center[1] + rectHeight / 2,
-    ] as [number, number, number, number];
-  };
 
   const buildPdf = React.useCallback(
     (
@@ -311,6 +311,7 @@ export function PrintContent(props: IPrintContentProps) {
       defaultImageMargins
     );
     const rect = rectSource.getFeatures()[0].getGeometry().getExtent();
+    rectSource.clear();
 
     const sources: IExtended[] = [];
     const layerElements = layersManager.getLayerElements((layerElement: ILayerElement) => {
@@ -353,6 +354,7 @@ export function PrintContent(props: IPrintContentProps) {
       .finally(() => {
         setPrinting(false);
         canceling = false;
+        drawRect();
       });
   };
 

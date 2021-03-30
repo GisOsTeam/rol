@@ -169,11 +169,11 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
             name="Topp States"
             description="Topp States WMS Layer"
           />
-          <Image uid="UID -- Cities" source={cities} name="Cities" />
+          {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
           <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
-          <Image uid="UID -- PK" source={pk} name="Point kilométrique (WMS/WFS)" />
-          <VectorTile uid="UID -- PKTILEWFS" source={pkTileWfs} name="Point kilométrique (TILEWFS)" declutter={true} />
+          {/* <Image uid="UID -- PK" source={pk} name="Point kilométrique (WMS/WFS)" /> */}
+          {/* <VectorTile uid="UID -- PKTILEWFS" source={pkTileWfs} name="Point kilométrique (TILEWFS)" declutter={true} /> */}
           <Control>
             <Zone>
               <Toc uid="Toc" independant />

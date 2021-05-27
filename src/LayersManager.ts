@@ -14,6 +14,7 @@ import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 import Layer from 'ol/layer/Layer';
+import { TileJSON } from './layer/TileJSON';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -330,7 +331,15 @@ export class LayersManager {
         }
       }
     }
-    const source = createSource(sourceType, sourceOptions);
+    let source = createSource(sourceType, sourceOptions);
+    /*
+    * Dans la fonction create de aol/src/source/factory/SourceFactory
+    * il faut rajouter un case pour l'objet TileJSON :
+    *   source = new TileJSON(sourceOptions);
+    */
+    if(!source) {
+      source = new TileJSON(sourceOptions);
+    }
     this.createAndAddLayerFromSource(source, props);
     return source;
   }

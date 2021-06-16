@@ -1,6 +1,6 @@
 {
   "name": "@gisosteam/rol",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "OpenLayers with React",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -36,9 +36,9 @@
     "@types/jszip": "^3.4.1",
     "@types/ol": "^6.4.2",
     "@types/react": "^17.0.0",
-    "@types/react-autosuggest": "^10.0.1",
+    "@types/react-autosuggest": "^10.1.4",
     "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5.1.7",
+    "@types/styled-components": "^5.1.10",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
     "awesome-typescript-loader": "^5.2.1",
@@ -51,7 +51,7 @@
     "husky": "^4.3.7",
     "ol": "6.4.3",
     "prettier": "^2.2.1",
-    "proj4": "2.6.3",
+    "proj4": "2.7.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "rimraf": "^3.0.2",
@@ -63,18 +63,18 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@gisosteam/aol": "^0.1.8",
-    "bhreq": "^0.1.1",
-    "jspdf": "^2.2.0",
+    "@gisosteam/aol": "^0.1.20",
+    "bhreq": "^0.1.2",
+    "jspdf": "^2.3.1",
     "react-autosuggest": "^10.1.0",
     "react-draggable": "^4.4.3",
     "react-draggable-list": "^4.0.3",
-    "react-icons": "^4.1.0",
-    "styled-components": "^5.2.1"
+    "react-icons": "^4.2.0",
+    "styled-components": "^5.3.0"
   },
   "peerDependencies": {
     "ol": "6.4.3",
-    "proj4": "2.6.3",
+    "proj4": "2.7.4",
     "react": "^17.0.1"
   },
   "engines": {

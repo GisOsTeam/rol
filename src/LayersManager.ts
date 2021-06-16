@@ -7,13 +7,13 @@ import { Vector } from './layer/Vector';
 import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
-import { jsonEqual, walk, createSource } from '@gisosteam/aol/utils';
+import { jsonEqual, walk } from '@gisosteam/aol/utils';
+import { SourceFactory } from '@gisosteam/aol/source/factory/SourceFactory';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
 import { ISnapshotSource, IFeatureType } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
-import Layer from 'ol/layer/Layer';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 
@@ -330,7 +330,7 @@ export class LayersManager {
         }
       }
     }
-    const source = createSource(sourceType, sourceOptions);
+    const source = SourceFactory.create(sourceType, sourceOptions);
     this.createAndAddLayerFromSource(source, props);
     return source;
   }

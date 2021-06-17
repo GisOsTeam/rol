@@ -164,6 +164,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       new OlView({
         center: [0, 0],
         zoom: 2,
+        projection: 'EPSG:3857',
         constrainResolution: true,
       })
     );

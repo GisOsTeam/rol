@@ -49,7 +49,7 @@ export class Heatmap extends BaseLayer<IHeatmapProps, {}, OlHeatmapLayer, Vector
 
   public setSource(source: Vector) {
     if (source != null && 'init' in source) {
-      (source as IInitSource).init().then(
+      (source as any as IInitSource).init().then(
         () => this.getOlLayer().setSource(source),
         () => this.getOlLayer().setSource(source)
       );

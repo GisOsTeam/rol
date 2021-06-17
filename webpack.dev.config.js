@@ -10,7 +10,8 @@ module.exports = {
     './src/sample/main'
   ],
   output: {
-    filename: 'bundle.js'
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css']
@@ -19,7 +20,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.tsx?$/,
-      use: ['awesome-typescript-loader'],
+      use: ['ts-loader'],
     }, {
       test: /\.css?$/,
       use: ['style-loader', 'css-loader']

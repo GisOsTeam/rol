@@ -109,6 +109,13 @@ const pkTileWfs = new TileWfs({
   }),
 });
 
+const geodeps = new ImageWms({
+  url: 'http://idlv-vnf-dev-app.lyon-dev2.local:8180/geoserver/wms',
+  types: [{ id: 'gedo:departements' }],
+  crossOrigin: undefined,
+  params: {},
+});
+
 export class SampleApp extends React.Component<{}, { hide: boolean }> {
   private reloaded = false;
 
@@ -178,6 +185,7 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
           {/* <Image uid="UID -- Cities" source={cities} name="Cities" /> */}
           <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
+          <Image uid="UID -- geodeps" source={geodeps} name="geodeps" />
           {/* <Image uid="UID -- PK" source={pk} name="Point kilométrique (WMS/WFS)" /> */}
           {/* <VectorTile uid="UID -- PKTILEWFS" source={pkTileWfs} name="Point kilométrique (TILEWFS)" declutter={true} /> */}
           <Control>

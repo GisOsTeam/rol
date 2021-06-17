@@ -22,7 +22,7 @@ export interface IBaseLayerProps {
    */
   description?: string;
   /**
-   * type: BASE or OVERLAY.
+   * type: BASE, OVERLAY or WORK.
    */
   type?: string;
   /**
@@ -157,6 +157,9 @@ export class BaseLayer<
       let zIndex = order;
       if (nextProps.type === 'OVERLAY') {
         zIndex += 10000;
+      }
+      if (nextProps.type === 'WORK') {
+        zIndex += 20000;
       }
       this.olLayer.set('order', order);
       this.olLayer.setZIndex(zIndex);

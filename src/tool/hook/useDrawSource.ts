@@ -34,6 +34,10 @@ export interface IUseDrawSourceProps {
    * Listable.
    */
   removable?: boolean;
+  /**
+   * Type
+   */
+  type?: string;
 }
 
 export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
@@ -52,6 +56,7 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
         uid: props.layerUid,
         name: props.name != null ? props.name : 'Draw',
         layerStyles: props.styles != null ? props.styles : createLayerStyles(),
+        type: props.type != null ? props.type : 'WORK',
       };
       const localVectorSource = context.layersManager.createAndAddLayerFromSourceDefinition(
         SourceTypeEnum.LocalVector,

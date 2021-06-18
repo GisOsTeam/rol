@@ -62,15 +62,14 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
     });
   };
 
-  const handleCheckboxChange = (cbNname: string, cbDescription: string) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.currentTarget.checked === true) {
-      setSelected(selected.concat([[cbNname, cbDescription]]));
-    } else {
-      setSelected(selected.filter((elem: [string, string]) => elem[0] !== cbNname));
-    }
-  };
+  const handleCheckboxChange =
+    (cbNname: string, cbDescription: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.currentTarget.checked === true) {
+        setSelected(selected.concat([[cbNname, cbDescription]]));
+      } else {
+        setSelected(selected.filter((elem: [string, string]) => elem[0] !== cbNname));
+      }
+    };
 
   const handleAddButtonClick = (layersManager: LayersManager) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

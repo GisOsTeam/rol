@@ -44,7 +44,7 @@ const wkt27700 =
 const osm = new Osm({ projection: 'EPSG:3857' });
 
 const worldTopo = new Xyz({
-  url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+  url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
 });
 
 const worldStreet = new TileArcGISRest({
@@ -68,8 +68,7 @@ const timeZones = new WmtsCapabilities({
 });
 
 const britishNationalGrid = new ImageStatic({
-  url:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/British_National_Grid.svg/2000px-British_National_Grid.svg.png',
+  url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/British_National_Grid.svg/2000px-British_National_Grid.svg.png',
   projection: 'EPSG:27700',
   imageExtent: [0, 0, 700000, 1300000],
 });

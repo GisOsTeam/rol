@@ -6,7 +6,10 @@ import { rolContext, IRolContext } from '../RolContext';
 import { walk, jsonEqual } from '@gisosteam/aol/utils';
 import { ISnapshotSource } from '@gisosteam/aol/source/IExtended';
 
-let globalOrder = 0;
+let globalBaseOrder = 0;
+let globalOverlayOrder = 0;
+let globalWorkOrder = 0;
+const orderLimit = 100000;
 
 export interface IBaseLayerProps {
   /**
@@ -148,18 +151,44 @@ export class BaseLayer<
     }
     if (prevProps == null || prevProps.order !== nextProps.order || prevProps.type !== nextProps.type) {
       let order = nextProps.order;
-      if (order == null || order == NaN || order < 0) {
-        order = globalOrder + 1;
+      if (order >= orderLimit) {
+        order = orderLimit - 1;
       }
-      if (order > globalOrder) {
-        globalOrder = order;
+      if (order < 0) {
+        order = 0;
+      }
+      switch (nextProps.type) {
+        case 'BASE':
+          if (order == null || order == NaN || order < 0) {
+            order = globalBaseOrder + 1;
+          }
+          if (order > globalBaseOrder) {
+            globalBaseOrder = order;
+          }
+          break;
+        case 'OVERLAY':
+          if (order == null || order == NaN || order < 0) {
+            order = globalOverlayOrder + 1;
+          }
+          if (order > globalOverlayOrder) {
+            globalOverlayOrder = order;
+          }
+          break;
+        case 'WORK':
+          if (order == null || order == NaN || order < 0) {
+            order = globalWorkOrder + 1;
+          }
+          if (order > globalWorkOrder) {
+            globalWorkOrder = order;
+          }
+          break;
       }
       let zIndex = order;
       if (nextProps.type === 'OVERLAY') {
-        zIndex += 10000;
+        zIndex += orderLimit;
       }
       if (nextProps.type === 'WORK') {
-        zIndex += 20000;
+        zIndex += 2 * orderLimit;
       }
       this.olLayer.set('order', order);
       this.olLayer.setZIndex(zIndex);

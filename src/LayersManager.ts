@@ -96,9 +96,10 @@ export class LayersManager {
           props.source = undefined;
           props.children = undefined;
           layers.push({
+            layerType: (source as ISnapshotSource).getLayerType(),
+            layerOptions: props,
             sourceType: (source as ISnapshotSource).getSourceType(),
             sourceOptions: (source as ISnapshotSource).getSourceOptions(),
-            props,
           });
         }
       }
@@ -150,7 +151,7 @@ export class LayersManager {
       setTimeout(() => {
         // Layers
         snapshot.layers.forEach((layer) => {
-          this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.props);
+          this.createAndAddLayerFromSourceDefinition(layer.sourceType, layer.sourceOptions, layer.layerOptions);
         });
         // Refresh
         this.refresh();

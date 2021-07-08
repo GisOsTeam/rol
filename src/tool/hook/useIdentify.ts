@@ -71,9 +71,9 @@ export function useIdentify(props: IUseIdentifyProps): any {
   /**
    * supprime le dessin une fois qu'il est fini
    */
-  const handleOnClickDblClickMap = (): void => {
+  const handleOnClickDblClickMap = React.useCallback((): void => {
     props.drawSource.clear();
-  };
+  }, [props.drawSource]);
 
   useDrawInteraction({
     activated: props.activated,
@@ -82,21 +82,27 @@ export function useIdentify(props: IUseIdentifyProps): any {
     onDrawEnd: handleOnDrawEnd,
   });
 
-  if (
-    props.typeGeom === GeometryType.POLYGON ||
-    props.typeGeom === GeometryType.LINE_STRING ||
-    props.typeGeom === GeometryType.CIRCLE
-  ) {
-    if (props.activated === true) {
-      olMap.on('dblclick', handleOnClickDblClickMap);
-    } else {
-      olMap.un('dblclick', handleOnClickDblClickMap);
+  React.useEffect(() => {
+    if (
+      props.typeGeom === GeometryType.POLYGON ||
+      props.typeGeom === GeometryType.LINE_STRING ||
+      props.typeGeom === GeometryType.CIRCLE
+    ) {
+      if (props.activated === true) {
+        olMap.on('dblclick', handleOnClickDblClickMap);
+      } else {
+        olMap.un('dblclick', handleOnClickDblClickMap);
+      }
+    } else if (props.typeGeom === GeometryType.POINT) {
+      if (props.activated === true) {
+        olMap.on('click', handleOnClickDblClickMap);
+      } else {
+        olMap.un('click', handleOnClickDblClickMap);
+      }
     }
-  } else if (props.typeGeom === GeometryType.POINT) {
-    if (props.activated === true) {
-      olMap.on('click', handleOnClickDblClickMap);
-    } else {
+    return () => {
+      olMap.un('dblclick', handleOnClickDblClickMap);
       olMap.un('click', handleOnClickDblClickMap);
     }
-  }
+  }, [props.activated, props.typeGeom, handleOnClickDblClickMap])
 }

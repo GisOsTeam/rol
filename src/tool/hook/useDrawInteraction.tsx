@@ -16,7 +16,6 @@ export interface IUseDrawInteractionProps extends Options {
 export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   const context = React.useContext(rolContext);
   const [draw, setDraw] = React.useState<Draw>(null);
-  const [added, setAdded] = React.useState<boolean>(false);
   // Effect for build interaction
   React.useEffect(() => {
     const { activated, onDrawEnd, ...options } = props;
@@ -53,12 +52,16 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   // Effect for manage activate/deactivate
   React.useEffect(() => {
     if (draw != null) {
-      if (!added && context.olMap != null) {
+      if (context.olMap != null) {
         context.olMap.addInteraction(draw);
-        setAdded(true);
       }
+
       draw.setActive(props.activated === true);
+      
+      return () => {
+        context.olMap.removeInteraction(draw);
+      }
     }
-  }, [props.activated]);
+  }, [props.activated, draw]);
   return draw;
 }

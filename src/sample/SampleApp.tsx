@@ -35,6 +35,7 @@ import { OneShotCounterButton } from './OneShotCounterButton';
 import { BanSearchProvider } from '@gisosteam/aol/search';
 import { createXYZ } from 'ol/tilegrid';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
+import { DefaultIdentify } from './DefaultIdentify';
 
 const wkt2154 =
   'PROJCS["RGF93 / Lambert-93",GEOGCS["RGF93",DATUM["Reseau_Geodesique_Francais_1993",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6171"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4171"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",49],PARAMETER["standard_parallel_2",44],PARAMETER["latitude_of_origin",46.5],PARAMETER["central_meridian",3],PARAMETER["false_easting",700000],PARAMETER["false_northing",6600000],AUTHORITY["EPSG","2154"],AXIS["X",EAST],AXIS["Y",NORTH]]';
@@ -88,7 +89,8 @@ const cities = new ImageWms({
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{ id: 0 }, { id: 1, name: 'Highways' }],
+  types: [
+    { id: 0 }, { id: 1, name: 'Highways' }],
 });
 
 const pk = new ImageWms({
@@ -131,7 +133,7 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
         <Rol
           uid="map"
           keyboardEventTarget={document}
-          olMapStyle={{ width: '100%', height: '600px' }}
+          olMapStyle={{ width: '100%', height: '90vh' }}
           afterMount={(afterData: IAfterData) => {
             afterData.olMap.setView(
               new OlView({
@@ -189,6 +191,7 @@ export class SampleApp extends React.Component<{}, { hide: boolean }> {
           {/* <VectorTile uid="UID -- PKTILEWFS" source={pkTileWfs} name="Point kilométrique (TILEWFS)" declutter={true} /> */}
           <Control>
             <Zone>
+              <DefaultIdentify uid="Pwet" activated defaultActivated />
               <Toc uid="Toc" independant />
               <Fullscreen uid="Fullscreen" independant />
               <PanZoom uid="PanZoom" independant />

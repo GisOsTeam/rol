@@ -103,6 +103,6 @@ export function useIdentify(props: IUseIdentifyProps): any {
     return () => {
       olMap.un('dblclick', handleOnClickDblClickMap);
       olMap.un('click', handleOnClickDblClickMap);
-    }
-  }, [props.activated, props.typeGeom, handleOnClickDblClickMap])
+    };
+  }, [props.activated, props.typeGeom, handleOnClickDblClickMap]);
 }

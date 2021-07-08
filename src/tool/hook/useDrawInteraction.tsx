@@ -57,10 +57,10 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
       }
 
       draw.setActive(props.activated === true);
-      
+
       return () => {
         context.olMap.removeInteraction(draw);
-      }
+      };
     }
   }, [props.activated, draw]);
   return draw;

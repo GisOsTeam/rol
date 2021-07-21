@@ -29,7 +29,6 @@ import { DrawLine } from '../tool/draw';
 import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
-import { VectorTile } from '../layer/VectorTile';
 import { Projection } from '../Projection';
 import { OneShotCounterButton } from './OneShotCounterButton';
 import { BanSearchProvider } from '@gisosteam/aol/search';

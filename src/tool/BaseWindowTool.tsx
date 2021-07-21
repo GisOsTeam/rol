@@ -304,7 +304,7 @@ export class BaseWindowTool<
     this.checkPosition(position);
   };
 
-  public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!this.props.disabled) {
       if (this.props.onButtonClick) {
@@ -325,12 +325,12 @@ export class BaseWindowTool<
     this.activate();
   };
 
-  public handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  public handleCloseClick = (event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
     event.preventDefault();
     this.close();
   };
 
-  public handleReduceClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  public handleReduceClick = (event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (this.state.isUnfold) {
       this.fold();
@@ -431,6 +431,7 @@ export class BaseWindowTool<
           className={openButtonClassName}
           title={this.props.buttonTitle}
           onClick={this.handleButtonClick}
+          onTouchEnd={this.handleButtonClick}
           activated={this.props.activated}
           independant={this.props.independant}
         >
@@ -444,6 +445,7 @@ export class BaseWindowTool<
         <TitleBarCloseButton
           className={`${this.props.className.split(/\s+/g)[0]}-titlebar-close-button`}
           onClick={this.handleCloseClick}
+          onTouchEnd={this.handleCloseClick}
           activated={this.props.activated}
           independant={this.props.independant}
         />
@@ -457,6 +459,7 @@ export class BaseWindowTool<
             this.state.isUnfold ? 'rol-unfold' : 'rol-fold'
           }`}
           onClick={this.handleReduceClick}
+          onTouchEnd={this.handleReduceClick}
           activated={this.props.activated}
           independant={this.props.independant}
           isUnfold={this.state.isUnfold}

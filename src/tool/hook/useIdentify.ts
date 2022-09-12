@@ -82,11 +82,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
   });
 
   React.useEffect(() => {
-    if (
-      props.typeGeom === 'Polygon' ||
-      props.typeGeom === 'LineString' ||
-      props.typeGeom === 'Circle'
-    ) {
+    if (props.typeGeom === 'Polygon' || props.typeGeom === 'LineString' || props.typeGeom === 'Circle') {
       if (props.activated === true) {
         olMap.on('dblclick', handleOnClickDblClickMap);
       } else {

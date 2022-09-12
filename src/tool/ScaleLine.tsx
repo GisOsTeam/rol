@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { getPointResolution } from 'ol/proj';
-import OlUnits from 'ol/proj/Units';
 import { rolContext, IRolContext } from '../RolContext';
 import { BaseTool, IBaseToolProps } from './BaseTool';
 
@@ -128,7 +127,7 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
     const center = view.getCenter();
     const resolution = view.getResolution();
 
-    let pointResolution = getPointResolution(projection, resolution, center, OlUnits.METERS);
+    let pointResolution = getPointResolution(projection, resolution, center, 'm');
 
     const nominalCount = this.props.minWidth * pointResolution;
     let suffix = '';

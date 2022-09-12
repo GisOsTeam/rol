@@ -11,8 +11,8 @@ export interface ITileProps extends IBaseLayerProps {
   source?: TileImageSource;
 }
 
-export class Tile extends BaseLayer<ITileProps, {}, OlTileLayer, TileImageSource> {
-  public createOlLayer(): OlTileLayer {
+export class Tile extends BaseLayer<ITileProps, {}, OlTileLayer<any>, TileImageSource> {
+  public createOlLayer(): OlTileLayer<any> {
     return new OlTileLayer();
   }
 

@@ -6,7 +6,6 @@ import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTabl
 import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
-import GeometryType from 'ol/geom/GeometryType';
 import { createLayerStyles } from '@gisosteam/aol/utils';
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
@@ -48,7 +47,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     limit: props.limit,
     tolerance: props.tolerance,
     filterSources: filterListableSource,
-    typeGeom: GeometryType.POINT,
+    typeGeom: 'Point',
     drawSource: source,
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IQueryResponseFeatures = {};

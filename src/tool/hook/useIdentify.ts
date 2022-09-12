@@ -1,7 +1,6 @@
 import { LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
-import GeometryType from 'ol/geom/GeometryType';
 import LineString from 'ol/geom/LineString';
 import Point from 'ol/geom/Point';
 import Polygon from 'ol/geom/Polygon';
@@ -10,7 +9,7 @@ import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
 import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
-import Geometry from 'ol/geom/Geometry';
+import Geometry, { Type } from 'ol/geom/Geometry';
 
 export interface IIdentifyResponse {
   features: IQueryResponseFeatures;
@@ -26,7 +25,7 @@ export interface IUseIdentifyProps {
   limit?: number;
   tolerance?: number;
   filterSources?: IdentifyFilterType;
-  typeGeom: GeometryType;
+  typeGeom: Type;
   drawSource: LocalVector;
   onIdentifyResponse: (identifyResp: IIdentifyResponse) => any;
 }
@@ -44,11 +43,11 @@ export function useIdentify(props: IUseIdentifyProps): any {
   const handleOnDrawEnd = async (evt: DrawEvent | undefined): Promise<any> => {
     if (evt) {
       let geom = null;
-      if (props.typeGeom === GeometryType.POLYGON) {
+      if (props.typeGeom === 'Polygon') {
         geom = evt.feature.getGeometry() as Polygon;
-      } else if (props.typeGeom === GeometryType.POINT) {
+      } else if (props.typeGeom === 'Point') {
         geom = evt.feature.getGeometry() as Point;
-      } else if (props.typeGeom === GeometryType.LINE_STRING) {
+      } else if (props.typeGeom === 'LineString') {
         geom = evt.feature.getGeometry() as LineString;
       }
       if (geom) {
@@ -77,23 +76,23 @@ export function useIdentify(props: IUseIdentifyProps): any {
 
   useDrawInteraction({
     activated: props.activated,
-    type: props.typeGeom,
+    type: props.typeGeom as any,
     source: props.drawSource,
     onDrawEnd: handleOnDrawEnd,
   });
 
   React.useEffect(() => {
     if (
-      props.typeGeom === GeometryType.POLYGON ||
-      props.typeGeom === GeometryType.LINE_STRING ||
-      props.typeGeom === GeometryType.CIRCLE
+      props.typeGeom === 'Polygon' ||
+      props.typeGeom === 'LineString' ||
+      props.typeGeom === 'Circle'
     ) {
       if (props.activated === true) {
         olMap.on('dblclick', handleOnClickDblClickMap);
       } else {
         olMap.un('dblclick', handleOnClickDblClickMap);
       }
-    } else if (props.typeGeom === GeometryType.POINT) {
+    } else if (props.typeGeom === 'Point') {
       if (props.activated === true) {
         olMap.on('click', handleOnClickDblClickMap);
       } else {

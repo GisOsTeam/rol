@@ -46,7 +46,7 @@ export function useTranslateInteraction(props: IUseTranslateInteractionProps): T
         return;
       }
       const preCreateTranslate = new Translate({
-        layers: [layerElement.olLayer as Layer],
+        layers: [layerElement.olLayer as Layer<any>],
         hitTolerance: props.hitTolerance,
       });
       preCreateTranslate.setActive(props.activated);

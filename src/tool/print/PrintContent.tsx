@@ -341,7 +341,7 @@ export function PrintContent(props: IPrintContentProps) {
     }
 
     Promise.all([
-      exportToImage(olMap, mapImageSize, rect, 'JPEG', () => canceling),
+      exportToImage(olMap, mapImageSize, rect as any, 'JPEG', () => canceling),
       exportLegendToImage(sources, legendImageSize, 'JPEG', () => canceling),
     ])
       .then(

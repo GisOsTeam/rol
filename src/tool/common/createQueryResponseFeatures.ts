@@ -9,7 +9,7 @@ export type IQueryResponseFeatures = {
     types: {
       [typeId: string]: {
         type: IFeatureType<string | number>;
-        features: Feature[];
+        features: Feature<any>[];
       };
     };
   };

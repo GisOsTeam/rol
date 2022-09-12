@@ -17,8 +17,8 @@ export interface IVectorProps extends IBaseLayerProps {
   layerStyles?: LayerStyles;
 }
 
-export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer, VectorSource> {
-  public createOlLayer(): OlVectorLayer {
+export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer<any>, VectorSource> {
+  public createOlLayer(): OlVectorLayer<any> {
     return new OlVectorLayer();
   }
 

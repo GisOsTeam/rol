@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { IFeatureType, LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
-
 import { IBaseToolProps } from '../tool';
 import { useDrawSource, useIdentify } from '../tool/hook';
 import { Feature } from 'ol';
-import GeometryType from 'ol/geom/GeometryType';
 
 export interface IIdentifyContentProps extends IBaseToolProps {
   tolerance?: number;
@@ -12,7 +10,7 @@ export interface IIdentifyContentProps extends IBaseToolProps {
 }
 
 export interface ITypeFeatureResponse {
-  features: Feature[];
+  features: Feature<any>[];
   type: IFeatureType<string | number>;
 }
 
@@ -27,7 +25,7 @@ export const DefaultIdentifyContent: React.FunctionComponent<IIdentifyContentPro
    */
   useIdentify({
     activated: props.activated,
-    typeGeom: GeometryType.POINT,
+    typeGeom: 'Point',
     tolerance: 5,
     limit: 5,
     layersParam: LayersPrefixEnum.ALL,

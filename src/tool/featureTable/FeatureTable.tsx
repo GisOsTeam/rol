@@ -8,9 +8,9 @@ const Container = styled.div`
   display: flex;
 `;
 
-type SetterType = React.Dispatch<React.SetStateAction<Feature[]>>;
+type SetterType = React.Dispatch<React.SetStateAction<Feature<any>[]>>;
 
-export type DisplayedFeaturesType = Feature[];
+export type DisplayedFeaturesType = Feature<any>[];
 
 export interface IFeatureTableProps {
   identificationResponseFeatures: IQueryResponseFeatures;
@@ -19,11 +19,11 @@ export interface IFeatureTableProps {
 
 export const FeatureTable = (props: IFeatureTableProps) => {
   const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
-  const [nameFeatures, setNameFeatures] = React.useState<{ [name: string]: Feature[] }>({});
+  const [nameFeatures, setNameFeatures] = React.useState<{ [name: string]: Feature<any>[] }>({});
 
   React.useEffect(() => {
     let firstFeature = null;
-    const nameFeaturesTmp: { [name: string]: Feature[] } = {};
+    const nameFeaturesTmp: { [name: string]: Feature<any>[] } = {};
     for (const sourceId in props.identificationResponseFeatures) {
       const elem = props.identificationResponseFeatures[sourceId];
       for (const typeId in elem.types) {
@@ -46,7 +46,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
   }, [props.identificationResponseFeatures]);
 
   const renderContent = () => {
-    const htmlEntities: React.ReactElement[] = displayedObjects.map((feature: Feature, featureIndex: number) => {
+    const htmlEntities: React.ReactElement[] = displayedObjects.map((feature: Feature<any>, featureIndex: number) => {
       const customFeatureId = 'feature_id';
       let customFeat: any = {};
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);

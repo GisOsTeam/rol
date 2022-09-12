@@ -11,8 +11,8 @@ export interface IImageProps extends IBaseLayerProps {
   source?: ImageSource;
 }
 
-export class Image extends BaseLayer<IImageProps, {}, OlImageLayer, ImageSource> {
-  public createOlLayer(): OlImageLayer {
+export class Image extends BaseLayer<IImageProps, {}, OlImageLayer<any>, ImageSource> {
+  public createOlLayer(): OlImageLayer<any> {
     return new OlImageLayer();
   }
 

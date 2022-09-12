@@ -5,7 +5,6 @@ import { VectorTile as VectorTileSource } from '@gisosteam/aol/source/VectorTile
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
 import { IInitSource } from '@gisosteam/aol/source/IExtended';
-import VectorTileRenderType from 'ol/layer/VectorTileRenderType';
 
 export interface IVectorTileProps extends IBaseLayerProps {
   /**
@@ -23,7 +22,7 @@ export interface IVectorTileProps extends IBaseLayerProps {
   /**
    * Render mode.
    */
-  renderMode?: VectorTileRenderType;
+  renderMode?: string;
   /**
    * Declutter.
    */
@@ -34,7 +33,7 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
   public createOlLayer(): OlVectorTileLayer {
     return new OlVectorTileLayer({
       renderBuffer: this.props.renderBuffer,
-      renderMode: this.props.renderMode,
+      renderMode: this.props.renderMode as any,
       declutter: this.props.declutter,
     });
   }

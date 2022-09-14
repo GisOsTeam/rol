@@ -83,7 +83,7 @@ export class BaseLayer<
     this.internalAddEvents();
   }
 
-  public componentDidUpdate(prevProps: P, prevState: S, snap: any) {
+  public componentDidUpdate(prevProps: P, prevState: S, snap: never) {
     this.updateProps(prevProps, this.props);
   }
 

@@ -5,12 +5,12 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "module": "commonjs",
-    "target": "es5",
+    "module": "CommonJS",
+    "target": "ES6",
     "jsx": "react",
     "lib": [
-      "dom",
-      "es2015"
+      "DOM",
+      "ES6"
     ]
   },
   "include": [
@@ -18,6 +18,6 @@
     "./src/**/*.tsx"
   ],
   "exclude": [
-    "./src/sample/**/*",
+    "./src/sample/**/*"
   ]
 }

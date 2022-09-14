@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import { createLayerStyles } from '@gisosteam/aol/utils';
+import { createLayerStyles } from '@gisosteam/aol/LayerStyles';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';

@@ -10,7 +10,7 @@ import { VectorTile } from './layer/VectorTile';
 import { jsonEqual, walk } from '@gisosteam/aol/utils';
 import { SourceFactory } from '@gisosteam/aol/source/factory/SourceFactory';
 import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import { ISnapshotSource, IFeatureType } from '@gisosteam/aol/source/IExtended';
+import { ISnapshotSource } from '@gisosteam/aol/source/IExtended';
 import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
 import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
 import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';

@@ -50,7 +50,7 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     }
   }
 
-  public componentDidUpdate(prevProps: P, prevState: S, snap: any) {
+  public componentDidUpdate(prevProps: P, prevState: S, snap: never) {
     if (this.props.activated == true && prevProps.activated != true) {
       this.toolDidActivate();
     }
@@ -117,10 +117,10 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
 }
 
 export function withBaseTool<P extends IBaseToolProps>(
-  component: string | React.FunctionComponent<P> | React.ComponentClass<P, {}>,
+  component: string | React.FunctionComponent<P> | React.ComponentClass<P, never>,
   defaultProps?: Partial<P>
 ) {
-  const Tool = class extends BaseTool<P, {}> {
+  const Tool = class extends BaseTool<P, never> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }

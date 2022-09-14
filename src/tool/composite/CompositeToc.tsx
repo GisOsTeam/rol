@@ -40,7 +40,7 @@ export interface ICompositeTocProps extends IComposedTocProps {
   overlaysListComponentProps?: Record<string, any>;
 }
 
-export class CompositeToc extends BaseTool<ICompositeTocProps, {}> {
+export class CompositeToc extends BaseTool<ICompositeTocProps, never> {
   public static defaultProps = {
     ...BaseTool.defaultProps,
     className: 'toc',

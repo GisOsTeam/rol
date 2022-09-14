@@ -1,9 +1,9 @@
-import * as React from 'react';
 import OlVectorTileLayer from 'ol/layer/VectorTile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { VectorTile as VectorTileSource } from '@gisosteam/aol/source/VectorTile';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
-import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
+import { jsonEqual } from '@gisosteam/aol/utils';
+import { applyLayerStyles } from '@gisosteam/aol/LayerStyles';
 import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IVectorTileProps extends IBaseLayerProps {
@@ -29,7 +29,7 @@ export interface IVectorTileProps extends IBaseLayerProps {
   declutter?: boolean;
 }
 
-export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLayer, VectorTileSource> {
+export class VectorTile extends BaseLayer<IVectorTileProps, never, OlVectorTileLayer, VectorTileSource> {
   public createOlLayer(): OlVectorTileLayer {
     return new OlVectorTileLayer({
       renderBuffer: this.props.renderBuffer,
@@ -60,6 +60,6 @@ export class VectorTile extends BaseLayer<IVectorTileProps, {}, OlVectorTileLaye
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {
-    applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
+    applyLayerStyles(this.getOlLayer(), layerStyles);
   }
 }

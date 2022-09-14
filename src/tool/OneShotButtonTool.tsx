@@ -30,7 +30,10 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean; toggl
 
 export interface IOneShotButtonTool extends IBaseButtonToolProps {}
 
-export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool, S = {}> extends BaseButtonTool<P, S> {
+export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool, S = never> extends BaseButtonTool<
+  P,
+  S
+> {
   public toolDidActivate() {
     super.toolDidActivate();
     this.deactivate();
@@ -82,10 +85,10 @@ export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool
 }
 
 export function withOneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool>(
-  component: string | React.FunctionComponent<P> | React.ComponentClass<P, {}>,
+  component: string | React.FunctionComponent<P> | React.ComponentClass<P, never>,
   defaultProps?: Partial<P>
 ) {
-  const Tool = class extends OneShotButtonTool<P, {}> {
+  const Tool = class extends OneShotButtonTool<P, never> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }

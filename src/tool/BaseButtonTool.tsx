@@ -47,7 +47,7 @@ export interface IBaseButtonToolProps extends IBaseToolProps {
   onButtonClick?: () => void;
 }
 
-export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProps, S = {}> extends BaseTool<P, S> {
+export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProps, S = never> extends BaseTool<P, S> {
   public static defaultProps = {
     ...BaseTool.defaultProps,
     toggle: false,
@@ -104,10 +104,10 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
 }
 
 export function withBaseButtonTool<P extends IBaseButtonToolProps>(
-  component: string | React.FunctionComponent<IBaseButtonToolProps> | React.ComponentClass<IBaseButtonToolProps, {}>,
+  component: string | React.FunctionComponent<IBaseButtonToolProps> | React.ComponentClass<IBaseButtonToolProps, never>,
   defaultProps?: Partial<IBaseButtonToolProps>
 ) {
-  const Tool = class extends BaseButtonTool<P, {}> {
+  const Tool = class extends BaseButtonTool<P, never> {
     public renderTool(): React.ReactNode {
       return React.createElement(component, this.props);
     }

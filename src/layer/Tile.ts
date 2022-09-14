@@ -1,4 +1,3 @@
-import * as React from 'react';
 import OlTileLayer from 'ol/layer/Tile';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { TimeImage as TileImageSource } from '@gisosteam/aol/source/TileImage';
@@ -11,7 +10,7 @@ export interface ITileProps extends IBaseLayerProps {
   source?: TileImageSource;
 }
 
-export class Tile extends BaseLayer<ITileProps, {}, OlTileLayer<any>, TileImageSource> {
+export class Tile extends BaseLayer<ITileProps, never, OlTileLayer<any>, TileImageSource> {
   public createOlLayer(): OlTileLayer<any> {
     return new OlTileLayer();
   }

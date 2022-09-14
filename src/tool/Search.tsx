@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { SearchContent, ISearchContentProps } from './search/SearchContent';
 import { withBaseTool, IBaseToolProps } from './BaseTool';
 

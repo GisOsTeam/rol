@@ -1,9 +1,8 @@
 import * as React from 'react';
-import styled, { ThemedStyledFunction } from 'styled-components';
+import styled from 'styled-components';
 import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
-import { Rol } from '../Rol';
 
 const Window = styled.div`
   position: fixed;
@@ -179,7 +178,7 @@ export class BaseWindowTool<
     }
   }
 
-  public componentDidUpdate(prevProps: P, prevState: S, snap: any) {
+  public componentDidUpdate(prevProps: P, prevState: S, snap: never) {
     super.componentDidUpdate(prevProps, prevState, snap);
   }
 
@@ -511,15 +510,15 @@ export function withBaseWindowTool<P extends IBaseWindowToolProps>(
   component:
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
-    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
+    | React.ComponentClass<IFunctionBaseWindowToolProps, never>,
   headerContent:
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
-    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
+    | React.ComponentClass<IFunctionBaseWindowToolProps, never>,
   openButtonContent:
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
-    | React.ComponentClass<IFunctionBaseWindowToolProps, {}>,
+    | React.ComponentClass<IFunctionBaseWindowToolProps, never>,
   defaultProps?: Partial<P>
 ) {
   const Tool = class extends BaseWindowTool<P, IBaseWindowToolState> {

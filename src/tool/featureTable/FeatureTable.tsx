@@ -29,7 +29,13 @@ export const FeatureTable = (props: IFeatureTableProps) => {
       for (const typeId in elem.types) {
         const type = elem.types[typeId];
         const name = `${elem.layerProps.name} ${
-          type.type.name ? type.type.name : typeof type.type.id === 'number' ? `(${type.type.id})` : ''
+          type.type
+            ? type.type.name
+              ? type.type.name
+              : typeof type.type.id === 'number'
+              ? `(${type.type.id})`
+              : ''
+            : ''
         }`;
         nameFeaturesTmp[name] = type.features;
         firstFeature = type.features[0];

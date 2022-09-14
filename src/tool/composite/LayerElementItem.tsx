@@ -43,7 +43,7 @@ export interface ILayerElementItemProps extends IBaseUIItem {
   inputProps?: Record<string, any>;
 }
 
-export class LayerElementItem extends React.Component<ILayerElementItemProps, {}> {
+export class LayerElementItem extends React.Component<ILayerElementItemProps, never> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public context: IRolContext;

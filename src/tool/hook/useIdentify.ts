@@ -17,7 +17,7 @@ export interface IIdentifyResponse {
 }
 
 export interface IUseIdentifyProps {
-  activated: boolean;
+  activated?: boolean;
   /**
    * Pris en compte que sur les couches AGS
    */

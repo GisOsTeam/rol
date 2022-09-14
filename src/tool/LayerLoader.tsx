@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { LayerLoaderButton } from './layerLoader/LayerLoaderButton';
 import { LayerLoaderContent, ILayerLoaderContentProps } from './layerLoader/LayerLoaderContent';
 import { LayerLoaderHeader } from './layerLoader/LayerLoaderHeader';

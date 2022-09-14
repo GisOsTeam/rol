@@ -412,13 +412,6 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       return null;
     }
     const rotateTitle = this.context.translate('panzoom.rotate', 'Set map orientation to north up');
-    let top = 50;
-    if (this.props.showPan) {
-      top += 100;
-    }
-    if (this.props.showZoom) {
-      top += 100;
-    }
     return (
       <div className="ol-unselectable ol-control">
         <ButtonRotate

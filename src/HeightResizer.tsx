@@ -12,7 +12,7 @@ export interface IResizerProps {
   heightRemoval?: string;
 }
 
-export class HeightResizer extends React.Component<IResizerProps, {}> {
+export class HeightResizer extends React.Component<IResizerProps, never> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
   public static defaultProps = {
@@ -29,7 +29,7 @@ export class HeightResizer extends React.Component<IResizerProps, {}> {
     }, 1000);
   }
 
-  public componentDidUpdate(prevProps: IResizerProps, prevState: {}, snap: any) {
+  public componentDidUpdate(prevProps: IResizerProps, prevState: never, snap: never) {
     this.updateSize();
   }
 

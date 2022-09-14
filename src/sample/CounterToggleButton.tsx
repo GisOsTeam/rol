@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
-import { usePrevious } from '../tool/hook/usePrevious';
 
 const ContainerBtn = styled.div``;
 

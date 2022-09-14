@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../BaseButtonTool';
 import { useDrawInteraction } from '../hook/useDrawInteraction';
-import { useDrawSource, IUseDrawSourceProps } from '../hook/useDrawSource';
+import { useDrawSource } from '../hook/useDrawSource';
 import { createBox, DrawEvent } from 'ol/interaction/Draw';
 import { useOlMap } from '../hook/useOlMap';
 

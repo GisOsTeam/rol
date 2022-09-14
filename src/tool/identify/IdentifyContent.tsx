@@ -6,7 +6,7 @@ import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTabl
 import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
-import { createLayerStyles } from '@gisosteam/aol/utils';
+import { createLayerStyles } from '@gisosteam/aol/LayerStyles';
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;

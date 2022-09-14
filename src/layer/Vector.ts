@@ -1,9 +1,9 @@
-import * as React from 'react';
 import OlVectorLayer from 'ol/layer/Vector';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { Vector as VectorSource } from '@gisosteam/aol/source/Vector';
 import { LayerStyles } from '@gisosteam/aol/LayerStyles';
-import { jsonEqual, applyLayerStyles } from '@gisosteam/aol/utils';
+import { jsonEqual } from '@gisosteam/aol/utils';
+import { applyLayerStyles } from '@gisosteam/aol/LayerStyles';
 import { IInitSource } from '@gisosteam/aol/source/IExtended';
 
 export interface IVectorProps extends IBaseLayerProps {
@@ -17,7 +17,7 @@ export interface IVectorProps extends IBaseLayerProps {
   layerStyles?: LayerStyles;
 }
 
-export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer<any>, VectorSource> {
+export class Vector extends BaseLayer<IVectorProps, never, OlVectorLayer<any>, VectorSource> {
   public createOlLayer(): OlVectorLayer<any> {
     return new OlVectorLayer();
   }
@@ -44,6 +44,6 @@ export class Vector extends BaseLayer<IVectorProps, {}, OlVectorLayer<any>, Vect
   }
 
   public setLayerStyles(layerStyles: LayerStyles) {
-    applyLayerStyles(this.getOlLayer(), layerStyles, this.props.uid);
+    applyLayerStyles(this.getOlLayer(), layerStyles);
   }
 }

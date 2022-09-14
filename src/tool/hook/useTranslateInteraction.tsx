@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import Translate, { Options, TranslateEvent } from 'ol/interaction/Translate';
+import Translate, { TranslateEvent } from 'ol/interaction/Translate';
 import { FeatureLike } from 'ol/Feature';
 import Layer from 'ol/layer/Layer';
 import Source from 'ol/source/Source';

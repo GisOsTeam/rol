@@ -12,4 +12,3 @@ export * from './usePrevious';
 export * from './useToolsManager';
 export * from './useTranslate';
 export * from './useTranslateInteraction';
-export * from './useViewManager';

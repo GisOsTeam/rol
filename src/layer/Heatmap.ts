@@ -1,4 +1,3 @@
-import * as React from 'react';
 import OlHeatmapLayer from 'ol/layer/Heatmap';
 import { BaseLayer, IBaseLayerProps } from './BaseLayer';
 import { Vector } from '@gisosteam/aol/source/Vector';
@@ -35,7 +34,7 @@ export interface IHeatmapProps extends IBaseLayerProps {
   renderMode?: string;
 }
 
-export class Heatmap extends BaseLayer<IHeatmapProps, {}, OlHeatmapLayer, Vector> {
+export class Heatmap extends BaseLayer<IHeatmapProps, never, OlHeatmapLayer, Vector> {
   public createOlLayer(): OlHeatmapLayer {
     return new OlHeatmapLayer();
   }

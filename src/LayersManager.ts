@@ -223,7 +223,9 @@ export class LayersManager {
     const layerElement = this.getLayerElements((layerElement) => layerElement.uid == uid).pop();
     if (layerElement != null) {
       layerElement.olLayer = olLayer;
-      layerElement.olLayer.set('uid', uid, true);
+      if (layerElement.olLayer != null) {
+        layerElement.olLayer.set('uid', uid, true);
+      }
     } else {
       console.error(`Element not found for uid ${uid}`);
     }
@@ -321,13 +323,11 @@ export class LayersManager {
           }
           return true;
         });
-        if ('getSource' in found) {
+        if (found != null && 'getSource' in found) {
           const source = (found as any).getSource();
           // Update source
           source.setSourceOptions(sourceOptions);
           return source;
-        } else {
-          return null;
         }
       }
     }

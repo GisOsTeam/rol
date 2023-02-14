@@ -27,9 +27,6 @@ export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   {
     type: 'WMS',
     description: 'Web Map Service',
-    options: {
-      gisProxyUrl: 'http://localhost:8181',
-    },
     content: WmsLoader,
   },
 ];

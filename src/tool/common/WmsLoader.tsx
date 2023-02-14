@@ -28,6 +28,10 @@ const parser = new WMSCapabilities();
 
 export interface IWmsLoaderProps {
   /**
+   * Show GIS proxy url input
+   */
+  showGisProxyUrlInput?: boolean;
+  /**
    * Fixed GIS proxy url
    */
   gisProxyUrl?: string;
@@ -56,6 +60,8 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
         .replace('=', '%3D')
         .replace('/', '%2F')
         .replace('+', '%2B')}?service=WMS&version=1.3.0&request=GetCapabilities`;
+    } else {
+      capUrl = `${serverUrl}?service=WMS&version=1.3.0&request=GetCapabilities`;
     }
     return send({ url: capUrl }).then((response: IResponse) => {
       setCapabilities(parser.read(response.body));
@@ -100,7 +106,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
                 )}
               </label>
               <input id="url" type="text" value={serverUrl} onChange={handleUrlChange}></input>
-              {(props.gisProxyUrl == null || props.gisProxyUrl === '') && (
+              {props.showGisProxyUrlInput == true && (
                 <React.Fragment>
                   <label htmlFor="gisProxyUrl">
                     {translate('wmsLoader.gisProxyUrl', 'Enter Gis Proxy URL (example: http://localhost:8181)')}

@@ -159,7 +159,7 @@ export class BaseLayer<
       }
       switch (nextProps.type) {
         case 'BASE':
-          if (order == null || order == NaN || order < 0) {
+          if (order == null || Number.isNaN(order) || order < 0) {
             order = globalBaseOrder + 1;
           }
           if (order > globalBaseOrder) {
@@ -167,7 +167,7 @@ export class BaseLayer<
           }
           break;
         case 'OVERLAY':
-          if (order == null || order == NaN || order < 0) {
+          if (order == null || Number.isNaN(order) || order < 0) {
             order = globalOverlayOrder + 1;
           }
           if (order > globalOverlayOrder) {
@@ -175,7 +175,7 @@ export class BaseLayer<
           }
           break;
         case 'WORK':
-          if (order == null || order == NaN || order < 0) {
+          if (order == null || Number.isNaN(order) || order < 0) {
             order = globalWorkOrder + 1;
           }
           if (order > globalWorkOrder) {

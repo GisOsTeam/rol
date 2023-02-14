@@ -15,7 +15,6 @@ export interface IDrawLineProps extends IBaseButtonToolProps {
 }
 
 export const DrawLine = withBaseButtonTool<IDrawLineProps>((props: IDrawLineProps) => {
-  console.log(props);
   const drawSource = useDrawSource({
     layerUid: 'draw-line-tool-draw-source',
     snapshotable: true,

@@ -26,7 +26,6 @@ import { Projection } from '../Projection';
 import { OneShotCounterButton } from './OneShotCounterButton';
 import { BanSearchProvider } from '@gisosteam/aol/search';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
-import { DefaultIdentify } from './DefaultIdentify';
 import { createLayerStyles } from '@gisosteam/aol';
 
 const wkt2154 =
@@ -119,7 +118,6 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
           <Control>
             <Zone>
-              <DefaultIdentify uid="Pwet" activated defaultActivated />
               <Toc uid="Toc" independant />
               <Fullscreen uid="Fullscreen" independant />
               <PanZoom uid="PanZoom" independant />

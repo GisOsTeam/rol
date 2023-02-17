@@ -6,11 +6,13 @@ import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTabl
 import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
-import { createLayerStyles } from '@gisosteam/aol/LayerStyles';
+import { createLayerStyles, LayerStyles } from '@gisosteam/aol/LayerStyles';
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;
   tolerance?: number;
+  styles?: LayerStyles;
+  drawStyle?: LayerStyles;
 }
 
 export function IdentifyContent(props: IIdentifyContentProps) {
@@ -21,12 +23,15 @@ export function IdentifyContent(props: IIdentifyContentProps) {
 
   const source = useDrawSource({
     layerUid: 'identify-tool-draw-source',
-    styles: createLayerStyles({
-      strokeColor: 'rgba(0, 0, 255, 0.9)',
-      fillColor: 'rgba(127, 127, 127, .6)',
-      width: 6,
-      radius: 6,
-    }),
+    styles:
+      props.styles != null
+        ? props.styles
+        : createLayerStyles({
+            strokeColor: 'rgba(0, 0, 255, 0.9)',
+            fillColor: 'rgba(127, 127, 127, .6)',
+            width: 4,
+            radius: props.tolerance != null ? props.tolerance : 6,
+          }),
   });
 
   React.useEffect(() => {
@@ -49,6 +54,15 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     filterSources: filterListableSource,
     typeGeom: 'Point',
     drawSource: source,
+    layerStyles:
+      props.drawStyle != null
+        ? props.drawStyle
+        : createLayerStyles({
+            strokeColor: 'rgba(40, 40, 40, .9)',
+            fillColor: 'rgba(127, 127, 127, .6)',
+            width: 1,
+            radius: 3,
+          }),
     onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
       const newFeatures: IQueryResponseFeatures = {};
       Object.keys(identifyResp.features).forEach((layerElementUid) => {

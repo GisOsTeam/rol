@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
 import Draw, { Options, DrawEvent } from 'ol/interaction/Draw';
+import { createLayerStyles, createStyleFunction, LayerStyles } from '@gisosteam/aol';
 
 export interface IUseDrawInteractionProps extends Options {
   /**
@@ -11,6 +12,10 @@ export interface IUseDrawInteractionProps extends Options {
    * Activated.
    */
   activated?: boolean;
+  /**
+   * Layer styles.
+   */
+  layerStyles?: LayerStyles;
 }
 
 export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
@@ -20,7 +25,8 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
   React.useEffect(() => {
     const { activated, onDrawEnd, ...options } = props;
     const buildDrawInteraction = () => {
-      const preCreateDraw = new Draw(options);
+      const style = createStyleFunction(props.layerStyles != null ? props.layerStyles : createLayerStyles());
+      const preCreateDraw = new Draw({ ...options, style });
       if (onDrawEnd) {
         preCreateDraw.on('drawend', onDrawEnd);
       }

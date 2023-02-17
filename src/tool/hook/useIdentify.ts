@@ -10,6 +10,7 @@ import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
 import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
 import Geometry, { Type } from 'ol/geom/Geometry';
+import { LayerStyles } from '@gisosteam/aol';
 
 export interface IIdentifyResponse {
   features: IQueryResponseFeatures;
@@ -28,6 +29,10 @@ export interface IUseIdentifyProps {
   typeGeom: Type;
   drawSource: LocalVector;
   onIdentifyResponse: (identifyResp: IIdentifyResponse) => any;
+  /**
+   * Layer styles.
+   */
+  layerStyles?: LayerStyles;
 }
 
 /**
@@ -79,6 +84,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
     type: props.typeGeom as any,
     source: props.drawSource,
     onDrawEnd: handleOnDrawEnd,
+    layerStyles: props.layerStyles,
   });
 
   React.useEffect(() => {

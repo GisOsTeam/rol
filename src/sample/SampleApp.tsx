@@ -133,7 +133,12 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
                 <LayerLoader uid="LayerLoader" />
                 <ShowSnapshot uid="ShowSnapshot" />
                 <DrawLine uid="DrawLine" styles={createLayerStyles({ strokeColor: 'black', fillColor: 'black' })} />
-                <Identify uid="IdentifyTool" tolerance={10} />
+                <Identify
+                  uid="IdentifyTool"
+                  tolerance={10}
+                  styles={createLayerStyles({ strokeColor: 'black', fillColor: 'grey', radius: 3, width: 1 })}
+                  drawStyle={createLayerStyles({ strokeColor: 'red', fillColor: 'red', radius: 3, width: 1 })}
+                />
                 <Reproj uid="ReprojTool" />
                 <Print
                   uid="PrintTool"

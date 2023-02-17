@@ -21,7 +21,6 @@ export function LayerLoaderContent(props: ILayerLoaderContentProps) {
     selectorType.options.showGisProxyUrlInput = props.showGisProxyUrlInput;
     selectorType.options.gisProxyUrl = props.gisProxyUrl;
   }
-  console.log(props.selectorTypes);
   return (
     <Container className={`${props.className}`}>
       <Selector selectorTypes={props.selectorTypes} />

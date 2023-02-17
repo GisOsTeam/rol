@@ -57,7 +57,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "@gisosteam/aol": "0.4.0",
+    "@gisosteam/aol": "0.4.1",
     "bhreq": "^0.1.2",
     "jspdf": "^2.5.1",
     "react-autosuggest": "^10.1.0",

@@ -15,6 +15,7 @@ const Window = styled.div`
 `;
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
+  justify-content: center;
   height: 32px;
   min-width: 32px;
   background-color: ${(props) =>

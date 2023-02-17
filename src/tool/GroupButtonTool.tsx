@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { BaseContainer, IBaseContaineState, IZoneProps } from '../container';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean }>`
+  justify-content: center;
   height: 32px;
   min-width: 32px;
   background-color: ${(props) =>

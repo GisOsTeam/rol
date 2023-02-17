@@ -4,6 +4,7 @@ import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean; toggle?: boolean }>`
+  justify-content: center;
   height: 32px;
   min-width: 32px;
   background-color: ${(props) =>

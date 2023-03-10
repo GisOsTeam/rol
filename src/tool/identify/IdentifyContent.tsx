@@ -47,6 +47,17 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     return extended !== source;
   },[source]);
 
+  const onIdentifyResponse = React.useCallback((identifyResp: IIdentifyResponse) => {
+    const newFeatures: IQueryResponseFeatures = {};
+    Object.keys(identifyResp.features).forEach((layerElementUid) => {
+      const layerElement = layersManager.getLayerElementByUID(layerElementUid);
+      const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
+      const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
+      newFeatures[name] = identifyResp.features[layerElementUid];
+    });
+    setIdentificationResponseFeatures(newFeatures);
+  },[layersManager,setIdentificationResponseFeatures]);
+
   useIdentify({
     activated: props.activated === true,
     limit: props.limit,
@@ -63,16 +74,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
             width: 1,
             radius: 3,
           }),
-    onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
-      const newFeatures: IQueryResponseFeatures = {};
-      Object.keys(identifyResp.features).forEach((layerElementUid) => {
-        const layerElement = layersManager.getLayerElementByUID(layerElementUid);
-        const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
-        const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
-        newFeatures[name] = identifyResp.features[layerElementUid];
-      });
-      setIdentificationResponseFeatures(newFeatures);
-    },
+    onIdentifyResponse
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {

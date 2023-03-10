@@ -45,7 +45,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
   /**
    * Lance l'identification à la fin de l'opération de dessin
    */
-  const handleOnDrawEnd = async (evt: DrawEvent | undefined): Promise<any> => {
+  const handleOnDrawEnd = React.useCallback(async (evt: DrawEvent | undefined): Promise<any> => {
     if (evt) {
       let geom = null;
       if (props.typeGeom === 'Polygon') {
@@ -70,7 +70,11 @@ export function useIdentify(props: IUseIdentifyProps): any {
         }
       }
     }
-  };
+  },[props.limit,
+    props.tolerance,props.typeGeom,
+    props.filterSources,
+    props.onIdentifyResponse,
+    props.layersParam,olMap]);
 
   /**
    * supprime le dessin une fois qu'il est fini
@@ -84,7 +88,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
     type: props.typeGeom as any,
     source: props.drawSource,
     onDrawEnd: handleOnDrawEnd,
-    layerStyles: props.layerStyles,
+    layerStyles: props.layerStyles
   });
 
   React.useEffect(() => {

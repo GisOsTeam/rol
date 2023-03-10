@@ -43,9 +43,9 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     }
   }, [props.activated, props.open]);
 
-  const filterListableSource: IdentifyFilterType = (extended) => {
+  const filterListableSource: IdentifyFilterType = React.useCallback((extended) => {
     return extended !== source;
-  };
+  },[source]);
 
   useIdentify({
     activated: props.activated === true,

@@ -43,20 +43,26 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     }
   }, [props.activated, props.open]);
 
-  const filterListableSource: IdentifyFilterType = React.useCallback((extended) => {
-    return extended !== source;
-  },[source]);
+  const filterListableSource: IdentifyFilterType = React.useCallback(
+    (extended) => {
+      return extended !== source;
+    },
+    [source]
+  );
 
-  const onIdentifyResponse = React.useCallback((identifyResp: IIdentifyResponse) => {
-    const newFeatures: IQueryResponseFeatures = {};
-    Object.keys(identifyResp.features).forEach((layerElementUid) => {
-      const layerElement = layersManager.getLayerElementByUID(layerElementUid);
-      const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
-      const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
-      newFeatures[name] = identifyResp.features[layerElementUid];
-    });
-    setIdentificationResponseFeatures(newFeatures);
-  },[layersManager,setIdentificationResponseFeatures]);
+  const onIdentifyResponse = React.useCallback(
+    (identifyResp: IIdentifyResponse) => {
+      const newFeatures: IQueryResponseFeatures = {};
+      Object.keys(identifyResp.features).forEach((layerElementUid) => {
+        const layerElement = layersManager.getLayerElementByUID(layerElementUid);
+        const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
+        const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
+        newFeatures[name] = identifyResp.features[layerElementUid];
+      });
+      setIdentificationResponseFeatures(newFeatures);
+    },
+    [layersManager, setIdentificationResponseFeatures]
+  );
 
   useIdentify({
     activated: props.activated === true,
@@ -74,7 +80,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
             width: 1,
             radius: 3,
           }),
-    onIdentifyResponse
+    onIdentifyResponse,
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {

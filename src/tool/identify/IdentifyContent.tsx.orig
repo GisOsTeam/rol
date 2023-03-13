@@ -1,13 +1,13 @@
-import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
-import { createLayerStyles } from '@gisosteam/aol/utils';
-import GeometryType from 'ol/geom/GeometryType';
 import * as React from 'react';
-import { rolContext } from '../../RolContext';
-import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { IQueryResponseFeatures } from '../common';
+import { useIdentify, IIdentifyResponse } from '../hook/useIdentify';
+import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
 import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTable';
 import { useDrawSource } from '../hook/useDrawSource';
-import { IIdentifyResponse, useIdentify } from '../hook/useIdentify';
+import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
+import { rolContext } from '../../RolContext';
+import GeometryType from 'ol/geom/GeometryType';
+import { createLayerStyles } from '@gisosteam/aol/utils';
 
 export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
   limit?: number;
@@ -23,11 +23,11 @@ export function IdentifyContent(props: IIdentifyContentProps) {
   const source = useDrawSource({
     layerUid: 'identify-tool-draw-source',
     styles: createLayerStyles({
-            strokeColor: 'rgba(0, 0, 255, 0.9)',
-            fillColor: 'rgba(127, 127, 127, .6)',
-            width: 4,
-            radius: props.tolerance != null ? props.tolerance : 6,
-          }),
+      strokeColor: 'rgba(0, 0, 255, 0.9)',
+      fillColor: 'rgba(127, 127, 127, .6)',
+      width: 6,
+      radius: 6,
+    }),
   });
 
   React.useEffect(() => {
@@ -61,7 +61,29 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     filterSources: filterListableSource,
     typeGeom: GeometryType.POINT,
     drawSource: source,
+<<<<<<< HEAD
+    onIdentifyResponse: (identifyResp: IIdentifyResponse) => {
+      const newFeatures: IQueryResponseFeatures = {};
+      Object.keys(identifyResp.features).forEach((layerElementUid) => {
+        const layerElement = layersManager.getLayerElementByUID(layerElementUid);
+        const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
+        const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
+        newFeatures[name] = identifyResp.features[layerElementUid];
+      });
+      setIdentificationResponseFeatures(newFeatures);
+    },
+=======
+    layerStyles:
+      props.drawStyle != null
+        ? props.drawStyle
+        : createLayerStyles({
+            strokeColor: 'rgba(40, 40, 40, .9)',
+            fillColor: 'rgba(127, 127, 127, .6)',
+            width: 1,
+            radius: 3,
+          }),
     onIdentifyResponse
+>>>>>>> f28c726 (Fix identify (#60))
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {

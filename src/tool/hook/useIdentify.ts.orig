@@ -1,7 +1,6 @@
 import { LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
 import { LocalVector } from '@gisosteam/aol/source/LocalVector';
 import { identify, IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
-import Geometry from 'ol/geom/Geometry';
 import GeometryType from 'ol/geom/GeometryType';
 import LineString from 'ol/geom/LineString';
 import Point from 'ol/geom/Point';
@@ -9,8 +8,9 @@ import Polygon from 'ol/geom/Polygon';
 import { DrawEvent } from 'ol/interaction/Draw';
 import * as React from 'react';
 import { rolContext } from '../../RolContext';
-import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
 import { useDrawInteraction } from './useDrawInteraction';
+import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
+import Geometry from 'ol/geom/Geometry';
 
 export interface IIdentifyResponse {
   features: IQueryResponseFeatures;
@@ -18,7 +18,7 @@ export interface IIdentifyResponse {
 }
 
 export interface IUseIdentifyProps {
-  activated?: boolean;
+  activated: boolean;
   /**
    * Pris en compte que sur les couches AGS
    */
@@ -81,19 +81,27 @@ export function useIdentify(props: IUseIdentifyProps): any {
 
   useDrawInteraction({
     activated: props.activated,
-    type: props.typeGeom as any,
+    type: props.typeGeom,
     source: props.drawSource,
-    onDrawEnd: handleOnDrawEnd
+    onDrawEnd: handleOnDrawEnd,
+<<<<<<< HEAD
+=======
+    layerStyles: props.layerStyles
+>>>>>>> f28c726 (Fix identify (#60))
   });
 
   React.useEffect(() => {
-    if (props.typeGeom === 'Polygon' || props.typeGeom === 'LineString' || props.typeGeom === 'Circle') {
+    if (
+      props.typeGeom === GeometryType.POLYGON ||
+      props.typeGeom === GeometryType.LINE_STRING ||
+      props.typeGeom === GeometryType.CIRCLE
+    ) {
       if (props.activated === true) {
         olMap.on('dblclick', handleOnClickDblClickMap);
       } else {
         olMap.un('dblclick', handleOnClickDblClickMap);
       }
-    } else if (props.typeGeom === 'Point') {
+    } else if (props.typeGeom === GeometryType.POINT) {
       if (props.activated === true) {
         olMap.on('click', handleOnClickDblClickMap);
       } else {

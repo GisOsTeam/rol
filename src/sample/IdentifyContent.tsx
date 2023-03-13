@@ -1,10 +1,10 @@
-import * as React from 'react';
 import { IFeatureType, LayersPrefixEnum } from '@gisosteam/aol/source/IExtended';
+import * as React from 'react';
 
-import { IBaseToolProps } from '../tool';
-import { useDrawSource, useIdentify } from '../tool/hook';
 import { Feature } from 'ol';
 import GeometryType from 'ol/geom/GeometryType';
+import { IBaseToolProps } from '../tool';
+import { useDrawSource, useIdentify } from '../tool/hook';
 
 export interface IIdentifyContentProps extends IBaseToolProps {
   tolerance?: number;
@@ -25,6 +25,7 @@ export const DefaultIdentifyContent: React.FunctionComponent<IIdentifyContentPro
    * Lance l'outils d'identification si tool actif + envoie via le contexte le resultat
    * au widget de tableaux de résultats
    */
+  const onIdentifyResponse = React.useCallback((resp) => console.log('Pwet', resp), []);
   useIdentify({
     activated: props.activated,
     typeGeom: GeometryType.POINT,
@@ -33,7 +34,7 @@ export const DefaultIdentifyContent: React.FunctionComponent<IIdentifyContentPro
     layersParam: LayersPrefixEnum.ALL,
     drawSource: drawSource,
 
-    onIdentifyResponse: (resp) => console.log('Pwet', resp),
+    onIdentifyResponse,
   });
 
   return <></>;

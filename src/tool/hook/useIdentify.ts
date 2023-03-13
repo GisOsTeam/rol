@@ -41,36 +41,43 @@ export function useIdentify(props: IUseIdentifyProps): any {
   /**
    * Lance l'identification à la fin de l'opération de dessin
    */
-  const handleOnDrawEnd = React.useCallback(async (evt: DrawEvent | undefined): Promise<any> => {
-    if (evt) {
-      let geom = null;
-      if (props.typeGeom === GeometryType.POLYGON) {
-        geom = evt.feature.getGeometry() as Polygon;
-      } else if (props.typeGeom === GeometryType.POINT) {
-        geom = evt.feature.getGeometry() as Point;
-      } else if (props.typeGeom === GeometryType.LINE_STRING) {
-        geom = evt.feature.getGeometry() as LineString;
-      }
-      if (geom) {
-        const queryResponses = await identify(
-          geom,
-          olMap,
-          props.limit,
-          props.tolerance,
-          props.filterSources,
-          props.layersParam
-        );
-        if (props.onIdentifyResponse) {
-          const features = createQueryResponseFeatures(queryResponses, layersManager);
-          props.onIdentifyResponse({ features: features, drawGeom: geom });
+  const handleOnDrawEnd = React.useCallback(
+    async (evt: DrawEvent | undefined): Promise<any> => {
+      if (evt) {
+        let geom = null;
+        if (props.typeGeom === GeometryType.POLYGON) {
+          geom = evt.feature.getGeometry() as Polygon;
+        } else if (props.typeGeom === GeometryType.POINT) {
+          geom = evt.feature.getGeometry() as Point;
+        } else if (props.typeGeom === GeometryType.LINE_STRING) {
+          geom = evt.feature.getGeometry() as LineString;
+        }
+        if (geom) {
+          const queryResponses = await identify(
+            geom,
+            olMap,
+            props.limit,
+            props.tolerance,
+            props.filterSources,
+            props.layersParam
+          );
+          if (props.onIdentifyResponse) {
+            const features = createQueryResponseFeatures(queryResponses, layersManager);
+            props.onIdentifyResponse({ features: features, drawGeom: geom });
+          }
         }
       }
-    }
-  },[props.limit,
-    props.tolerance,props.typeGeom,
-    props.filterSources,
-    props.onIdentifyResponse,
-    props.layersParam,olMap]);
+    },
+    [
+      props.limit,
+      props.tolerance,
+      props.typeGeom,
+      props.filterSources,
+      props.onIdentifyResponse,
+      props.layersParam,
+      olMap,
+    ]
+  );
 
   /**
    * supprime le dessin une fois qu'il est fini
@@ -83,7 +90,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
     activated: props.activated,
     type: props.typeGeom as any,
     source: props.drawSource,
-    onDrawEnd: handleOnDrawEnd
+    onDrawEnd: handleOnDrawEnd,
   });
 
   React.useEffect(() => {

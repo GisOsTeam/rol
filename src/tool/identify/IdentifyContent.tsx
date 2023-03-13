@@ -23,11 +23,11 @@ export function IdentifyContent(props: IIdentifyContentProps) {
   const source = useDrawSource({
     layerUid: 'identify-tool-draw-source',
     styles: createLayerStyles({
-            strokeColor: 'rgba(0, 0, 255, 0.9)',
-            fillColor: 'rgba(127, 127, 127, .6)',
-            width: 4,
-            radius: props.tolerance != null ? props.tolerance : 6,
-          }),
+      strokeColor: 'rgba(0, 0, 255, 0.9)',
+      fillColor: 'rgba(127, 127, 127, .6)',
+      width: 4,
+      radius: props.tolerance != null ? props.tolerance : 6,
+    }),
   });
 
   React.useEffect(() => {
@@ -39,20 +39,26 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     }
   }, [props.activated, props.open]);
 
-  const filterListableSource: IdentifyFilterType = React.useCallback((extended) => {
-    return extended !== source;
-  },[source]);
+  const filterListableSource: IdentifyFilterType = React.useCallback(
+    (extended) => {
+      return extended !== source;
+    },
+    [source]
+  );
 
-  const onIdentifyResponse = React.useCallback((identifyResp: IIdentifyResponse) => {
-    const newFeatures: IQueryResponseFeatures = {};
-    Object.keys(identifyResp.features).forEach((layerElementUid) => {
-      const layerElement = layersManager.getLayerElementByUID(layerElementUid);
-      const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
-      const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
-      newFeatures[name] = identifyResp.features[layerElementUid];
-    });
-    setIdentificationResponseFeatures(newFeatures);
-  },[layersManager,setIdentificationResponseFeatures]);
+  const onIdentifyResponse = React.useCallback(
+    (identifyResp: IIdentifyResponse) => {
+      const newFeatures: IQueryResponseFeatures = {};
+      Object.keys(identifyResp.features).forEach((layerElementUid) => {
+        const layerElement = layersManager.getLayerElementByUID(layerElementUid);
+        const layerElementProps = layerElement ? layerElement.reactElement.props : { uid: layerElementUid };
+        const name = layerElementProps.name ? layerElementProps.name : layerElementProps.uid;
+        newFeatures[name] = identifyResp.features[layerElementUid];
+      });
+      setIdentificationResponseFeatures(newFeatures);
+    },
+    [layersManager, setIdentificationResponseFeatures]
+  );
 
   useIdentify({
     activated: props.activated === true,
@@ -61,7 +67,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     filterSources: filterListableSource,
     typeGeom: GeometryType.POINT,
     drawSource: source,
-    onIdentifyResponse
+    onIdentifyResponse,
   });
 
   const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {

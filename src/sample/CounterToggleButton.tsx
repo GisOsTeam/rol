@@ -1,8 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { IBaseButtonToolProps, withBaseButtonTool } from '../tool/BaseButtonTool';
-
-const ContainerBtn = styled.div``;
 
 export const CounterToggleButton = withBaseButtonTool(
   (props: IBaseButtonToolProps) => {
@@ -12,7 +9,7 @@ export const CounterToggleButton = withBaseButtonTool(
         setCount(count + 1);
       }
     }, [props.activated]);
-    return <ContainerBtn>count: {String(count)}</ContainerBtn>;
+    return <div>count: {String(count)}</div>;
   },
   { className: 'counter-button', toggle: true }
 );

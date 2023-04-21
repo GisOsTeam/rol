@@ -1,67 +1,13 @@
-import * as React from 'react';
-import { createGlobalStyle } from 'styled-components';
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
-import { rolContext } from './RolContext';
-import { IBaseToolProps, BaseTool } from './tool/BaseTool';
-import { BaseContainer } from './container/BaseContainer';
+import * as React from 'react';
 import { LayersManager } from './LayersManager';
-import { ToolsManager } from './ToolsManager';
 import { Projection } from './Projection';
-
-const GlobalStyle = createGlobalStyle`
-.ol-unsupported {
-  display: none;
-}
-
-.ol-viewport, .ol-unselectable {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-.ol-overlaycontainer, .ol-overlaycontainer-stopevent {
-  pointer-events: none;
-}
-
-.ol-overlaycontainer > *, .ol-overlaycontainer-stopevent > * {
-  pointer-events: auto;
-}
-
-.ol-selectable {
-  -webkit-touch-callout: default;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-}
-
-.ol-grabbing {
-  cursor: -webkit-grabbing;
-  cursor: -moz-grabbing;
-  cursor: grabbing;
-}
-
-.ol-grab {
-  cursor: move;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
-}
-
-.ol-control {
-  position: absolute;
-}
-
-.ol-hidden {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .25s linear, visibility 0s linear .25s;
-}
-`;
+import { rolContext } from './RolContext';
+import { ToolsManager } from './ToolsManager';
+import { BaseContainer } from './container/BaseContainer';
+import './style/Rol.css';
+import { BaseTool, IBaseToolProps } from './tool/BaseTool';
 
 export interface IAfterData {
   olMap: OlMap;
@@ -241,7 +187,6 @@ export class Rol extends React.Component<IRolProps, IRolState> {
   public render(): React.ReactNode {
     return (
       <div key={this.props.uid} className={this.props.className} style={this.props.style}>
-        <GlobalStyle />
         {this.renderProjections()}
         <div
           ref={(divMap) => {

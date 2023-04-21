@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export interface IShowsnapshotContentProps extends IFunctionBaseWindowToolProps {}
+export type IShowsnapshotContentProps = IFunctionBaseWindowToolProps;
 
 export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
   const layersManager = useLayersManager();

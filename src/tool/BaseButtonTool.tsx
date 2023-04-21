@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IBaseToolProps, BaseTool } from './BaseTool';
 import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
+import '../style/tool/BaseButtonTool.css';
+import { BaseTool, IBaseToolProps } from './BaseTool';
 
 const Button = styled.button<{ activated?: boolean; independant?: boolean; toggle?: boolean }>`
   justify-content: center;

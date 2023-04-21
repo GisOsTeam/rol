@@ -1,10 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import '../style/container/Zone.css';
 import { BaseContainer, IBaseContainerProps, IBaseContaineState } from './BaseContainer';
-
-const Container = styled.div`
-  display: inline-flex;
-`;
 
 export interface IZoneProps extends IBaseContainerProps {
   /**
@@ -21,7 +17,7 @@ export interface IZoneProps extends IBaseContainerProps {
   style?: React.CSSProperties;
 }
 
-export interface IZoneState extends IBaseContaineState {}
+export type IZoneState = IBaseContaineState;
 
 export class Zone extends BaseContainer<IZoneProps, IZoneState> {
   public static defaultProps = {
@@ -33,11 +29,11 @@ export class Zone extends BaseContainer<IZoneProps, IZoneState> {
   }
 
   public render(): React.ReactNode {
-    const className = `${this.props.className}`;
+    const className = `rol-zone-container ${this.props.className}`;
     return (
-      <Container className={className} style={this.props.style}>
+      <div className={className} style={this.props.style}>
         {this.renderChildren()}
-      </Container>
+      </div>
     );
   }
 }

@@ -1,8 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { IOneShotButtonTool, withOneShotButtonTool } from '../tool';
 
-const ContainerBtn = styled.div``;
 
 export const OneShotCounterButton = withOneShotButtonTool(
   (props: IOneShotButtonTool) => {
@@ -12,7 +10,7 @@ export const OneShotCounterButton = withOneShotButtonTool(
         setCount(count + 1);
       }
     }, [props.activated]);
-    return <ContainerBtn>One shot count: {String(count)}</ContainerBtn>;
+    return <div>One shot count: {String(count)}</div>;
   },
   { className: 'counter-button' }
 );

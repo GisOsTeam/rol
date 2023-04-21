@@ -1,19 +1,19 @@
-import * as React from 'react';
+import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
+import { addProjection, getProjectionInfos } from '@gisosteam/aol/ProjectionInfo';
+import { ISnapshotSource } from '@gisosteam/aol/source/IExtended';
+import { SourceFactory } from '@gisosteam/aol/source/factory/SourceFactory';
+import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
+import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
+import { jsonEqual, walk } from '@gisosteam/aol/utils';
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
 import OlBaseLayer from 'ol/layer/Base';
+import * as React from 'react';
 import { BaseLayer, IBaseLayerProps } from './layer/BaseLayer';
-import { Vector } from './layer/Vector';
-import { Tile } from './layer/Tile';
 import { Image } from './layer/Image';
+import { Tile } from './layer/Tile';
+import { Vector } from './layer/Vector';
 import { VectorTile } from './layer/VectorTile';
-import { jsonEqual, walk } from '@gisosteam/aol/utils';
-import { SourceFactory } from '@gisosteam/aol/source/factory/SourceFactory';
-import { ISnapshot, ISnapshotLayer, ISnapshotProjection } from '@gisosteam/aol/ISnapshot';
-import { ISnapshotSource } from '@gisosteam/aol/source/IExtended';
-import { getProjectionInfos, addProjection } from '@gisosteam/aol/ProjectionInfo';
-import { SourceTypeEnum } from '@gisosteam/aol/source/types/sourceType';
-import { LayerTypeEnum } from '@gisosteam/aol/source/types/layerType';
 
 export type layerElementStatus = null | 'react' | 'ext' | 'del';
 

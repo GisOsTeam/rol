@@ -1,0 +1,30 @@
+.rol-base-btn-tool {
+    justify-content: center;
+    height: 32px;
+    min-width: 32px;
+
+    background-color: rgba(213,213,213,0.61);
+
+    border-style: solid;
+    border-color: 'rgba(172,172,172,0.61)';
+    color: #242424;
+    box-shadow: none;
+    display: inline-flex;
+    border-width: 1px !important;
+    border-radius: 5px !important;
+    padding-top: 4px;
+}
+
+.rol-base-btn-tool.rol-activated {
+    background-color: rgba(245,245,245,0.61);
+    border-color: rgba(145,145,145,0.61);
+}
+
+.rol-base-btn-tool.rol-toogled.rol-activated::before {
+    content: '☑';
+}
+
+.rol-base-btn-tool.rol-toogled::before {
+    margin-right: 5px;
+    content: '☐';
+}

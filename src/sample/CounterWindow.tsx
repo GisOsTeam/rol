@@ -1,8 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { IFunctionBaseWindowToolProps, withBaseWindowTool } from '../tool/BaseWindowTool';
-
-const ContainerBtn = styled.div``;
 
 export const CounterWindow = withBaseWindowTool(
   // Content
@@ -21,7 +18,7 @@ export const CounterWindow = withBaseWindowTool(
   },
   // Open Button Content
   (props: IFunctionBaseWindowToolProps) => {
-    return <ContainerBtn>Counter</ContainerBtn>;
+    return <div>Counter</div>;
   },
   { className: 'counter-window' }
 );

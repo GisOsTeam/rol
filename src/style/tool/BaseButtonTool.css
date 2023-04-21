@@ -6,7 +6,7 @@
     background-color: rgba(213,213,213,0.61);
 
     border-style: solid;
-    border-color: 'rgba(172,172,172,0.61)';
+    border-color: rgba(172,172,172,0.61);
     color: #242424;
     box-shadow: none;
     display: inline-flex;
@@ -15,16 +15,16 @@
     padding-top: 4px;
 }
 
-.rol-base-btn-tool.rol-activated {
+.rol-base-btn-tool.rol-activated:not(.rol-independant) {
     background-color: rgba(245,245,245,0.61);
     border-color: rgba(145,145,145,0.61);
 }
 
-.rol-base-btn-tool.rol-toogled.rol-activated::before {
+.rol-base-btn-tool.rol-toogled.rol-activated:not(.rol-independant)::before {
     content: '☑';
 }
 
-.rol-base-btn-tool.rol-toogled::before {
+.rol-base-btn-tool.rol-toogled:not(.rol-independant)::before {
     margin-right: 5px;
     content: '☐';
 }

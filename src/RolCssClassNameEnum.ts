@@ -11,4 +11,5 @@ export enum RolCssClassNameEnum {
   TOOGLED = 'rol-toogled',
   OPEN_BTN = 'rol-open-btn',
   CONTENT = 'rol-content',
+  INDEPENDANT = 'rol-independant'
 }

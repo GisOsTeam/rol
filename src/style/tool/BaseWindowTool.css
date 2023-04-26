@@ -1,0 +1,94 @@
+/* Window */
+.rol-base-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 3px;
+}
+
+/* Button */
+
+.rol-window-button {
+    justify-content: center;
+    height: 32px;
+    min-width: 32px;
+    background-color: rgba(213,213,213,0.61);
+    border-style: solid;
+    border-color:rgba(172,172,172,0.61);
+    color: #242424;
+    box-shadow: none;
+    display: inline-flex;
+    border-width: 1px !important;
+    border-radius: 5px !important;
+    padding-top: 4px;
+}
+
+.rol-window-button[data-activate=true]:not([data-independant]){
+    border-color: rgba(145,145,145,0.61);
+    background-color: rgba(245,245,245,0.61);
+}
+
+/* TitleBar */
+.rol-window-title-bar {
+    height: 20px;
+    border: 1px solid #999;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 5px;
+    text-align: center;
+    cursor: move;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #ddd;
+    margin-bottom: 0px;
+}
+
+.rol-window-title-bar[data-activate=true] {
+    background: #88f;
+}
+
+.rol-window-title-bar[data-unfold=true]{
+    margin-bottom: 10px;
+}
+
+.rol-window-button[data-activate=true]
+.rol-window-close-button[data-activate=true]
+.rol-window-fold-button[data-activate=true] {
+    background: #88f;
+}
+
+/* TitleBar Close Button & TitleBarFoldButton */
+.rol-window-close-button
+.rol-window-fold-button {
+  flex-grow: 0;
+  height: 18px;
+  width: 18px;
+  border-style: none;
+  margin: 0;
+  padding: 0;
+  background:#ddd;
+}
+
+.rol-window-close-button::after{
+    content: '✖';
+}
+
+.rol-window-fold-button::after {
+    content: '−';
+}
+
+/* TitleBarContent */
+.rol-window-title-bar-content {
+    flex-grow: 1;
+}
+
+/* Content */
+.rol-window-content {
+    margin: 2px;
+}

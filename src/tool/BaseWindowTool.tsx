@@ -1,9 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import * as Draggable from 'react-draggable';
-import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
+import '../style/tool/BaseWindowTool.css';
+import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 
+/*
 const Window = styled.div`
   position: fixed;
   top: 0;
@@ -80,7 +81,7 @@ const TitleBarFoldButton = styled.button<{ activated?: boolean; isUnfold?: boole
 
 const Content = styled.div`
   margin: 2px;
-`;
+`; */
 
 let topZIndex = 5000;
 
@@ -366,7 +367,8 @@ export class BaseWindowTool<
     const className = `${rolClasses} ${RolCssClassNameEnum.TOOL} ${this.props.className}
       ${this.state.open ? `${this.props.className}-open` : `${this.props.className}-closed`}
       ${this.props.activated ? `${this.props.className}-activated` : `${this.props.className}-unactivated`}
-      ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
+      ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}
+      rol-base-window`;
     const openButtonClassName = `${rolClasses} ${RolCssClassNameEnum.OPEN_BTN} ${
       this.props.className.split(/\s+/g)[0]
     }-open-button
@@ -384,8 +386,11 @@ export class BaseWindowTool<
         this.props.disabled
           ? `${this.props.className.split(/\s+/g)[0]}-open-button-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-open-button-enabled`
-      }`;
-    const baseTitlebarClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar`;
+      }
+      rol-window-button`;
+
+    const baseTitlebarClassName = `${this.props.className.split(/\s+/g)[0]}-titlebar `;
+
     const titleClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE} ${baseTitlebarClassName}
       ${
         this.state.open
@@ -401,10 +406,12 @@ export class BaseWindowTool<
         this.props.disabled
           ? `${this.props.className.split(/\s+/g)[0]}-titlebar-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-titlebar-enabled`
-      }`;
+      } rol-window-title-bar`;
+
     const titleContentClassName = `${rolClasses} ${RolCssClassNameEnum.TITLE_BAR} ${
       this.props.className.split(/\s+/g)[0]
-    }-titlebar-content`;
+    }-titlebar-content rol-window-title-bar-content`;
+
     const contentClassName = `${rolClasses} ${RolCssClassNameEnum.CONTENT} ${
       this.props.className.split(/\s+/g)[0]
     }-content
@@ -422,47 +429,49 @@ export class BaseWindowTool<
         this.props.disabled
           ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
-      }`;
+      } rol-window-content`;
+
     const Drag: React.ComponentClass<any> = Draggable as any;
     let openButton = null;
     if (!this.props.hideOpenButton) {
       openButton = (
-        <Button
+        <button
           className={openButtonClassName}
           title={this.props.buttonTitle}
           onClick={this.handleButtonClick}
           onTouchEnd={this.handleButtonClick}
-          activated={this.props.activated}
-          independant={this.props.independant}
+          data-activate={this.props.activated}
+          data-independant={this.props.independant}
         >
           {this.renderOpenButtonContent()}
-        </Button>
+        </button>
       );
     }
+
     let closeButton = null;
     if (!this.props.hideCloseButton) {
       closeButton = (
-        <TitleBarCloseButton
-          className={`${this.props.className.split(/\s+/g)[0]}-titlebar-close-button`}
+        <button
+          className={`${this.props.className.split(/\s+/g)[0]}-titlebar-close-button rol-window-close-button`}
           onClick={this.handleCloseClick}
           onTouchEnd={this.handleCloseClick}
-          activated={this.props.activated}
-          independant={this.props.independant}
+          data-activate={this.props.activated}
+          data-independant={this.props.independant}
         />
       );
     }
+
     let foldButton = null;
     if (this.props.displayFoldButton) {
       foldButton = (
-        <TitleBarFoldButton
+        <button
           className={`${this.props.className.split(/\s+/g)[0]}-titlebar-fold-button ${
             this.state.isUnfold ? 'rol-unfold' : 'rol-fold'
-          }`}
+          } rol-window-fold-button`}
           onClick={this.handleReduceClick}
           onTouchEnd={this.handleReduceClick}
-          activated={this.props.activated}
-          independant={this.props.independant}
-          isUnfold={this.state.isUnfold}
+          data-activate={this.props.activated}
+          data-independant={this.props.independant}
         />
       );
     }
@@ -475,6 +484,7 @@ export class BaseWindowTool<
       margin: '0px 2px',
       height: '0px',
     };
+
     return (
       <React.Fragment>
         {openButton}
@@ -484,21 +494,25 @@ export class BaseWindowTool<
           onDrag={this.handleDrag}
           position={this.state.position}
         >
-          <Window
+          <div
             className={className}
             onClick={this.handleWindowClick}
             style={style}
             ref={(ref) => (this.windowElement = ref)}
           >
-            <TitleBar className={titleClassName} activated={this.props.activated}>
-              <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
+            <div
+              className={titleClassName}
+              data-activate={this.props.activated}
+              data-unfold={this.state.isUnfold}
+            >
+              <span className={titleContentClassName}>{this.renderHeaderContent()}</span>
               {foldButton}
               {closeButton}
-            </TitleBar>
-            <Content style={this.state.isUnfold ? null : foldStyle} className={contentClassName}>
+            </div>
+            <div style={this.state.isUnfold ? null : foldStyle} className={contentClassName}>
               {this.renderTool()}
-            </Content>
-          </Window>
+            </div>
+          </div>
         </Drag>
       </React.Fragment>
     );

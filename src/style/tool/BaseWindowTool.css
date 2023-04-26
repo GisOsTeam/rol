@@ -57,14 +57,13 @@
     margin-bottom: 10px;
 }
 
-.rol-window-button[data-activate=true]
-.rol-window-close-button[data-activate=true]
+.rol-window-close-button[data-activate=true],
 .rol-window-fold-button[data-activate=true] {
     background: #88f;
 }
 
 /* TitleBar Close Button & TitleBarFoldButton */
-.rol-window-close-button
+.rol-window-close-button,
 .rol-window-fold-button {
   flex-grow: 0;
   height: 18px;

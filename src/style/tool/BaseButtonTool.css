@@ -15,16 +15,16 @@
     padding-top: 4px;
 }
 
-.rol-base-btn-tool.rol-activated:not(.rol-independant) {
+.rol-base-btn-tool[data-activated=true]:not([data-independant=true]) {
     background-color: rgba(245,245,245,0.61);
     border-color: rgba(145,145,145,0.61);
 }
 
-.rol-base-btn-tool.rol-toogled.rol-activated:not(.rol-independant)::before {
+.rol-base-btn-tool[data-toggle=true][data-activated=true]:not([data-independant=true])::before {
     content: '☑';
 }
 
-.rol-base-btn-tool.rol-toogled:not(.rol-independant)::before {
+.rol-base-btn-tool[data-toggle=true]:not([data-independant=true])::before {
     margin-right: 5px;
     content: '☐';
 }

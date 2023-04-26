@@ -52,9 +52,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
   public render(): React.ReactNode {
     const rolActivated = this.props.activated ? RolCssClassNameEnum.ACTIVATED : RolCssClassNameEnum.DEACTIVATED;
     const rolEnabled = this.props.disabled ? RolCssClassNameEnum.DISABLED : RolCssClassNameEnum.ENABLED;
-    const rolToogled = this.props.toggle ? RolCssClassNameEnum.TOOGLED : null;
-    const rolIndependant = this.props.independant ? RolCssClassNameEnum.INDEPENDANT : null;
-    const rolClasses = `rol-base-btn-tool ${rolActivated} ${rolEnabled} ${rolToogled} ${rolIndependant}`;
+    const rolClasses = `rol-base-btn-tool ${rolActivated} ${rolEnabled}`;
 
     const toggleClass = this.props.toggle ? `${this.props.className}-toggle` : '';
     const activatedClass = this.props.activated
@@ -64,10 +62,13 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
       ${toggleClass}
       ${activatedClass}
       ${this.props.disabled ? `${this.props.className}-disabled` : `${this.props.className}-enabled`}`;
-    return (
+      return (
       <button
         className={className}
         title={this.props.buttonTitle}
+        data-activated={this.props.activated}
+        data-toggle={this.props.toggle}
+        data-independant={this.props.independant}
         onClick={this.handleBaseButtonClick}
       >
         {this.renderTool()}

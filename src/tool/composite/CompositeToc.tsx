@@ -51,7 +51,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, never> {
       .getLayerElements((layerElement) => layerElement.reactElement.props.type.toUpperCase() === 'BASE')
       .sort(
         (layerElement1, layerElement2) =>
-          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
+          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order,
       );
     return bases;
   }
@@ -70,7 +70,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, never> {
       })
       .sort(
         (layerElement1, layerElement2) =>
-          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
+          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order,
       );
     return overlays;
   }
@@ -89,7 +89,7 @@ export class CompositeToc extends BaseTool<ICompositeTocProps, never> {
       })
       .sort(
         (layerElement1, layerElement2) =>
-          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order
+          layerElement1.reactElement.props.order - layerElement2.reactElement.props.order,
       );
     return overlays;
   }

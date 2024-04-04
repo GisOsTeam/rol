@@ -124,7 +124,7 @@ export class LayerElementItemWithLegend extends React.Component<
         },
         () => {
           this.setState({ legendRecord: null, loading: false });
-        }
+        },
       );
     }
   };

@@ -63,7 +63,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
             props.limit,
             props.tolerance,
             props.filterSources,
-            props.layersParam
+            props.layersParam,
           );
           if (props.onIdentifyResponse) {
             const features = createQueryResponseFeatures(queryResponses, layersManager);
@@ -80,7 +80,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
       props.onIdentifyResponse,
       props.layersParam,
       olMap,
-    ]
+    ],
   );
 
   /**

@@ -14,5 +14,5 @@ export const CounterButton = withBaseButtonTool(
     }, [props.activated]);
     return <ContainerBtn>count: {String(count)}</ContainerBtn>;
   },
-  { className: 'counter-button' }
+  { className: 'counter-button' },
 );

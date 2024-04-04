@@ -23,5 +23,5 @@ export const CounterWindow = withBaseWindowTool(
   (props: IFunctionBaseWindowToolProps) => {
     return <ContainerBtn>Counter</ContainerBtn>;
   },
-  { className: 'counter-window' }
+  { className: 'counter-window' },
 );

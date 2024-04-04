@@ -106,7 +106,7 @@ export class BaseButtonTool<P extends IBaseButtonToolProps = IBaseButtonToolProp
 
 export function withBaseButtonTool<P extends IBaseButtonToolProps>(
   component: string | React.FunctionComponent<IBaseButtonToolProps> | React.ComponentClass<IBaseButtonToolProps, never>,
-  defaultProps?: Partial<IBaseButtonToolProps>
+  defaultProps?: Partial<IBaseButtonToolProps>,
 ) {
   const Tool = class extends BaseButtonTool<P, never> {
     public renderTool(): React.ReactNode {

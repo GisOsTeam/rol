@@ -11,5 +11,5 @@ export const ShowSnapshot = withBaseWindowTool<IShowsnapshotProps>(
   ShowsnapshotButton,
   {
     className: 'showsnapshot',
-  }
+  },
 );

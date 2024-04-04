@@ -33,8 +33,8 @@ export const FeatureTable = (props: IFeatureTableProps) => {
             ? type.type.name
               ? type.type.name
               : typeof type.type.id === 'number'
-                ? `(${type.type.id})`
-                : ''
+              ? `(${type.type.id})`
+              : ''
             : ''
         }`;
         nameFeaturesTmp[name] = type.features;

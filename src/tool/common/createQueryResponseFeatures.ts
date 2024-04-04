@@ -17,7 +17,7 @@ export type IQueryResponseFeatures = {
 
 export function createQueryResponseFeatures(
   queryResponses: IQueryResponse[],
-  layersManager: LayersManager,
+  layersManager: LayersManager
 ): IQueryResponseFeatures {
   const queryResponseFeatures: IQueryResponseFeatures = {};
   queryResponses.forEach((queryResponse: IQueryResponse) => {

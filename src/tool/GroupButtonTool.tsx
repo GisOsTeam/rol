@@ -70,7 +70,7 @@ export interface IGroupButtonToolState extends IBaseContaineState {
 
 export class GroupButtonTool<
   P extends IGroupButtonToolProps = IGroupButtonToolProps,
-  S extends IGroupButtonToolState = IGroupButtonToolState,
+  S extends IGroupButtonToolState = IGroupButtonToolState
 > extends BaseContainer<P, S> {
   private groupBtnRef: React.RefObject<HTMLButtonElement>;
   public static defaultProps: Partial<IGroupButtonToolProps> = {

@@ -12,7 +12,7 @@ export interface IDraggableListAdaptatorProps<C extends IBaseUIItem> extends IBa
 }
 
 export function DraggableListAdaptator<I, C extends IBaseUIItem, T extends DraggableCompoProps<I>>(
-  props: IDraggableListAdaptatorProps<C>,
+  props: IDraggableListAdaptatorProps<C>
 ) {
   const context = React.useContext(rolContext);
   const { items: elements, itemComponent, itemComponentProps } = props;

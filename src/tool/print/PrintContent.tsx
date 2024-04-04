@@ -132,7 +132,7 @@ const computeMapImageSize = (
   format: string,
   orientation: string,
   dpi: number,
-  imageMargins: { [scale: string]: number },
+  imageMargins: { [scale: string]: number }
 ): [number, number] => {
   const pdfSize = computePdfSize(format, orientation);
   const innerWidth = pdfSize[0] - imageMargins.left - imageMargins.right;
@@ -149,7 +149,7 @@ const computeLegendImageSize = (
   orientation: string,
   dpi: number,
   margins: { [scale: string]: number },
-  imageMargins: { [scale: string]: number },
+  imageMargins: { [scale: string]: number }
 ): [number, number] => {
   const pdfSize = computePdfSize(format, orientation);
   const innerWidth = imageMargins.right - margins.right;
@@ -167,7 +167,7 @@ const computeRectangle = (
   center: [number, number],
   projection: Projection,
   scale: number,
-  imageMargins: { [scale: string]: number },
+  imageMargins: { [scale: string]: number }
 ): [number, number, number, number] => {
   const pdfSize = computePdfSize(format, orientation);
   const innerWidth = pdfSize[0] - imageMargins.left - imageMargins.right;
@@ -226,7 +226,7 @@ export function PrintContent(props: IPrintContentProps) {
       legendDataUrl: string,
       legendImageFormat: string,
       margin: { [scale: string]: number },
-      imageMargin: { [scale: string]: number },
+      imageMargin: { [scale: string]: number }
     ) => {
       const pdf = new JsPDF(orientation as any, 'mm', format);
       const pdfSize = computePdfSize(format, orientation);
@@ -236,7 +236,7 @@ export function PrintContent(props: IPrintContentProps) {
         margin.left,
         margin.top,
         pdfSize[0] - imageMargin.left - imageMargin.right,
-        pdfSize[1] - imageMargin.top - imageMargin.bottom,
+        pdfSize[1] - imageMargin.top - imageMargin.bottom
       );
       pdf.addImage(
         legendDataUrl,
@@ -244,7 +244,7 @@ export function PrintContent(props: IPrintContentProps) {
         pdfSize[0] - imageMargin.right,
         margin.top,
         imageMargin.right - margin.right,
-        pdfSize[1] - margin.top - margin.bottom,
+        pdfSize[1] - margin.top - margin.bottom
       );
       if (formValue.title != null) {
         pdf.text(formValue.title, dims[format][0] / 2, 10, { align: 'center' });
@@ -252,7 +252,7 @@ export function PrintContent(props: IPrintContentProps) {
 
       onPrintEnd(pdf);
     },
-    [onPrintEnd],
+    [onPrintEnd]
   );
 
   const drawRect = React.useCallback((): void => {
@@ -269,10 +269,10 @@ export function PrintContent(props: IPrintContentProps) {
             center,
             olMap.getView().getProjection(),
             +formValue.scale,
-            defaultImageMargins,
-          ),
+            defaultImageMargins
+          )
         ),
-      }),
+      })
     );
   }, [center, formValue.format, formValue.orientation, formValue.scale, olMap, rectSource]);
 
@@ -319,7 +319,7 @@ export function PrintContent(props: IPrintContentProps) {
       formValue.orientation,
       2 * dpi,
       defaultMargins,
-      defaultImageMargins,
+      defaultImageMargins
     );
     const rect = rectSource.getFeatures()[0].getGeometry().getExtent();
     rectSource.clear();
@@ -354,13 +354,13 @@ export function PrintContent(props: IPrintContentProps) {
             legendDataUrl,
             'JPEG',
             defaultMargins,
-            defaultImageMargins,
+            defaultImageMargins
           );
         },
         (err) => {
           onPrintEnd();
           console.error(err);
-        },
+        }
       )
       .finally(() => {
         setPrinting(false);

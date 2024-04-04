@@ -54,7 +54,7 @@ export class BaseLayer<
   P extends IBaseLayerProps,
   S,
   OLL extends OlBaseLayer,
-  OLS extends OlSource,
+  OLS extends OlSource
 > extends React.Component<P, S> {
   public static contextType: React.Context<IRolContext> = rolContext;
 

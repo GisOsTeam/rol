@@ -30,7 +30,7 @@ const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }
         callback: onFitEnd,
       });
     },
-    [source, olMap],
+    [source, olMap]
   );
 
   const geometryFunction = React.useCallback(createBox(), []);

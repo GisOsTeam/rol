@@ -14,5 +14,5 @@ export const OneShotCounterButton = withOneShotButtonTool(
     }, [props.activated]);
     return <ContainerBtn>One shot count: {String(count)}</ContainerBtn>;
   },
-  { className: 'counter-button' },
+  { className: 'counter-button' }
 );

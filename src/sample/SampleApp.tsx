@@ -85,7 +85,7 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
                 zoom: 5,
                 projection: 'EPSG:3857',
                 constrainResolution: true,
-              }),
+              })
             );
           }}
           afterUpdate={(afterData: IAfterData) => {

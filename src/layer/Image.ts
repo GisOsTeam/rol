@@ -26,7 +26,7 @@ export class Image extends BaseLayer<IImageProps, never, OlImageLayer<any>, Imag
     if (source != null && 'init' in source) {
       (source as any as IInitSource).init().then(
         () => this.getOlLayer().setSource(source),
-        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
       );
     } else {
       this.getOlLayer().setSource(source);

@@ -88,7 +88,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
           name: elem[0],
           description: elem[1],
           type: 'OVERLAY',
-        }),
+        })
       );
     });
   };
@@ -102,7 +102,7 @@ export const WmsLoader = (props: IWmsLoaderProps) => {
               <label htmlFor="serverUrl">
                 {translate(
                   'wmsLoader.serverUrl',
-                  'Enter WMS Server URL* (example: http://172.20.0.3:8080/geoserver/wms)',
+                  'Enter WMS Server URL* (example: http://172.20.0.3:8080/geoserver/wms)'
                 )}
               </label>
               <input id="url" type="text" value={serverUrl} onChange={handleUrlChange}></input>

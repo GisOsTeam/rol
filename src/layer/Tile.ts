@@ -26,7 +26,7 @@ export class Tile extends BaseLayer<ITileProps, never, OlTileLayer<any>, TileIma
     if (source != null && 'init' in source) {
       (source as any as IInitSource).init().then(
         () => this.getOlLayer().setSource(source),
-        () => this.getOlLayer().setSource(source),
+        () => this.getOlLayer().setSource(source)
       );
     } else {
       this.getOlLayer().setSource(source);

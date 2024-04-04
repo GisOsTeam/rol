@@ -42,7 +42,7 @@ export class ToolsManager {
    */
   public getToolElements(
     filterFn?: (value: IToolElement, index: number, array: IToolElement[]) => boolean,
-    thisFilterArg?: any,
+    thisFilterArg?: any
   ): IToolElement[] {
     const toolMap = toolMaps.get(this.uid);
     if (toolMap == null) {
@@ -69,7 +69,7 @@ export class ToolsManager {
           }),
           updatedProps: { ...toolElement.updatedProps, ...props },
         },
-        refreshIfChanging,
+        refreshIfChanging
       );
     } else {
       console.error(`Element not found for uid ${uid}`);
@@ -81,7 +81,7 @@ export class ToolsManager {
    */
   public createAndAddTool(
     cl: React.ClassType<IBaseToolProps, BaseTool<IBaseToolProps, any>, any>,
-    props: IBaseToolProps,
+    props: IBaseToolProps
   ) {
     const reactElement = React.createElement(cl, {
       ...props,

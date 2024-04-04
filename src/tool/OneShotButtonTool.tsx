@@ -87,7 +87,7 @@ export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool
 
 export function withOneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool>(
   component: string | React.FunctionComponent<P> | React.ComponentClass<P, never>,
-  defaultProps?: Partial<P>,
+  defaultProps?: Partial<P>
 ) {
   const Tool = class extends OneShotButtonTool<P, never> {
     public renderTool(): React.ReactNode {

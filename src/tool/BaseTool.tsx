@@ -118,7 +118,7 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
 
 export function withBaseTool<P extends IBaseToolProps>(
   component: string | React.FunctionComponent<P> | React.ComponentClass<P, never>,
-  defaultProps?: Partial<P>,
+  defaultProps?: Partial<P>
 ) {
   const Tool = class extends BaseTool<P, never> {
     public renderTool(): React.ReactNode {

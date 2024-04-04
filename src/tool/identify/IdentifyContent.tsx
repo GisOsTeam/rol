@@ -17,7 +17,7 @@ export interface IIdentifyContentProps extends IFunctionBaseWindowToolProps {
 
 export function IdentifyContent(props: IIdentifyContentProps) {
   const [identificationResponseFeatures, setIdentificationResponseFeatures] = React.useState<IQueryResponseFeatures>(
-    {}
+    {},
   );
   const { layersManager } = React.useContext(rolContext);
 
@@ -47,7 +47,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     (extended) => {
       return extended !== source;
     },
-    [source]
+    [source],
   );
 
   const onIdentifyResponse = React.useCallback(
@@ -61,7 +61,7 @@ export function IdentifyContent(props: IIdentifyContentProps) {
       });
       setIdentificationResponseFeatures(newFeatures);
     },
-    [layersManager, setIdentificationResponseFeatures]
+    [layersManager, setIdentificationResponseFeatures],
   );
 
   useIdentify({

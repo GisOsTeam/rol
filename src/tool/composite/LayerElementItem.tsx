@@ -13,7 +13,7 @@ const DivInline = styled.div`
 const DivDragHandle = styled.div`
   width: 10px;
   height: 22px;
-  ::after {
+  &:after {
     content: '☰';
   }
 `;

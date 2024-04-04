@@ -154,7 +154,7 @@ export interface IBaseWindowToolState {
 
 export class BaseWindowTool<
   P extends IBaseWindowToolProps = IBaseWindowToolProps,
-  S extends IBaseWindowToolState = IBaseWindowToolState
+  S extends IBaseWindowToolState = IBaseWindowToolState,
 > extends BaseButtonTool<P, S> {
   public static defaultProps = {
     ...BaseButtonTool.defaultProps,
@@ -216,7 +216,7 @@ export class BaseWindowTool<
           this.props.onOpen();
         }
         this.activate();
-      }
+      },
     );
     return true;
   }
@@ -238,7 +238,7 @@ export class BaseWindowTool<
           this.props.onClose();
         }
         this.deactivate();
-      }
+      },
     );
     return true;
   }
@@ -488,7 +488,7 @@ export class BaseWindowTool<
             className={className}
             onClick={this.handleWindowClick}
             style={style}
-            ref={(ref) => (this.windowElement = ref)}
+            ref={(windowElement: any) => (this.windowElement = windowElement)}
           >
             <TitleBar className={titleClassName} activated={this.props.activated}>
               <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
@@ -520,7 +520,7 @@ export function withBaseWindowTool<P extends IBaseWindowToolProps>(
     | string
     | React.FunctionComponent<IFunctionBaseWindowToolProps>
     | React.ComponentClass<IFunctionBaseWindowToolProps, never>,
-  defaultProps?: Partial<P>
+  defaultProps?: Partial<P>,
 ) {
   const Tool = class extends BaseWindowTool<P, IBaseWindowToolState> {
     public renderHeaderContent(): React.ReactNode {

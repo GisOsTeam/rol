@@ -14,5 +14,5 @@ export const CounterToggleButton = withBaseButtonTool(
     }, [props.activated]);
     return <ContainerBtn>count: {String(count)}</ContainerBtn>;
   },
-  { className: 'counter-button', toggle: true }
+  { className: 'counter-button', toggle: true },
 );

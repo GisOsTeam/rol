@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { SampleApp } from './SampleApp';
 
-const ReactElement = React.createElement(SampleApp);
-ReactDOM.render(ReactElement, document.getElementById('root'));
+const container = document.getElementById('root');
+createRoot(container!).render(React.createElement(SampleApp));

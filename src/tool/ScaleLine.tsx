@@ -197,14 +197,14 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
     const scanlineTitle = this.context.translate('scanline.title', 'Diagonal distance in map center');
     return (
       <Container
-        ref={(divScaleLine) => {
+        ref={(divScaleLine: any) => {
           this.divScaleLine = divScaleLine;
         }}
         className={`${this.props.className} ol-unselectable ol-control`}
         title={scanlineTitle}
       >
         <Inner
-          ref={(divScaleLineInner) => {
+          ref={(divScaleLineInner: any) => {
             this.divScaleLineInner = divScaleLineInner;
           }}
           className={`${this.props.className}-inner`}
@@ -215,7 +215,7 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
           </Parts>
         </Inner>
         <Label
-          ref={(divScaleLineLabel) => {
+          ref={(divScaleLineLabel: any) => {
             this.divScaleLineLabel = divScaleLineLabel;
           }}
           className={`${this.props.className}-label`}

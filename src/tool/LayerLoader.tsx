@@ -38,5 +38,5 @@ export const LayerLoader = withBaseWindowTool<ILayerLoaderProps>(
   {
     className: 'layerLoader',
     selectorTypes: DEFAULT_LAYER_LOADER_SELECTORS,
-  }
+  },
 );

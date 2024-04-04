@@ -129,7 +129,7 @@ export class LayersManager {
           ...layerElement,
           status: 'del',
         },
-        false
+        false,
       );
     });
     // Projections
@@ -143,7 +143,7 @@ export class LayersManager {
         zoom: snapshot.view.zoom,
         projection: snapshot.view.projectionCode,
         constrainResolution: snapshot.view.constrainResolution,
-      })
+      }),
     );
     // Refresh
     this.refresh();
@@ -166,7 +166,7 @@ export class LayersManager {
    */
   public getLayerElements(
     filterFn?: (value: ILayerElement, index: number, array: ILayerElement[]) => boolean,
-    thisFilterArg?: any
+    thisFilterArg?: any,
   ): ILayerElement[] {
     const layerMap = layerMaps.get(this.uid);
     if (layerMap == null) {
@@ -209,7 +209,7 @@ export class LayersManager {
           }),
           updatedProps: { ...layerElement.updatedProps, ...props },
         },
-        refreshIfChanging
+        refreshIfChanging,
       );
     } else {
       console.error(`Element not found for uid ${uid}`);
@@ -264,7 +264,7 @@ export class LayersManager {
    */
   public createAndAddLayer(
     cl: React.ClassType<IBaseLayerProps, BaseLayer<IBaseLayerProps, any, any, any>, any>,
-    props: IBaseLayerProps
+    props: IBaseLayerProps,
   ) {
     const reactElement = React.createElement(cl, {
       ...props,
@@ -308,7 +308,7 @@ export class LayersManager {
   public createAndAddLayerFromSourceDefinition(
     sourceType: SourceTypeEnum,
     sourceOptions: any,
-    props: IBaseLayerProps
+    props: IBaseLayerProps,
   ): ISnapshotSource {
     const layerElement = this.getLayerElements((layerElement) => layerElement.uid == props.uid).pop();
     if (layerElement != null) {

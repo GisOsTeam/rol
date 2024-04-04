@@ -23,7 +23,7 @@ const ButtonUp = styled(Button)`
   margin-left: 32px;
   border-width: 1px 1px 0px 1px !important;
   border-radius: 5px 5px 0px 0px !important;
-  ::after {
+  &:after {
     content: '↑';
   }
 `;
@@ -33,7 +33,7 @@ const ButtonLeft = styled(Button)`
   margin-left: 0px;
   border-width: 1px 0px 1px 1px !important;
   border-radius: 5px 0px 0px 5px !important;
-  ::after {
+  &:after {
     content: '←';
   }
 `;
@@ -42,7 +42,7 @@ const ButtonOrigin = styled(Button)`
   display: inline;
   border-width: 0px !important;
   border-radius: 0px !important;
-  ::after {
+  &:after {
     content: '⤢';
   }
 `;
@@ -51,7 +51,7 @@ const ButtonNoorigin = styled(Button)`
   display: inline;
   border-width: 0px !important;
   border-radius: 0px !important;
-  ::after {
+  &:after {
     content: '.';
   }
 `;
@@ -60,7 +60,7 @@ const ButtonRight = styled(Button)`
   display: inline;
   border-width: 1px 1px 1px 0px !important;
   border-radius: 0px 5px 5px 0px !important;
-  ::after {
+  &:after {
     content: '→';
   }
 `;
@@ -70,7 +70,7 @@ const ButtonDown = styled(Button)`
   margin-left: 32px;
   border-width: 0px 1px 1px 1px !important;
   border-radius: 0px 0px 5px 5px !important;
-  ::after {
+  &:after {
     content: '↓';
   }
 `;
@@ -81,7 +81,7 @@ const ButtonZoom = styled(Button)`
   margin-left: 32px;
   border-width: 1px 1px 0px 1px !important;
   border-radius: 5px 5px 0px 0px !important;
-  ::after {
+  &:after {
     content: '+';
   }
 `;
@@ -91,7 +91,7 @@ const ButtonUnzoom = styled(Button)`
   margin-left: 32px;
   border-width: 0px 1px 1px 1px !important;
   border-radius: 0px 0px 5px 5px !important;
-  ::after {
+  &:after {
     content: '-';
   }
 `;
@@ -105,7 +105,7 @@ const ButtonRotate = styled(Button)`
 `;
 
 const SpanRotate = styled.span`
-  ::after {
+  &:after {
     content: '⇑';
   }
 `;
@@ -376,13 +376,13 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     if (this.props.showZoomSlider) {
       slider = (
         <DivSlider
-          ref={(containerThumb) => {
+          ref={(containerThumb: any) => {
             this.containerThumb = containerThumb;
           }}
           className={`${this.props.className}-zoom-slider`}
         >
           <ButtonSliderThumb
-            ref={(btnThumb) => {
+            ref={(btnThumb: any) => {
               this.btnThumb = btnThumb;
             }}
             className={`${this.props.className}-zoom-slider-thumb`}
@@ -415,7 +415,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
     return (
       <div className="ol-unselectable ol-control">
         <ButtonRotate
-          ref={(buttonRotate) => {
+          ref={(buttonRotate: any) => {
             this.buttonRotate = buttonRotate;
           }}
           className={`${this.props.className}-rotate`}

@@ -21,7 +21,7 @@ const DivInlineSpaceBetween = styled.div`
 const DivDragHandle = styled.div`
   width: 10px;
   height: 22px;
-  ::after {
+  &:after {
     content: '☰';
   }
 `;
@@ -29,7 +29,7 @@ const DivDragHandle = styled.div`
 const DivRemove = styled.div`
   width: 10px;
   height: 22px;
-  ::after {
+  &:after {
     content: '☒';
   }
 `;
@@ -38,7 +38,7 @@ const DivMenuClose = styled.div`
   width: 10px;
   height: 22px;
   margin-right: 3px;
-  ::after {
+  &:after {
     content: '⮞';
   }
 `;
@@ -47,7 +47,7 @@ const DivMenuOpen = styled.div`
   width: 10px;
   height: 22px;
   margin-right: 3px;
-  ::after {
+  &:after {
     content: '⮟';
   }
 `;
@@ -124,7 +124,7 @@ export class LayerElementItemWithLegend extends React.Component<
         },
         () => {
           this.setState({ legendRecord: null, loading: false });
-        }
+        },
       );
     }
   };

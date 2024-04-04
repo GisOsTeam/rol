@@ -163,7 +163,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
         zoom: 2,
         projection: 'EPSG:3857',
         constrainResolution: true,
-      })
+      }),
     );
     this.layersManager = new LayersManager(props.uid, this.olMap, this.refresh);
     this.toolsManager = new ToolsManager(props.uid, this.refresh);

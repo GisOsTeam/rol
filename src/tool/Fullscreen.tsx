@@ -18,7 +18,7 @@ const ButtonFullscreen = styled.button`
   box-shadow: none;
   border-width: 1px 1px 1px 1px !important;
   border-radius: 5px 5px 5px 5px !important;
-  ::after {
+  &:after {
     content: '⛶';
   }
 `;

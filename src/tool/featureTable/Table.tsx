@@ -109,7 +109,7 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
         headContent.push(
           <th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>
             {columnLabel}
-          </th>
+          </th>,
         );
       });
       return (

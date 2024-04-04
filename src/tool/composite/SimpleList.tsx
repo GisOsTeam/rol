@@ -5,7 +5,7 @@ export function SimpleList<T extends IBaseUIItem>({ items, itemComponent, itemCo
   return (
     <>
       {items.map((item, index) =>
-        React.createElement(itemComponent, { ...itemComponentProps, item, key: `${uid}-${index}` })
+        React.createElement(itemComponent, { ...itemComponentProps, item, key: `${uid}-${index}` }),
       )}
     </>
   );

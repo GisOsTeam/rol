@@ -5,6 +5,8 @@ import OlBaseLayer from 'ol/layer/Base';
 import { BaseLayer, IBaseLayerProps } from './layer/BaseLayer';
 import { Vector } from './layer/Vector';
 import { Tile } from './layer/Tile';
+import { WebGLTile } from './layer/WebGLTile';
+import { Heatmap } from './layer/Heatmap';
 import { Image } from './layer/Image';
 import { VectorTile } from './layer/VectorTile';
 import { jsonEqual, walk } from '@gisosteam/aol/utils';
@@ -289,15 +291,18 @@ export class LayersManager {
       case LayerTypeEnum.Tile:
         this.createAndAddLayer(Tile, { ...props, source });
         break;
+      case LayerTypeEnum.WebGLTile:
+        this.createAndAddLayer(WebGLTile, { ...props, source });
+        break;
       case LayerTypeEnum.Vector:
         this.createAndAddLayer(Vector, { ...props, source });
         break;
       case LayerTypeEnum.VectorTile:
         this.createAndAddLayer(VectorTile, { ...props, source });
         break;
-      /*case LayerTypeEnum.Heatmap:
-        this.createAndAddLayer(VectorTile, { ...props, source });
-        break;*/
+      case LayerTypeEnum.Heatmap:
+        this.createAndAddLayer(Heatmap, { ...props, source });
+        break;
     }
     return source;
   }

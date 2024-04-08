@@ -22,10 +22,12 @@ import { DrawLine } from '../tool/draw';
 import { Reproj } from '../tool/Reproj';
 import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
+import { WebGLTile } from '../layer/WebGLTile';
 import { Projection } from '../Projection';
 import { OneShotCounterButton } from './OneShotCounterButton';
 import { BanSearchProvider } from '@gisosteam/aol/search';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
+import { GeoTIFF } from '@gisosteam/aol/source/GeoTIFF';
 import { createLayerStyles } from '@gisosteam/aol';
 
 const wkt2154 =
@@ -59,6 +61,12 @@ const britishNationalGrid = new ImageStatic({
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
   types: [{ id: 0 }, { id: 1, name: 'Highways' }],
+});
+
+const tci = new GeoTIFF({
+  sources: [{
+    url: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/36/Q/WD/2020/7/S2A_36QWD_20200701_0_L2A/TCI.tif',
+  }],
 });
 
 export class SampleApp extends React.Component<never, { hide: boolean }> {
@@ -116,6 +124,7 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
           <Tile uid="UID -- World Imagery" source={worldImagery} name="World Imagery" type="BASE" />
           <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
+          <WebGLTile uid="UID -- TIC" source={tci} name="TIC" />
           <Control>
             <Zone>
               <Toc uid="Toc" independant />

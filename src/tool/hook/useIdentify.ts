@@ -46,7 +46,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
   /**
    * Lance l'identification à la fin de l'opération de dessin
    */
-  const {typeGeom, limit, tolerance, filterSources, layersParam, onIdentifyResponse} = props;
+  const { typeGeom, limit, tolerance, filterSources, layersParam, onIdentifyResponse } = props;
   const handleOnDrawEnd = React.useCallback(
     async (evt: DrawEvent | undefined): Promise<any> => {
       if (evt) {
@@ -59,14 +59,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
           geom = evt.feature.getGeometry() as LineString;
         }
         if (geom) {
-          const queryResponses = await identify(
-            geom,
-            olMap,
-            limit,
-            tolerance,
-            filterSources,
-            layersParam,
-          );
+          const queryResponses = await identify(geom, olMap, limit, tolerance, filterSources, layersParam);
           if (onIdentifyResponse) {
             const features = createQueryResponseFeatures(queryResponses, layersManager);
             onIdentifyResponse({ features: features, drawGeom: geom });

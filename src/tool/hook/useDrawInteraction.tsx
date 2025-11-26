@@ -41,7 +41,7 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
         setDraw(null);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activated, layerStyles, olMap, onDrawEnd]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {

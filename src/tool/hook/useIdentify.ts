@@ -6,11 +6,12 @@ import Point from 'ol/geom/Point';
 import Polygon from 'ol/geom/Polygon';
 import { DrawEvent } from 'ol/interaction/Draw';
 import * as React from 'react';
-import { rolContext } from '../../RolContext';
 import { useDrawInteraction } from './useDrawInteraction';
 import { createQueryResponseFeatures, IQueryResponseFeatures } from '../common/createQueryResponseFeatures';
 import Geometry, { Type } from 'ol/geom/Geometry';
 import { LayerStyles } from '@gisosteam/aol';
+import { useOlMap } from './useOlMap';
+import { useLayersManager } from './useLayersManager';
 
 export interface IIdentifyResponse {
   features: IQueryResponseFeatures;
@@ -39,40 +40,41 @@ export interface IUseIdentifyProps {
  * outil de dessin de geom (POINT, LIGNE, POLYGONE, CIRCLE) + Identification des feats sur la carte qui intersectent cette geom
  */
 export function useIdentify(props: IUseIdentifyProps): any {
-  const context = React.useContext(rolContext);
-  const { olMap, layersManager } = context;
+  const olMap = useOlMap();
+  const layersManager = useLayersManager();
 
   /**
    * Lance l'identification à la fin de l'opération de dessin
    */
+  const {typeGeom, limit, tolerance, filterSources, layersParam, onIdentifyResponse} = props;
   const handleOnDrawEnd = React.useCallback(
     async (evt: DrawEvent | undefined): Promise<any> => {
       if (evt) {
         let geom = null;
-        if (props.typeGeom === 'Polygon') {
+        if (typeGeom === 'Polygon') {
           geom = evt.feature.getGeometry() as Polygon;
-        } else if (props.typeGeom === 'Point') {
+        } else if (typeGeom === 'Point') {
           geom = evt.feature.getGeometry() as Point;
-        } else if (props.typeGeom === 'LineString') {
+        } else if (typeGeom === 'LineString') {
           geom = evt.feature.getGeometry() as LineString;
         }
         if (geom) {
           const queryResponses = await identify(
             geom,
             olMap,
-            props.limit,
-            props.tolerance,
-            props.filterSources,
-            props.layersParam,
+            limit,
+            tolerance,
+            filterSources,
+            layersParam,
           );
-          if (props.onIdentifyResponse) {
+          if (onIdentifyResponse) {
             const features = createQueryResponseFeatures(queryResponses, layersManager);
-            props.onIdentifyResponse({ features: features, drawGeom: geom });
+            onIdentifyResponse({ features: features, drawGeom: geom });
           }
         }
       }
     },
-    [props, olMap, layersManager],
+    [typeGeom, olMap, limit, tolerance, filterSources, layersParam, onIdentifyResponse, layersManager],
   );
 
   /**
@@ -108,5 +110,5 @@ export function useIdentify(props: IUseIdentifyProps): any {
       olMap.un('dblclick', handleOnClickDblClickMap);
       olMap.un('click', handleOnClickDblClickMap);
     };
-  }, [props.activated, props.typeGeom, handleOnClickDblClickMap, olMap]);
+  }, [props.activated, props.typeGeom, olMap, handleOnClickDblClickMap]);
 }

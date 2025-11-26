@@ -219,7 +219,6 @@ export function PrintContent(props: IPrintContentProps) {
   }, []);
 
   const buildPdf = React.useCallback(
-    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (
       format: string,
       orientation: string,

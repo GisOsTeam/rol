@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { rolContext } from '../../RolContext';
 import Draw, { Options, DrawEvent } from 'ol/interaction/Draw';
 import { createLayerStyles, createStyleFunction, LayerStyles } from '@gisosteam/aol';
+import { useOlMap } from './useOlMap';
 
 export interface IUseDrawInteractionProps extends Options {
   /**
@@ -19,13 +19,13 @@ export interface IUseDrawInteractionProps extends Options {
 }
 
 export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
-  const context = React.useContext(rolContext);
+  const olMap = useOlMap();
   const [draw, setDraw] = React.useState<Draw>(null);
   // Effect for build interaction
+  const { activated, onDrawEnd, layerStyles, ...options } = props;
   React.useEffect(() => {
-    const { activated, onDrawEnd, ...options } = props;
     const buildDrawInteraction = () => {
-      const style = createStyleFunction(props.layerStyles != null ? props.layerStyles : createLayerStyles());
+      const style = createStyleFunction(layerStyles != null ? layerStyles : createLayerStyles());
       const preCreateDraw = new Draw({ ...options, style });
       if (onDrawEnd) {
         preCreateDraw.on('drawend', onDrawEnd);
@@ -36,42 +36,26 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
     buildDrawInteraction();
     // Cleanup function
     return () => {
-      if (draw != null && context.olMap != null) {
-        context.olMap.removeInteraction(draw);
+      if (draw != null && olMap != null) {
+        olMap.removeInteraction(draw);
         setDraw(null);
       }
     };
-  }, [
-    props.onDrawEnd,
-    props.type,
-    props.clickTolerance,
-    props.features,
-    props.source,
-    props.dragVertexDelay,
-    props.snapTolerance,
-    props.stopClick,
-    props.maxPoints,
-    props.minPoints,
-    props.geometryName,
-    props.freehand,
-    props.wrapX,
-    props,
-    draw,
-    context.olMap,
-  ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activated, layerStyles, olMap, onDrawEnd]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
     if (draw != null) {
-      if (context.olMap != null) {
-        context.olMap.addInteraction(draw);
+      if (olMap != null) {
+        olMap.addInteraction(draw);
       }
 
       draw.setActive(props.activated === true);
 
       return () => {
-        context.olMap.removeInteraction(draw);
+        olMap.removeInteraction(draw);
       };
     }
-  }, [props.activated, draw, context.olMap]);
+  }, [props.activated, olMap, draw]);
   return draw;
 }

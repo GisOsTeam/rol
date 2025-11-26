@@ -47,6 +47,7 @@ export interface ITableProps {
   onClickRow?: (key: string, value: string, index?: number, event?: React.MouseEvent) => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function objectToITableFeature(inObject: { [key: string]: any }): ITableFeature {
   const featureSummary: ITableFeature = {};
   Object.keys(inObject)
@@ -72,7 +73,6 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
   let rows: React.ReactElement[] = [];
   let nbRows = 0;
 
-  /* eslint-disable */
   const renderVal = (key: string, value: string, index: number) => {
     ++nbRows;
     return (
@@ -88,8 +88,8 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
       </tr>
     );
   };
-  /* eslint-enable */
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Object.keys(feature).forEach((key: string, propIndex) => {
     if (key !== 'feature_id') {
       const value = feature[key];
@@ -104,7 +104,7 @@ export const Table: React.FC<any> = ({ feature, header, onClickRow, highlightedK
       return;
     }
     if (header) {
-      const headContent: JSX.Element[] = [];
+      const headContent: React.JSX.Element[] = [];
       header.forEach((columnLabel, id) => {
         headContent.push(
           <th colSpan={3 - header.length} key={`${columnLabel}-${id}`}>

@@ -46,12 +46,13 @@ export interface ILayerElementItemProps extends IBaseUIItem {
 export class LayerElementItem extends React.Component<ILayerElementItemProps, never> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   public handleCheckboxChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     this.context.layersManager.updateLayerProps(key, { visible: e.currentTarget.checked });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public handleRadioChange = (key: string) => (e: React.ChangeEvent) => {
     this.context.layersManager.updateLayerProps(key, { visible: true });
   };

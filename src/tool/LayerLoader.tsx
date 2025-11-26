@@ -8,7 +8,7 @@ import { KMZFileLoader, KMLFileLoader, ZipFileLoader } from './common/loaders/Ge
 
 export type ILayerLoaderProps = IBaseWindowToolProps & Partial<ILayerLoaderContentProps>;
 
-export const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
+const DEFAULT_LAYER_LOADER_SELECTORS: ISelectorType[] = [
   {
     type: '.kml',
     description: 'KML (.kml)',

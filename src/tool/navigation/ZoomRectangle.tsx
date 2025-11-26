@@ -14,7 +14,7 @@ export interface IZoomRectangleWidgetProps extends IBaseButtonToolProps {
   buttonContent?: string | React.ReactElement;
 }
 
-const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }: IZoomRectangleWidgetProps) => {
+const ZoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }: IZoomRectangleWidgetProps) => {
   const olMap = useOlMap();
   const source = useDrawSource({
     layerUid: 'zoom-rectangle-tool-draw-source',
@@ -33,6 +33,7 @@ const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }
     [source, olMap],
   );
 
+  // eslint-disable-next-line react-hooks/use-memo, react-hooks/exhaustive-deps
   const geometryFunction = React.useCallback(createBox(), []);
 
   useDrawInteraction({
@@ -46,4 +47,4 @@ const zoomRectangleFC = ({ activated = false, buttonContent = 'Zoom Rectangle' }
   return <ContainerBtn>{buttonContent}</ContainerBtn>;
 };
 
-export const ZoomRectangleWidget = withBaseButtonTool(zoomRectangleFC, { className: 'counter-button', toggle: true });
+export const ZoomRectangleWidget = withBaseButtonTool(ZoomRectangleFC, { className: 'counter-button', toggle: true });

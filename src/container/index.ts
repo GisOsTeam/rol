@@ -3,6 +3,4 @@
  */
 
 export * from './BaseContainer';
-export * from './Control';
-export * from './Overlay';
 export * from './Zone';

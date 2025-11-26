@@ -188,6 +188,7 @@ export interface IPrintContentProps extends IFunctionBaseWindowToolProps {
   onPrintEnd?: (pdf?: JsPDF) => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const defaultPrintEnd = (pdf?: JsPDF) => {
   if (pdf) {
     pdf.save('map.pdf');
@@ -218,6 +219,7 @@ export function PrintContent(props: IPrintContentProps) {
   }, []);
 
   const buildPdf = React.useCallback(
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (
       format: string,
       orientation: string,
@@ -252,7 +254,7 @@ export function PrintContent(props: IPrintContentProps) {
 
       onPrintEnd(pdf);
     },
-    [onPrintEnd],
+    [formValue.title, onPrintEnd],
   );
 
   const drawRect = React.useCallback((): void => {
@@ -326,8 +328,8 @@ export function PrintContent(props: IPrintContentProps) {
 
     const sources: IExtended[] = [];
     const layerElements = layersManager.getLayerElements((layerElement: ILayerElement) => {
-      const source = layerElement.reactElement.props.source;
-      const visible = layerElement.reactElement.props.visible;
+      const source = (layerElement.reactElement.props as any).source;
+      const visible = (layerElement.reactElement.props as any).visible;
       return (
         source != null &&
         typeof source.isListable === 'function' &&
@@ -337,7 +339,7 @@ export function PrintContent(props: IPrintContentProps) {
       );
     });
     for (const layerElement of layerElements) {
-      sources.push(layerElement.reactElement.props.source);
+      sources.push((layerElement.reactElement.props as any).source);
     }
 
     Promise.all([

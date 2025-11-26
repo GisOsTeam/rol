@@ -35,6 +35,7 @@ export const rolContext = React.createContext<IRolContext>({
   olGroup: null,
   layersManager: null,
   toolsManager: null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
     return defaultText;
   },

@@ -12,14 +12,17 @@ export const CounterWindow = withBaseWindowTool(
       if (props.activated === true) {
         setCount(count + 1);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.activated]);
     return <span>count: {String(count)}</span>;
   },
   // Header Content
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (props: IFunctionBaseWindowToolProps) => {
     return <span>Counter</span>;
   },
   // Open Button Content
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (props: IFunctionBaseWindowToolProps) => {
     return <ContainerBtn>Counter</ContainerBtn>;
   },

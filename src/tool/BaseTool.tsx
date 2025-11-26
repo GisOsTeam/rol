@@ -39,7 +39,7 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
 
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   public componentDidMount() {
     this.toolDidConstruct();
@@ -50,6 +50,7 @@ export class BaseTool<P extends IBaseToolProps, S> extends React.Component<P, S>
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public componentDidUpdate(prevProps: P, prevState: S, snap: never) {
     if (this.props.activated == true && prevProps.activated != true) {
       this.toolDidActivate();

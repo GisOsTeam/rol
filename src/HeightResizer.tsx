@@ -20,7 +20,7 @@ export class HeightResizer extends React.Component<IResizerProps, never> {
     heightRemoval: '0px',
   };
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   public componentDidMount() {
     window.addEventListener('resize', this.updateSize);
@@ -29,6 +29,7 @@ export class HeightResizer extends React.Component<IResizerProps, never> {
     }, 1000);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public componentDidUpdate(prevProps: IResizerProps, prevState: never, snap: never) {
     this.updateSize();
   }

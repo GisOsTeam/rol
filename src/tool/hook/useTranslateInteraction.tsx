@@ -63,7 +63,7 @@ export function useTranslateInteraction(props: IUseTranslateInteractionProps): T
         setTranslate(null);
       }
     };
-  }, [props.source, props.hitTolerance]);
+  }, [context, props.activated, props.source, props.hitTolerance, props.onTranslateEnd, layersManager, translate]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
     if (translate != null) {
@@ -73,6 +73,6 @@ export function useTranslateInteraction(props: IUseTranslateInteractionProps): T
       }
       translate.setActive(props.activated === true);
     }
-  }, [props.activated]);
+  }, [added, context.olMap, props.activated, translate]);
   return translate;
 }

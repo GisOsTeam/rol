@@ -29,7 +29,7 @@ const Button = styled.button<{ activated?: boolean; independant?: boolean; toggl
       : ''};
 `;
 
-export interface IOneShotButtonTool extends IBaseButtonToolProps {}
+export type IOneShotButtonTool = IBaseButtonToolProps;
 
 export class OneShotButtonTool<P extends IOneShotButtonTool = IOneShotButtonTool, S = never> extends BaseButtonTool<
   P,

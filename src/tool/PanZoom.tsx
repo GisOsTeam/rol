@@ -168,7 +168,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
 
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   /**
    * Origin.

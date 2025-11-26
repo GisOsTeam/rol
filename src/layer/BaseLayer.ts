@@ -62,7 +62,7 @@ export class BaseLayer<
     type: 'OVERLAY',
   };
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   private olLayer: OLL = null;
 
@@ -83,6 +83,7 @@ export class BaseLayer<
     this.internalAddEvents();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public componentDidUpdate(prevProps: P, prevState: S, snap: never) {
     this.updateProps(prevProps, this.props);
   }

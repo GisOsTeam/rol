@@ -182,6 +182,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public componentDidUpdate(prevProps: IRolProps, prevState: IRolState, snap: never) {
     this.layersManager.fromChildren(this.props.children);
     this.toolsManager.fromChildren(this.props.children);
@@ -220,7 +221,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
 
     React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
       // Tools
-      if (child != null && BaseTool.isPrototypeOf(child.type)) {
+      if (child != null && Object.prototype.isPrototypeOf.call(BaseTool, child.type)) {
         const toolElement = this.toolsManager
           .getToolElements((toolElement) => toolElement.uid == child.props.uid)
           .pop();
@@ -230,7 +231,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
       }
 
       // Containers
-      if (child != null && BaseContainer.isPrototypeOf(child.type)) {
+      if (child != null && Object.prototype.isPrototypeOf.call(BaseContainer, child.type)) {
         elems.push(child);
       }
     });
@@ -256,6 +257,7 @@ export class Rol extends React.Component<IRolProps, IRolState> {
             olGroup: this.olMap.getLayerGroup(),
             layersManager: this.layersManager,
             toolsManager: this.toolsManager,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             translate: (code: string, defaultText: string, data?: { [key: string]: string }) => {
               return defaultText;
             },

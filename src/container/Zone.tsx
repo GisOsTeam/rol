@@ -2,9 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { BaseContainer, IBaseContainerProps, IBaseContaineState } from './BaseContainer';
 
-const Container = styled.div`
-  display: inline-flex;
-`;
+const Container = styled.div``;
 
 export interface IZoneProps extends IBaseContainerProps {
   /**
@@ -21,7 +19,7 @@ export interface IZoneProps extends IBaseContainerProps {
   style?: React.CSSProperties;
 }
 
-export interface IZoneState extends IBaseContaineState {}
+export type IZoneState = IBaseContaineState;
 
 export class Zone extends BaseContainer<IZoneProps, IZoneState> {
   public static defaultProps = {

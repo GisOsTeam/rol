@@ -11,6 +11,7 @@ export const CounterToggleButton = withBaseButtonTool(
       if (props.activated === true) {
         setCount(count + 1);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.activated]);
     return <ContainerBtn>count: {String(count)}</ContainerBtn>;
   },

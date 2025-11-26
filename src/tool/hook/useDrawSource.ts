@@ -75,6 +75,17 @@ export function useDrawSource(props: IUseDrawSourceProps): LocalVector {
         setSource(null);
       }
     };
-  }, [props.layerUid, JSON.stringify(props.styles), props.name, props.snapshotable, props.listable, props.removable]);
+  }, [
+    props.layerUid,
+    props.name,
+    props.snapshotable,
+    props.listable,
+    props.removable,
+    props.styles,
+    props.type,
+    props.persist,
+    context.layersManager,
+    uid,
+  ]);
   return source;
 }

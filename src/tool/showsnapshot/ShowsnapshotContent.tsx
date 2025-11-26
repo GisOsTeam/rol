@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export interface IShowsnapshotContentProps extends IFunctionBaseWindowToolProps {}
+export type IShowsnapshotContentProps = IFunctionBaseWindowToolProps;
 
 export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
   const layersManager = useLayersManager();
@@ -18,7 +18,7 @@ export function ShowsnapshotContent(props: IShowsnapshotContentProps) {
 
   React.useEffect(() => {
     setSnapshot(JSON.stringify(layersManager.getSnapshot()));
-  }, [props.open]);
+  }, [layersManager, props.open]);
 
   const handleGetButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

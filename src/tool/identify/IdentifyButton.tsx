@@ -10,6 +10,7 @@ const Container = styled.div`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function IdentifyButton(props: IFunctionBaseWindowToolProps) {
   const translate = useTranslate();
   return <Container title={translate('identify.header', 'Identify')} />;

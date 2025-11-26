@@ -85,7 +85,7 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
 
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   /**
    * Div ScaleLine.
@@ -107,6 +107,10 @@ export class ScaleLine extends BaseTool<IScaleLineProps, any> {
     setTimeout(() => {
       this.onViewChange();
     }, 100);
+  }
+
+  public toolDidDestroy() {
+    console.log('dest');
   }
 
   public onViewChange = () => {

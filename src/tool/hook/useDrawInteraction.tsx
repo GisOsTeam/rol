@@ -55,6 +55,9 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
     props.geometryName,
     props.freehand,
     props.wrapX,
+    props,
+    draw,
+    context.olMap,
   ]);
   // Effect for manage activate/deactivate
   React.useEffect(() => {
@@ -69,6 +72,6 @@ export function useDrawInteraction(props: IUseDrawInteractionProps): Draw {
         context.olMap.removeInteraction(draw);
       };
     }
-  }, [props.activated, draw]);
+  }, [props.activated, draw, context.olMap]);
   return draw;
 }

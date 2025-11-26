@@ -1,13 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import * as Draggable from 'react-draggable';
 import { BaseButtonTool, IBaseButtonToolProps } from './BaseButtonTool';
 import { RolCssClassNameEnum } from '../RolCssClassNameEnum';
 
 const Window = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
   border: 1px solid #cccccc;
   border-radius: 3px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -74,7 +71,7 @@ const TitleBarFoldButton = styled.button<{ activated?: boolean; isUnfold?: boole
   padding: 0;
   background: ${(props) => (props.activated ? '#88f' : '#ddd')};
   &:after {
-    content: '−';
+    content: '_';
   }
 `;
 
@@ -124,7 +121,7 @@ export interface IBaseWindowToolProps extends IBaseButtonToolProps {
   /**
    * Default position.
    */
-  defaultPosition?: { x: number; y: number };
+  defaultPosition?: { top: number; left: number };
   /**
    * Should display fold/unfold button
    */
@@ -147,9 +144,19 @@ export interface IBaseWindowToolState {
   /**
    * Position.
    */
-  position: { x: number; y: number };
-
+  position: { top: number; left: number };
+  /**
+   * Fold.
+   */
   isUnfold: boolean;
+  /**
+   * Dragging.
+   */
+  dragging: boolean;
+  /**
+   * Dragging start position.
+   */
+  startPosition: { screenX: number; screenY: number; top: number; left: number };
 }
 
 export class BaseWindowTool<
@@ -161,7 +168,7 @@ export class BaseWindowTool<
     defaultOpened: false,
     hideCloseButton: false,
     displayFoldButton: true,
-    defaultPosition: { x: 200, y: 200 },
+    defaultPosition: { top: 200, left: 200 },
   };
 
   public windowElement: HTMLSpanElement;
@@ -265,11 +272,11 @@ export class BaseWindowTool<
     return true;
   }
 
-  public checkPosition(position: { x: number; y: number }) {
+  checkPosition(position: { top: number; left: number }) {
     if (position == null) {
       return;
     }
-    let { x, y } = position;
+    let { top, left } = position;
     const boundingRect = this.windowElement.getBoundingClientRect();
     const bounds = {
       top: 0,
@@ -277,31 +284,23 @@ export class BaseWindowTool<
       left: 0,
       right: window.innerWidth - boundingRect.width,
     };
-    if (x > bounds.right) {
-      x = bounds.right;
+    if (left > bounds.right) {
+      left = bounds.right;
     }
-    if (x < bounds.left) {
-      x = bounds.left;
+    if (left < bounds.left) {
+      left = bounds.left;
     }
-    if (y > bounds.bottom) {
-      y = bounds.bottom;
+    if (top > bounds.bottom) {
+      top = bounds.bottom;
     }
-    if (y < bounds.top) {
-      y = bounds.top;
+    if (top < bounds.top) {
+      top = bounds.top;
     }
-    this.setState({ position: { x, y } });
+    this.setState({ position: { top, left } });
   }
 
   public handleResize = () => {
     this.checkPosition(this.state.position);
-  };
-
-  public handleStart = () => {
-    this.activate();
-  };
-
-  public handleDrag = (e: any, position: { x: number; y: number }) => {
-    this.checkPosition(position);
   };
 
   public handleButtonClick = (event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
@@ -320,6 +319,7 @@ export class BaseWindowTool<
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public handleWindowClick = (event: React.MouseEvent<HTMLDivElement>) => {
     this.setState({ zIndex: topZIndex++ });
     this.activate();
@@ -339,6 +339,40 @@ export class BaseWindowTool<
     }
   };
 
+  public handleDragStart = (event: React.MouseEvent) => {
+    this.setState({
+      startPosition: {
+        ...this.state.position,
+        screenY: event.screenY,
+        screenX: event.screenX,
+      },
+      dragging: true,
+    });
+    window.addEventListener('mousemove', this.handleDragging);
+    window.addEventListener('mouseup', this.handleDragEnd);
+  };
+
+  public handleDragging = (event: MouseEvent) => {
+    if (this.state.dragging) {
+      const position = {
+        top: this.state.startPosition.top + event.screenY - this.state.startPosition.screenY,
+        left: this.state.startPosition.left + event.screenX - this.state.startPosition.screenX,
+      };
+      this.setState({
+        position,
+      });
+    }
+  };
+
+  public handleDragEnd = () => {
+    window.removeEventListener('mousemove', this.handleDragging);
+    window.removeEventListener('mouseup', this.handleDragEnd);
+    this.setState({
+      dragging: false,
+    });
+    this.checkPosition(this.state.position);
+  };
+
   public renderHeaderContent(): React.ReactNode {
     return null;
   }
@@ -351,10 +385,12 @@ export class BaseWindowTool<
     let style;
     if (this.state.open) {
       style = {
+        ...this.state.position,
         zIndex: this.state.zIndex,
       };
     } else {
       style = {
+        ...this.state.position,
         zIndex: 0,
         display: 'none',
       };
@@ -423,7 +459,6 @@ export class BaseWindowTool<
           ? `${this.props.className.split(/\s+/g)[0]}-content-disabled`
           : `${this.props.className.split(/\s+/g)[0]}-content-enabled`
       }`;
-    const Drag: React.ComponentClass<any> = Draggable as any;
     let openButton = null;
     if (!this.props.hideOpenButton) {
       openButton = (
@@ -478,28 +513,21 @@ export class BaseWindowTool<
     return (
       <React.Fragment>
         {openButton}
-        <Drag
-          handle={`.${baseTitlebarClassName}`}
-          onStart={this.handleStart}
-          onDrag={this.handleDrag}
-          position={this.state.position}
+        <Window
+          className={className}
+          onClick={this.handleWindowClick}
+          style={style}
+          ref={(windowElement: any) => (this.windowElement = windowElement)}
         >
-          <Window
-            className={className}
-            onClick={this.handleWindowClick}
-            style={style}
-            ref={(windowElement: any) => (this.windowElement = windowElement)}
-          >
-            <TitleBar className={titleClassName} activated={this.props.activated}>
-              <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
-              {foldButton}
-              {closeButton}
-            </TitleBar>
-            <Content style={this.state.isUnfold ? null : foldStyle} className={contentClassName}>
-              {this.renderTool()}
-            </Content>
-          </Window>
-        </Drag>
+          <TitleBar className={titleClassName} activated={this.props.activated} onMouseDown={this.handleDragStart}>
+            <TitleBarContent className={titleContentClassName}>{this.renderHeaderContent()}</TitleBarContent>
+            {foldButton}
+            {closeButton}
+          </TitleBar>
+          <Content style={this.state.isUnfold ? null : foldStyle} className={contentClassName}>
+            {this.renderTool()}
+          </Content>
+        </Window>
       </React.Fragment>
     );
   }

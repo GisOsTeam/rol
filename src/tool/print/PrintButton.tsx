@@ -10,6 +10,7 @@ const Container = styled.div`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PrintButton(props: IFunctionBaseWindowToolProps) {
   const translate = useTranslate();
   return <Container title={translate('print.header', 'Print')} />;

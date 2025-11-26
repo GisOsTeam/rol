@@ -90,6 +90,7 @@ export const FeatureTable = (props: IFeatureTableProps) => {
     return <Container>No data to display</Container>;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onClickTab = (key: string, value: string, index: number) => {
     const newFeatures = nameFeatures[key].filter((feat) => feat.getId() === value || getUid(feat) === value);
     if (props.onChangeDisplayedFeature) {

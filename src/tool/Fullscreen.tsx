@@ -30,7 +30,7 @@ export class Fullscreen extends BaseTool<IBaseToolProps, any> {
     ...BaseTool.defaultProps,
   };
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   public handleToggleFullscreen = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -52,7 +52,7 @@ export class Fullscreen extends BaseTool<IBaseToolProps, any> {
   }
 
   public enterFullscreen() {
-    const elem = this.context.olMap.getTargetElement() as any;
+    const elem = this.context.olMap.getTargetElement().parentElement as any;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if (elem.msRequestFullscreen) {

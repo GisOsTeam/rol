@@ -19,7 +19,7 @@ export interface IBaseContaineState {
 export class BaseContainer<P extends IBaseContainerProps, S extends IBaseContaineState> extends React.Component<P, S> {
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   public constructor(props: P) {
     super(props);
@@ -36,7 +36,7 @@ export class BaseContainer<P extends IBaseContainerProps, S extends IBaseContain
     React.Children.forEach(this.props.children, (child: React.ReactElement<any>) => {
       if (child != null) {
         // Tools
-        if (BaseTool.isPrototypeOf(child.type)) {
+        if (Object.prototype.isPrototypeOf.call(BaseTool, child.type)) {
           const toolElement = this.context.toolsManager
             .getToolElements((toolElement) => toolElement.uid == child.props.uid)
             .pop();
@@ -46,7 +46,7 @@ export class BaseContainer<P extends IBaseContainerProps, S extends IBaseContain
         }
 
         // Containers
-        if (BaseContainer.isPrototypeOf(child.type)) {
+        if (Object.prototype.isPrototypeOf.call(BaseContainer, child.type)) {
           elems.push(child);
         }
       }

@@ -214,7 +214,7 @@ export class LayersManager {
         refreshIfChanging,
       );
     } else {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Update layer: element not found for uid ${uid}`);
     }
   }
 
@@ -229,7 +229,7 @@ export class LayersManager {
         layerElement.olLayer.set('uid', uid, true);
       }
     } else {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Set layer: element not found for uid ${uid}`);
     }
   }
 
@@ -241,7 +241,7 @@ export class LayersManager {
     if (layerElement != null) {
       return layerElement.olLayer;
     } else {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Get layer: element not found for uid ${uid}`);
       return null;
     }
   }
@@ -357,7 +357,7 @@ export class LayersManager {
     // Next children
     if (nextChildren) {
       React.Children.map(nextChildren, (nextChild: React.ReactElement<any>) => {
-        if (nextChild != null && BaseLayer.isPrototypeOf(nextChild.type)) {
+        if (nextChild != null && Object.prototype.isPrototypeOf.call(BaseLayer, nextChild.type)) {
           const uid = nextChild.props.uid;
           // uid is null: log error
           if (uid == null) {

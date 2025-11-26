@@ -72,7 +72,7 @@ export class ToolsManager {
         refreshIfChanging,
       );
     } else {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Update tool: element not found for uid ${uid}`);
     }
   }
 
@@ -98,7 +98,7 @@ export class ToolsManager {
   public activateTool(uid: string, force = false) {
     const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement == null) {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Activate tool: element not found for uid ${uid}`);
       return;
     }
     const props = toolElement.reactElement.props as IBaseToolProps;
@@ -124,7 +124,7 @@ export class ToolsManager {
   public deactivateTool(uid: string) {
     const toolElement = this.getToolElements((subToolElement) => subToolElement.uid === uid).pop();
     if (toolElement == null) {
-      console.error(`Element not found for uid ${uid}`);
+      console.error(`Deactivate tool: element not found for uid ${uid}`);
       return;
     }
     const props = toolElement.reactElement.props as IBaseToolProps;
@@ -216,7 +216,7 @@ export class ToolsManager {
     // Next children
     if (children) {
       React.Children.forEach(children, (nextChild: React.ReactElement<any>) => {
-        if (nextChild != null && BaseTool.isPrototypeOf(nextChild.type)) {
+        if (nextChild != null && Object.prototype.isPrototypeOf.call(BaseTool, nextChild.type)) {
           const uid = nextChild.props.uid;
           // uid is null: log error
           if (uid == null) {
@@ -237,7 +237,7 @@ export class ToolsManager {
             }
           }
         }
-        if (nextChild != null && BaseContainer.isPrototypeOf(nextChild.type)) {
+        if (nextChild != null && Object.prototype.isPrototypeOf.call(BaseContainer, nextChild.type)) {
           this.fromSubChildren(nextChild.props.children, toDel);
         }
       });

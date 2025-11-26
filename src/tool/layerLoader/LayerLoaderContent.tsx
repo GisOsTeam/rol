@@ -14,16 +14,17 @@ export interface ILayerLoaderContentProps extends IFunctionBaseWindowToolProps {
 }
 
 export function LayerLoaderContent(props: ILayerLoaderContentProps) {
+  const selectorTypesUpd = [...props.selectorTypes];
   for (const selectorType of props.selectorTypes) {
     if (selectorType.options == null) {
-      selectorType.options = {};
+      selectorTypesUpd.options = {};
     }
-    selectorType.options.showGisProxyUrlInput = props.showGisProxyUrlInput;
-    selectorType.options.gisProxyUrl = props.gisProxyUrl;
+    selectorTypesUpd.options.showGisProxyUrlInput = props.showGisProxyUrlInput;
+    selectorTypesUpd.options.gisProxyUrl = props.gisProxyUrl;
   }
   return (
     <Container className={`${props.className}`}>
-      <Selector selectorTypes={props.selectorTypes} />
+      <Selector selectorTypes={selectorTypesUpd} />
     </Container>
   );
 }

@@ -1,23 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
-    "declaration": true,
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "CommonJS",
-    "target": "ES6",
-    "jsx": "react",
-    "lib": [
-      "DOM",
-      "ES6"
-    ]
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "jsx": "react-jsx", 
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
-  ],
-  "exclude": [
-    "./src/sample/**/*"
-  ]
+  "include": ["src"]
 }

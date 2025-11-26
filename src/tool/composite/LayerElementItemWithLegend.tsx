@@ -89,7 +89,7 @@ export class LayerElementItemWithLegend extends React.Component<
 > {
   public static contextType: React.Context<IRolContext> = rolContext;
 
-  public context: IRolContext;
+  declare public context: IRolContext;
 
   constructor(props: ILayerElementItemWithLegendProps) {
     super(props);
@@ -104,6 +104,7 @@ export class LayerElementItemWithLegend extends React.Component<
     this.context.layersManager.updateLayerProps(key, { visible: e.currentTarget.checked });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public handleRadioChange = (key: string) => (e: React.ChangeEvent) => {
     this.context.layersManager.updateLayerProps(key, { visible: true });
   };

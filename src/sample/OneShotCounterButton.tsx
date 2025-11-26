@@ -11,6 +11,7 @@ export const OneShotCounterButton = withOneShotButtonTool(
       if (props.activated === true) {
         setCount(count + 1);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.activated]);
     return <ContainerBtn>One shot count: {String(count)}</ContainerBtn>;
   },

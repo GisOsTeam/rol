@@ -1,20 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import { Rol, IAfterData } from '../Rol';
 import OlView from 'ol/View';
 import { CounterButton } from './CounterButton';
 import { CounterToggleButton } from './CounterToggleButton';
 import { CounterWindow } from './CounterWindow';
+import { OneShotCounterButton } from './OneShotCounterButton';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
 import { Osm } from '@gisosteam/aol/source/Osm';
-import { Control } from '../container/Control';
 import { Zone } from '../container/Zone';
 import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
 import { Fullscreen } from '../tool/Fullscreen';
 import { Toc } from '../tool/Toc';
 import { ScaleLine } from '../tool/ScaleLine';
-import { PanZoom, Print, Search } from '../tool';
+import { PanZoom } from '../tool';
+import { Print } from '../tool';
+import { Search } from '../tool';
 import { LayerLoader } from '../tool';
 import { Identify } from '../tool';
 import { ShowSnapshot } from '../tool/ShowSnapshot';
@@ -24,7 +27,6 @@ import { Image } from '../layer/Image';
 import { Tile } from '../layer/Tile';
 import { WebGLTile } from '../layer/WebGLTile';
 import { Projection } from '../Projection';
-import { OneShotCounterButton } from './OneShotCounterButton';
 import { BanSearchProvider } from '@gisosteam/aol/search';
 import { Xyz } from '@gisosteam/aol/source/Xyz';
 import { GeoTIFF } from '@gisosteam/aol/source/GeoTIFF';
@@ -71,7 +73,7 @@ const tci = new GeoTIFF({
   ],
 });
 
-export class SampleApp extends React.Component<never, { hide: boolean }> {
+export class SampleApp extends React.Component<unknown, { hide: boolean }, unknown> {
   private reloaded = false;
 
   constructor(props: never) {
@@ -87,7 +89,7 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
         <Rol
           uid="map"
           keyboardEventTarget={document}
-          olMapStyle={{ width: '100%', height: '90vh' }}
+          olMapStyle={{ width: '100%', height: 'calc(100vh)' }}
           afterMount={(afterData: IAfterData) => {
             afterData.olMap.setView(
               new OlView({
@@ -127,45 +129,44 @@ export class SampleApp extends React.Component<never, { hide: boolean }> {
           <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
           <WebGLTile uid="UID -- TIC" source={tci} name="TIC" />
-          <Control>
-            <Zone>
-              <Toc uid="Toc" independant />
-              <Fullscreen uid="Fullscreen" independant />
-              <PanZoom uid="PanZoom" independant />
-              <ScaleLine uid="ScaleLine" independant />
-              <Search uid="Search" searchProvider={new BanSearchProvider()} independant />
-              <Zone style={{ position: 'absolute', left: '8px', top: 'calc(100% - 40px)' }}>
-                <CounterButton uid="CounterButton" />
-                <CounterToggleButton uid="CounterToggleButton" />
-                <CounterWindow uid="CounterWindow" toggle={true} />
-                <OneShotCounterButton uid="oneshotbtnTool" />
-                <CounterButton uid="CounterButton2" />
-                <ZoomRectangleWidget uid="zoomRectangle" />
-                <LayerLoader uid="LayerLoader" />
-                <ShowSnapshot uid="ShowSnapshot" />
-                <DrawLine uid="DrawLine" styles={createLayerStyles({ strokeColor: 'black', fillColor: 'black' })} />
-                <Identify
-                  uid="IdentifyTool"
-                  tolerance={10}
-                  styles={createLayerStyles({ strokeColor: 'black', fillColor: 'grey', radius: 3, width: 1 })}
-                  drawStyle={createLayerStyles({ strokeColor: 'red', fillColor: 'red', radius: 3, width: 1 })}
-                />
-                <Reproj uid="ReprojTool" />
-                <Print
-                  uid="PrintTool"
-                  onPrintStart={() => {
-                    this.setState({ hide: true });
-                    console.log('Start');
-                  }}
-                  onPrintEnd={(pdf) => {
-                    this.setState({ hide: false });
-                    console.log('End');
-                    pdf && pdf.save('pwet');
-                  }}
-                />
-              </Zone>
-            </Zone>
-          </Control>
+          <Zone>
+            {/*<Toc uid="Toc" independant />*/}
+            <Fullscreen uid="Fullscreen" independant />
+            <PanZoom uid="PanZoom" independant />
+            <ScaleLine uid="ScaleLine" independant />
+            {/*<Search uid="Search" searchProvider={new BanSearchProvider()} independant />*/}
+          </Zone>
+          <Zone style={{ position: 'absolute', bottom: '5px', left: '5px' }}>
+            <CounterButton uid="CounterButton1" />
+            <CounterButton uid="CounterButton2" />
+            <CounterToggleButton uid="CounterToggleButton" />
+            <CounterWindow uid="CounterWindow" toggle={true} />
+            <OneShotCounterButton uid="oneshotbtnTool" />
+            <ZoomRectangleWidget uid="zoomRectangle" />
+            <LayerLoader uid="LayerLoader" />
+            <ShowSnapshot uid="ShowSnapshot" />
+            <DrawLine uid="DrawLine" styles={createLayerStyles({ strokeColor: 'black', fillColor: 'black' })} />
+            <Identify
+              uid="IdentifyTool"
+              tolerance={10}
+              styles={createLayerStyles({ strokeColor: 'black', fillColor: 'grey', radius: 3, width: 1 })}
+              drawStyle={createLayerStyles({ strokeColor: 'red', fillColor: 'red', radius: 3, width: 1 })}
+            />
+            <Reproj uid="ReprojTool" />
+            <Print
+              uid="PrintTool"
+              onPrintStart={() => {
+                this.setState({ hide: true });
+                console.log('Start');
+              }}
+              onPrintEnd={(pdf) => {
+                this.setState({ hide: false });
+                console.log('End');
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                pdf && pdf.save('pwet');
+              }}
+            />
+          </Zone>
         </Rol>
       </>
     );

@@ -72,15 +72,7 @@ export function useIdentify(props: IUseIdentifyProps): any {
         }
       }
     },
-    [
-      props.limit,
-      props.tolerance,
-      props.typeGeom,
-      props.filterSources,
-      props.onIdentifyResponse,
-      props.layersParam,
-      olMap,
-    ],
+    [props, olMap, layersManager],
   );
 
   /**
@@ -116,5 +108,5 @@ export function useIdentify(props: IUseIdentifyProps): any {
       olMap.un('dblclick', handleOnClickDblClickMap);
       olMap.un('click', handleOnClickDblClickMap);
     };
-  }, [props.activated, props.typeGeom, handleOnClickDblClickMap]);
+  }, [props.activated, props.typeGeom, handleOnClickDblClickMap, olMap]);
 }

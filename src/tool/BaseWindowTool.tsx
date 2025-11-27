@@ -70,9 +70,15 @@ const TitleBarFoldButton = styled.button<{ activated?: boolean; isUnfold?: boole
   margin: 0;
   padding: 0;
   background: ${(props) => (props.activated ? '#88f' : '#ddd')};
-  &:after {
+  ${(props) =>
+    props.isUnfold ?
+  `&:after {
     content: '_';
-  }
+  }` :
+  `&:after {
+    content: '☐';
+  }`
+  };
 `;
 
 const Content = styled.div`

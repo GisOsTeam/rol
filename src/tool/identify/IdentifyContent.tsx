@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IQueryResponseFeatures } from '../common';
 import { useIdentify, IIdentifyResponse } from '../hook/useIdentify';
 import { IFunctionBaseWindowToolProps } from '../BaseWindowTool';
-import { DisplayedFeaturesType, FeatureTable } from '../featureTable/FeatureTable';
+import { FeatureTable } from '../featureTable/FeatureTable';
 import { useDrawSource } from '../hook/useDrawSource';
 import { IdentifyFilterType } from '@gisosteam/aol/source/query/identify';
 import { rolContext } from '../../RolContext';
@@ -83,9 +83,9 @@ export function IdentifyContent(props: IIdentifyContentProps) {
     onIdentifyResponse,
   });
 
-  const onDisplayedFeatureChange = (selectedFeatures: DisplayedFeaturesType) => {
+  const onDisplayedFeatureChange = (selectedFeature) => {
     source.clear();
-    source.addFeatures(selectedFeatures);
+    source.addFeature(selectedFeature);
   };
 
   return (

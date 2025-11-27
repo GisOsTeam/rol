@@ -8,21 +8,16 @@ const Container = styled.div`
   display: flex;
 `;
 
-type SetterType = React.Dispatch<React.SetStateAction<Feature<any>[]>>;
-
-export type DisplayedFeaturesType = Feature<any>[];
-
 export interface IFeatureTableProps {
   identificationResponseFeatures: IQueryResponseFeatures;
-  onChangeDisplayedFeature?: (newDisplayedFeatures: DisplayedFeaturesType) => void;
+  onChangeDisplayedFeature?: (newDisplayedFeature: Feature) => void;
 }
 
 export const FeatureTable = (props: IFeatureTableProps) => {
-  const [displayedObjects, setDisplayedObjects]: [DisplayedFeaturesType, SetterType] = React.useState([]);
+  const [displayedObject, setDisplayedObject] = React.useState<Feature>(null);
   const [nameFeatures, setNameFeatures] = React.useState<{ [name: string]: Feature<any>[] }>({});
 
   React.useEffect(() => {
-    let firstFeature = null;
     const nameFeaturesTmp: { [name: string]: Feature<any>[] } = {};
     for (const sourceId in props.identificationResponseFeatures) {
       const elem = props.identificationResponseFeatures[sourceId];
@@ -38,70 +33,61 @@ export const FeatureTable = (props: IFeatureTableProps) => {
             : ''
         }`;
         nameFeaturesTmp[name] = type.features;
-        firstFeature = type.features[0];
       }
     }
     setNameFeatures(nameFeaturesTmp);
-
-    if (firstFeature != null) {
-      setDisplayedObjects([firstFeature]);
-    }
+    setDisplayedObject(null);
     return () => {
-      setDisplayedObjects([]);
+      setDisplayedObject(null);
     };
   }, [props.identificationResponseFeatures]);
 
   const renderContent = () => {
-    const htmlEntities: React.ReactElement[] = displayedObjects.map((feature: Feature<any>, featureIndex: number) => {
-      const customFeatureId = 'feature_id';
-      let customFeat: any = {};
-      const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
-      customFeat[customFeatureId] = id;
-      customFeat = {
-        ...customFeat,
-        ...feature.getProperties(),
-      };
-      const displayedFeat = objectToITableFeature(customFeat);
+    if (displayedObject == null) {
+      return null;
+    }
+    const customFeatureId = 'feature_id';
+    let customFeat: any = {};
+    const id = displayedObject.getId && displayedObject.getId() ? displayedObject.getId() : getUid(displayedObject);
+    customFeat[customFeatureId] = id;
+    customFeat = {
+      ...customFeat,
+      ...displayedObject.getProperties(),
+    };
+    const displayedFeat = objectToITableFeature(customFeat);
 
-      return <Table feature={displayedFeat} header={['Details']} key={`${featureIndex}-${feature.getId()}`} />;
-    });
-    return htmlEntities;
+    return <Table feature={displayedFeat} header={['Details']} />;
   };
 
   const featureSummary: ITableFeature = {};
   const highlightedKeys: number[] = [];
   let featureSummaryLength = 0;
-  let isEmpty = true;
   for (const type in nameFeatures) {
     if (!featureSummary[type]) {
       featureSummary[type] = [];
     }
     nameFeatures[type].forEach((feature) => {
-      isEmpty = false;
       const id = feature.getId && feature.getId() ? feature.getId() : getUid(feature);
       featureSummary[type].push(id.toString());
-      if (displayedObjects.lastIndexOf(feature) > -1) {
+      if (displayedObject === feature) {
+        console.log(featureSummaryLength, id);
         highlightedKeys.push(featureSummaryLength);
       }
       ++featureSummaryLength;
     });
   }
-  if (isEmpty) {
-    return <Container>No data to display</Container>;
-  }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onClickTab = (key: string, value: string, index: number) => {
-    const newFeatures = nameFeatures[key].filter((feat) => feat.getId() === value || getUid(feat) === value);
+  const onClickTab = (key: string, value: string) => {
+    const newFeature = nameFeatures[key].filter((feat) => feat.getId() === value || getUid(feat) === value).pop();
     if (props.onChangeDisplayedFeature) {
-      props.onChangeDisplayedFeature(newFeatures);
+      props.onChangeDisplayedFeature(newFeature);
     }
-    setDisplayedObjects(newFeatures);
+    setDisplayedObject(newFeature);
   };
 
   return (
     <Container>
-      <Table feature={featureSummary} header={['Feature']} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
+      <Table feature={featureSummary} header={['Features']} onClickRow={onClickTab} highlightedKeys={highlightedKeys} />
       {renderContent()}
     </Container>
   );

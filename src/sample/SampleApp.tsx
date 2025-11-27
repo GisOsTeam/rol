@@ -9,6 +9,7 @@ import { OneShotCounterButton } from './OneShotCounterButton';
 import { TileArcGISRest } from '@gisosteam/aol/source/TileArcGISRest';
 import { ImageStatic } from '@gisosteam/aol/source/ImageStatic';
 import { ImageArcGISRest } from '@gisosteam/aol/source/ImageArcGISRest';
+import { ImageWms } from '@gisosteam/aol/source/ImageWms';
 import { Osm } from '@gisosteam/aol/source/Osm';
 import { Zone } from '../container/Zone';
 import { ZoomRectangleWidget } from '../tool/navigation/ZoomRectangle';
@@ -60,9 +61,14 @@ const britishNationalGrid = new ImageStatic({
   imageExtent: [0, 0, 700000, 1300000],
 });
 
+const academies = new ImageWms({
+  url: 'https://data.geopf.fr/wms-v/wms',
+  types: [{ id: 'ACADEMIES.2015', name: 'Académies', identifierAttribute: { key: 'code_academie' } }],
+});
+
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{ id: 0 }, { id: 1, name: 'Highways' }],
+  types: [{ id: 0, name: 'Cities' }, { id: 1, name: 'Highways' }],
 });
 
 const tci = new GeoTIFF({
@@ -126,6 +132,7 @@ export class SampleApp extends React.Component<unknown, { hide: boolean }, unkno
           <Tile uid="UID -- World Topo" source={worldTopo} name="World Topo" type="BASE" />
           <Tile uid="UID -- World Street" source={worldStreet} name="World Street" type="BASE" />
           <Tile uid="UID -- World Imagery" source={worldImagery} name="World Imagery" type="BASE" />
+          <Image uid="UID -- Academies" source={academies} name="Académies WMS" />
           <Image uid="UID -- Highways" source={highways} name="USA ArcGIS Group" />
           <Image uid="UID -- British National Grid" source={britishNationalGrid} name="British National Grid" />
           <WebGLTile uid="UID -- TIC" source={tci} name="TIC" />

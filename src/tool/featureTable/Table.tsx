@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border: blue solid 1px;
-  width: 450px;
+  width: 200px;
   overflow: hidden;
   
   div.scrollable-table {

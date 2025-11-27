@@ -77,8 +77,6 @@ const ButtonDown = styled(Button)`
 
 const ButtonZoom = styled(Button)`
   display: block;
-  margin-top: 2px;
-  margin-left: 32px;
   border-width: 1px 1px 0px 1px !important;
   border-radius: 5px 5px 0px 0px !important;
   &:after {
@@ -88,7 +86,6 @@ const ButtonZoom = styled(Button)`
 
 const ButtonUnzoom = styled(Button)`
   display: block;
-  margin-left: 32px;
   border-width: 0px 1px 1px 1px !important;
   border-radius: 0px 0px 5px 5px !important;
   &:after {
@@ -98,8 +95,6 @@ const ButtonUnzoom = styled(Button)`
 
 const ButtonRotate = styled(Button)`
   display: block;
-  margin-top: 2px;
-  margin-left: 32px;
   border-width: 1px 1px 1px 1px !important;
   border-radius: 5px 5px 5px 5px !important;
 `;
@@ -111,7 +106,6 @@ const SpanRotate = styled.span`
 `;
 
 const DivSlider = styled.div`
-  margin-left: 32px;
   width: 30px;
   height: 100px;
   background-color: rgba(213, 213, 213, 0.61);
@@ -395,7 +389,7 @@ export class PanZoom extends BaseTool<IPanZoomProps, any> {
       top += 140;
     }
     return (
-      <div className="ol-unselectable ol-control" style={{ top: `${top}px`, left: `15px` }}>
+      <div className="ol-unselectable ol-control" style={{ top: `${top}px`, left: `47px` }}>
         <ButtonZoom className={`${this.props.className}-zoom`} onClick={this.handleZoomButtonClick} title={zoomTitle} />
         {slider}
         <ButtonUnzoom

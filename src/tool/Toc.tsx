@@ -4,7 +4,7 @@ import { LayerElementItemWithLegend } from './composite/LayerElementItemWithLege
 
 export const Toc = withBaseTool(CompositeToc, {
   className: 'toc',
-  basemapsListComponent: DraggableListAdaptator,
+  basemapsListComponent: <div />,
   basemapsListComponentProps: {
     itemComponent: LayerElementItem,
     itemComponentProps: {

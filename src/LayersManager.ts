@@ -23,7 +23,7 @@ export interface ILayerElement {
   /**
    * React Element.
    */
-  reactElement: Readonly<React.ReactElement>;
+  reactElement: Readonly<React.ReactElement<any>>;
   /**
    * Unique id.
    */

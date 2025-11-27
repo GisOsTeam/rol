@@ -68,7 +68,10 @@ const academies = new ImageWms({
 
 const highways = new ImageArcGISRest({
   url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer',
-  types: [{ id: 0, name: 'Cities' }, { id: 1, name: 'Highways' }],
+  types: [
+    { id: 0, name: 'Cities' },
+    { id: 1, name: 'Highways' },
+  ],
 });
 
 const tci = new GeoTIFF({
